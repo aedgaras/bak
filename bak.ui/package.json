@@ -29,7 +29,8 @@
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
-        "format": "prettier --write ."
+        "format": "prettier --write .",
+        "docker:dev": "docker compose -f docker-compose-dev.yaml up"
     },
     "browserslist": {
         "production": [
