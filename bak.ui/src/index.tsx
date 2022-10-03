@@ -1,26 +1,25 @@
-import { ChakraProvider, ColorModeScript, theme } from "@chakra-ui/react";
-import * as React from "react";
-import * as ReactDOM from "react-dom/client";
+import { ChakraProvider, ColorModeScript, theme } from '@chakra-ui/react';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom/client';
 
-import reportWebVitals from "./reportWebVitals";
-import * as serviceWorker from "./serviceWorker";
-import { BrowserRouter, RouterProvider } from "react-router-dom";
-import { UserApp } from "./ui/UserApp";
-import { AppRouter } from "./router/AppRouter";
+import { BrowserRouter } from 'react-router-dom';
+import reportWebVitals from './reportWebVitals';
+import { AppRouter } from './router/AppRouter';
+import * as serviceWorker from './serviceWorker';
 
-const container = document.getElementById("root");
-if (!container) throw new Error("Failed to find the root element");
+const container = document.getElementById('root');
+if (!container) throw new Error('Failed to find the root element');
 const root = ReactDOM.createRoot(container);
 
 root.render(
-  <React.StrictMode>
-    <ColorModeScript />
-    <ChakraProvider theme={theme}>
-      <BrowserRouter>
-        <AppRouter />
-      </BrowserRouter>
-    </ChakraProvider>
-  </React.StrictMode>
+    <React.StrictMode>
+        <ColorModeScript />
+        <ChakraProvider theme={theme}>
+            <BrowserRouter>
+                <AppRouter />
+            </BrowserRouter>
+        </ChakraProvider>
+    </React.StrictMode>
 );
 
 // If you want your app to work offline and load faster, you can change
