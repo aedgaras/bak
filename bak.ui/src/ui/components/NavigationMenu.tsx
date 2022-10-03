@@ -1,11 +1,20 @@
 import { Box, Button, HStack, Spacer } from "@chakra-ui/react";
 import { ColorModeSwitcher } from "../ColorModeSwitcher";
+import { Link } from "react-router-dom";
 
 export const NavigationMenu = () => {
   return (
     <Box>
       <HStack>
-        <Button>Home</Button>
+        <Link to={"/"}>
+          <Button>Home</Button>
+        </Link>
+        <Link to={"/login"}>
+          <Button>Login</Button>
+        </Link>
+        <Link to={"/register"}>
+          <Button>Register</Button>
+        </Link>
         <Spacer />
         <ColorModeSwitcher />
       </HStack>
