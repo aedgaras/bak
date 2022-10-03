@@ -4,7 +4,7 @@ import { ColorModeSwitcher } from '../ColorModeSwitcher';
 
 export const NavigationMenu = () => {
     return (
-        <Box>
+        <Box padding={2} borderWidth='1px' borderRadius='lg'>
             <HStack>
                 <Link to={'/'}>
                     <Button>Home</Button>

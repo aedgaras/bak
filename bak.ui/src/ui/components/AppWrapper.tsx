@@ -9,7 +9,9 @@ export const AppWrapper = ({ children }: Props): JSX.Element => {
     return (
         <Box padding={2}>
             <NavigationMenu />
-            {children}
+            <Box padding={2}>
+                {children}
+            </Box>
         </Box>
     );
 };
