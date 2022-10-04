@@ -3,13 +3,12 @@ import {
     Button,
     Center,
     FormControl,
-    FormErrorMessage,
     FormLabel,
     HStack,
     Input,
     Text,
 } from '@chakra-ui/react';
-import { Form, Formik } from 'formik';
+import { Field, Form, Formik, useFormik } from 'formik';
 import * as Yup from 'yup';
 import { AppWrapper } from '../components/AppWrapper';
 
@@ -23,6 +22,14 @@ export const LoginPage = () => {
         password: Yup.string().required('Required'),
     });
 
+    const formik = useFormik({
+        initialValues: initialValue,
+        validationSchema: loginSchema,
+        onSubmit: (values, formikHelpers) => {
+            console.log(values);
+        },
+    });
+
     return (
         <AppWrapper>
             <Center>
@@ -31,33 +38,44 @@ export const LoginPage = () => {
                     <HStack>
                         <Formik
                             initialValues={initialValue}
-                            validationSchema={loginSchema}
-                            onSubmit={(values) => {
-                                console.log(values);
+                            onSubmit={(values, actions) => {
+                                actions.setSubmitting(true);
                             }}
                         >
-                            {({ errors, touched }) => (
+                            {(props) => (
                                 <Form>
-                                    <FormControl>
-                                        <FormLabel>Name</FormLabel>
-                                        <Input name={'username'}></Input>
-                                        {errors.username && touched.username ? (
-                                            <FormErrorMessage>
-                                                {errors.username}
-                                            </FormErrorMessage>
-                                        ) : null}
-                                    </FormControl>
+                                    <Field name="username">
+                                        {(prop) => (
+                                            <FormControl>
+                                                <FormLabel>Name</FormLabel>
+
+                                                <Input
+                                                    name={'username'}
+                                                    onChange={
+                                                        formik.handleChange
+                                                    }
+                                                    value={
+                                                        formik.values.username
+                                                    }
+                                                ></Input>
+                                            </FormControl>
+                                        )}
+                                    </Field>
                                     <FormControl>
                                         <FormLabel>Password</FormLabel>
-                                        <Input name={'password'}></Input>
-                                        {errors.password && touched.password ? (
-                                            <FormErrorMessage>
-                                                {errors.password}
-                                            </FormErrorMessage>
-                                        ) : null}
+                                        <Input
+                                            name={'password'}
+                                            onChange={formik.handleChange}
+                                            value={formik.values.password}
+                                        ></Input>
                                     </FormControl>
                                     <FormControl>
-                                        <Button type={'submit'}>Submit</Button>
+                                        <Button
+                                            type="submit"
+                                            isLoading={props.isSubmitting}
+                                        >
+                                            Submit
+                                        </Button>
                                     </FormControl>
                                 </Form>
                             )}
