@@ -4,10 +4,11 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const app: Express = express();
-const port = 3030;
+const port = process.env.PORT || 3030;
 
 app.get('/', (req: Request, res: Response) => {
-  res.send('Express + TypeScript Server');
+  const randomObj: {randomNumber: number, randomString: string} = {randomNumber: Math.random(), randomString: "random"+Math.random()}
+  res.send(randomObj);
 });
 
 app.listen(port, () => {

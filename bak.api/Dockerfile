@@ -10,6 +10,5 @@ RUN npm install
 COPY . .
 # Expose port
 EXPOSE 3030
-WORKDIR /app/dist
 # Start the app
-CMD [ "npm", "run", "dev" ]
+CMD [ "./setup.sh"]

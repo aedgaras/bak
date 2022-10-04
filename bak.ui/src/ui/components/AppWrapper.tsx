@@ -1,8 +1,9 @@
 import { Box } from '@chakra-ui/layout';
+import React from 'react';
 import { NavigationMenu } from './NavigationMenu';
 
 type Props = {
-    children: JSX.Element | string;
+    children: JSX.Element | string | React.ReactFragment | React.ReactNode | any;
 };
 
 export const AppWrapper = ({ children }: Props): JSX.Element => {
