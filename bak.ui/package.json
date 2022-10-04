@@ -30,7 +30,7 @@
         "test": "react-scripts test",
         "eject": "react-scripts eject",
         "format": "prettier --write .",
-        "docker:dev": "docker compose -f docker-compose-dev.yaml up"
+        "docker:dev": "docker compose -f docker-compose.yml up"
     },
     "browserslist": {
         "production": [
