@@ -8,7 +8,7 @@ import {
     Input,
     Text,
 } from '@chakra-ui/react';
-import { Field, Form, Formik, useFormik } from 'formik';
+import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { AppWrapper } from '../components/AppWrapper';
 
@@ -32,25 +32,20 @@ export const LoginPage = () => {
                             initialValues={initialValue}
                             onSubmit={(values, actions) => {
                                 actions.setSubmitting(true);
+                                console.log(values);
                             }}
                             validationSchema={loginSchema}
                         >
                             {(props) => (
                                 <Form>
-                                    <Field name="username">
                                     <FormControl>
-                                                <FormLabel>Name</FormLabel>
-                                                <Input
-                                                    name={'username'}
-                                                    onChange={
-                                                        props.handleChange
-                                                    }
-                                                    value={
-                                                        props.values.username
-                                                    }
-                                                ></Input>
-                                            </FormControl>
-                                    </Field>
+                                        <FormLabel>Name</FormLabel>
+                                        <Input
+                                            name={'username'}
+                                            onChange={props.handleChange}
+                                            value={props.values.username}
+                                        ></Input>
+                                    </FormControl>
                                     <FormControl>
                                         <FormLabel>Password</FormLabel>
                                         <Input
