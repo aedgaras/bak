@@ -5,11 +5,11 @@ WORKDIR /app
 # Cache and Install dependencies
 COPY package*.json .
 RUN npm install
-RUN npm run build
 
 # Copy app files
 COPY . .
 # Expose port
 EXPOSE 3030
+WORKDIR /app/dist
 # Start the app
 CMD [ "npm", "run", "dev" ]
