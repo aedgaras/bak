@@ -22,14 +22,6 @@ export const LoginPage = () => {
         password: Yup.string().required('Required'),
     });
 
-    const formik = useFormik({
-        initialValues: initialValue,
-        validationSchema: loginSchema,
-        onSubmit: (values, formikHelpers) => {
-            console.log(values);
-        },
-    });
-
     return (
         <AppWrapper>
             <Center>
@@ -41,32 +33,30 @@ export const LoginPage = () => {
                             onSubmit={(values, actions) => {
                                 actions.setSubmitting(true);
                             }}
+                            validationSchema={loginSchema}
                         >
                             {(props) => (
                                 <Form>
                                     <Field name="username">
-                                        {(prop) => (
-                                            <FormControl>
+                                    <FormControl>
                                                 <FormLabel>Name</FormLabel>
-
                                                 <Input
                                                     name={'username'}
                                                     onChange={
-                                                        formik.handleChange
+                                                        props.handleChange
                                                     }
                                                     value={
-                                                        formik.values.username
+                                                        props.values.username
                                                     }
                                                 ></Input>
                                             </FormControl>
-                                        )}
                                     </Field>
                                     <FormControl>
                                         <FormLabel>Password</FormLabel>
                                         <Input
                                             name={'password'}
-                                            onChange={formik.handleChange}
-                                            value={formik.values.password}
+                                            onChange={props.handleChange}
+                                            value={props.values.password}
                                         ></Input>
                                     </FormControl>
                                     <FormControl>
