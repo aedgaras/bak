@@ -6,24 +6,34 @@ import {
     FormErrorIcon,
     FormErrorMessage,
     FormLabel,
+    Heading,
     HStack,
     Input,
-    Text,
+    useColorModeValue,
+    VStack,
 } from '@chakra-ui/react';
 import { Field, Formik } from 'formik';
-import { validatePassword, validateUsername } from '../../hooks/customHooks';
-import { AppWrapper } from '../components/AppWrapper';
+import { validatePassword, validateUsername } from '../../../hooks/customHooks';
+import { AppWrapper } from '../../components/AppWrapper';
 
 export const RegisterPage = () => {
     const initialValue = { username: '', password: '' };
 
     return (
         <AppWrapper>
-            <Center>
-                <Box padding={2} borderWidth={1} borderRadius={'lg'}>
-                    <Box p={2}>
-                        <Text>Login</Text>
-                    </Box>
+            <VStack>
+                <Center p={2}>
+                    <Heading>Register</Heading>
+                </Center>
+                <Box
+                    padding={2}
+                    borderWidth={1}
+                    borderRadius={'lg'}
+                    boxShadow={{
+                        base: 'none',
+                        sm: useColorModeValue('md', 'md-dark'),
+                    }}
+                >
                     <HStack>
                         <Formik
                             initialValues={initialValue}
@@ -87,6 +97,7 @@ export const RegisterPage = () => {
                                         <Button
                                             type="submit"
                                             isLoading={isSubmitting}
+                                            color="teal"
                                         >
                                             Submit
                                         </Button>
@@ -96,7 +107,7 @@ export const RegisterPage = () => {
                         </Formik>
                     </HStack>
                 </Box>
-            </Center>
+            </VStack>
         </AppWrapper>
     );
 };

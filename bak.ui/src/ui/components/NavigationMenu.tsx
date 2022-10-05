@@ -1,10 +1,10 @@
-import { Box, Button, HStack, Spacer } from '@chakra-ui/react';
+import { Box, Button, HStack, Spacer, useColorModeValue } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { ColorModeSwitcher } from '../ColorModeSwitcher';
 
 export const NavigationMenu = () => {
     return (
-        <Box padding={2} borderWidth="1px" borderRadius="lg">
+        <Box padding={2} borderWidth="1px" borderRadius="lg" boxShadow={{ base: 'none', sm: useColorModeValue('md', 'md-dark') }}>
             <HStack>
                 <Link to={'/'}>
                     <Button>Home</Button>
