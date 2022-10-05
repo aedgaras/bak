@@ -15,5 +15,4 @@ export const sequelize = new Sequelize({
     password: env.DB_PASSWORD,
     host: env.DB_HOST,
     dialect: 'postgres',
-    logging: console.log,
 });
