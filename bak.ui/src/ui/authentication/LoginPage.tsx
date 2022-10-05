@@ -3,24 +3,16 @@ import {
     Button,
     Center,
     FormControl,
-    FormLabel,
+    FormErrorMessage,
     HStack,
     Input,
     Text,
 } from '@chakra-ui/react';
-import { Form, Formik } from 'formik';
-import * as Yup from 'yup';
+import { Field, Formik } from 'formik';
 import { AppWrapper } from '../components/AppWrapper';
 
 export const LoginPage = () => {
-    const initialValue: { username: string; password: string } = {
-        username: '',
-        password: '',
-    };
-    const loginSchema = Yup.object().shape({
-        username: Yup.string().required('Required'),
-        password: Yup.string().required('Required'),
-    });
+    const initialValue = { username: '', password: '' };
 
     return (
         <AppWrapper>
@@ -31,38 +23,72 @@ export const LoginPage = () => {
                         <Formik
                             initialValues={initialValue}
                             onSubmit={(values, actions) => {
-                                actions.setSubmitting(true);
                                 console.log(values);
+                                actions.setSubmitting(true);
                             }}
-                            validationSchema={loginSchema}
                         >
-                            {(props) => (
-                                <Form>
-                                    <FormControl>
-                                        <FormLabel>Name</FormLabel>
-                                        <Input
-                                            name={'username'}
-                                            onChange={props.handleChange}
-                                            value={props.values.username}
-                                        ></Input>
+                            {({
+                                handleSubmit,
+                                errors,
+                                touched,
+                                isSubmitting,
+                            }) => (
+                                <form onSubmit={handleSubmit}>
+                                    <FormControl
+                                        isInvalid={
+                                            !!errors.username &&
+                                            touched.username
+                                        }
+                                    >
+                                        <Field
+                                            as={Input}
+                                            type="text"
+                                            name="username"
+                                            validate={(value: any) => {
+                                                let error;
+
+                                                if (!value) {
+                                                    error =
+                                                        'Username is required!';
+                                                }
+                                                return error;
+                                            }}
+                                        />
+                                        <FormErrorMessage>
+                                            {errors.username}
+                                        </FormErrorMessage>
                                     </FormControl>
-                                    <FormControl>
-                                        <FormLabel>Password</FormLabel>
-                                        <Input
-                                            name={'password'}
-                                            onChange={props.handleChange}
-                                            value={props.values.password}
-                                        ></Input>
+                                    <FormControl
+                                        isInvalid={
+                                            !!errors.password &&
+                                            touched.password
+                                        }
+                                    >
+                                        <Field
+                                            as={Input}
+                                            type="password"
+                                            name="password"
+                                            validate={(value: any) => {
+                                                let error;
+
+                                                if (!value) {
+                                                    error =
+                                                        'Password is required!';
+                                                }
+                                                return error;
+                                            }}
+                                        />
+                                        <FormErrorMessage>
+                                            {errors.password}
+                                        </FormErrorMessage>
                                     </FormControl>
-                                    <FormControl>
-                                        <Button
-                                            type="submit"
-                                            isLoading={props.isSubmitting}
-                                        >
-                                            Submit
-                                        </Button>
-                                    </FormControl>
-                                </Form>
+                                    <Button
+                                        type="submit"
+                                        isLoading={isSubmitting}
+                                    >
+                                        Submit
+                                    </Button>
+                                </form>
                             )}
                         </Formik>
                     </HStack>
