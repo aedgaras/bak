@@ -1,9 +1,8 @@
 import { Box } from '@chakra-ui/layout';
-import { Spacer, useColorModeValue } from '@chakra-ui/react';
 import React from 'react';
 import { NavigationMenu } from './NavigationMenu';
 
-type Props = {
+export type ChildrenProps = {
     children:
         | JSX.Element
         | string
@@ -12,15 +11,11 @@ type Props = {
         | any;
 };
 
-export const AppWrapper = ({ children }: Props): JSX.Element => {
+export const AppWrapper = ({ children }: ChildrenProps): JSX.Element => {
     return (
         <Box padding={2}>
             <NavigationMenu />
-            <Box
-                padding={2}
-            >
-                {children}
-            </Box>
+            <Box paddingTop={2}>{children}</Box>
         </Box>
     );
 };

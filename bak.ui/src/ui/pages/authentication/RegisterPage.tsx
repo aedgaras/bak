@@ -55,6 +55,7 @@ export const RegisterPage = () => {
                                             touched.username
                                         }
                                         p={2}
+                                        isRequired={true}
                                     >
                                         <FormLabel>Username</FormLabel>
                                         <Field
@@ -77,6 +78,7 @@ export const RegisterPage = () => {
                                             touched.password
                                         }
                                         p={2}
+                                        isRequired={true}
                                     >
                                         <FormLabel>Password</FormLabel>
                                         <Field
