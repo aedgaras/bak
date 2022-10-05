@@ -1,17 +1,21 @@
 import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import { PORT_API, sequelize } from './configuration/Configuration';
+import { User } from './models/User';
 
 dotenv.config();
 
 const app: Express = express();
 
-app.get('/', (req: Request, res: Response) => {
-    const randomObj: { randomNumber: number; randomString: string } = {
-        randomNumber: Math.random(),
-        randomString: 'random' + Math.random(),
-    };
-    res.send(randomObj);
+app.get('/', async (req: Request, res: Response) => {
+    const usersLength = (await User.findAll()).length;
+
+    if(usersLength > 0){
+    res.send(await User.findAll());
+    }
+    const newUser = await User.create({username: 'username', password: 'password'});
+
+    return res.send(newUser);
 });
 
 app.listen(PORT_API, async () => {
@@ -20,6 +24,10 @@ app.listen(PORT_API, async () => {
     );
     try {
         await sequelize.authenticate();
+
+        await User.sync({ force: true });
+        console.log("The table for the User model was just (re)created!");
+
         console.log('aaa')
     } catch (e) {
         console.log('error' + e);
