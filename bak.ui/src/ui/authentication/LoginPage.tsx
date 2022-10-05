@@ -3,12 +3,15 @@ import {
     Button,
     Center,
     FormControl,
+    FormErrorIcon,
     FormErrorMessage,
+    FormLabel,
     HStack,
     Input,
     Text,
 } from '@chakra-ui/react';
 import { Field, Formik } from 'formik';
+import { validatePassword, validateUsername } from '../../hooks/customHooks';
 import { AppWrapper } from '../components/AppWrapper';
 
 export const LoginPage = () => {
@@ -18,7 +21,9 @@ export const LoginPage = () => {
         <AppWrapper>
             <Center>
                 <Box padding={2} borderWidth={1} borderRadius={'lg'}>
-                    <Text>Login</Text>
+                    <Box p={2}>
+                        <Text>Login</Text>
+                    </Box>
                     <HStack>
                         <Formik
                             initialValues={initialValue}
@@ -39,22 +44,20 @@ export const LoginPage = () => {
                                             !!errors.username &&
                                             touched.username
                                         }
+                                        p={2}
                                     >
+                                        <FormLabel>Username</FormLabel>
                                         <Field
                                             as={Input}
                                             type="text"
                                             name="username"
-                                            validate={(value: any) => {
-                                                let error;
-
-                                                if (!value) {
-                                                    error =
-                                                        'Username is required!';
-                                                }
-                                                return error;
-                                            }}
+                                            validate={(value: string) =>
+                                                validateUsername(value)
+                                            }
                                         />
+
                                         <FormErrorMessage>
+                                            <FormErrorIcon />
                                             {errors.username}
                                         </FormErrorMessage>
                                     </FormControl>
@@ -63,31 +66,31 @@ export const LoginPage = () => {
                                             !!errors.password &&
                                             touched.password
                                         }
+                                        p={2}
                                     >
+                                        <FormLabel>Password</FormLabel>
                                         <Field
                                             as={Input}
                                             type="password"
                                             name="password"
-                                            validate={(value: any) => {
-                                                let error;
-
-                                                if (!value) {
-                                                    error =
-                                                        'Password is required!';
-                                                }
-                                                return error;
-                                            }}
+                                            validate={(value: string) =>
+                                                validatePassword(value)
+                                            }
                                         />
                                         <FormErrorMessage>
+                                            <FormErrorIcon />
+
                                             {errors.password}
                                         </FormErrorMessage>
                                     </FormControl>
-                                    <Button
-                                        type="submit"
-                                        isLoading={isSubmitting}
-                                    >
-                                        Submit
-                                    </Button>
+                                    <Box p={2}>
+                                        <Button
+                                            type="submit"
+                                            isLoading={isSubmitting}
+                                        >
+                                            Submit
+                                        </Button>
+                                    </Box>
                                 </form>
                             )}
                         </Formik>
