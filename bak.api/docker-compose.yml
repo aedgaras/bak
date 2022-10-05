@@ -1,14 +1,14 @@
 version: '3.8'
 
 services:
-  app:
-    container_name: api
-    image: api
-    build:
-      context: .
-      target: development
-    volumes:
-      - ./src:/app/src
-    ports:
-      - 3030:3030
-    command: npm run dev
+    app:
+        container_name: api
+        image: api
+        build:
+            context: .
+            target: development
+        volumes:
+            - ./src:/app/src
+        ports:
+            - 3030:3030
+        command: npm run dev
