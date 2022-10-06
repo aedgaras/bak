@@ -27,7 +27,9 @@ export const NavigationMenu = () => {
                 <Link to={'/'}>
                     <Button>Home</Button>
                 </Link>
-
+                <Link to={'/users'}>
+                    <Button>Users</Button>
+                </Link>
                 <Spacer />
                 <ColorModeSwitcher />
                 <Menu>
