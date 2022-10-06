@@ -37,6 +37,8 @@ export const createUser = async (req: Request, res: Response) => {
     } else {
         const createdUser = await User.create({ ...newUser });
 
+        await createdUser.save();
+
         res.status(201).send(createdUser);
     }
 };
@@ -46,19 +48,17 @@ export const updateUser = async (req: Request, res: Response) => {
 
     const existingUser = await User.findByPk(userId);
 
-    if(!existingUser){
+    if(existingUser){
         const updatedUser: UserModel = {
             username: req.body.username,
             password: req.body.password,
         };
 
-        const updatedUserFromDb = await User.update({...updatedUser}, {where: {id: userId}});
+        await existingUser.set({...updatedUser})
 
-        if(updatedUserFromDb.length > 0) {
-            res.status(200).send('User updated successfully!')
-        } else {
-            res.status(200).send('User wasn\'t updated')
-        }
+        await existingUser.save();
+
+        res.status(200).send('User updated successfully!')
 
     } else {
         res.status(401).send('No such user exist!');
@@ -73,13 +73,11 @@ export const deleteUser = async (req: Request, res: Response) => {
     if (!user) {
         res.status(404).send('User not found!');
     } else {
-        const deletedUser = await User.destroy({where: {id: userId}});
+        await user.destroy();
 
-        if(deletedUser > 0){
-            res.status(200).send('User deleted successfully!')
+        await user.save();
 
-        } else {
-            res.status(200).send('User wasn\'t deleted')
-        }
+        res.status(200).send('User deleted successfully!')
+
     }
 };
