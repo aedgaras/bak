@@ -1,3 +1,4 @@
+import { Input } from '@chakra-ui/react';
 import { createColumnHelper } from '@tanstack/react-table';
 import axios from 'axios';
 import { useCallback, useEffect, useState } from 'react';
@@ -59,6 +60,7 @@ export const UsersPage = () => {
     return (
         <AppWrapper>
             <BoxWithShadowMax>
+                <Input placeholder={'Search'} w={'auto'} p={2} />
                 {!loading && users ? null : (
                     <DataTable data={users} columns={columns} />
                 )}
