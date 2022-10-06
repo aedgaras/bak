@@ -1,4 +1,4 @@
-import { Input } from '@chakra-ui/react';
+import { Input, Skeleton } from '@chakra-ui/react';
 import { createColumnHelper } from '@tanstack/react-table';
 import axios from 'axios';
 import { useCallback, useEffect, useState } from 'react';
@@ -19,7 +19,6 @@ export const UsersPage = () => {
     const [loading, setLoading] = useState<boolean>(true);
 
     const columnHelper = createColumnHelper<UserModel>();
-
     const columns = [
         columnHelper.accessor('id', {
             cell: (info) => info.getValue(),
@@ -61,9 +60,9 @@ export const UsersPage = () => {
         <AppWrapper>
             <BoxWithShadowMax>
                 <Input placeholder={'Search'} w={'auto'} p={2} />
-                {!loading && users ? null : (
+                <Skeleton isLoaded={!loading}>
                     <DataTable data={users} columns={columns} />
-                )}
+                </Skeleton>
             </BoxWithShadowMax>
         </AppWrapper>
     );
