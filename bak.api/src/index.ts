@@ -22,13 +22,15 @@ app.get('/', async (req: Request, res: Response) => {
 
     if (usersLength > 0) {
         res.send(await User.findAll());
-    }
-    const newUser = await User.create({
-        username: 'username',
-        password: 'password',
-    });
+    } else {
+        const newUser = await User.create({
+            username: 'username',
+            password: 'password',
+        });
 
-    return res.send(newUser);
+        await newUser.save();
+        return res.send(newUser);
+    }
 });
 
 app.listen(PORT_API, async () => {

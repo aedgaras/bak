@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { User, UserModel } from '../models/User';
-import { where } from "sequelize";
+import { where } from 'sequelize';
 
 export const getUsers = async (req: Request, res: Response) => {
     const users = await User.findAll();
@@ -39,7 +39,7 @@ export const createUser = async (req: Request, res: Response) => {
 
         await createdUser.save();
 
-        res.status(201).send(createdUser);
+        res.status(201);
     }
 };
 
@@ -48,18 +48,17 @@ export const updateUser = async (req: Request, res: Response) => {
 
     const existingUser = await User.findByPk(userId);
 
-    if(existingUser){
+    if (existingUser) {
         const updatedUser: UserModel = {
             username: req.body.username,
             password: req.body.password,
         };
 
-        await existingUser.set({...updatedUser})
+        await existingUser.set({ ...updatedUser });
 
         await existingUser.save();
 
-        res.status(200).send('User updated successfully!')
-
+        res.status(200);
     } else {
         res.status(401).send('No such user exist!');
     }
@@ -77,7 +76,6 @@ export const deleteUser = async (req: Request, res: Response) => {
 
         await user.save();
 
-        res.status(200).send('User deleted successfully!')
-
+        res.status(200);
     }
 };
