@@ -1,6 +1,11 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../configuration/Configuration";
 
+export interface UserModel {
+  username: string;
+  password: string;
+}
+
 export const User = sequelize.define('User', {
     // Model attributes are defined here
     username: {
@@ -8,8 +13,8 @@ export const User = sequelize.define('User', {
       allowNull: false
     },
     password: {
-      type: DataTypes.STRING
-      // allowNull defaults to true
+      type: DataTypes.STRING,
+      allowNull: false
     }
   }, {
     // Other model options go here
