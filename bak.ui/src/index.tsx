@@ -3,6 +3,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
 
 import { BrowserRouter } from 'react-router-dom';
+
 import reportWebVitals from './reportWebVitals';
 import { AppRouter } from './router/AppRouter';
 import * as serviceWorker from './serviceWorker';

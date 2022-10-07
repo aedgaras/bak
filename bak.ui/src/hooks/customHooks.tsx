@@ -1,13 +1,5 @@
-import { useState } from 'react';
-
-export const useLoading = (initialValue: true) => {
-    const [value, setValue] = useState<boolean>(initialValue);
-    const toggleLoading = () => setValue(!value);
-    return [value, toggleLoading] as const;
-};
-
 export function validateUsername(value: string) {
-    let error;
+    let error: string = '';
 
     if (!value) {
         error = 'Username is required!';
@@ -21,7 +13,7 @@ export function validateUsername(value: string) {
 }
 
 export function validatePassword(value: string) {
-    let error;
+    let error: string = '';
 
     if (!value) {
         error = 'Password is required!';
@@ -31,5 +23,6 @@ export function validatePassword(value: string) {
         error = 'Minimum length is 4.';
         return error;
     }
+
     return error;
 }

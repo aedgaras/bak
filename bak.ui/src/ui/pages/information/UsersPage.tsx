@@ -1,18 +1,11 @@
 import { Input, Skeleton } from '@chakra-ui/react';
 import { createColumnHelper } from '@tanstack/react-table';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { UserModel } from '../../../Models/Models';
 import { AppWrapper } from '../../components/AppWrapper';
 import { BoxWithShadowMax } from '../../components/BoxWithShadow';
 import { DataTable } from '../../components/GenericTable';
-
-interface UserModel {
-    id: string;
-    username: string;
-    password: string;
-    createdAt: string;
-    updatedAt: string;
-}
 
 const columnHelper = createColumnHelper<UserModel>();
 const columns = [
@@ -47,15 +40,18 @@ export const UsersPage = () => {
     const filteredUsers: UserModel[] = [];
 
     const getUsers = useCallback(async () => {
-        const response = await axios.get<UserModel[]>(
-            'http://localhost:3030/api/users'
-        );
-        return response.data;
+        const response = await axios
+            .get<UserModel[]>('http://localhost:3030/api/users')
+            .then((r: AxiosResponse<UserModel[]>) => {
+                return r.data;
+            });
+        return response;
     }, []);
 
     const filterUsers = () => {
         if (queryFilter.length > 0) {
             users.forEach((user) => {
+                console.log(user.createdAt);
                 if (
                     user.id
                         .toString()
@@ -68,9 +64,11 @@ export const UsersPage = () => {
                         .toLowerCase()
                         .includes(queryFilter.toLowerCase()) ||
                     user.createdAt
+                        .toString()
                         .toLowerCase()
                         .includes(queryFilter.toLowerCase()) ||
                     user.updatedAt
+                        .toString()
                         .toLowerCase()
                         .includes(queryFilter.toLowerCase())
                 ) {
