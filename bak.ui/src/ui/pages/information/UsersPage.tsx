@@ -95,7 +95,7 @@ export const UsersPage = () => {
 
     useEffect(() => {
         filterUsers();
-    }, [queryFilter]);
+    }, [queryFilter, users]);
 
     return (
         <AppWrapper>
