@@ -1,7 +1,7 @@
 import { Input, Skeleton } from '@chakra-ui/react';
 import { createColumnHelper } from '@tanstack/react-table';
 import axios from 'axios';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { AppWrapper } from '../../components/AppWrapper';
 import { BoxWithShadowMax } from '../../components/BoxWithShadow';
 import { DataTable } from '../../components/GenericTable';
@@ -14,33 +14,37 @@ interface UserModel {
     updatedAt: string;
 }
 
-export const UsersPage = () => {
-    const [users, setUsers] = useState<UserModel[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
+const columnHelper = createColumnHelper<UserModel>();
+const columns = [
+    columnHelper.accessor('id', {
+        cell: (info) => info.getValue(),
+        header: 'Id',
+    }),
+    columnHelper.accessor('username', {
+        cell: (info) => info.getValue(),
+        header: 'Username',
+    }),
+    columnHelper.accessor('password', {
+        cell: (info) => info.getValue(),
+        header: 'Password',
+    }),
+    columnHelper.accessor('createdAt', {
+        cell: (info) => info.getValue(),
+        header: 'Created At',
+    }),
+    columnHelper.accessor('updatedAt', {
+        cell: (info) => info.getValue(),
+        header: 'Updated At',
+    }),
+];
 
-    const columnHelper = createColumnHelper<UserModel>();
-    const columns = [
-        columnHelper.accessor('id', {
-            cell: (info) => info.getValue(),
-            header: 'Id',
-        }),
-        columnHelper.accessor('username', {
-            cell: (info) => info.getValue(),
-            header: 'Username',
-        }),
-        columnHelper.accessor('password', {
-            cell: (info) => info.getValue(),
-            header: 'Password',
-        }),
-        columnHelper.accessor('createdAt', {
-            cell: (info) => info.getValue(),
-            header: 'Created At',
-        }),
-        columnHelper.accessor('updatedAt', {
-            cell: (info) => info.getValue(),
-            header: 'Updated At',
-        }),
-    ];
+export const UsersPage = () => {
+    const [usersToDisplay, setUsersToDisplay] = useState<UserModel[]>([]);
+    const [users, setUsers] = useState<UserModel[]>([]);
+    const [isLoaded, setIsLoaded] = useState<boolean>(true);
+    const [queryFilter, setQueryFilter] = useState<string>('');
+
+    const filteredUsers: UserModel[] = [];
 
     const getUsers = useCallback(async () => {
         const response = await axios.get<UserModel[]>(
@@ -49,19 +53,61 @@ export const UsersPage = () => {
         return response.data;
     }, []);
 
-    useEffect(() => {
+    const filterUsers = () => {
+        if (queryFilter.length > 0) {
+            users.forEach((user) => {
+                if (
+                    user.id
+                        .toString()
+                        .toLowerCase()
+                        .includes(queryFilter.toLowerCase()) ||
+                    user.username
+                        .toLowerCase()
+                        .includes(queryFilter.toLowerCase()) ||
+                    user.password
+                        .toLowerCase()
+                        .includes(queryFilter.toLowerCase()) ||
+                    user.createdAt
+                        .toLowerCase()
+                        .includes(queryFilter.toLowerCase()) ||
+                    user.updatedAt
+                        .toLowerCase()
+                        .includes(queryFilter.toLowerCase())
+                ) {
+                    filteredUsers.push(user);
+                }
+            });
+
+            setUsersToDisplay(filteredUsers);
+        } else {
+            setUsersToDisplay(users);
+        }
+    };
+
+    useMemo(() => {
         (async () => {
             const usersGotten = await getUsers();
             setUsers(usersGotten);
+            setUsersToDisplay(users);
+            setIsLoaded(true);
         })();
     }, []);
+
+    useEffect(() => {
+        filterUsers();
+    }, [queryFilter]);
 
     return (
         <AppWrapper>
             <BoxWithShadowMax>
-                <Input placeholder={'Search'} w={'auto'} p={2} />
-                <Skeleton isLoaded={!loading}>
-                    <DataTable data={users} columns={columns} />
+                <Input
+                    placeholder={'Search'}
+                    w={'auto'}
+                    p={2}
+                    onChange={(e) => setQueryFilter(e.target.value)}
+                />
+                <Skeleton isLoaded={isLoaded}>
+                    <DataTable data={usersToDisplay} columns={columns} />
                 </Skeleton>
             </BoxWithShadowMax>
         </AppWrapper>

@@ -1,4 +1,4 @@
-import { Grid, GridItem } from '@chakra-ui/react';
+import { Grid, GridItem, Skeleton } from '@chakra-ui/react';
 import { AppWrapper } from '../../components/AppWrapper';
 import { BoxWithShadowMax } from '../../components/BoxWithShadow';
 
@@ -11,16 +11,24 @@ export const ProfilePage = () => {
                 gap={4}
             >
                 <GridItem rowSpan={2} colSpan={1}>
-                    <BoxWithShadowMax>Profile</BoxWithShadowMax>
+                    <Skeleton isLoaded={false}>
+                        <BoxWithShadowMax>Profile</BoxWithShadowMax>
+                    </Skeleton>
                 </GridItem>
                 <GridItem colSpan={2}>
-                    <BoxWithShadowMax>Profile</BoxWithShadowMax>
+                    <Skeleton isLoaded={false}>
+                        <BoxWithShadowMax>Profile</BoxWithShadowMax>
+                    </Skeleton>
                 </GridItem>
                 <GridItem colSpan={2}>
-                    <BoxWithShadowMax>Profile</BoxWithShadowMax>
+                    <Skeleton isLoaded={false}>
+                        <BoxWithShadowMax>Profile</BoxWithShadowMax>
+                    </Skeleton>
                 </GridItem>
                 <GridItem colSpan={4}>
-                    <BoxWithShadowMax>Profile</BoxWithShadowMax>
+                    <Skeleton isLoaded={false}>
+                        <BoxWithShadowMax>Profile</BoxWithShadowMax>
+                    </Skeleton>
                 </GridItem>
             </Grid>
         </AppWrapper>
