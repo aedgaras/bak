@@ -1,4 +1,5 @@
 import axios from 'axios';
+import jwtDecode from 'jwt-decode';
 import {Simulate} from "react-dom/test-utils";
 import error = Simulate.error;
 
@@ -25,5 +26,6 @@ export const getCurrentUser() {
     if(!jwt){
         return null;
     }
+    const decodedJwt = jwtDecode(jwt);
 
 }
