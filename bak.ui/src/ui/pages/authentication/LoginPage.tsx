@@ -17,13 +17,15 @@ import {
 } from '@chakra-ui/react';
 import axios, { AxiosError } from 'axios';
 import { Field, Formik } from 'formik';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { validatePassword, validateUsername } from '../../../hooks/customHooks';
+import { JWT_NAME } from '../../../services/Authentication';
 import { AppWrapper } from '../../components/AppWrapper';
 
 export const LoginPage = () => {
     const initialValue = { username: '', password: '' };
     const toast = useToast();
+    const navigate = useNavigate();
 
     return (
         <AppWrapper>
@@ -53,7 +55,8 @@ export const LoginPage = () => {
                         <Formik
                             initialValues={initialValue}
                             onSubmit={async (values, actions) => {
-                                const jwt = await axios
+                                actions.setSubmitting(true);
+                                await axios
                                     .post(
                                         'http://localhost:3030/api/auth/login',
                                         {
@@ -62,7 +65,8 @@ export const LoginPage = () => {
                                         }
                                     )
                                     .then((r) => {
-                                        console.log(jwt);
+                                        localStorage.setItem(JWT_NAME, r.data);
+                                        window.location.assign('/');
                                     })
                                     .catch((e: AxiosError) => {
                                         toast({
@@ -75,8 +79,6 @@ export const LoginPage = () => {
                                             isClosable: true,
                                         });
                                     });
-
-                                actions.setSubmitting(true);
                             }}
                         >
                             {({

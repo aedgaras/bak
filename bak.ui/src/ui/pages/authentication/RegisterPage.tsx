@@ -17,6 +17,7 @@ import axios, { AxiosError } from 'axios';
 import { Field, Formik } from 'formik';
 import { Simulate } from 'react-dom/test-utils';
 import { validatePassword, validateUsername } from '../../../hooks/customHooks';
+import { JWT_NAME } from '../../../services/Authentication';
 import { AppWrapper } from '../../components/AppWrapper';
 import error = Simulate.error;
 
@@ -43,7 +44,8 @@ export const RegisterPage = () => {
                         <Formik
                             initialValues={initialValue}
                             onSubmit={async (values, actions) => {
-                                const jwt = await axios
+                                actions.setSubmitting(true);
+                                await axios
                                     .post(
                                         'http://localhost:3030/api/auth/register',
                                         {
@@ -52,7 +54,8 @@ export const RegisterPage = () => {
                                         }
                                     )
                                     .then((r) => {
-                                        console.log(r);
+                                        localStorage.setItem(JWT_NAME, r.data);
+                                        window.location.assign('/');
                                     })
                                     .catch((e: AxiosError) => {
                                         toast({
@@ -65,7 +68,7 @@ export const RegisterPage = () => {
                                             isClosable: true,
                                         });
                                     });
-                                actions.setSubmitting(true);
+                                actions.setSubmitting(false);
                             }}
                         >
                             {({

@@ -8,7 +8,7 @@ export interface User {
     password: string;
 }
 
-const JWT_NAME = 'bakJWT';
+export const JWT_NAME = 'bakJWT';
 
 export async function loginToApi(params: User): Promise<User> {
     const response = await axios.post('/api/auth/login', params);
