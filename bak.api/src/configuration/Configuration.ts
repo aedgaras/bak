@@ -18,6 +18,10 @@ export const sequelize = new Sequelize({
     dialect: 'postgres',
 });
 
-function generateAccessToken(username: string) {
-    return sign(username, TOKEN_SECRET, { expiresIn: '1800s' });
-  }
+export function generateAccessToken(payload: JwtTokenPayload) {
+    return sign(payload, TOKEN_SECRET, {expiresIn: '1h'});
+}
+
+export interface JwtTokenPayload {
+    username: string
+}
