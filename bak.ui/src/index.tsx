@@ -3,9 +3,10 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
 
 import { BrowserRouter } from 'react-router-dom';
-
+import { UserContext, userContextValues } from './context/UserContext';
 import reportWebVitals from './reportWebVitals';
 import { AppRouter } from './router/AppRouter';
+
 import * as serviceWorker from './serviceWorker';
 
 const container = document.getElementById('root');
@@ -16,9 +17,11 @@ root.render(
     <React.StrictMode>
         <ColorModeScript />
         <ChakraProvider theme={theme}>
-            <BrowserRouter>
-                <AppRouter />
-            </BrowserRouter>
+            <UserContext.Provider value={userContextValues()}>
+                <BrowserRouter>
+                    <AppRouter />
+                </BrowserRouter>
+            </UserContext.Provider>
         </ChakraProvider>
     </React.StrictMode>
 );

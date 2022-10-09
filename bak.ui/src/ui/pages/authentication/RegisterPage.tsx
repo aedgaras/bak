@@ -10,14 +10,19 @@ import {
     HStack,
     Input,
     useColorModeValue,
+    useToast,
     VStack,
 } from '@chakra-ui/react';
+import axios, { AxiosError } from 'axios';
 import { Field, Formik } from 'formik';
+import { Simulate } from 'react-dom/test-utils';
 import { validatePassword, validateUsername } from '../../../hooks/customHooks';
 import { AppWrapper } from '../../components/AppWrapper';
+import error = Simulate.error;
 
 export const RegisterPage = () => {
     const initialValue = { username: '', password: '' };
+    const toast = useToast();
 
     return (
         <AppWrapper>
@@ -37,8 +42,29 @@ export const RegisterPage = () => {
                     <HStack>
                         <Formik
                             initialValues={initialValue}
-                            onSubmit={(values, actions) => {
-                                console.log(values);
+                            onSubmit={async (values, actions) => {
+                                const jwt = await axios
+                                    .post(
+                                        'http://localhost:3030/api/auth/register',
+                                        {
+                                            username: values.username,
+                                            password: values.password,
+                                        }
+                                    )
+                                    .then((r) => {
+                                        console.log(r);
+                                    })
+                                    .catch((e: AxiosError) => {
+                                        toast({
+                                            title: e.code,
+                                            description:
+                                                (e.response?.data as string) ??
+                                                e.message,
+                                            status: 'error',
+                                            duration: 9000,
+                                            isClosable: true,
+                                        });
+                                    });
                                 actions.setSubmitting(true);
                             }}
                         >
