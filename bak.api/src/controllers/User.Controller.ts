@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 import { User, UserEntityName, UserModel } from '../models/User';
-import { where } from 'sequelize';
 import { ENTITY_ALREADY_EXIST, ENTITY_DOESNT_EXIST, ENTITY_NOT_FOUND } from '../utils/ResponseUtils';
+import * as bcrypt from 'bcrypt';
+import { hashedPassword } from '../utils/utils';
 
 export const getUsers = async (req: Request, res: Response) => {
     const users = await User.findAll();
@@ -23,19 +24,21 @@ export const getUser = async (req: Request, res: Response) => {
 
 export const createUser = async (req: Request, res: Response) => {
     const newUser: UserModel = {
-        username: req.body.username,
-        password: req.body.password,
+        username: req.body.username as string,
+        password: hashedPassword(req.body.username as string),
     };
 
-    const existingUser = await User.findAll({
+    const existingUser = await User.findOne({
         where: {
             username: newUser.username,
         },
     });
 
-    if (existingUser.length > 0) {
+
+    if (!existingUser) {
         res.status(400).send(ENTITY_ALREADY_EXIST(UserEntityName));
     } else {
+
         const createdUser = await User.create({ ...newUser });
 
         await createdUser.save();
