@@ -1,13 +1,14 @@
 import dotenv from 'dotenv';
+import { sign } from 'jsonwebtoken';
 import { Sequelize } from 'sequelize';
 
 dotenv.config();
 
 const env = process.env;
 
-export const PORT_API = env.PORT || 3030;
+export const TOKEN_SECRET =  env.TOKEN_SECRET || '24432646294A404E635266556A586E3272357538782F4125442A472D4B615064'
 
-export const dbConfig = {};
+export const PORT_API = env.PORT || 3030;
 
 export const sequelize = new Sequelize({
     database: env.DB_NAME,
@@ -16,3 +17,7 @@ export const sequelize = new Sequelize({
     host: env.DB_HOST,
     dialect: 'postgres',
 });
+
+function generateAccessToken(username: string) {
+    return sign(username, TOKEN_SECRET, { expiresIn: '1800s' });
+  }

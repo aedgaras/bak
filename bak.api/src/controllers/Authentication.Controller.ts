@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { generateAccessToken } from "../middleware/Auth.Middleware";
 import { User } from "../models/User";
 
 export const login = async (req: Request, res: Response) => {
@@ -9,7 +10,8 @@ export const login = async (req: Request, res: Response) => {
     if (!user) {
         res.status(400);
     } else {
-
+        const token = generateAccessToken(username);
+        res.status(200).json(token);
     }
 }
 
@@ -25,6 +27,8 @@ export const register = async (req: Request, res: Response) => {
         const newUser = await User.create({username: username, password: password});
 
         await newUser.save();
-        res.status(200);
+
+        const token = generateAccessToken(username);
+        res.status(200).json(token);
     }
 }

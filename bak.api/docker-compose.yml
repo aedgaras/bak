@@ -29,6 +29,7 @@ services:
             DB_PASSWORD: postgres
             DB_NAME: postgres
             PORT: 3030
+            TOKEN_SECRET: 24432646294A404E635266556A586E3272357538782F4125442A472D4B615064
         links:
             - db
         depends_on:

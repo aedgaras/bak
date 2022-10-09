@@ -4,6 +4,7 @@ import { PORT_API, sequelize } from './configuration/Configuration';
 import { User } from './models/User';
 import cors from 'cors';
 import { userRouter } from './routes/User.Routes';
+import { authRouter } from './routes/Authentication.Routes';
 
 dotenv.config();
 
@@ -16,6 +17,8 @@ app.use(
 );
 
 app.use('/api/users', userRouter);
+app.use('/api/auth', authRouter);
+
 
 app.get('/', async (req: Request, res: Response) => {
     const usersLength = (await User.findAll()).length;
