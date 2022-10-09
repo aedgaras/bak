@@ -5,7 +5,6 @@ import { BoxWithShadow } from './components/BoxWithShadow';
 
 export const UserApp = () => {
     const userContext = useContext(UserContext);
-    console.log(userContext);
     return (
         <AppWrapper>
             <BoxWithShadow>userApp</BoxWithShadow>

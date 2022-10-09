@@ -18,6 +18,7 @@ import { Field, Formik } from 'formik';
 import { Simulate } from 'react-dom/test-utils';
 import { validatePassword, validateUsername } from '../../../hooks/customHooks';
 import { JWT_NAME } from '../../../services/Authentication';
+import { sleep } from '../../../utils/utils';
 import { AppWrapper } from '../../components/AppWrapper';
 import error = Simulate.error;
 
@@ -54,6 +55,15 @@ export const RegisterPage = () => {
                                         }
                                     )
                                     .then((r) => {
+                                        toast({
+                                            title: 'Success',
+                                            description:
+                                                'Registered successfully.',
+                                            status: 'success',
+                                            duration: 9000,
+                                            isClosable: true,
+                                        });
+                                        sleep(5000);
                                         localStorage.setItem(JWT_NAME, r.data);
                                         window.location.assign('/');
                                     })

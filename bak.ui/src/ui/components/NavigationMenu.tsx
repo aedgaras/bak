@@ -29,12 +29,16 @@ export const NavigationMenu = () => {
             boxShadow={{ base: 'none', sm: useColorModeValue('md', 'md-dark') }}
         >
             <HStack>
-                <Link to={'/'}>
-                    <Button>Home</Button>
-                </Link>
-                <Link to={'/users'}>
-                    <Button>Users</Button>
-                </Link>
+                {userContext.loggedIn ? (
+                    <>
+                        <Link to={'/'}>
+                            <Button>Home</Button>
+                        </Link>
+                        <Link to={'/users'}>
+                            <Button>Users</Button>
+                        </Link>
+                    </>
+                ) : null}
                 <Spacer />
                 <ColorModeSwitcher />
                 <Menu>

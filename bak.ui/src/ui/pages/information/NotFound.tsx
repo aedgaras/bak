@@ -8,3 +8,11 @@ export const NotFound = () => (
         </Center>
     </AppWrapper>
 );
+
+export const Unauthorized = () => (
+    <AppWrapper>
+        <Center>
+            <Heading>Unauthorized</Heading>
+        </Center>
+    </AppWrapper>
+);

@@ -20,6 +20,7 @@ import { Field, Formik } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
 import { validatePassword, validateUsername } from '../../../hooks/customHooks';
 import { JWT_NAME } from '../../../services/Authentication';
+import { sleep } from '../../../utils/utils';
 import { AppWrapper } from '../../components/AppWrapper';
 
 export const LoginPage = () => {
@@ -65,6 +66,15 @@ export const LoginPage = () => {
                                         }
                                     )
                                     .then((r) => {
+                                        toast({
+                                            title: 'Success',
+                                            description:
+                                                'Logged in successfully.',
+                                            status: 'success',
+                                            duration: 9000,
+                                            isClosable: true,
+                                        });
+                                        sleep(5000);
                                         localStorage.setItem(JWT_NAME, r.data);
                                         window.location.assign('/');
                                     })
