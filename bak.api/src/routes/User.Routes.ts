@@ -12,10 +12,10 @@ export const userRouter = express.Router();
 
 userRouter.get('/', authenticateToken, getUsers);
 
-userRouter.get('/:userId', getUser);
+userRouter.get('/:userId', authenticateToken, getUser);
 
-userRouter.post('/', createUser);
+userRouter.post('/', authenticateToken, createUser);
 
-userRouter.put('/:userId', updateUser);
+userRouter.put('/:userId', authenticateToken, updateUser);
 
-userRouter.put('/:userId', deleteUser);
+userRouter.put('/:userId', authenticateToken, deleteUser);

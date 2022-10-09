@@ -1,12 +1,12 @@
 import { DataTypes } from 'sequelize';
-import { sequelize } from '../configuration/Configuration';
+import { db } from '../db/Config';
 
 export interface UserModel {
     username: string;
     password: string;
 }
 
-export const User = sequelize.define(
+export const User = db.define(
     'User',
     {
         // Model attributes are defined here
@@ -22,11 +22,10 @@ export const User = sequelize.define(
         role: {
             type: DataTypes.ENUM('admin', 'user'),
             allowNull: false,
-            defaultValue: 'user'
-        }
+            defaultValue: 'user',
+        },
     },
     {
         // Other model options go here
-
     }
 );

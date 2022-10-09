@@ -1,6 +1,6 @@
 import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
-import { PORT_API, sequelize } from './configuration/Configuration';
+import { PORT_API } from './configuration/Configuration';
 import { User } from './models/User';
 import cors from 'cors';
 import { userRouter } from './routes/User.Routes';
@@ -21,7 +21,7 @@ app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
 
 app.listen(PORT_API, async () => {
-    await User.sync({force: true})
+    await User.sync({ force: true });
     console.log(
         `⚡️[server]: Server is running at http://localhost:${PORT_API}`
     );
