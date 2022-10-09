@@ -10,7 +10,7 @@ import { authenticateToken } from '../middleware/Auth.Middleware';
 
 export const userRouter = express.Router();
 
-userRouter.get('/', authenticateToken, getUsers);
+userRouter.get('/', getUsers);
 
 userRouter.get('/:userId', authenticateToken, getUser);
 

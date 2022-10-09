@@ -1,13 +1,15 @@
 import { DataTypes } from 'sequelize';
 import { db } from '../db/Config';
 
+export const UserEntityName = 'User';
+
 export interface UserModel {
     username: string;
     password: string;
 }
 
 export const User = db.define(
-    'User',
+    UserEntityName,
     {
         // Model attributes are defined here
         username: {

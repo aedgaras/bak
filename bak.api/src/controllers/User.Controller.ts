@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
-import { User, UserModel } from '../models/User';
+import { User, UserEntityName, UserModel } from '../models/User';
 import { where } from 'sequelize';
+import { ENTITY_ALREADY_EXIST, ENTITY_DOESNT_EXIST, ENTITY_NOT_FOUND } from '../utils/ResponseUtils';
 
 export const getUsers = async (req: Request, res: Response) => {
     const users = await User.findAll();
@@ -14,7 +15,7 @@ export const getUser = async (req: Request, res: Response) => {
     const user = await User.findByPk(id);
 
     if (!user) {
-        res.status(404).send('User not found!');
+        res.status(404).send(ENTITY_NOT_FOUND(UserEntityName));
     }
 
     res.send(user);
@@ -33,7 +34,7 @@ export const createUser = async (req: Request, res: Response) => {
     });
 
     if (existingUser.length > 0) {
-        res.status(400).send('User already exists');
+        res.status(400).send(ENTITY_ALREADY_EXIST(UserEntityName));
     } else {
         const createdUser = await User.create({ ...newUser });
 
@@ -54,13 +55,13 @@ export const updateUser = async (req: Request, res: Response) => {
             password: req.body.password,
         };
 
-        await existingUser.set({ ...updatedUser });
+        existingUser.set({ ...updatedUser });
 
         await existingUser.save();
 
         res.status(200);
     } else {
-        res.status(401).send('No such user exist!');
+        res.status(401).send(ENTITY_DOESNT_EXIST(UserEntityName));
     }
 };
 
@@ -70,7 +71,7 @@ export const deleteUser = async (req: Request, res: Response) => {
     const user = await User.findByPk(userId);
 
     if (!user) {
-        res.status(404).send('User not found!');
+        res.status(404).send(ENTITY_NOT_FOUND(UserEntityName));
     } else {
         await user.destroy();
 
