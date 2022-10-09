@@ -8,16 +8,15 @@ export const login = async (req: Request, res: Response) => {
 
     const user = await User.findOne({where: {username: username, password: password}});
     if (!user) {
-        res.status(400);
+        res.status(400).json('Such user doesn\'t exist');
     } else {
         res.status(200).json(generateAccessToken({username: username}));
     }
 }
 
 export const register = async (req: Request, res: Response) => {
-    const jsonReq = JSON.parse(req.body) as {username: string, password: string};
-    const username = jsonReq.username;
-    const password = jsonReq.password;
+    const username = req.body.username as string;
+    const password = req.body.password as string;
 
     const user = await User.findOne({where: {username: username, password: password}});
 

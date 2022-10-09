@@ -20,24 +20,8 @@ app.use(
 app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
 
-
-app.get('/', async (req: Request, res: Response) => {
-    const usersLength = (await User.findAll()).length;
-
-    if (usersLength > 0) {
-        res.send(await User.findAll());
-    } else {
-        const newUser = await User.create({
-            username: 'username',
-            password: 'password',
-        });
-
-        await newUser.save();
-        return res.send(newUser);
-    }
-});
-
 app.listen(PORT_API, async () => {
+    await User.sync({force: true})
     console.log(
         `⚡️[server]: Server is running at http://localhost:${PORT_API}`
     );

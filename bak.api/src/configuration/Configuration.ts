@@ -25,3 +25,8 @@ export function generateAccessToken(payload: JwtTokenPayload) {
 export interface JwtTokenPayload {
     username: string
 }
+
+export interface Status {
+    message: string,
+    code: number,
+}
