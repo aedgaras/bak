@@ -1,5 +1,11 @@
 import { HamburgerIcon } from '@chakra-ui/icons';
 import {
+    AlertDialog,
+    AlertDialogBody,
+    AlertDialogContent,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogOverlay,
     Box,
     Button,
     HStack,
@@ -11,8 +17,9 @@ import {
     MenuList,
     Spacer,
     useColorModeValue,
+    useDisclosure,
 } from '@chakra-ui/react';
-import { useContext } from 'react';
+import { useContext, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
 import { logout } from '../../services/Authentication';
@@ -20,6 +27,8 @@ import { ColorModeSwitcher } from '../ColorModeSwitcher';
 
 export const NavigationMenu = () => {
     const userContext = useContext(UserContext);
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const cancelRef = useRef(null);
 
     return (
         <Box
@@ -70,13 +79,53 @@ export const NavigationMenu = () => {
                                     <MenuItem>Profile</MenuItem>
                                 </Link>
                                 <MenuDivider />
-                                <MenuItem
-                                    onClick={() => {
-                                        logout();
-                                        window.location.assign('/');
-                                    }}
-                                >
-                                    Logout
+                                <MenuItem onClick={onOpen}>
+                                    <>
+                                        Logout
+                                        <AlertDialog
+                                            isOpen={isOpen}
+                                            leastDestructiveRef={cancelRef}
+                                            onClose={onClose}
+                                        >
+                                            <AlertDialogOverlay>
+                                                <AlertDialogContent>
+                                                    <AlertDialogHeader
+                                                        fontSize="lg"
+                                                        fontWeight="bold"
+                                                    >
+                                                        Logout
+                                                    </AlertDialogHeader>
+
+                                                    <AlertDialogBody>
+                                                        Are you sure you want to
+                                                        logout?
+                                                    </AlertDialogBody>
+
+                                                    <AlertDialogFooter>
+                                                        <Button
+                                                            ref={cancelRef}
+                                                            onClick={onClose}
+                                                        >
+                                                            Cancel
+                                                        </Button>
+                                                        <Button
+                                                            colorScheme="red"
+                                                            onClick={() => {
+                                                                logout();
+                                                                window.location.assign(
+                                                                    '/'
+                                                                );
+                                                                onClose;
+                                                            }}
+                                                            ml={3}
+                                                        >
+                                                            Logout
+                                                        </Button>
+                                                    </AlertDialogFooter>
+                                                </AlertDialogContent>
+                                            </AlertDialogOverlay>
+                                        </AlertDialog>
+                                    </>
                                 </MenuItem>
                             </>
                         ) : null}
