@@ -18,7 +18,7 @@ import {
 import axios, { AxiosError } from 'axios';
 import { Field, Formik } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
-import { validatePassword, validateUsername } from '../../../hooks/customHooks';
+import { fetchThisUser, validatePassword, validateUsername } from '../../../hooks/customHooks';
 import { JWT_NAME } from '../../../services/Authentication';
 import { sleep } from '../../../utils/utils';
 import { AppWrapper } from '../../components/AppWrapper';
@@ -57,38 +57,11 @@ export const LoginPage = () => {
                             initialValues={initialValue}
                             onSubmit={async (values, actions) => {
                                 actions.setSubmitting(true);
-                                await axios
-                                    .post(
-                                        'http://localhost:3030/api/auth/login',
-                                        {
-                                            username: values.username,
-                                            password: values.password,
-                                        }
-                                    )
-                                    .then((r) => {
-                                        toast({
-                                            title: 'Success',
-                                            description:
-                                                'Logged in successfully.',
-                                            status: 'success',
-                                            duration: 9000,
-                                            isClosable: true,
-                                        });
-                                        sleep(5000);
-                                        localStorage.setItem(JWT_NAME, r.data);
-                                        window.location.assign('/');
-                                    })
-                                    .catch((e: AxiosError) => {
-                                        toast({
-                                            title: e.code,
-                                            description:
-                                                (e.response?.data as string) ??
-                                                e.message,
-                                            status: 'error',
-                                            duration: 9000,
-                                            isClosable: true,
-                                        });
-                                    });
+                                await fetchThisUser(toast, '/auth/login',
+                                {
+                                    username: values.username,
+                                    password: values.password,
+                                }, {title: 'Succes', description: 'Logged in successfully.'});
                             }}
                         >
                             {({
