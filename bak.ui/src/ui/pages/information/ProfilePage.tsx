@@ -1,4 +1,11 @@
-import { Grid, GridItem, Skeleton } from '@chakra-ui/react';
+import {
+    Avatar,
+    Grid,
+    GridItem,
+    Skeleton,
+    Wrap,
+    WrapItem,
+} from '@chakra-ui/react';
 import { AppWrapper } from '../../components/AppWrapper';
 import { BoxWithShadowMax } from '../../components/BoxWithShadow';
 
@@ -11,8 +18,18 @@ export const ProfilePage = () => {
                 gap={4}
             >
                 <GridItem rowSpan={2} colSpan={1}>
-                    <Skeleton isLoaded={false}>
-                        <BoxWithShadowMax>Profile</BoxWithShadowMax>
+                    <Skeleton isLoaded={true}>
+                        <BoxWithShadowMax>
+                            <Wrap>
+                                <WrapItem>
+                                    <Avatar
+                                        name="Dan Abrahmov"
+                                        src="https://bit.ly/dan-abramov"
+                                        size={'2xl'}
+                                    />
+                                </WrapItem>
+                            </Wrap>
+                        </BoxWithShadowMax>
                     </Skeleton>
                 </GridItem>
                 <GridItem colSpan={2}>

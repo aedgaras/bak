@@ -6,6 +6,7 @@ import {
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogOverlay,
+    Avatar,
     Box,
     Button,
     HStack,
@@ -16,6 +17,7 @@ import {
     MenuItem,
     MenuList,
     Spacer,
+    Text,
     useColorModeValue,
     useDisclosure,
 } from '@chakra-ui/react';
@@ -49,6 +51,22 @@ export const NavigationMenu = () => {
                     </>
                 ) : null}
                 <Spacer />
+                {userContext.loggedIn ? (
+                    <>
+                        <Link to={'/profile'}>
+                            <Text>{`Hello, ${userContext.name}`}</Text>
+                        </Link>
+                        <Link to={'/profile'}>
+                            <Text>
+                                <Avatar
+                                    name="Dan Abrahmov"
+                                    src="https://bit.ly/dan-abramov"
+                                    size="sm"
+                                />
+                            </Text>
+                        </Link>
+                    </>
+                ) : null}
                 <ColorModeSwitcher />
                 <Menu>
                     <MenuButton
