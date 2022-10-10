@@ -1,13 +1,18 @@
 import { Request, Response } from 'express';
 import { User, UserEntityName, UserModel } from '../models/User';
-import { ENTITY_ALREADY_EXIST, ENTITY_DOESNT_EXIST, ENTITY_NOT_FOUND } from '../utils/ResponseUtils';
+import {
+    ENTITY_ALREADY_EXIST,
+    ENTITY_DOESNT_EXIST,
+    ENTITY_NOT_FOUND,
+    returnMessage,
+} from '../utils/ResponseUtils';
 import * as bcrypt from 'bcrypt';
 import { hashedPassword } from '../utils/utils';
 
 export const getUsers = async (req: Request, res: Response) => {
     const users = await User.findAll();
 
-    res.send(users);
+    res.sendStatus(200).json(users);
 };
 
 export const getUser = async (req: Request, res: Response) => {
@@ -16,10 +21,12 @@ export const getUser = async (req: Request, res: Response) => {
     const user = await User.findByPk(id);
 
     if (!user) {
-        res.status(404).send(ENTITY_NOT_FOUND(UserEntityName));
+        res.sendStatus(404).json(
+            returnMessage(ENTITY_NOT_FOUND(UserEntityName))
+        );
     }
 
-    res.send(user);
+    res.sendStatus(200).json(user);
 };
 
 export const createUser = async (req: Request, res: Response) => {
@@ -34,16 +41,14 @@ export const createUser = async (req: Request, res: Response) => {
         },
     });
 
-
     if (!existingUser) {
         res.status(400).send(ENTITY_ALREADY_EXIST(UserEntityName));
     } else {
-
         const createdUser = await User.create({ ...newUser });
 
         await createdUser.save();
 
-        res.status(201);
+        res.sendStatus(200);
     }
 };
 
@@ -64,7 +69,9 @@ export const updateUser = async (req: Request, res: Response) => {
 
         res.status(200);
     } else {
-        res.status(401).send(ENTITY_DOESNT_EXIST(UserEntityName));
+        res.sendStatus(401).json(
+            returnMessage(ENTITY_DOESNT_EXIST(UserEntityName))
+        );
     }
 };
 
@@ -74,7 +81,9 @@ export const deleteUser = async (req: Request, res: Response) => {
     const user = await User.findByPk(userId);
 
     if (!user) {
-        res.status(404).send(ENTITY_NOT_FOUND(UserEntityName));
+        res.sendStatus(404).json(
+            returnMessage(ENTITY_NOT_FOUND(UserEntityName))
+        );
     } else {
         await user.destroy();
 

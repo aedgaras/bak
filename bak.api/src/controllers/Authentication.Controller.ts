@@ -9,16 +9,15 @@ export const login = async (req: Request, res: Response) => {
     const password = req.body.password as string;
 
     const user = await User.findOne({
-        where: { username: username},
+        where: { username: username },
     });
-
 
     if (!user) {
         res.status(400).json("Such user doesn't exist");
     } else {
         const hashedPass = user.getDataValue('password');
         const match = bcrypt.compareSync(password, hashedPass);
-        if(!match){
+        if (!match) {
             res.status(300).send('Password is incorrect.');
         } else {
             res.status(200).json(generateAccessToken({ username: username }));
@@ -31,7 +30,7 @@ export const register = async (req: Request, res: Response) => {
     const password = hashedPassword(req.body.password as string);
 
     const user = await User.findOne({
-        where: { username: username},
+        where: { username: username },
     });
 
     if (user) {
