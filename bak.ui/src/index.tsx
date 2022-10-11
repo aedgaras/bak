@@ -1,4 +1,5 @@
 import { ChakraProvider, ColorModeScript, theme } from '@chakra-ui/react';
+import { AnimatePresence } from 'framer-motion';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
 
@@ -19,10 +20,12 @@ root.render(
         <ColorModeScript />
         <ChakraProvider theme={theme}>
             <UserContext.Provider value={userContextValues()}>
-                <BrowserRouter>
-                <NavigationMenu/>
-                    <AppRouter />
-                </BrowserRouter>
+                <AnimatePresence exitBeforeEnter>
+                    <BrowserRouter>
+                        <NavigationMenu />
+                        <AppRouter />
+                    </BrowserRouter>
+                </AnimatePresence>
             </UserContext.Provider>
         </ChakraProvider>
     </React.StrictMode>
