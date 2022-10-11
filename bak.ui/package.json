@@ -23,16 +23,14 @@
         "react-dom": "^18.2.0",
         "react-icons": "^3.11.0",
         "react-router-dom": "^6.4.1",
-        "react-scripts": "5.0.1",
         "typescript": "^4.8.4",
         "web-vitals": "^2.1.4",
         "yup": "^0.32.11"
     },
     "scripts": {
-        "start": "react-scripts start",
-        "build": "react-scripts build",
-        "test": "react-scripts test",
-        "eject": "react-scripts eject",
+        "start": "vite",
+        "build": "tsc && vite build",
+        "serve": "vite preview",
         "format": "prettier --write .",
         "docker:dev": "docker compose -f docker-compose.yml up"
     },
@@ -49,8 +47,12 @@
         ]
     },
     "devDependencies": {
+        "@vitejs/plugin-react": "^2.1.0",
         "eslint-config-prettier": "^8.5.0",
         "prettier": "2.7.1",
-        "prettier-plugin-organize-imports": "^3.1.1"
+        "prettier-plugin-organize-imports": "^3.1.1",
+        "vite": "^3.1.7",
+        "vite-plugin-svgr": "^2.2.1",
+        "vite-tsconfig-paths": "^3.5.1"
     }
 }
