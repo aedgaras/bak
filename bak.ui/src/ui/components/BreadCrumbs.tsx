@@ -25,5 +25,5 @@ export const BreadCrumbs = () => {
                 </Breadcrumb>
             </BoxWithShadowMax>
         </AppWrapper>
-    ): null;
+    ) : null;
 };

@@ -10,7 +10,7 @@ import axios from 'axios';
 import { useContext, useMemo, useState } from 'react';
 import { UserContext } from '../../../context/UserContext';
 import { UserModel } from '../../../Models/Models';
-import { API_URL, getJwtFromStorage } from '../../../utils/utils';
+import { API_URL, axiosAuthHeaders } from '../../../utils/utils';
 import { AppWrapper } from '../../components/AppWrapper';
 import { BoxWithShadowMax } from '../../components/BoxWithShadow';
 
@@ -22,13 +22,7 @@ export const ProfilePage = () => {
         const getUser = await axios
             .get<UserModel>(
                 `${API_URL}/users/getByUsername/${userContext.name}`,
-                {
-                    headers: {
-                        authorization: getJwtFromStorage() ?? '',
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                    },
-                }
+                axiosAuthHeaders
             )
             .then((r) => {
                 console.log(r);

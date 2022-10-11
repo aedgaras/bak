@@ -3,7 +3,7 @@ import { createColumnHelper } from '@tanstack/react-table';
 import axios, { AxiosResponse } from 'axios';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { UserModel } from '../../../Models/Models';
-import { getJwtFromStorage } from '../../../utils/utils';
+import { axiosAuthHeaders } from '../../../utils/utils';
 import { AppWrapper } from '../../components/AppWrapper';
 import { BoxWithShadowMax } from '../../components/BoxWithShadow';
 import { DataTable } from '../../components/GenericTable';
@@ -42,13 +42,10 @@ export const UsersPage = () => {
 
     const getUsers = useCallback(async () => {
         const response = await axios
-            .get<UserModel[]>('http://localhost:3030/api/users', {
-                headers: {
-                    authorization: getJwtFromStorage() ?? '',
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                },
-            })
+            .get<UserModel[]>(
+                'http://localhost:3030/api/users',
+                axiosAuthHeaders
+            )
             .then((r: AxiosResponse<UserModel[]>) => {
                 return r.data;
             });
