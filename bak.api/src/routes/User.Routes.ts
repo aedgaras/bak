@@ -2,6 +2,7 @@ import express from 'express';
 import {
     createUser,
     deleteUser,
+    getByUsername,
     getUser,
     getUsers,
     updateUser,
@@ -10,9 +11,11 @@ import { authenticateToken } from '../middleware/Auth.Middleware';
 
 export const userRouter = express.Router();
 
-userRouter.get('/', getUsers);
+userRouter.get('/', authenticateToken, getUsers);
 
 userRouter.get('/:userId', authenticateToken, getUser);
+
+userRouter.get('/getByUsername/:username', authenticateToken, getByUsername);
 
 userRouter.post('/', authenticateToken, createUser);
 

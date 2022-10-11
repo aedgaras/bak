@@ -9,12 +9,13 @@ export function authenticateToken(
     res: Response,
     next: NextFunction
 ) {
-    const authHeader = req.headers['authorization'];
+    const authHeader = (req.headers['authorization'])?.trim();
     const token = authHeader && authHeader.split(' ')[1];
+    console.log(authHeader)
 
-    if (token == null) return res.sendStatus(401);
+    if (authHeader== null) return res.sendStatus(401);
 
-    verify(token, process.env.TOKEN_SECRET as string, (err: any, user: any) => {
+    verify(authHeader, process.env.TOKEN_SECRET as string, (err: any, user: any) => {
         console.log(err);
 
         if (err) return res.sendStatus(403).json(returnMessage('Unauthorized'));

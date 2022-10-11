@@ -6,13 +6,35 @@ import {
     Wrap,
     WrapItem,
 } from '@chakra-ui/react';
-import { useContext } from 'react';
+import axios from 'axios';
+import { useContext, useMemo, useState } from 'react';
 import { UserContext } from '../../../context/UserContext';
+import { UserModel } from '../../../Models/Models';
+import { API_URL, getJwtFromStorage } from '../../../utils/utils';
 import { AppWrapper } from '../../components/AppWrapper';
 import { BoxWithShadowMax } from '../../components/BoxWithShadow';
 
 export const ProfilePage = () => {
     const userContext = useContext(UserContext);
+    const [user, setUser] = useState<UserModel>();
+
+    useMemo(async () => {
+        const getUser = await axios
+            .get<UserModel>(
+                `${API_URL}/users/getByUsername/${userContext.name}`,
+                {
+                    headers: {
+                        authorization: getJwtFromStorage() ?? '',
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                }
+            )
+            .then((r) => {
+                console.log(r);
+            });
+    }, []);
+
     return (
         <AppWrapper>
             <Grid
@@ -27,7 +49,7 @@ export const ProfilePage = () => {
                                 <WrapItem>
                                     <Avatar
                                         name={userContext.name}
-                                        src={""}
+                                        src={''}
                                         size={'2xl'}
                                     />
                                 </WrapItem>

@@ -31,6 +31,24 @@ export const getUser = async (req: Request, res: Response) => {
 
 };
 
+export const getByUsername = async (req: Request, res: Response) => {
+    const paramUsername = req.params.username;
+
+    const user = await User.findOne({
+        where: {
+            username: paramUsername
+        }
+    });
+
+    if (!user) {
+        res.sendStatus(404).json(
+            returnMessage(ENTITY_NOT_FOUND(UserEntityName))
+        );
+    } else {
+        res.json(user);
+    }
+};
+
 export const createUser = async (req: Request, res: Response) => {
     const newUser: UserModel = {
         username: req.body.username as string,

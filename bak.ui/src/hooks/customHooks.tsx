@@ -37,7 +37,7 @@ export const fetchThisUser = async (
     endpoint: string,
     payload: { username: string; password: string },
     sucessToast: ToastInfo
-) => {
+): Promise<void> => {
     await axios
         .post(API_URL + endpoint, {
             username: payload.username,
