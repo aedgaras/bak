@@ -8,6 +8,7 @@ import reportWebVitals from './reportWebVitals';
 import { AppRouter } from './router/AppRouter';
 
 import * as serviceWorker from './serviceWorker';
+import { NavigationMenu } from './ui/components/NavigationMenu';
 
 const container = document.getElementById('root');
 if (!container) throw new Error('Failed to find the root element');
@@ -19,6 +20,7 @@ root.render(
         <ChakraProvider theme={theme}>
             <UserContext.Provider value={userContextValues()}>
                 <BrowserRouter>
+                <NavigationMenu/>
                     <AppRouter />
                 </BrowserRouter>
             </UserContext.Provider>
