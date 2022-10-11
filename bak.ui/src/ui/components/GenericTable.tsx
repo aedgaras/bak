@@ -1,5 +1,14 @@
 import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
-import { chakra, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import {
+    chakra,
+    Table,
+    TableContainer,
+    Tbody,
+    Td,
+    Th,
+    Thead,
+    Tr,
+} from '@chakra-ui/react';
 import {
     ColumnDef,
     flexRender,
@@ -32,7 +41,7 @@ export function DataTable<Data extends object>({
     });
 
     return (
-        <Table>
+        <Table as={TableContainer}>
             <Thead>
                 {table.getHeaderGroups().map((headerGroup) => (
                     <Tr key={headerGroup.id}>
