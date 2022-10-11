@@ -26,9 +26,7 @@ export const getUser = async (req: Request, res: Response) => {
         );
     } else {
         res.json(user);
-
     }
-
 };
 
 export const getByUsername = async (req: Request, res: Response) => {
@@ -36,8 +34,8 @@ export const getByUsername = async (req: Request, res: Response) => {
 
     const user = await User.findOne({
         where: {
-            username: paramUsername
-        }
+            username: paramUsername,
+        },
     });
 
     if (!user) {
