@@ -34,86 +34,89 @@ export const NavigationMenu = () => {
 
     return (
         <Box p={2}>
-        <Box
-            padding={2}
-            borderWidth="1px"
-            borderRadius="lg"
-            boxShadow={{ base: 'none', sm: useColorModeValue('md', 'md-dark') }}
-        >
-            <HStack>
-                {userContext.loggedIn ? (
-                    <>
-                        <Link to={'/'}>
-                            <Button>Home</Button>
-                        </Link>
-                        <Link to={'/users'}>
-                            <Button>Users</Button>
-                        </Link>
-                    </>
-                ) : null}
-                <Spacer />
-                {userContext.loggedIn ? (
-                    <>
-                        <Link to={'/profile'}>
-                            <Text>{`Hello, ${userContext.name}`}</Text>
-                        </Link>
-                        <Link to={'/profile'}>
-                            <Text>
-                                <Avatar
-                                    name="Dan Abrahmov"
-                                    src="https://bit.ly/dan-abramov"
-                                    size="sm"
-                                />
-                            </Text>
-                        </Link>
-                    </>
-                ) : null}
-                <ColorModeSwitcher />
-                <Menu>
-                    <MenuButton
-                        as={IconButton}
-                        aria-label="Options"
-                        icon={<HamburgerIcon />}
-                        variant="outline"
-                    />
-                    <MenuList
-                        boxShadow={{
-                            base: 'none',
-                            sm: useColorModeValue('md', 'md-dark'),
-                        }}
-                    >
-                        {!userContext.loggedIn ? (
-                            <>
-                                <Link to={'/login'}>
-                                    <MenuItem>Login</MenuItem>
-                                </Link>
-                                <Link to={'/register'}>
-                                    <MenuItem>Register</MenuItem>
-                                </Link>
-                            </>
-                        ) : null}
-                        {userContext.loggedIn ? (
-                            <>
-                                <Link to={'/profile'}>
-                                    <MenuItem>Profile</MenuItem>
-                                </Link>
-                                <MenuDivider />
-                                <MenuItem onClick={onOpen}>
-                                    <>
-                                        Logout
-                                        <AlertDialog
-                                            isOpen={isOpen}
-                                            leastDestructiveRef={cancelRef}
-                                            onClose={onClose}
-                                        >
-                                            <AlertDialogOverlay>
-                                                <AlertDialogContent>
-                                                    <AlertDialogHeader
-                                                        fontSize="lg"
-                                                        fontWeight="bold"
-                                                    >
-                                                        Logout
-                                                    </AlertDialogHeader>
+            <Box
+                padding={2}
+                borderWidth="1px"
+                borderRadius="lg"
+                boxShadow={{
+                    base: 'none',
+                    sm: useColorModeValue('md', 'md-dark'),
+                }}
+            >
+                <HStack>
+                    {userContext.loggedIn ? (
+                        <>
+                            <Link to={'/'}>
+                                <Button>Home</Button>
+                            </Link>
+                            <Link to={'/users'}>
+                                <Button>Users</Button>
+                            </Link>
+                        </>
+                    ) : null}
+                    <Spacer />
+                    {userContext.loggedIn ? (
+                        <>
+                            <Link to={'/profile'}>
+                                <Text>{`Hello, ${userContext.name}`}</Text>
+                            </Link>
+                            <Link to={'/profile'}>
+                                <Text>
+                                    <Avatar
+                                        name="Dan Abrahmov"
+                                        src="https://bit.ly/dan-abramov"
+                                        size="sm"
+                                    />
+                                </Text>
+                            </Link>
+                        </>
+                    ) : null}
+                    <ColorModeSwitcher />
+                    <Menu>
+                        <MenuButton
+                            as={IconButton}
+                            aria-label="Options"
+                            icon={<HamburgerIcon />}
+                            variant="outline"
+                        />
+                        <MenuList
+                            boxShadow={{
+                                base: 'none',
+                                sm: useColorModeValue('md', 'md-dark'),
+                            }}
+                        >
+                            {!userContext.loggedIn ? (
+                                <>
+                                    <Link to={'/login'}>
+                                        <MenuItem>Login</MenuItem>
+                                    </Link>
+                                    <Link to={'/register'}>
+                                        <MenuItem>Register</MenuItem>
+                                    </Link>
+                                </>
+                            ) : null}
+                            {userContext.loggedIn ? (
+                                <>
+                                    <Link to={'/profile'}>
+                                        <MenuItem>Profile</MenuItem>
+                                    </Link>
+                                    <MenuDivider />
+                                    <MenuItem onClick={onOpen}>
+                                        <>
+                                            Logout
+                                            <AlertDialog
+                                                isOpen={isOpen}
+                                                leastDestructiveRef={cancelRef}
+                                                onClose={onClose}
+                                            >
+                                                <AlertDialogOverlay>
+                                                    <AlertDialogContent>
+                                                        <AlertDialogHeader
+                                                            fontSize="lg"
+                                                            fontWeight="bold"
+                                                        >
+                                                            Logout
+                                                        </AlertDialogHeader>
 
                                                         <AlertDialogBody>
                                                             Are you sure you

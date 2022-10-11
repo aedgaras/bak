@@ -9,4 +9,4 @@ export const API_URL = 'http://localhost:3030/api';
 export type ToastInfo = {
     title: string;
     description: string;
-}
+};

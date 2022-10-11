@@ -58,9 +58,7 @@ export const fetchThisUser = async (
         .catch((e: AxiosError) => {
             toast({
                 title: e.code,
-                description:
-                    (e.response?.data as string) ??
-                    e.message,
+                description: (e.response?.data as string) ?? e.message,
                 status: 'error',
                 duration: 9000,
                 isClosable: true,
