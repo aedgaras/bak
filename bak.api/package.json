@@ -9,7 +9,7 @@
         "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
         "docker:dev": "docker compose -f docker-compose.yml up",
         "format": "npx prettier --write .",
-        "docker:remove": "docker stop bakapi;docker rm api; docker rmi api;docker rm db-1; docker rmi db-1;"
+        "docker:remove": "docker stop api;docker rm api; docker rmi api;docker stop db;docker rm db; docker rmi db;docker stop db-1;docker rm db-1; docker rmi db-1"
     },
     "keywords": [],
     "author": "",
