@@ -12,7 +12,7 @@ import { hashedPassword } from '../utils/utils';
 export const getUsers = async (req: Request, res: Response) => {
     const users = await User.findAll();
 
-    res.sendStatus(200).json(users);
+    res.json(users);
 };
 
 export const getUser = async (req: Request, res: Response) => {
@@ -24,9 +24,11 @@ export const getUser = async (req: Request, res: Response) => {
         res.sendStatus(404).json(
             returnMessage(ENTITY_NOT_FOUND(UserEntityName))
         );
+    } else {
+        res.json(user);
+
     }
 
-    res.sendStatus(200).json(user);
 };
 
 export const createUser = async (req: Request, res: Response) => {
