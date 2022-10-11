@@ -6,10 +6,13 @@ import {
     Wrap,
     WrapItem,
 } from '@chakra-ui/react';
+import { useContext } from 'react';
+import { UserContext } from '../../../context/UserContext';
 import { AppWrapper } from '../../components/AppWrapper';
 import { BoxWithShadowMax } from '../../components/BoxWithShadow';
 
 export const ProfilePage = () => {
+    const userContext = useContext(UserContext);
     return (
         <AppWrapper>
             <Grid
@@ -23,8 +26,8 @@ export const ProfilePage = () => {
                             <Wrap>
                                 <WrapItem>
                                     <Avatar
-                                        name="Dan Abrahmov"
-                                        src="https://bit.ly/dan-abramov"
+                                        name={userContext.name}
+                                        src={""}
                                         size={'2xl'}
                                     />
                                 </WrapItem>

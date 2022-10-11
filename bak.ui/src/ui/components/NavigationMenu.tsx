@@ -26,6 +26,7 @@ import { Link } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
 import { logout } from '../../services/Authentication';
 import { ColorModeSwitcher } from '../ColorModeSwitcher';
+import { BreadCrumbs } from './BreadCrumbs';
 
 export const NavigationMenu = () => {
     const userContext = useContext(UserContext);
@@ -33,130 +34,137 @@ export const NavigationMenu = () => {
     const cancelRef = useRef(null);
 
     return (
-        <Box p={2}>
-            <Box
-                padding={2}
-                borderWidth="1px"
-                borderRadius="lg"
-                boxShadow={{
-                    base: 'none',
-                    sm: useColorModeValue('md', 'md-dark'),
-                }}
-            >
-                <HStack>
-                    {userContext.loggedIn ? (
-                        <>
-                            <Link to={'/'}>
-                                <Button>Home</Button>
-                            </Link>
-                            <Link to={'/users'}>
-                                <Button>Users</Button>
-                            </Link>
-                        </>
-                    ) : null}
-                    <Spacer />
-                    {userContext.loggedIn ? (
-                        <>
-                            <Link to={'/profile'}>
-                                <Text>{`Hello, ${userContext.name}`}</Text>
-                            </Link>
-                            <Link to={'/profile'}>
-                                <Text>
-                                    <Avatar
-                                        name="Dan Abrahmov"
-                                        src="https://bit.ly/dan-abramov"
-                                        size="sm"
-                                    />
-                                </Text>
-                            </Link>
-                        </>
-                    ) : null}
-                    <ColorModeSwitcher />
-                    <Menu>
-                        <MenuButton
-                            as={IconButton}
-                            aria-label="Options"
-                            icon={<HamburgerIcon />}
-                            variant="outline"
-                        />
-                        <MenuList
-                            boxShadow={{
-                                base: 'none',
-                                sm: useColorModeValue('md', 'md-dark'),
-                            }}
-                        >
-                            {!userContext.loggedIn ? (
-                                <>
-                                    <Link to={'/login'}>
-                                        <MenuItem>Login</MenuItem>
-                                    </Link>
-                                    <Link to={'/register'}>
-                                        <MenuItem>Register</MenuItem>
-                                    </Link>
-                                </>
-                            ) : null}
-                            {userContext.loggedIn ? (
-                                <>
-                                    <Link to={'/profile'}>
-                                        <MenuItem>Profile</MenuItem>
-                                    </Link>
-                                    <MenuDivider />
-                                    <MenuItem onClick={onOpen}>
-                                        <>
-                                            Logout
-                                            <AlertDialog
-                                                isOpen={isOpen}
-                                                leastDestructiveRef={cancelRef}
-                                                onClose={onClose}
-                                            >
-                                                <AlertDialogOverlay>
-                                                    <AlertDialogContent>
-                                                        <AlertDialogHeader
-                                                            fontSize="lg"
-                                                            fontWeight="bold"
-                                                        >
-                                                            Logout
-                                                        </AlertDialogHeader>
-
-                                                        <AlertDialogBody>
-                                                            Are you sure you
-                                                            want to logout?
-                                                        </AlertDialogBody>
-
-                                                        <AlertDialogFooter>
-                                                            <Button
-                                                                ref={cancelRef}
-                                                                onClick={
-                                                                    onClose
-                                                                }
-                                                            >
-                                                                Cancel
-                                                            </Button>
-                                                            <Button
-                                                                colorScheme="red"
-                                                                onClick={() => {
-                                                                    logout();
-                                                                    window.location.assign(
-                                                                        '/'
-                                                                    );
-                                                                    onClose;
-                                                                }}
-                                                                ml={3}
+        <Box>
+            <Box p={2}>
+                <Box
+                    padding={2}
+                    borderWidth="1px"
+                    borderRadius="lg"
+                    boxShadow={{
+                        base: 'none',
+                        sm: useColorModeValue('md', 'md-dark'),
+                    }}
+                >
+                    <HStack>
+                        {userContext.loggedIn ? (
+                            <>
+                                <Link to={'/'}>
+                                    <Button>Home</Button>
+                                </Link>
+                                <Link to={'/users'}>
+                                    <Button>Users</Button>
+                                </Link>
+                            </>
+                        ) : null}
+                        <Spacer />
+                        {userContext.loggedIn ? (
+                            <>
+                                <Link to={'/profile'}>
+                                    <Text>{`Hello, ${userContext.name}`}</Text>
+                                </Link>
+                                <Link to={'/profile'}>
+                                    <Text>
+                                        <Avatar
+                                            name={userContext.name}
+                                            src={''}
+                                            size="sm"
+                                        />
+                                    </Text>
+                                </Link>
+                            </>
+                        ) : null}
+                        <ColorModeSwitcher />
+                        <Menu>
+                            <MenuButton
+                                as={IconButton}
+                                aria-label="Options"
+                                icon={<HamburgerIcon />}
+                                variant="outline"
+                            />
+                            <MenuList
+                                boxShadow={{
+                                    base: 'none',
+                                    sm: useColorModeValue('md', 'md-dark'),
+                                }}
+                            >
+                                {!userContext.loggedIn ? (
+                                    <>
+                                        <Link to={'/login'}>
+                                            <MenuItem>Login</MenuItem>
+                                        </Link>
+                                        <Link to={'/register'}>
+                                            <MenuItem>Register</MenuItem>
+                                        </Link>
+                                    </>
+                                ) : null}
+                                {userContext.loggedIn ? (
+                                    <>
+                                        <Link to={'/profile'}>
+                                            <MenuItem>Profile</MenuItem>
+                                        </Link>
+                                        <MenuDivider />
+                                        <MenuItem onClick={onOpen}>
+                                            <>
+                                                Logout
+                                                <AlertDialog
+                                                    isOpen={isOpen}
+                                                    leastDestructiveRef={
+                                                        cancelRef
+                                                    }
+                                                    onClose={onClose}
+                                                >
+                                                    <AlertDialogOverlay>
+                                                        <AlertDialogContent>
+                                                            <AlertDialogHeader
+                                                                fontSize="lg"
+                                                                fontWeight="bold"
                                                             >
                                                                 Logout
-                                                            </Button>
-                                                        </AlertDialogFooter>
-                                                    </AlertDialogContent>
-                                                </AlertDialogOverlay>
-                                            </AlertDialog>
-                                        </>
-                                    </MenuItem>
-                                </>
-                            ) : null}
-                        </MenuList>
-                    </Menu>
-                </HStack>
+                                                            </AlertDialogHeader>
+
+                                                            <AlertDialogBody>
+                                                                Are you sure you
+                                                                want to logout?
+                                                            </AlertDialogBody>
+
+                                                            <AlertDialogFooter>
+                                                                <Button
+                                                                    ref={
+                                                                        cancelRef
+                                                                    }
+                                                                    onClick={
+                                                                        onClose
+                                                                    }
+                                                                >
+                                                                    Cancel
+                                                                </Button>
+                                                                <Button
+                                                                    colorScheme="red"
+                                                                    onClick={() => {
+                                                                        logout();
+                                                                        window.location.assign(
+                                                                            '/'
+                                                                        );
+                                                                        onClose;
+                                                                    }}
+                                                                    ml={3}
+                                                                >
+                                                                    Logout
+                                                                </Button>
+                                                            </AlertDialogFooter>
+                                                        </AlertDialogContent>
+                                                    </AlertDialogOverlay>
+                                                </AlertDialog>
+                                            </>
+                                        </MenuItem>
+                                    </>
+                                ) : null}
+                            </MenuList>
+                        </Menu>
+                    </HStack>
+                </Box>
             </Box>
+            <BreadCrumbs />
         </Box>
     );
 };
