@@ -32,7 +32,8 @@
         "build": "tsc && vite build",
         "serve": "vite preview",
         "format": "prettier --write .",
-        "docker:dev": "docker compose -f docker-compose.yml up"
+        "docker:dev": "docker compose -f docker-compose.yml up",
+        "docker:remove": "docker stop client;docker rm client; docker rmi client"
     },
     "browserslist": {
         "production": [
