@@ -13,14 +13,14 @@ export type ChildrenProps = {
 
 export const AppWrapper = ({ children }: ChildrenProps): JSX.Element => {
     return (
-        <Box padding={2}>
+        <Box paddingLeft={2} paddingRight={2} paddingBottom={2}>
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
             >
-                <Box paddingTop={2}>{children}</Box>
+                <Box>{children}</Box>
             </motion.div>
         </Box>
     );
