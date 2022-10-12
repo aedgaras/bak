@@ -14,14 +14,16 @@ export const login = async (req: Request, res: Response) => {
     });
 
     if (!user) {
-        res.status(400).json("Such user doesn't exist");
+        return res.status(400).json("Such user doesn't exist");
     } else {
         const hashedPass = user.getDataValue('password');
         const match = bcrypt.compareSync(password, hashedPass);
         if (!match) {
-            res.status(300).send('Password is incorrect.');
+            return res.status(300).send('Password is incorrect.');
         } else {
-            res.status(200).json(generateAccessToken({ username: username }));
+            return res
+                .status(200)
+                .json(generateAccessToken({ username: username }));
         }
     }
 };
@@ -35,7 +37,7 @@ export const register = async (req: Request, res: Response) => {
     });
 
     if (user) {
-        res.status(400).send('Such user already exists.');
+        return res.status(400).send('Such user already exists.');
     } else {
         const newUser = await User.create({
             username: username,
@@ -45,6 +47,6 @@ export const register = async (req: Request, res: Response) => {
         await newUser.save();
 
         const token = generateAccessToken({ username: username });
-        res.status(200).json(token);
+        return res.status(200).json(token);
     }
 };

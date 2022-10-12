@@ -26,7 +26,7 @@ export function authenticateToken(
 
             req.body.user = user;
 
-            next();
+            return next();
         }
     );
 }
