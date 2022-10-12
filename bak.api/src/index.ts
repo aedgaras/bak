@@ -21,7 +21,7 @@ app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
 
 app.listen(PORT_API, async () => {
-    await db.sync({ force: true });
+    await db.sync({ alter: true });
     console.log(
         `⚡️[server]: Server is running at http://localhost:${PORT_API}`
     );
