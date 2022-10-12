@@ -12,7 +12,7 @@ import { hashedPassword } from '../utils/utils';
 export const getUsers = async (req: Request, res: Response) => {
     const users = await User.findAll();
 
-    res.json(users);
+    return res.json(users);
 };
 
 export const getUser = async (req: Request, res: Response) => {
@@ -21,11 +21,11 @@ export const getUser = async (req: Request, res: Response) => {
     const user = await User.findByPk(id);
 
     if (!user) {
-        res.sendStatus(404).json(
-            returnMessage(ENTITY_NOT_FOUND(UserEntityName))
-        );
+        return res
+            .sendStatus(404)
+            .json(returnMessage(ENTITY_NOT_FOUND(UserEntityName)));
     } else {
-        res.json(user);
+        return res.json(user);
     }
 };
 
@@ -39,11 +39,11 @@ export const getByUsername = async (req: Request, res: Response) => {
     });
 
     if (!user) {
-        res.sendStatus(404).json(
-            returnMessage(ENTITY_NOT_FOUND(UserEntityName))
-        );
+        return res
+            .sendStatus(404)
+            .json(returnMessage(ENTITY_NOT_FOUND(UserEntityName)));
     } else {
-        res.json(user);
+        return res.json(user);
     }
 };
 
@@ -60,13 +60,13 @@ export const createUser = async (req: Request, res: Response) => {
     });
 
     if (!existingUser) {
-        res.status(400).send(ENTITY_ALREADY_EXIST(UserEntityName));
+        return res.status(400).send(ENTITY_ALREADY_EXIST(UserEntityName));
     } else {
         const createdUser = await User.create({ ...newUser });
 
         await createdUser.save();
 
-        res.sendStatus(200);
+        return res.sendStatus(200);
     }
 };
 
@@ -85,11 +85,11 @@ export const updateUser = async (req: Request, res: Response) => {
 
         await existingUser.save();
 
-        res.status(200);
+        return res.status(200);
     } else {
-        res.sendStatus(401).json(
-            returnMessage(ENTITY_DOESNT_EXIST(UserEntityName))
-        );
+        return res
+            .sendStatus(401)
+            .json(returnMessage(ENTITY_DOESNT_EXIST(UserEntityName)));
     }
 };
 
@@ -99,14 +99,14 @@ export const deleteUser = async (req: Request, res: Response) => {
     const user = await User.findByPk(userId);
 
     if (!user) {
-        res.sendStatus(404).json(
-            returnMessage(ENTITY_NOT_FOUND(UserEntityName))
-        );
+        return res
+            .sendStatus(404)
+            .json(returnMessage(ENTITY_NOT_FOUND(UserEntityName)));
     } else {
         await user.destroy();
 
         await user.save();
 
-        res.status(200);
+        return res.status(200);
     }
 };
