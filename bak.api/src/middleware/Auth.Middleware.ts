@@ -11,9 +11,10 @@ export function authenticateToken(
 ) {
     const authHeader = req.headers['authorization']?.trim();
     const token = authHeader && authHeader.split(' ')[1];
-    console.log(authHeader);
 
-    if (authHeader == null) return res.sendStatus(401);
+    if (authHeader == null) {
+        return res.sendStatus(401);
+    }
 
     verify(
         authHeader,

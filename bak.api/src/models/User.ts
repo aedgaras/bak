@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize';
 import { db } from '../db/Config';
+import { hashedPassword } from '../utils/utils';
 
 export const UserEntityName = 'User';
 
@@ -31,3 +32,19 @@ export const User = db.define(
         // Other model options go here
     }
 );
+
+export const seedInitialAdmin = async () => {
+    const users = await User.findAndCountAll();
+
+    if (users.count > 0) {
+        return;
+    }
+
+    const initialAdmin = await User.create({
+        username: 'admin',
+        password: hashedPassword('admin'),
+        role: 'admin',
+    });
+
+    initialAdmin.save();
+};
