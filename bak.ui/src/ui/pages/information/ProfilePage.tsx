@@ -6,10 +6,29 @@ import {
     Wrap,
     WrapItem,
 } from '@chakra-ui/react';
+import axios from 'axios';
+import { useContext, useMemo, useState } from 'react';
+import { UserContext } from '../../../context/UserContext';
+import { UserModel } from '../../../Models/Models';
+import { API_URL, axiosAuthHeaders } from '../../../utils/utils';
 import { AppWrapper } from '../../components/AppWrapper';
 import { BoxWithShadowMax } from '../../components/BoxWithShadow';
 
 export const ProfilePage = () => {
+    const userContext = useContext(UserContext);
+    const [user, setUser] = useState<UserModel>();
+
+    useMemo(async () => {
+        const getUser = await axios
+            .get<UserModel>(
+                `${API_URL}/users/getByUsername/${userContext.name}`,
+                axiosAuthHeaders
+            )
+            .then((r) => {
+                console.log(r);
+            });
+    }, []);
+
     return (
         <AppWrapper>
             <Grid
@@ -23,8 +42,8 @@ export const ProfilePage = () => {
                             <Wrap>
                                 <WrapItem>
                                     <Avatar
-                                        name="Dan Abrahmov"
-                                        src="https://bit.ly/dan-abramov"
+                                        name={userContext.name}
+                                        src={''}
                                         size={'2xl'}
                                     />
                                 </WrapItem>

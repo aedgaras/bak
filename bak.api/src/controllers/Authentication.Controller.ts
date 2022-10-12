@@ -4,6 +4,7 @@ import { generateAccessToken } from '../configuration/Configuration';
 import { User } from '../models/User';
 import { hashedPassword } from '../utils/utils';
 import * as bcrypt from 'bcrypt';
+
 export const login = async (req: Request, res: Response) => {
     const username = req.body.username as string;
     const password = req.body.password as string;

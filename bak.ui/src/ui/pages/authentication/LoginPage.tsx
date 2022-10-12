@@ -15,12 +15,13 @@ import {
     useToast,
     VStack,
 } from '@chakra-ui/react';
-import axios, { AxiosError } from 'axios';
 import { Field, Formik } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
-import { fetchThisUser, validatePassword, validateUsername } from '../../../hooks/customHooks';
-import { JWT_NAME } from '../../../services/Authentication';
-import { sleep } from '../../../utils/utils';
+import {
+    fetchThisUser,
+    validatePassword,
+    validateUsername,
+} from '../../../hooks/customHooks';
 import { AppWrapper } from '../../components/AppWrapper';
 
 export const LoginPage = () => {
@@ -57,11 +58,18 @@ export const LoginPage = () => {
                             initialValues={initialValue}
                             onSubmit={async (values, actions) => {
                                 actions.setSubmitting(true);
-                                await fetchThisUser(toast, '/auth/login',
-                                {
-                                    username: values.username,
-                                    password: values.password,
-                                }, {title: 'Succes', description: 'Logged in successfully.'});
+                                await fetchThisUser(
+                                    toast,
+                                    '/auth/login',
+                                    {
+                                        username: values.username,
+                                        password: values.password,
+                                    },
+                                    {
+                                        title: 'Succes',
+                                        description: 'Logged in successfully.',
+                                    }
+                                );
                             }}
                         >
                             {({
