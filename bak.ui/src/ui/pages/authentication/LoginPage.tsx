@@ -28,6 +28,7 @@ export const LoginPage = () => {
     const initialValue = { username: '', password: '' };
     const toast = useToast();
     const navigate = useNavigate();
+    document.title = 'Login';
 
     return (
         <AppWrapper>

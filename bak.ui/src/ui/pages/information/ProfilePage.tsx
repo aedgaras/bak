@@ -28,6 +28,7 @@ export const ProfilePage = () => {
     const [user, setUser] = useState<UserModel>();
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
     const [cantEdit, setCantEdit] = useState<boolean>(true);
+    document.title = 'Profile page';
 
     useMemo(async () => {
         await axios

@@ -28,7 +28,9 @@ export const UserDetailsPage = () => {
     const isNotCreating = params.userId ? true : false;
 
     useMemo(async () => {
+        document.title = 'Profile Creation';
         if (isNotCreating) {
+            document.title = 'Profile Details';
             await axios
                 .get<UserModel>(
                     `${API_URL}/users/${params.userId}`,

@@ -39,6 +39,7 @@ export const UsersPage = () => {
     const [users, setUsers] = useState<UserModel[]>([]);
     const [isLoaded, setIsLoaded] = useState<boolean>(true);
     const [queryFilter, setQueryFilter] = useState<string>('');
+    document.title = 'Users Page';
 
     const filteredUsers: UserModel[] = [];
 

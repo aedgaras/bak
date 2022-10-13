@@ -25,6 +25,7 @@ import error = Simulate.error;
 export const RegisterPage = () => {
     const initialValue = { username: '', password: '' };
     const toast = useToast();
+    document.title = 'Register';
 
     return (
         <AppWrapper>
