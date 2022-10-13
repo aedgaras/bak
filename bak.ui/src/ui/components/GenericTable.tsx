@@ -103,16 +103,17 @@ export function UserDataTable<Data extends object>({
                         })}
                         <Td key={row.id + '_details'}>
                             <Link to={`${row.getVisibleCells()[0].getValue()}`}>
-                            <Button
-                            >
-                                Details
-                            </Button></Link>
-
+                                <Button>Details</Button>
+                            </Link>
                         </Td>
                         <Td key={row.id + '_delete'}>
                             <Button
                                 onClick={(e) => {
-                                    setToDeleteId([row.getVisibleCells()[0].getValue() as string])
+                                    setToDeleteId([
+                                        row
+                                            .getVisibleCells()[0]
+                                            .getValue() as string,
+                                    ]);
                                     onOpen();
                                 }}
                             >
@@ -141,9 +142,15 @@ export function UserDataTable<Data extends object>({
                             <Button ref={cancelRef} onClick={onClose}>
                                 Cancel
                             </Button>
-                            <Button colorScheme="red" onClick={(e) =>{console.log(toDeleteId);onClose();}} ml={3}>
+                            <Button
+                                colorScheme="red"
+                                onClick={(e) => {
+                                    console.log(toDeleteId);
+                                    onClose();
+                                }}
+                                ml={3}
+                            >
                                 Delete
-
                             </Button>
                         </AlertDialogFooter>
                     </AlertDialogContent>

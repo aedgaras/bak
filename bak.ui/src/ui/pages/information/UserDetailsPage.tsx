@@ -22,7 +22,7 @@ export const UserDetailsPage = () => {
     const userContext = useContext(UserContext);
     const [user, setUser] = useState<UserModel>();
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
-    const params = useParams(); 
+    const params = useParams();
 
     useMemo(async () => {
         await axios

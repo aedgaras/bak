@@ -19,7 +19,7 @@ import axios, { AxiosResponse } from 'axios';
 import { ChangeEvent, useContext, useMemo, useState } from 'react';
 import { UserContext } from '../../../context/UserContext';
 import { UserModel } from '../../../Models/Models';
-import { API_URL, axiosAuthHeaders, sleep } from '../../../utils/utils';
+import { API_URL, axiosAuthHeaders } from '../../../utils/utils';
 import { AppWrapper } from '../../components/AppWrapper';
 import { BoxWithShadowMax } from '../../components/BoxWithShadow';
 
