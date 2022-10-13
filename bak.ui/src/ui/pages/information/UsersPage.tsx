@@ -18,9 +18,9 @@ const columns = [
         cell: (info) => info.getValue(),
         header: 'Username',
     }),
-    columnHelper.accessor('password', {
+    columnHelper.accessor('role', {
         cell: (info) => info.getValue(),
-        header: 'Password',
+        header: 'Role',
     }),
     columnHelper.accessor('createdAt', {
         cell: (info) => info.getValue(),
@@ -64,7 +64,7 @@ export const UsersPage = () => {
                     user.username
                         .toLowerCase()
                         .includes(queryFilter.toLowerCase()) ||
-                    user.password
+                    user.role
                         .toLowerCase()
                         .includes(queryFilter.toLowerCase()) ||
                     user.createdAt

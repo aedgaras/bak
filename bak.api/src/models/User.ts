@@ -1,4 +1,4 @@
-import { DataTypes, Model } from 'sequelize';
+import { DataTypes, Model, where } from 'sequelize';
 import { db } from '../db/Config';
 import { hashedPassword } from '../utils/utils';
 
@@ -34,8 +34,12 @@ User.init(
     }
 );
 
-export const seedInitialAdmin = async () => {
-    const users = await User.findAndCountAll();
+const seedInitialAdmin = async () => {
+    const users = await User.findAndCountAll({
+        where: {
+            username: 'admin',
+        },
+    });
 
     if (users.count > 0) {
         return;
@@ -49,3 +53,28 @@ export const seedInitialAdmin = async () => {
 
     initialAdmin.save();
 };
+
+const seedInitialUser = async () => {
+    const users = await User.findAndCountAll({
+        where: {
+            username: 'user',
+        },
+    });
+
+    if (users.count > 0) {
+        return;
+    }
+
+    const initialUser = await User.create({
+        username: 'user',
+        password: hashedPassword('user'),
+        role: 'user',
+    });
+
+    initialUser.save();
+};
+
+export const seedInitialUsers = async () =>{
+    seedInitialAdmin();
+    seedInitialUser();
+}

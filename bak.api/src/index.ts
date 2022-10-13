@@ -5,7 +5,7 @@ import cors from 'cors';
 import { userRouter } from './routes/User.Routes';
 import { authRouter } from './routes/Authentication.Routes';
 import { db } from './db/Config';
-import { seedInitialAdmin } from './models/User';
+import { seedInitialUsers } from './models/User';
 
 dotenv.config();
 
@@ -23,7 +23,7 @@ app.use('/api/auth', authRouter);
 
 app.listen(PORT_API, async () => {
     await db.sync({ force: true });
-    await seedInitialAdmin();
+    await seedInitialUsers();
     console.log(
         `⚡️[server]: Server is running at http://localhost:${PORT_API}`
     );
