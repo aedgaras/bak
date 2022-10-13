@@ -1,4 +1,4 @@
-import { DataTypes } from 'sequelize';
+import { DataTypes, Model } from 'sequelize';
 import { db } from '../db/Config';
 import { hashedPassword } from '../utils/utils';
 
@@ -9,8 +9,9 @@ export interface UserModel {
     password: string;
 }
 
-export const User = db.define(
-    UserEntityName,
+export class User extends Model { };
+
+User.init(
     {
         // Model attributes are defined here
         username: {
@@ -29,7 +30,8 @@ export const User = db.define(
         },
     },
     {
-        // Other model options go here
+        sequelize: db,
+        modelName: UserEntityName
     }
 );
 
