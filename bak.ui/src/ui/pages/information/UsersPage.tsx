@@ -6,7 +6,7 @@ import { UserModel } from '../../../Models/Models';
 import { axiosAuthHeaders } from '../../../utils/utils';
 import { AppWrapper } from '../../components/AppWrapper';
 import { BoxWithShadowMax } from '../../components/BoxWithShadow';
-import { DataTable } from '../../components/GenericTable';
+import { UserDataTable } from '../../components/GenericTable';
 
 const columnHelper = createColumnHelper<UserModel>();
 const columns = [
@@ -109,7 +109,7 @@ export const UsersPage = () => {
                     onChange={(e) => setQueryFilter(e.target.value)}
                 />
                 <Skeleton isLoaded={isLoaded}>
-                    <DataTable data={usersToDisplay} columns={columns} />
+                    <UserDataTable data={usersToDisplay} columns={columns} />
                 </Skeleton>
             </BoxWithShadowMax>
         </AppWrapper>

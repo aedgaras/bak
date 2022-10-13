@@ -1,9 +1,25 @@
-import { Avatar, FormControl, FormLabel, Grid, GridItem, Input, Skeleton, VStack } from '@chakra-ui/react';
+import {
+    Avatar,
+    Button,
+    Divider,
+    FormControl,
+    FormLabel,
+    Grid,
+    GridItem,
+    HStack,
+    Input,
+    Select,
+    Skeleton,
+    Spacer,
+    Switch,
+    Text,
+    VStack,
+} from '@chakra-ui/react';
 import axios, { AxiosResponse } from 'axios';
-import { useContext, useMemo, useState } from 'react';
+import { ChangeEvent, useContext, useMemo, useState } from 'react';
 import { UserContext } from '../../../context/UserContext';
 import { UserModel } from '../../../Models/Models';
-import { API_URL, axiosAuthHeaders } from '../../../utils/utils';
+import { API_URL, axiosAuthHeaders, sleep } from '../../../utils/utils';
 import { AppWrapper } from '../../components/AppWrapper';
 import { BoxWithShadowMax } from '../../components/BoxWithShadow';
 
@@ -11,6 +27,7 @@ export const ProfilePage = () => {
     const userContext = useContext(UserContext);
     const [user, setUser] = useState<UserModel>();
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
+    const [cantEdit, setCantEdit] = useState<boolean>(true);
 
     useMemo(async () => {
         await axios
@@ -22,7 +39,6 @@ export const ProfilePage = () => {
                 setUser(r.data);
                 setIsLoaded(true);
             });
-            console.log('rendered')
     }, [userContext.name]);
 
     return (
@@ -35,7 +51,18 @@ export const ProfilePage = () => {
                 <GridItem rowSpan={2} colSpan={1}>
                     <Skeleton isLoaded={isLoaded}>
                         <BoxWithShadowMax>
-                            <VStack>
+                            <VStack p={1}>
+                                <HStack w={'100%'}>
+                                    <Text>Profile editing</Text>
+                                    <Spacer />
+                                    <Switch
+                                        defaultChecked={false}
+                                        onChange={(
+                                            event: ChangeEvent<HTMLInputElement>
+                                        ) => setCantEdit(!cantEdit)}
+                                    />
+                                </HStack>
+                                <Divider />
                                 <Avatar
                                     name={userContext.name}
                                     src={''}
@@ -43,16 +70,37 @@ export const ProfilePage = () => {
                                 />
                                 <FormControl>
                                     <FormLabel>Username</FormLabel>
-                                    <Input value={user?.username}/>
+                                    <Input
+                                        isDisabled={cantEdit}
+                                        value={user?.username}
+                                    />
                                 </FormControl>
                                 <FormControl>
                                     <FormLabel>Password</FormLabel>
-                                    <Input type={'password'} value={user?.password}/>
+                                    <Input
+                                        isDisabled={cantEdit}
+                                        type={'password'}
+                                    />
                                 </FormControl>
                                 <FormControl>
                                     <FormLabel>Role</FormLabel>
-                                    <Input value={user?.role}/>
+                                    <Select
+                                        isDisabled={cantEdit}
+                                        placeholder={
+                                            user?.role == 'admin'
+                                                ? 'Admin'
+                                                : 'User'
+                                        }
+                                    >
+                                        <option value={'admin'}>Admin</option>
+                                        <option value={'user'}>User</option>
+                                    </Select>
                                 </FormControl>
+                                {cantEdit ? null : (
+                                    <HStack w={'100%'}>
+                                        <Button type="submit">Submit</Button>
+                                    </HStack>
+                                )}
                             </VStack>
                         </BoxWithShadowMax>
                     </Skeleton>

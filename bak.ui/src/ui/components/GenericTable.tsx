@@ -1,5 +1,12 @@
-import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
+import { DeleteIcon, TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
 import {
+    AlertDialog,
+    AlertDialogBody,
+    AlertDialogContent,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogOverlay,
+    Button,
     chakra,
     Table,
     TableContainer,
@@ -8,6 +15,7 @@ import {
     Th,
     Thead,
     Tr,
+    useDisclosure,
 } from '@chakra-ui/react';
 import {
     ColumnDef,
@@ -18,17 +26,21 @@ import {
     useReactTable,
 } from '@tanstack/react-table';
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 
 export type DataTableProps<Data extends object> = {
     data: Data[];
     columns: ColumnDef<Data, any>[];
 };
 
-export function DataTable<Data extends object>({
+export function UserDataTable<Data extends object>({
     data,
     columns,
 }: DataTableProps<Data>) {
     const [sorting, setSorting] = React.useState<SortingState>([]);
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const [toDeleteId, setToDeleteId] = React.useState<string[]>([]);
+    const cancelRef = React.useRef(null);
     const table = useReactTable({
         columns,
         data,
@@ -70,6 +82,8 @@ export function DataTable<Data extends object>({
                                 </Th>
                             );
                         })}
+                        <Th></Th>
+                        <Th></Th>
                     </Tr>
                 ))}
             </Thead>
@@ -87,9 +101,54 @@ export function DataTable<Data extends object>({
                                 </Td>
                             );
                         })}
+                        <Td key={row.id + '_details'}>
+                            <Link to={`${row.getVisibleCells()[0].getValue()}`}>
+                            <Button
+                            >
+                                Details
+                            </Button></Link>
+
+                        </Td>
+                        <Td key={row.id + '_delete'}>
+                            <Button
+                                onClick={(e) => {
+                                    setToDeleteId([row.getVisibleCells()[0].getValue() as string])
+                                    onOpen();
+                                }}
+                            >
+                                <DeleteIcon color={'red'} />
+                            </Button>
+                        </Td>
                     </Tr>
                 ))}
             </Tbody>
+            <AlertDialog
+                isOpen={isOpen}
+                leastDestructiveRef={cancelRef}
+                onClose={onClose}
+            >
+                <AlertDialogOverlay>
+                    <AlertDialogContent>
+                        <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                            Delete User
+                        </AlertDialogHeader>
+
+                        <AlertDialogBody>
+                            Are you sure? You can't undo this action afterwards.
+                        </AlertDialogBody>
+
+                        <AlertDialogFooter>
+                            <Button ref={cancelRef} onClick={onClose}>
+                                Cancel
+                            </Button>
+                            <Button colorScheme="red" onClick={(e) =>{console.log(toDeleteId);onClose();}} ml={3}>
+                                Delete
+
+                            </Button>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialogOverlay>
+            </AlertDialog>
         </Table>
     );
 }
