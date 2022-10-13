@@ -21,9 +21,6 @@ User.init(
         password: {
             type: DataTypes.STRING,
             allowNull: false,
-            validate: {
-                is: /^[0-9a-f]{64}$/i,
-            },
         },
         role: {
             type: DataTypes.ENUM('admin', 'user'),
