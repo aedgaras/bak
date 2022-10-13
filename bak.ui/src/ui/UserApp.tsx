@@ -5,7 +5,7 @@ import { AppWrapper } from './components/AppWrapper';
 
 export const UserApp = () => {
     const userContext = useContext(UserContext);
-    document.title = 'Home';
+    document.title = 'Blossom HR';
     return (
         <AppWrapper>
             <Center height={'100vh'}>
