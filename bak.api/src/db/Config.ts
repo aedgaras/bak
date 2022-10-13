@@ -13,9 +13,3 @@ export const db = new Sequelize({
     dialect: 'postgres',
     logging: false,
 });
-
-
-
-
-
-    

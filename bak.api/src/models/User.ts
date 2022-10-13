@@ -27,6 +27,15 @@ User.init(
             allowNull: false,
             defaultValue: 'user',
         },
+        name: {
+            type: DataTypes.STRING,
+        },
+        lastname: {
+            type: DataTypes.STRING,
+        },
+        email: {
+            type: DataTypes.STRING,
+        },
     },
     {
         sequelize: db,
@@ -74,7 +83,36 @@ const seedInitialUser = async () => {
     initialUser.save();
 };
 
-export const seedInitialUsers = async () =>{
+const seedInitialRandomUsers = async () => {
+    const randomNames: string[] = [
+        'testRandom1',
+        'testRandom2',
+        'testRandom3',
+        'testRandom4',
+        'testRandom5',
+    ];
+    const users = await User.findAndCountAll({
+        where: {
+            username: randomNames,
+        },
+    });
+
+    if (users.count > 0) {
+        return;
+    }
+
+    randomNames.map(async (name) => {
+        const initialUser = await User.create({
+            username: name,
+            password: hashedPassword(name),
+            role: 'user',
+        });
+        initialUser.save();
+    });
+};
+
+export const seedInitialUsers = async () => {
     seedInitialAdmin();
     seedInitialUser();
-}
+    seedInitialRandomUsers();
+};
