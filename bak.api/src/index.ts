@@ -22,7 +22,7 @@ app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
 
 app.listen(PORT_API, async () => {
-    await db.sync({ alter: true });
+    await db.sync({ force: true });
     await seedInitialAdmin();
     console.log(
         `⚡️[server]: Server is running at http://localhost:${PORT_API}`

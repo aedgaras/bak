@@ -9,11 +9,10 @@ export interface UserModel {
     password: string;
 }
 
-export class User extends Model { };
+export class User extends Model {}
 
 User.init(
     {
-        // Model attributes are defined here
         username: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -31,7 +30,7 @@ User.init(
     },
     {
         sequelize: db,
-        modelName: UserEntityName
+        modelName: UserEntityName,
     }
 );
 

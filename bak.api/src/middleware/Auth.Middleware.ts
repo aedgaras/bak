@@ -33,7 +33,6 @@ export function authenticateToken(
 
 export const authRoleMiddleware = (roles: Roles[]) => {
     return (req: Request, res: Response, next: NextFunction) => {
-
         roles.map((role) => {
             if (AppRoles.includes(role)) {
                 return next();
