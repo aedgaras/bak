@@ -53,109 +53,119 @@ export function UserDataTable<Data extends object>({
     });
 
     return (
-        <Table as={TableContainer}>
-            <Thead>
-                {table.getHeaderGroups().map((headerGroup) => (
-                    <Tr key={headerGroup.id}>
-                        {headerGroup.headers.map((header) => {
-                            const meta: any = header.column.columnDef.meta;
-                            return (
-                                <Th
-                                    key={header.id}
-                                    onClick={header.column.getToggleSortingHandler()}
-                                    isNumeric={meta?.isNumeric}
+        <TableContainer>
+            <Table as={Table} variant="striped" colorScheme="teal">
+                <Thead>
+                    {table.getHeaderGroups().map((headerGroup) => (
+                        <Tr key={headerGroup.id}>
+                            {headerGroup.headers.map((header) => {
+                                const meta: any = header.column.columnDef.meta;
+                                return (
+                                    <Th
+                                        key={header.id}
+                                        onClick={header.column.getToggleSortingHandler()}
+                                        isNumeric={meta?.isNumeric}
+                                    >
+                                        {flexRender(
+                                            header.column.columnDef.header,
+                                            header.getContext()
+                                        )}
+                                        <chakra.span pl="4">
+                                            {header.column.getIsSorted() ? (
+                                                header.column.getIsSorted() ===
+                                                'desc' ? (
+                                                    <TriangleDownIcon aria-label="sorted descending" />
+                                                ) : (
+                                                    <TriangleUpIcon aria-label="sorted ascending" />
+                                                )
+                                            ) : null}
+                                        </chakra.span>
+                                    </Th>
+                                );
+                            })}
+                            <Th></Th>
+                            <Th></Th>
+                        </Tr>
+                    ))}
+                </Thead>
+                <Tbody>
+                    {table.getRowModel().rows.map((row) => (
+                        <Tr key={row.id}>
+                            {row.getVisibleCells().map((cell) => {
+                                const meta: any = cell.column.columnDef.meta;
+                                return (
+                                    <Td
+                                        key={cell.id}
+                                        isNumeric={meta?.isNumeric}
+                                    >
+                                        {flexRender(
+                                            cell.column.columnDef.cell,
+                                            cell.getContext()
+                                        )}
+                                    </Td>
+                                );
+                            })}
+                            <Td key={row.id + '_details'}>
+                                <Link
+                                    to={`${row
+                                        .getVisibleCells()[0]
+                                        .getValue()}`}
                                 >
-                                    {flexRender(
-                                        header.column.columnDef.header,
-                                        header.getContext()
-                                    )}
-                                    <chakra.span pl="4">
-                                        {header.column.getIsSorted() ? (
-                                            header.column.getIsSorted() ===
-                                            'desc' ? (
-                                                <TriangleDownIcon aria-label="sorted descending" />
-                                            ) : (
-                                                <TriangleUpIcon aria-label="sorted ascending" />
-                                            )
-                                        ) : null}
-                                    </chakra.span>
-                                </Th>
-                            );
-                        })}
-                        <Th></Th>
-                        <Th></Th>
-                    </Tr>
-                ))}
-            </Thead>
-            <Tbody>
-                {table.getRowModel().rows.map((row) => (
-                    <Tr key={row.id}>
-                        {row.getVisibleCells().map((cell) => {
-                            const meta: any = cell.column.columnDef.meta;
-                            return (
-                                <Td key={cell.id} isNumeric={meta?.isNumeric}>
-                                    {flexRender(
-                                        cell.column.columnDef.cell,
-                                        cell.getContext()
-                                    )}
-                                </Td>
-                            );
-                        })}
-                        <Td key={row.id + '_details'}>
-                            <Link to={`${row.getVisibleCells()[0].getValue()}`}>
-                                <Button>Details</Button>
-                            </Link>
-                        </Td>
-                        <Td key={row.id + '_delete'}>
-                            <Button
-                                onClick={(e) => {
-                                    setToDeleteId([
-                                        row
-                                            .getVisibleCells()[0]
-                                            .getValue() as string,
-                                    ]);
-                                    onOpen();
-                                }}
-                            >
-                                <DeleteIcon color={'red'} />
-                            </Button>
-                        </Td>
-                    </Tr>
-                ))}
-            </Tbody>
-            <AlertDialog
-                isOpen={isOpen}
-                leastDestructiveRef={cancelRef}
-                onClose={onClose}
-            >
-                <AlertDialogOverlay>
-                    <AlertDialogContent>
-                        <AlertDialogHeader fontSize="lg" fontWeight="bold">
-                            Delete User
-                        </AlertDialogHeader>
+                                    <Button>Details</Button>
+                                </Link>
+                            </Td>
+                            <Td key={row.id + '_delete'}>
+                                <Button
+                                    onClick={(e) => {
+                                        setToDeleteId([
+                                            row
+                                                .getVisibleCells()[0]
+                                                .getValue() as string,
+                                        ]);
+                                        onOpen();
+                                    }}
+                                >
+                                    <DeleteIcon color={'red'} />
+                                </Button>
+                            </Td>
+                        </Tr>
+                    ))}
+                </Tbody>
+                <AlertDialog
+                    isOpen={isOpen}
+                    leastDestructiveRef={cancelRef}
+                    onClose={onClose}
+                >
+                    <AlertDialogOverlay>
+                        <AlertDialogContent>
+                            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                                Delete User
+                            </AlertDialogHeader>
 
-                        <AlertDialogBody>
-                            Are you sure? You can't undo this action afterwards.
-                        </AlertDialogBody>
+                            <AlertDialogBody>
+                                Are you sure? You can't undo this action
+                                afterwards.
+                            </AlertDialogBody>
 
-                        <AlertDialogFooter>
-                            <Button ref={cancelRef} onClick={onClose}>
-                                Cancel
-                            </Button>
-                            <Button
-                                colorScheme="red"
-                                onClick={(e) => {
-                                    console.log(toDeleteId);
-                                    onClose();
-                                }}
-                                ml={3}
-                            >
-                                Delete
-                            </Button>
-                        </AlertDialogFooter>
-                    </AlertDialogContent>
-                </AlertDialogOverlay>
-            </AlertDialog>
-        </Table>
+                            <AlertDialogFooter>
+                                <Button ref={cancelRef} onClick={onClose}>
+                                    Cancel
+                                </Button>
+                                <Button
+                                    colorScheme="red"
+                                    onClick={(e) => {
+                                        console.log(toDeleteId);
+                                        onClose();
+                                    }}
+                                    ml={3}
+                                >
+                                    Delete
+                                </Button>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialogOverlay>
+                </AlertDialog>
+            </Table>
+        </TableContainer>
     );
 }

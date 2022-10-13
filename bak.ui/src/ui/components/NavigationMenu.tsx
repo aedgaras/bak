@@ -26,7 +26,6 @@ import { Link } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
 import { logout } from '../../services/Authentication';
 import { ColorModeSwitcher } from '../ColorModeSwitcher';
-import { BreadCrumbs } from './BreadCrumbs';
 
 export const NavigationMenu = () => {
     const userContext = useContext(UserContext);
@@ -164,7 +163,6 @@ export const NavigationMenu = () => {
                     </HStack>
                 </Box>
             </Box>
-            <BreadCrumbs />
         </Box>
     );
 };

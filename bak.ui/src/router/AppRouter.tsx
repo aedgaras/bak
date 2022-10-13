@@ -61,6 +61,16 @@ export const AppRouter = () => {
                     )
                 }
             />
+            <Route
+                path="/users/create"
+                element={
+                    userContext.loggedIn === true ? (
+                        <UserDetailsPage />
+                    ) : (
+                        <Unauthorized />
+                    )
+                }
+            />
 
             <Route path="*" element={<NotFound />} />
         </Routes>

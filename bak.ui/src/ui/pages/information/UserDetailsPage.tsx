@@ -1,6 +1,7 @@
 import {
     Avatar,
     Button,
+    Divider,
     FormControl,
     FormLabel,
     HStack,
@@ -17,30 +18,46 @@ import { UserModel } from '../../../Models/Models';
 import { API_URL, axiosAuthHeaders } from '../../../utils/utils';
 import { AppWrapper } from '../../components/AppWrapper';
 import { BoxWithShadow } from '../../components/BoxWithShadow';
+import { BreadCrumbs } from '../../components/BreadCrumbs';
 
 export const UserDetailsPage = () => {
     const userContext = useContext(UserContext);
     const [user, setUser] = useState<UserModel>();
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
     const params = useParams();
+    const isNotCreating = params.userId ? true : false;
 
     useMemo(async () => {
-        await axios
-            .get<UserModel>(
-                `${API_URL}/users/${params.userId}`,
-                axiosAuthHeaders
-            )
-            .then((r: AxiosResponse<UserModel>) => {
-                setUser(r.data);
-                setIsLoaded(true);
-            });
+        if (isNotCreating) {
+            await axios
+                .get<UserModel>(
+                    `${API_URL}/users/${params.userId}`,
+                    axiosAuthHeaders
+                )
+                .then((r: AxiosResponse<UserModel>) => {
+                    setUser(r.data);
+                    setIsLoaded(true);
+                });
+        }
+        setIsLoaded(true);
     }, [userContext.name]);
+
     return (
         <AppWrapper>
             <Skeleton isLoaded={isLoaded}>
                 <BoxWithShadow>
                     <VStack p={1}>
-                        <Avatar name={userContext.name} src={''} size={'2xl'} />
+                        <HStack w={'100%'}>
+                            <BreadCrumbs />
+                        </HStack>
+                        <Divider />
+                        {isNotCreating ? (
+                            <Avatar
+                                name={user?.username}
+                                src={''}
+                                size={'2xl'}
+                            />
+                        ) : null}
                         <FormControl>
                             <FormLabel>Username</FormLabel>
                             <Input value={user?.username} />

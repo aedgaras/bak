@@ -1,7 +1,9 @@
-import { Input, Skeleton } from '@chakra-ui/react';
+import { AddIcon } from '@chakra-ui/icons';
+import { Box, Button, HStack, Input, Skeleton, Spacer } from '@chakra-ui/react';
 import { createColumnHelper } from '@tanstack/react-table';
 import axios, { AxiosResponse } from 'axios';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { UserModel } from '../../../Models/Models';
 import { axiosAuthHeaders } from '../../../utils/utils';
 import { AppWrapper } from '../../components/AppWrapper';
@@ -102,14 +104,30 @@ export const UsersPage = () => {
     return (
         <AppWrapper>
             <BoxWithShadowMax>
-                <Input
-                    placeholder={'Search'}
-                    w={'auto'}
-                    p={2}
-                    onChange={(e) => setQueryFilter(e.target.value)}
-                />
                 <Skeleton isLoaded={isLoaded}>
-                    <UserDataTable data={usersToDisplay} columns={columns} />
+                    <HStack p={2}>
+                        <Input
+                            placeholder={'Search'}
+                            w={'auto'}
+                            p={2}
+                            onChange={(e) => setQueryFilter(e.target.value)}
+                        />
+                        <Spacer />
+                        <Link to="/users/create">
+                            <Button rightIcon={<AddIcon />} colorScheme="teal">
+                                Create User
+                            </Button>
+                        </Link>
+                    </HStack>
+
+                    <Box padding={2}>
+                        <Box borderWidth="1px" borderRadius="lg" padding={2}>
+                            <UserDataTable
+                                data={usersToDisplay}
+                                columns={columns}
+                            />
+                        </Box>
+                    </Box>
                 </Skeleton>
             </BoxWithShadowMax>
         </AppWrapper>
