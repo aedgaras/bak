@@ -1,12 +1,5 @@
-import {
-    Avatar,
-    Grid,
-    GridItem,
-    Skeleton,
-    Wrap,
-    WrapItem,
-} from '@chakra-ui/react';
-import axios from 'axios';
+import { Avatar, FormControl, FormLabel, Grid, GridItem, Input, Skeleton, VStack } from '@chakra-ui/react';
+import axios, { AxiosResponse } from 'axios';
 import { useContext, useMemo, useState } from 'react';
 import { UserContext } from '../../../context/UserContext';
 import { UserModel } from '../../../Models/Models';
@@ -17,17 +10,20 @@ import { BoxWithShadowMax } from '../../components/BoxWithShadow';
 export const ProfilePage = () => {
     const userContext = useContext(UserContext);
     const [user, setUser] = useState<UserModel>();
+    const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
     useMemo(async () => {
-        const getUser = await axios
+        await axios
             .get<UserModel>(
                 `${API_URL}/users/getByUsername/${userContext.name}`,
                 axiosAuthHeaders
             )
-            .then((r) => {
-                console.log(r);
+            .then((r: AxiosResponse<UserModel>) => {
+                setUser(r.data);
+                setIsLoaded(true);
             });
-    }, []);
+            console.log('rendered')
+    }, [userContext.name]);
 
     return (
         <AppWrapper>
@@ -37,17 +33,27 @@ export const ProfilePage = () => {
                 gap={4}
             >
                 <GridItem rowSpan={2} colSpan={1}>
-                    <Skeleton isLoaded={true}>
+                    <Skeleton isLoaded={isLoaded}>
                         <BoxWithShadowMax>
-                            <Wrap>
-                                <WrapItem>
-                                    <Avatar
-                                        name={userContext.name}
-                                        src={''}
-                                        size={'2xl'}
-                                    />
-                                </WrapItem>
-                            </Wrap>
+                            <VStack>
+                                <Avatar
+                                    name={userContext.name}
+                                    src={''}
+                                    size={'2xl'}
+                                />
+                                <FormControl>
+                                    <FormLabel>Username</FormLabel>
+                                    <Input value={user?.username}/>
+                                </FormControl>
+                                <FormControl>
+                                    <FormLabel>Password</FormLabel>
+                                    <Input type={'password'} value={user?.password}/>
+                                </FormControl>
+                                <FormControl>
+                                    <FormLabel>Role</FormLabel>
+                                    <Input value={user?.role}/>
+                                </FormControl>
+                            </VStack>
                         </BoxWithShadowMax>
                     </Skeleton>
                 </GridItem>
