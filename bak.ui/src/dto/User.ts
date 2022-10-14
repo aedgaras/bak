@@ -1,4 +1,4 @@
-import { Role } from "../Models/Models";
+import { Role } from '../Models/Models';
 
 export type UserLoginDto = {
     username: string;

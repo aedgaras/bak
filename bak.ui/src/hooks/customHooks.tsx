@@ -32,7 +32,7 @@ export function validatePassword(value: string) {
     return error;
 }
 
-export function validateEmail(value: string){
+export function validateEmail(value: string) {
     let error: string = '';
 
     if (value.length < 4) {

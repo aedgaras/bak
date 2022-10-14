@@ -133,8 +133,7 @@ export const RegisterPage = () => {
                                     </FormControl>
                                     <FormControl
                                         isInvalid={
-                                            !!errors.name &&
-                                            touched.name
+                                            !!errors.name && touched.name
                                         }
                                         p={2}
                                         isRequired={false}
