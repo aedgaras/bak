@@ -21,6 +21,7 @@ import {
     ColumnDef,
     flexRender,
     getCoreRowModel,
+    getPaginationRowModel,
     getSortedRowModel,
     SortingState,
     useReactTable,
@@ -37,6 +38,7 @@ export function UserDataTable<Data extends object>({
     data,
     columns,
 }: DataTableProps<Data>) {
+    // Use the state and functions returned from useTable to build your UI
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [toDeleteId, setToDeleteId] = React.useState<string[]>([]);
@@ -50,6 +52,7 @@ export function UserDataTable<Data extends object>({
         state: {
             sorting,
         },
+        getPaginationRowModel: getPaginationRowModel(),
     });
 
     return (
