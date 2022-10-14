@@ -1,12 +1,18 @@
 import { DataTypes, Model, where } from 'sequelize';
 import { db } from '../db/Config';
 import { hashedPassword } from '../utils/utils';
+import { Roles } from './Roles';
 
 export const UserEntityName = 'User';
 
 export interface UserModel {
     username: string;
     password: string;
+    role?: Roles;
+    name?: string;
+    lastname?: string;
+    email?: string;
+    avatar?: string;
 }
 
 export class User extends Model {}

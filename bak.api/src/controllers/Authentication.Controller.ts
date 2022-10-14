@@ -1,52 +1,62 @@
 import { Request, Response } from 'express';
 import { Model } from 'sequelize';
 import { generateAccessToken } from '../configuration/Configuration';
-import { User } from '../models/User';
+import { User, UserModel } from '../models/User';
 import { hashedPassword } from '../utils/utils';
 import * as bcrypt from 'bcrypt';
+import { UserLoginDto, UserRegisterDto } from '../dto/User';
+
+
 
 export const login = async (req: Request, res: Response) => {
-    const username = req.body.username as string;
-    const password = req.body.password as string;
+    const userToLogin: UserLoginDto = {
+        username: req.body.username as string,
+        password: req.body.password as string,
+    }
+
 
     const user = await User.findOne({
-        where: { username: username },
+        where: { username: userToLogin.username },
     });
 
     if (!user) {
         return res.status(400).json("Such user doesn't exist");
     } else {
         const hashedPass = user.getDataValue('password');
-        const match = bcrypt.compareSync(password, hashedPass);
+        const match = bcrypt.compareSync(userToLogin.password, hashedPass);
         if (!match) {
             return res.status(300).send('Password is incorrect.');
         } else {
             return res
                 .status(200)
-                .json(generateAccessToken({ username: username }));
+                .json(generateAccessToken({ username: userToLogin.username }));
         }
     }
 };
 
 export const register = async (req: Request, res: Response) => {
-    const username = req.body.username as string;
-    const password = hashedPassword(req.body.password as string);
+    const userToRegister: UserRegisterDto = {
+        username: req.body.username as string,
+        password: hashedPassword(req.body.password as string),
+        name: req.body.name,
+        lastname: req.body.lastname,
+        email: req.body.email,
+    }
 
     const user = await User.findOne({
-        where: { username: username },
+        where: { username: userToRegister.username },
     });
 
     if (user) {
         return res.status(400).send('Such user already exists.');
     } else {
         const newUser = await User.create({
-            username: username,
-            password: password,
+            ...userToRegister
         });
 
         await newUser.save();
 
-        const token = generateAccessToken({ username: username });
+        const token = generateAccessToken({ username: userToRegister.username });
         return res.status(200).json(token);
     }
 };
