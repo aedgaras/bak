@@ -15,15 +15,14 @@ import {
 } from '@chakra-ui/react';
 import axios, { AxiosError } from 'axios';
 import { Field, Formik } from 'formik';
-import { Simulate } from 'react-dom/test-utils';
+import { UserRegisterDto } from '../../../dto/User';
 import { validatePassword, validateUsername } from '../../../hooks/customHooks';
 import { JWT_NAME } from '../../../services/Authentication';
 import { sleep } from '../../../utils/utils';
 import { AppWrapper } from '../../components/AppWrapper';
-import error = Simulate.error;
 
 export const RegisterPage = () => {
-    const initialValue = { username: '', password: '' };
+    const initialValue: UserRegisterDto = { username: '', password: '' };
     const toast = useToast();
     document.title = 'Register';
 
@@ -46,14 +45,12 @@ export const RegisterPage = () => {
                         <Formik
                             initialValues={initialValue}
                             onSubmit={async (values, actions) => {
+                                const userPayload = values;
                                 actions.setSubmitting(true);
                                 await axios
                                     .post(
                                         'http://localhost:3030/api/auth/register',
-                                        {
-                                            username: values.username,
-                                            password: values.password,
-                                        }
+                                        userPayload
                                     )
                                     .then((r) => {
                                         toast({
@@ -131,7 +128,28 @@ export const RegisterPage = () => {
                                         />
                                         <FormErrorMessage>
                                             <FormErrorIcon />
-
+                                            {errors.password}
+                                        </FormErrorMessage>
+                                    </FormControl>
+                                    <FormControl
+                                        isInvalid={
+                                            !!errors.name &&
+                                            touched.name
+                                        }
+                                        p={2}
+                                        isRequired={false}
+                                    >
+                                        <FormLabel>Name</FormLabel>
+                                        <Field
+                                            as={Input}
+                                            type="name"
+                                            name="name"
+                                            validate={(value: string) =>
+                                                validatePassword(value)
+                                            }
+                                        />
+                                        <FormErrorMessage>
+                                            <FormErrorIcon />
                                             {errors.password}
                                         </FormErrorMessage>
                                     </FormControl>

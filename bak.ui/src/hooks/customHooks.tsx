@@ -32,6 +32,17 @@ export function validatePassword(value: string) {
     return error;
 }
 
+export function validateEmail(value: string){
+    let error: string = '';
+
+    if (value.length < 4) {
+        error = 'Minimum length is 4.';
+        return error;
+    }
+
+    return error;
+}
+
 export const fetchThisUser = async (
     toast: CreateToastFnReturn,
     endpoint: string,
