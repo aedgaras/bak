@@ -36,7 +36,13 @@ export const getCurrentUser = (): User | null => {
     if (!jwt) {
         return null;
     }
-    const decodedJwt = jwtDecode<User>(jwt);
+    const decodedJwt = jwtDecode<{ iat: number, exp: number }>(jwt);
+    if (decodedJwt.iat > decodedJwt.exp) {
+        logout();
+        return null;
+    }
 
-    return decodedJwt;
+    const decodedUserJwt = jwtDecode<User>(jwt);
+
+    return decodedUserJwt;
 };
