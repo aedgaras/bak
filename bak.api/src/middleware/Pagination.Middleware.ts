@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express"
+import { NextFunction, Request, Response } from 'express';
 
 export function paginate(req: Request, res: Response, next: NextFunction) {
     const page = Number(req.params.page);

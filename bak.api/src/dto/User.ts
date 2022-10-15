@@ -12,4 +12,5 @@ export type UserRegisterDto = {
     name?: string;
     lastname?: string;
     email?: string;
+    avatar?: string;
 };

@@ -1,9 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { sign, SignOptions, verify, VerifyOptions } from 'jsonwebtoken';
 import { TOKEN_SECRET } from '../configuration/Configuration';
-import { AppRoles, Roles } from '../models/Roles';
 import { User } from '../models/User';
-import { returnMessage, ReturnMessage } from '../utils/ResponseUtils';
+import { returnMessage, ReturnMessage } from '../utils/response/ResponseUtils';
 
 export function authenticateToken(
     req: Request,
@@ -30,14 +29,3 @@ export function authenticateToken(
         }
     );
 }
-
-export const authRoleMiddleware = (roles: Roles[]) => {
-    return (req: Request, res: Response, next: NextFunction) => {
-        roles.map((role) => {
-            if (AppRoles.includes(role)) {
-                return next();
-            }
-        });
-        return res.status(403).json(returnMessage('Unauthorized'));
-    };
-};

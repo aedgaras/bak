@@ -1,13 +1,15 @@
 import { Request, Response } from 'express';
-import { User, UserEntityName, UserModel } from '../models/User';
-import {
-    ENTITY_ALREADY_EXIST,
-    ENTITY_DOESNT_EXIST,
-    ENTITY_NOT_FOUND,
-    returnMessage,
-} from '../utils/ResponseUtils';
+import { User } from '../models/User';
+import { returnMessage } from '../utils/response/ResponseUtils';
 import * as bcrypt from 'bcrypt';
 import { hashedPassword } from '../utils/utils';
+import { UserEntityName } from '../utils/constants';
+import { UserRegisterDto } from '../dto/User';
+import {
+    ENTITY_NOT_FOUND,
+    ENTITY_ALREADY_EXIST,
+    ENTITY_DOESNT_EXIST,
+} from '../utils/response/ResponseTexts';
 
 export const getUsers = async (req: Request, res: Response) => {
     const users = await User.findAll();
@@ -48,7 +50,7 @@ export const getByUsername = async (req: Request, res: Response) => {
 };
 
 export const createUser = async (req: Request, res: Response) => {
-    const newUser: UserModel = {
+    const newUser: UserRegisterDto = {
         username: req.body.username as string,
         password: hashedPassword(req.body.username as string),
     };
@@ -76,7 +78,7 @@ export const updateUser = async (req: Request, res: Response) => {
     const existingUser = await User.findByPk(userId);
 
     if (existingUser) {
-        const updatedUser: UserModel = {
+        const updatedUser: UserRegisterDto = {
             username: req.body.username,
             password: req.body.password,
         };

@@ -5,7 +5,7 @@ import cors from 'cors';
 import { userRouter } from './routes/User.Routes';
 import { authRouter } from './routes/Authentication.Routes';
 import { db } from './db/Config';
-import { seedInitialUsers } from './models/User';
+import { seedInitialUsers } from './db/seed/InitialData';
 
 dotenv.config();
 

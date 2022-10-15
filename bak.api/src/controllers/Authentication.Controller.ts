@@ -1,19 +1,15 @@
 import { Request, Response } from 'express';
-import { Model } from 'sequelize';
-import { generateAccessToken } from '../configuration/Configuration';
-import { User, UserModel } from '../models/User';
+import { User } from '../models/User';
 import { hashedPassword } from '../utils/utils';
 import * as bcrypt from 'bcrypt';
 import { UserLoginDto, UserRegisterDto } from '../dto/User';
-
-
+import { generateAccessToken } from '../utils/token/generator';
 
 export const login = async (req: Request, res: Response) => {
     const userToLogin: UserLoginDto = {
         username: req.body.username as string,
         password: req.body.password as string,
-    }
-
+    };
 
     const user = await User.findOne({
         where: { username: userToLogin.username },
@@ -41,7 +37,7 @@ export const register = async (req: Request, res: Response) => {
         name: req.body.name,
         lastname: req.body.lastname,
         email: req.body.email,
-    }
+    };
 
     const user = await User.findOne({
         where: { username: userToRegister.username },
@@ -51,12 +47,14 @@ export const register = async (req: Request, res: Response) => {
         return res.status(400).send('Such user already exists.');
     } else {
         const newUser = await User.create({
-            ...userToRegister
+            ...userToRegister,
         });
 
         await newUser.save();
 
-        const token = generateAccessToken({ username: userToRegister.username });
+        const token = generateAccessToken({
+            username: userToRegister.username,
+        });
         return res.status(200).json(token);
     }
 };

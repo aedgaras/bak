@@ -7,10 +7,7 @@ import {
     getUsers,
     updateUser,
 } from '../controllers/User.Controller';
-import {
-    authenticateToken,
-    authRoleMiddleware,
-} from '../middleware/Auth.Middleware';
+import { authenticateToken } from '../middleware/Auth.Middleware';
 
 export const userRouter = express.Router();
 
