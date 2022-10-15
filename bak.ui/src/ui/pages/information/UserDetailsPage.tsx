@@ -14,11 +14,11 @@ import axios, { AxiosResponse } from 'axios';
 import { useContext, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { UserContext } from '../../../context/UserContext';
-import { UserModel } from '../../../Models/Models';
-import { API_URL, axiosAuthHeaders } from '../../../utils/utils';
+import { API_URL, axiosAuthHeaders } from '../../../utils/constants';
+import { UserModel } from '../../../utils/Models/Models';
 import { AppWrapper } from '../../components/AppWrapper';
+import { BackButton } from '../../components/BackButton';
 import { BoxWithShadow } from '../../components/BoxWithShadow';
-import { BreadCrumbs } from '../../components/BreadCrumbs';
 
 export const UserDetailsPage = () => {
     const userContext = useContext(UserContext);
@@ -50,7 +50,7 @@ export const UserDetailsPage = () => {
                 <BoxWithShadow>
                     <VStack p={1}>
                         <HStack w={'100%'}>
-                            <BreadCrumbs />
+                            <BackButton />
                         </HStack>
                         <Divider />
                         {isNotCreating ? (

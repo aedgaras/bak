@@ -15,9 +15,9 @@ import {
 } from '@chakra-ui/react';
 import axios, { AxiosError } from 'axios';
 import { Field, Formik } from 'formik';
-import { UserRegisterDto } from '../../../dto/User';
 import { validatePassword, validateUsername } from '../../../hooks/customHooks';
 import { JWT_NAME } from '../../../services/Authentication';
+import { UserRegisterDto } from '../../../utils/dto/User';
 import { sleep } from '../../../utils/utils';
 import { AppWrapper } from '../../components/AppWrapper';
 

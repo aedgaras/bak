@@ -1,7 +1,8 @@
 import { CreateToastFnReturn } from '@chakra-ui/react';
 import axios, { AxiosError } from 'axios';
 import { JWT_NAME } from '../services/Authentication';
-import { API_URL, sleep, ToastInfo } from '../utils/utils';
+import { API_URL } from '../utils/constants';
+import { sleep, ToastInfo } from '../utils/utils';
 
 export function validateUsername(value: string) {
     let error: string = '';
@@ -47,7 +48,7 @@ export const fetchThisUser = async (
     toast: CreateToastFnReturn,
     endpoint: string,
     payload: { username: string; password: string },
-    sucessToast: ToastInfo
+    successToast: ToastInfo
 ): Promise<void> => {
     await axios
         .post(API_URL + endpoint, {
@@ -56,8 +57,8 @@ export const fetchThisUser = async (
         })
         .then((r) => {
             toast({
-                title: sucessToast.title,
-                description: sucessToast.description,
+                title: successToast.title,
+                description: successToast.description,
                 status: 'success',
                 duration: 9000,
                 isClosable: true,

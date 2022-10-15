@@ -9,9 +9,9 @@ export interface UserContextInterface {
 
 export const UserContext = createContext<UserContextInterface>({});
 
-export const userContextValues = (): UserContextInterface => {
+export function userContextValues(): UserContextInterface {
     return {
         name: getCurrentUser()?.username,
         loggedIn: getCurrentUser() !== null,
     };
-};
+}

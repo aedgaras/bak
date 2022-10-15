@@ -67,7 +67,7 @@ export const LoginPage = () => {
                                         password: values.password,
                                     },
                                     {
-                                        title: 'Succes',
+                                        title: 'Success',
                                         description: 'Logged in successfully.',
                                     }
                                 );

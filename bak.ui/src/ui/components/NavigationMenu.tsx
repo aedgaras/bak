@@ -25,7 +25,7 @@ import { useContext, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
 import { logout } from '../../services/Authentication';
-import { ColorModeSwitcher } from '../ColorModeSwitcher';
+import { ColorModeSwitcher } from './ColorModeSwitcher';
 
 export const NavigationMenu = () => {
     const userContext = useContext(UserContext);
@@ -141,10 +141,7 @@ export const NavigationMenu = () => {
                                                                     colorScheme="red"
                                                                     onClick={() => {
                                                                         logout();
-                                                                        window.location.assign(
-                                                                            '/'
-                                                                        );
-                                                                        onClose;
+                                                                        onClose();
                                                                     }}
                                                                     ml={3}
                                                                 >

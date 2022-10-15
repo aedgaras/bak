@@ -12,15 +12,3 @@ export const NotFound = () => {
         </AppWrapper>
     );
 };
-
-export const Unauthorized = () => {
-    document.title = 'Unauthorized';
-
-    return (
-        <AppWrapper>
-            <Center>
-                <Heading>Unauthorized</Heading>
-            </Center>
-        </AppWrapper>
-    );
-};
