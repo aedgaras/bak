@@ -3,9 +3,10 @@ on: push
 jobs:
   format-ui:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./bak.ui
     steps:
-      - run: |
-            cd bak.ui
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.head_ref }}
