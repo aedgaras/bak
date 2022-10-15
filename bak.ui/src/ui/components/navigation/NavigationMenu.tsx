@@ -1,11 +1,5 @@
 import { HamburgerIcon } from '@chakra-ui/icons';
 import {
-    AlertDialog,
-    AlertDialogBody,
-    AlertDialogContent,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogOverlay,
     Avatar,
     Box,
     Button,
@@ -24,8 +18,13 @@ import {
 import { useContext, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../../context/UserContext';
-import { logout } from '../../../services/Authentication';
+import { MenuDropdownProps } from '../../../utils/Models/InterfaceModels';
 import { ColorModeSwitcher } from '../ColorModeSwitcher';
+import { LogoutDialog } from '../dialogs/LogoutDialog';
+import {
+    IsLoggedInElement,
+    IsNotLoggedInElement,
+} from '../wrappers/HelperWrappers';
 
 export const NavigationMenu = () => {
     const userContext = useContext(UserContext);
@@ -45,121 +44,104 @@ export const NavigationMenu = () => {
                     }}
                 >
                     <HStack>
-                        {userContext.loggedIn ? (
-                            <>
-                                <Link to={'/'}>
-                                    <Button>Home</Button>
-                                </Link>
-                                <Link to={'/users'}>
-                                    <Button>Users</Button>
-                                </Link>
-                            </>
-                        ) : null}
+                        <IsLoggedInElement
+                            element={
+                                <>
+                                    <Link to={'/'}>
+                                        <Button>Home</Button>
+                                    </Link>
+                                    <Link to={'/users'}>
+                                        <Button>Users</Button>
+                                    </Link>
+                                </>
+                            }
+                        />
                         <Spacer />
-                        {userContext.loggedIn ? (
-                            <>
-                                <Link to={'/profile'}>
-                                    <Text>{`Hello, ${userContext.name}`}</Text>
-                                </Link>
-                                <Link to={'/profile'}>
-                                    <Text>
-                                        <Avatar
-                                            name={userContext.name}
-                                            src={''}
-                                            size="sm"
-                                        />
-                                    </Text>
-                                </Link>
-                            </>
-                        ) : null}
+                        <IsLoggedInElement
+                            element={
+                                <>
+                                    <Link to={'/profile'}>
+                                        <Text>{`Hello, ${userContext.name}`}</Text>
+                                    </Link>
+                                    <Link to={'/profile'}>
+                                        <Text>
+                                            <Avatar
+                                                name={userContext.name}
+                                                src={''}
+                                                size="sm"
+                                            />
+                                        </Text>
+                                    </Link>
+                                </>
+                            }
+                        />
                         <ColorModeSwitcher />
-                        <Menu>
-                            <MenuButton
-                                as={IconButton}
-                                aria-label="Options"
-                                icon={<HamburgerIcon />}
-                                variant="outline"
-                            />
-                            <MenuList
-                                boxShadow={{
-                                    base: 'none',
-                                    sm: useColorModeValue('md', 'md-dark'),
-                                }}
-                            >
-                                {!userContext.loggedIn ? (
-                                    <>
-                                        <Link to={'/login'}>
-                                            <MenuItem>Login</MenuItem>
-                                        </Link>
-                                        <Link to={'/register'}>
-                                            <MenuItem>Register</MenuItem>
-                                        </Link>
-                                    </>
-                                ) : null}
-                                {userContext.loggedIn ? (
-                                    <>
-                                        <Link to={'/profile'}>
-                                            <MenuItem>Profile</MenuItem>
-                                        </Link>
-                                        <MenuDivider />
-                                        <MenuItem onClick={onOpen}>
-                                            <>
-                                                Logout
-                                                <AlertDialog
-                                                    isOpen={isOpen}
-                                                    leastDestructiveRef={
-                                                        cancelRef
-                                                    }
-                                                    onClose={onClose}
-                                                >
-                                                    <AlertDialogOverlay>
-                                                        <AlertDialogContent>
-                                                            <AlertDialogHeader
-                                                                fontSize="lg"
-                                                                fontWeight="bold"
-                                                            >
-                                                                Logout
-                                                            </AlertDialogHeader>
-
-                                                            <AlertDialogBody>
-                                                                Are you sure you
-                                                                want to logout?
-                                                            </AlertDialogBody>
-
-                                                            <AlertDialogFooter>
-                                                                <Button
-                                                                    ref={
-                                                                        cancelRef
-                                                                    }
-                                                                    onClick={
-                                                                        onClose
-                                                                    }
-                                                                >
-                                                                    Cancel
-                                                                </Button>
-                                                                <Button
-                                                                    colorScheme="red"
-                                                                    onClick={() => {
-                                                                        logout();
-                                                                        onClose();
-                                                                    }}
-                                                                    ml={3}
-                                                                >
-                                                                    Logout
-                                                                </Button>
-                                                            </AlertDialogFooter>
-                                                        </AlertDialogContent>
-                                                    </AlertDialogOverlay>
-                                                </AlertDialog>
-                                            </>
-                                        </MenuItem>
-                                    </>
-                                ) : null}
-                            </MenuList>
-                        </Menu>
+                        <MenuDropdown
+                            isOpen={isOpen}
+                            onClose={onClose}
+                            cancelRef={cancelRef}
+                            onOpen={onOpen}
+                        />
                     </HStack>
                 </Box>
             </Box>
         </Box>
+    );
+};
+
+const MenuDropdown = ({
+    onClose,
+    onOpen,
+    isOpen,
+    cancelRef,
+}: MenuDropdownProps) => {
+    return (
+        <Menu>
+            <MenuButton
+                as={IconButton}
+                aria-label="Options"
+                icon={<HamburgerIcon />}
+                variant="outline"
+            />
+            <MenuList
+                boxShadow={{
+                    base: 'none',
+                    sm: useColorModeValue('md', 'md-dark'),
+                }}
+            >
+                <IsNotLoggedInElement
+                    element={
+                        <>
+                            <Link to={'/login'}>
+                                <MenuItem>Login</MenuItem>
+                            </Link>
+                            <Link to={'/register'}>
+                                <MenuItem>Register</MenuItem>
+                            </Link>
+                        </>
+                    }
+                />
+                <IsLoggedInElement
+                    element={
+                        <>
+                            <Link to={'/profile'}>
+                                <MenuItem>Profile</MenuItem>
+                            </Link>
+                            <MenuDivider />
+                            <MenuItem onClick={onOpen}>
+                                <>
+                                    Logout
+                                    <LogoutDialog
+                                        isOpen={isOpen}
+                                        cancelRef={cancelRef}
+                                        onClose={onClose}
+                                    />
+                                </>
+                            </MenuItem>
+                        </>
+                    }
+                />
+            </MenuList>
+        </Menu>
     );
 };

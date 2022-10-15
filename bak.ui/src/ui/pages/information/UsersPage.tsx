@@ -16,7 +16,6 @@ export const UsersPage = () => {
     const [isLoaded, setIsLoaded] = useState<boolean>(true);
     const [queryFilter, setQueryFilter] = useState<string>('');
     const filteredUsers: UserModel[] = [];
-    document.title = 'Users Page';
 
     const getUsers = useCallback(async () => {
         const response = await axios
