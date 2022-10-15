@@ -18,10 +18,10 @@ import {
 import axios, { AxiosResponse } from 'axios';
 import { ChangeEvent, useContext, useMemo, useState } from 'react';
 import { UserContext } from '../../../context/UserContext';
-import { UserModel } from '../../../Models/Models';
-import { API_URL, axiosAuthHeaders } from '../../../utils/utils';
-import { AppWrapper } from '../../components/AppWrapper';
-import { BoxWithShadowMax } from '../../components/BoxWithShadow';
+import { API_URL, axiosAuthHeaders } from '../../../utils/constants';
+import { UserModel } from '../../../utils/Models/Models';
+import { AppWrapper } from '../../components/wrappers/AppWrapper';
+import { BoxWithShadowMax } from '../../components/wrappers/BoxWithShadow';
 
 export const ProfilePage = () => {
     const userContext = useContext(UserContext);

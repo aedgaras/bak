@@ -2,7 +2,7 @@ import { ArrowLeftIcon } from '@chakra-ui/icons';
 import { Box, Button } from '@chakra-ui/react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-export const BreadCrumbs = () => {
+export const BackButton = () => {
     const navigate = useNavigate();
     const location = useLocation();
 

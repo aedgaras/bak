@@ -1,46 +1,20 @@
-import { AddIcon } from '@chakra-ui/icons';
-import { Box, Button, HStack, Input, Skeleton, Spacer } from '@chakra-ui/react';
-import { createColumnHelper } from '@tanstack/react-table';
 import axios, { AxiosResponse } from 'axios';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { UserModel } from '../../../Models/Models';
-import { axiosAuthHeaders } from '../../../utils/utils';
-import { AppWrapper } from '../../components/AppWrapper';
-import { BoxWithShadowMax } from '../../components/BoxWithShadow';
-import { UserDataTable } from '../../components/GenericTable';
-
-const columnHelper = createColumnHelper<UserModel>();
-const columns = [
-    columnHelper.accessor('id', {
-        cell: (info) => info.getValue(),
-        header: 'Id',
-    }),
-    columnHelper.accessor('username', {
-        cell: (info) => info.getValue(),
-        header: 'Username',
-    }),
-    columnHelper.accessor('role', {
-        cell: (info) => info.getValue(),
-        header: 'Role',
-    }),
-    columnHelper.accessor('createdAt', {
-        cell: (info) => info.getValue(),
-        header: 'Created At',
-    }),
-    columnHelper.accessor('updatedAt', {
-        cell: (info) => info.getValue(),
-        header: 'Updated At',
-    }),
-];
+import { axiosAuthHeaders } from '../../../utils/constants';
+import { UserModel } from '../../../utils/Models/Models';
+import {
+    filterUserTable,
+    userTableColumns,
+} from '../../components/datadisplay/datatablehelpers/userhelpers/helpers';
+import { GenericTable } from '../../components/datadisplay/generic/GenericTable';
+import { GenericTableWithSearchAndCreate } from '../../components/datadisplay/generic/tablewithsearch/GenericTableWithActions';
+import { AppWrapper } from '../../components/wrappers/AppWrapper';
 
 export const UsersPage = () => {
     const [usersToDisplay, setUsersToDisplay] = useState<UserModel[]>([]);
     const [users, setUsers] = useState<UserModel[]>([]);
     const [isLoaded, setIsLoaded] = useState<boolean>(true);
     const [queryFilter, setQueryFilter] = useState<string>('');
-    document.title = 'Users Page';
-
     const filteredUsers: UserModel[] = [];
 
     const getUsers = useCallback(async () => {
@@ -55,40 +29,6 @@ export const UsersPage = () => {
         return response;
     }, []);
 
-    const filterUsers = () => {
-        if (queryFilter.length > 0) {
-            users.forEach((user) => {
-                console.log(user.createdAt);
-                if (
-                    user.id
-                        .toString()
-                        .toLowerCase()
-                        .includes(queryFilter.toLowerCase()) ||
-                    user.username
-                        .toLowerCase()
-                        .includes(queryFilter.toLowerCase()) ||
-                    user.role
-                        .toLowerCase()
-                        .includes(queryFilter.toLowerCase()) ||
-                    user.createdAt
-                        .toString()
-                        .toLowerCase()
-                        .includes(queryFilter.toLowerCase()) ||
-                    user.updatedAt
-                        .toString()
-                        .toLowerCase()
-                        .includes(queryFilter.toLowerCase())
-                ) {
-                    filteredUsers.push(user);
-                }
-            });
-
-            setUsersToDisplay(filteredUsers);
-        } else {
-            setUsersToDisplay(users);
-        }
-    };
-
     useMemo(() => {
         (async () => {
             const usersGotten = await getUsers();
@@ -99,38 +39,24 @@ export const UsersPage = () => {
     }, []);
 
     useEffect(() => {
-        filterUsers();
+        filterUserTable(users, queryFilter, filteredUsers, setUsersToDisplay);
     }, [queryFilter, users]);
 
     return (
         <AppWrapper>
-            <BoxWithShadowMax>
-                <Skeleton isLoaded={isLoaded}>
-                    <HStack p={2}>
-                        <Input
-                            placeholder={'Search'}
-                            w={'auto'}
-                            p={2}
-                            onChange={(e) => setQueryFilter(e.target.value)}
-                        />
-                        <Spacer />
-                        <Link to="/users/create">
-                            <Button rightIcon={<AddIcon />} colorScheme="teal">
-                                Create User
-                            </Button>
-                        </Link>
-                    </HStack>
-
-                    <Box padding={2}>
-                        <Box borderWidth="1px" borderRadius="lg" padding={2}>
-                            <UserDataTable
-                                data={usersToDisplay}
-                                columns={columns}
-                            />
-                        </Box>
-                    </Box>
-                </Skeleton>
-            </BoxWithShadowMax>
+            <GenericTableWithSearchAndCreate
+                isLoaded={isLoaded}
+                setQueryFilter={setQueryFilter}
+                dataDisplay={usersToDisplay}
+                entityCreatePath={'/users/create'}
+                entityName={'User'}
+                genericTable={
+                    <GenericTable
+                        data={usersToDisplay}
+                        columns={userTableColumns}
+                    />
+                }
+            />
         </AppWrapper>
     );
 };

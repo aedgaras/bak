@@ -14,18 +14,18 @@ import axios, { AxiosResponse } from 'axios';
 import { useContext, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { UserContext } from '../../../context/UserContext';
-import { UserModel } from '../../../Models/Models';
-import { API_URL, axiosAuthHeaders } from '../../../utils/utils';
-import { AppWrapper } from '../../components/AppWrapper';
-import { BoxWithShadow } from '../../components/BoxWithShadow';
-import { BreadCrumbs } from '../../components/BreadCrumbs';
+import { API_URL, axiosAuthHeaders } from '../../../utils/constants';
+import { UserModel } from '../../../utils/Models/Models';
+import { BackButton } from '../../components/navigation/BackButton';
+import { AppWrapper } from '../../components/wrappers/AppWrapper';
+import { BoxWithShadow } from '../../components/wrappers/BoxWithShadow';
 
 export const UserDetailsPage = () => {
     const userContext = useContext(UserContext);
     const [user, setUser] = useState<UserModel>();
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
     const params = useParams();
-    const isNotCreating = params.userId ? true : false;
+    const isNotCreating = !!params.userId;
 
     useMemo(async () => {
         document.title = 'Profile Creation';
@@ -50,7 +50,7 @@ export const UserDetailsPage = () => {
                 <BoxWithShadow>
                     <VStack p={1}>
                         <HStack w={'100%'}>
-                            <BreadCrumbs />
+                            <BackButton />
                         </HStack>
                         <Divider />
                         {isNotCreating ? (

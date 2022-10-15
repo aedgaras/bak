@@ -3,76 +3,53 @@ import { Route, Routes } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
 import { LoginPage } from '../ui/pages/authentication/LoginPage';
 import { RegisterPage } from '../ui/pages/authentication/RegisterPage';
-import { NotFound, Unauthorized } from '../ui/pages/information/NotFound';
+import { UserDetailsPage } from '../ui/pages/details/UserDetailsPage';
+import { NotFound } from '../ui/pages/errorpages/NotFound';
+import { Unauthorized } from '../ui/pages/errorpages/Unauthorized';
 import { ProfilePage } from '../ui/pages/information/ProfilePage';
-import { UserDetailsPage } from '../ui/pages/information/UserDetailsPage';
 import { UsersPage } from '../ui/pages/information/UsersPage';
 import { UserApp } from '../ui/UserApp';
 
 export const AppRouter = () => {
-    const userContext = useContext(UserContext);
-
     return (
         <Routes>
             <Route index element={<UserApp />} />
             <Route
                 path="login"
-                element={
-                    userContext.loggedIn !== true ? <LoginPage /> : <NotFound />
-                }
+                element={<DisabledAfterLoginRoute element={<LoginPage />} />}
             />
             <Route
                 path="register"
-                element={
-                    userContext.loggedIn !== true ? (
-                        <RegisterPage />
-                    ) : (
-                        <NotFound />
-                    )
-                }
+                element={<DisabledAfterLoginRoute element={<RegisterPage />} />}
             />
             <Route
                 path="profile"
-                element={
-                    userContext.loggedIn === true ? (
-                        <ProfilePage />
-                    ) : (
-                        <Unauthorized />
-                    )
-                }
+                element={<ProtectedRoute element={<ProfilePage />} />}
             />
             <Route
                 path="/users"
-                element={
-                    userContext.loggedIn === true ? (
-                        <UsersPage />
-                    ) : (
-                        <Unauthorized />
-                    )
-                }
+                element={<ProtectedRoute element={<UsersPage />} />}
             />
             <Route
                 path="/users/:userId"
-                element={
-                    userContext.loggedIn === true ? (
-                        <UserDetailsPage />
-                    ) : (
-                        <Unauthorized />
-                    )
-                }
+                element={<ProtectedRoute element={<UserDetailsPage />} />}
             />
             <Route
                 path="/users/create"
-                element={
-                    userContext.loggedIn === true ? (
-                        <UserDetailsPage />
-                    ) : (
-                        <Unauthorized />
-                    )
-                }
+                element={<ProtectedRoute element={<UserDetailsPage />} />}
             />
 
             <Route path="*" element={<NotFound />} />
         </Routes>
     );
 };
+
+function ProtectedRoute({ element }: { element: JSX.Element }) {
+    const { loggedIn } = useContext(UserContext);
+    return loggedIn === true ? element : <Unauthorized />;
+}
+
+function DisabledAfterLoginRoute({ element }: { element: JSX.Element }) {
+    const { loggedIn } = useContext(UserContext);
+    return loggedIn !== true ? element : <NotFound />;
+}

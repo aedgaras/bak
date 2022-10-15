@@ -1,10 +1,7 @@
 import { Center, Heading, Highlight } from '@chakra-ui/react';
-import { useContext } from 'react';
-import { UserContext } from '../context/UserContext';
-import { AppWrapper } from './components/AppWrapper';
+import { AppWrapper } from './components/wrappers/AppWrapper';
 
 export const UserApp = () => {
-    const userContext = useContext(UserContext);
     document.title = 'Blossom HR';
     return (
         <AppWrapper>
