@@ -25,7 +25,7 @@ export const UserDetailsPage = () => {
     const [user, setUser] = useState<UserModel>();
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
     const params = useParams();
-    const isNotCreating = params.userId ? true : false;
+    const isNotCreating = !!params.userId;
 
     useMemo(async () => {
         document.title = 'Profile Creation';
