@@ -4,7 +4,7 @@ jobs:
   format-ui:
     runs-on: ubuntu-latest
     steps:
-      - run: cd ./bak.ui
+      - run: ls
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.head_ref }}
