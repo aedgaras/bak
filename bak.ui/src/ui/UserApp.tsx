@@ -1,5 +1,5 @@
 import { Center, Heading, Highlight } from '@chakra-ui/react';
-import { AppWrapper } from './components/AppWrapper';
+import { AppWrapper } from './components/wrappers/AppWrapper';
 
 export const UserApp = () => {
     document.title = 'Blossom HR';

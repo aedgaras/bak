@@ -23,9 +23,9 @@ import {
 } from '@chakra-ui/react';
 import { useContext, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { UserContext } from '../../context/UserContext';
-import { logout } from '../../services/Authentication';
-import { ColorModeSwitcher } from './ColorModeSwitcher';
+import { UserContext } from '../../../context/UserContext';
+import { logout } from '../../../services/Authentication';
+import { ColorModeSwitcher } from '../ColorModeSwitcher';
 
 export const NavigationMenu = () => {
     const userContext = useContext(UserContext);

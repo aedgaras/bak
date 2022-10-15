@@ -16,9 +16,9 @@ import { useParams } from 'react-router-dom';
 import { UserContext } from '../../../context/UserContext';
 import { API_URL, axiosAuthHeaders } from '../../../utils/constants';
 import { UserModel } from '../../../utils/Models/Models';
-import { AppWrapper } from '../../components/AppWrapper';
-import { BackButton } from '../../components/BackButton';
-import { BoxWithShadow } from '../../components/BoxWithShadow';
+import { BackButton } from '../../components/navigation/BackButton';
+import { AppWrapper } from '../../components/wrappers/AppWrapper';
+import { BoxWithShadow } from '../../components/wrappers/BoxWithShadow';
 
 export const UserDetailsPage = () => {
     const userContext = useContext(UserContext);

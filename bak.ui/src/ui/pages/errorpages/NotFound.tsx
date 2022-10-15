@@ -1,5 +1,5 @@
 import { Center, Heading } from '@chakra-ui/react';
-import { AppWrapper } from '../../components/AppWrapper';
+import { AppWrapper } from '../../components/wrappers/AppWrapper';
 
 export const NotFound = () => {
     document.title = 'Page not found';

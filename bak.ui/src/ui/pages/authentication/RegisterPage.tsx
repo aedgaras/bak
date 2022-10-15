@@ -15,11 +15,14 @@ import {
 } from '@chakra-ui/react';
 import axios, { AxiosError } from 'axios';
 import { Field, Formik } from 'formik';
-import { validatePassword, validateUsername } from '../../../hooks/customHooks';
 import { JWT_NAME } from '../../../services/Authentication';
 import { UserRegisterDto } from '../../../utils/dto/User';
 import { sleep } from '../../../utils/utils';
-import { AppWrapper } from '../../components/AppWrapper';
+import {
+    validatePassword,
+    validateUsername,
+} from '../../../utils/validation/validation';
+import { AppWrapper } from '../../components/wrappers/AppWrapper';
 
 export const RegisterPage = () => {
     const initialValue: UserRegisterDto = { username: '', password: '' };

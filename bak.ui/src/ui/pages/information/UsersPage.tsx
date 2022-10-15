@@ -6,9 +6,9 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { axiosAuthHeaders } from '../../../utils/constants';
 import { UserModel } from '../../../utils/Models/Models';
-import { AppWrapper } from '../../components/AppWrapper';
-import { BoxWithShadowMax } from '../../components/BoxWithShadow';
-import { UserDataTable } from '../../components/GenericTable';
+import { UserDataTable } from '../../components/datadisplay/GenericTable';
+import { AppWrapper } from '../../components/wrappers/AppWrapper';
+import { BoxWithShadowMax } from '../../components/wrappers/BoxWithShadow';
 
 const columnHelper = createColumnHelper<UserModel>();
 const columns = [
@@ -58,7 +58,6 @@ export const UsersPage = () => {
     const filterUsers = () => {
         if (queryFilter.length > 0) {
             users.forEach((user) => {
-                console.log(user.createdAt);
                 if (
                     user.id
                         .toString()

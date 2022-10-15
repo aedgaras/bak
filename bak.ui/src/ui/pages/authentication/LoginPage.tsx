@@ -17,12 +17,12 @@ import {
 } from '@chakra-ui/react';
 import { Field, Formik } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
+import { fetchThisUser } from '../../../hooks/customHooks';
 import {
-    fetchThisUser,
     validatePassword,
     validateUsername,
-} from '../../../hooks/customHooks';
-import { AppWrapper } from '../../components/AppWrapper';
+} from '../../../utils/validation/validation';
+import { AppWrapper } from '../../components/wrappers/AppWrapper';
 
 export const LoginPage = () => {
     const initialValue = { username: '', password: '' };

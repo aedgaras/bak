@@ -9,7 +9,7 @@ import reportWebVitals from './reportWebVitals';
 import { AppRouter } from './router/AppRouter';
 
 import * as serviceWorker from './serviceWorker';
-import { NavigationMenu } from './ui/components/NavigationMenu';
+import { NavigationMenu } from './ui/components/navigation/NavigationMenu';
 
 const container = document.getElementById('root');
 if (!container) throw new Error('Failed to find the root element');

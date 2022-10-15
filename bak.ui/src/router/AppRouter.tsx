@@ -3,10 +3,10 @@ import { Route, Routes } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
 import { LoginPage } from '../ui/pages/authentication/LoginPage';
 import { RegisterPage } from '../ui/pages/authentication/RegisterPage';
+import { UserDetailsPage } from '../ui/pages/details/UserDetailsPage';
 import { NotFound } from '../ui/pages/errorpages/NotFound';
 import { Unauthorized } from '../ui/pages/errorpages/Unauthorized';
 import { ProfilePage } from '../ui/pages/information/ProfilePage';
-import { UserDetailsPage } from '../ui/pages/information/UserDetailsPage';
 import { UsersPage } from '../ui/pages/information/UsersPage';
 import { UserApp } from '../ui/UserApp';
 
