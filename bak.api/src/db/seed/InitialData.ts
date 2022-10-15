@@ -1,3 +1,4 @@
+import { Organization } from '../../models/Organization';
 import { User } from '../../models/User';
 import { hashedPassword } from '../../utils/utils';
 
@@ -73,4 +74,22 @@ export const seedInitialUsers = async () => {
     seedInitialAdmin();
     seedInitialUser();
     seedInitialRandomUsers();
+};
+
+export const seedInitialOrganization = async () => {
+    const organizations = await Organization.findAndCountAll({
+        where: {
+            name: 'organization',
+        },
+    });
+
+    if (organizations.count > 0) {
+        return;
+    }
+
+    const initialOrg = await User.create({
+        name: 'organization'
+    });
+
+    initialOrg.save();
 };

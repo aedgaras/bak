@@ -1,8 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import { sign, SignOptions, verify, VerifyOptions } from 'jsonwebtoken';
-import { TOKEN_SECRET } from '../configuration/Configuration';
-import { User } from '../models/User';
-import { returnMessage, ReturnMessage } from '../utils/response/ResponseUtils';
+import { verify } from 'jsonwebtoken';
+import { returnMessage } from '../utils/response/ResponseUtils';
 
 export function authenticateToken(
     req: Request,

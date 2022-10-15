@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import { User } from '../models/User';
 import { returnMessage } from '../utils/response/ResponseUtils';
-import * as bcrypt from 'bcrypt';
 import { hashedPassword } from '../utils/utils';
 import { UserEntityName } from '../utils/constants';
 import { UserRegisterDto } from '../dto/User';

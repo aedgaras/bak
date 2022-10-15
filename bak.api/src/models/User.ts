@@ -1,9 +1,7 @@
-import { DataTypes, Model, where } from 'sequelize';
+import { DataTypes, Model } from 'sequelize';
 import { db } from '../db/Config';
 import { UserEntityName } from '../utils/constants';
-import { hashedPassword } from '../utils/utils';
 import { Organization } from './Organization';
-import { Roles } from './Roles';
 
 export class User extends Model {}
 
