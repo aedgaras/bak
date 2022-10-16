@@ -4,6 +4,7 @@ import { hashedPassword } from '../utils/utils';
 import * as bcrypt from 'bcrypt';
 import { UserLoginDto, UserRegisterDto } from '../dto/User';
 import { generateAccessToken } from '../utils/token/generator';
+import { bearerToken } from '../utils/token/payload';
 
 export const login = async (req: Request, res: Response) => {
     const userToLogin: UserLoginDto = {
@@ -25,7 +26,7 @@ export const login = async (req: Request, res: Response) => {
         } else {
             return res
                 .status(200)
-                .json(generateAccessToken({ username: userToLogin.username }));
+                .json(bearerToken(generateAccessToken({ username: userToLogin.username })));
         }
     }
 };
@@ -52,9 +53,6 @@ export const register = async (req: Request, res: Response) => {
 
         await newUser.save();
 
-        const token = generateAccessToken({
-            username: userToRegister.username,
-        });
-        return res.status(200).json(token);
+        return res.status(200).json(bearerToken(generateAccessToken({ username: userToRegister.username })));
     }
 };
