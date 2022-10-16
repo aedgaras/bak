@@ -42,5 +42,3 @@ User.init(
         modelName: UserEntityName,
     }
 );
-
-User.hasOne(Organization);

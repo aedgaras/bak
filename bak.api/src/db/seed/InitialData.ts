@@ -19,7 +19,7 @@ const seedInitialAdmin = async () => {
         role: 'admin',
     });
 
-    initialAdmin.save();
+    await initialAdmin.save();
 };
 
 const seedInitialUser = async () => {
@@ -39,7 +39,7 @@ const seedInitialUser = async () => {
         role: 'user',
     });
 
-    initialUser.save();
+    await initialUser.save();
 };
 
 const seedInitialRandomUsers = async () => {
@@ -66,14 +66,14 @@ const seedInitialRandomUsers = async () => {
             password: hashedPassword(name),
             role: 'user',
         });
-        initialUser.save();
+        await initialUser.save();
     });
 };
 
 export const seedInitialUsers = async () => {
-    seedInitialAdmin();
-    seedInitialUser();
-    seedInitialRandomUsers();
+    await seedInitialAdmin();
+    await seedInitialUser();
+    await seedInitialRandomUsers();
 };
 
 export const seedInitialOrganization = async () => {
@@ -87,9 +87,15 @@ export const seedInitialOrganization = async () => {
         return;
     }
 
-    const initialOrg = await User.create({
+    const initialOrg = await Organization.create({
         name: 'organization'
     });
 
-    initialOrg.save();
+    await initialOrg.save();
+
+    const users = await User.update({OrganizationId: 1}, {
+        where: {
+            OrganizationId: null
+        }
+    })
 };
