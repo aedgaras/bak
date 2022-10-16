@@ -15,6 +15,6 @@ export const getJwtFromStorage = () => {
     return localStorage.getItem(JWT_NAME);
 };
 
-export interface TokenPayload{
+export interface TokenPayload {
     token: string;
 }

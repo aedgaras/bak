@@ -65,7 +65,10 @@ export const RegisterPage = () => {
                                             isClosable: true,
                                         });
                                         sleep(5000);
-                                        localStorage.setItem(JWT_NAME, r.data.token.split(' ')[1]);
+                                        localStorage.setItem(
+                                            JWT_NAME,
+                                            r.data.token.split(' ')[1]
+                                        );
                                         window.location.assign('/');
                                     })
                                     .catch((e: AxiosError) => {
