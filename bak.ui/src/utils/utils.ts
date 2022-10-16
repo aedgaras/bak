@@ -14,3 +14,7 @@ export type ToastInfo = {
 export const getJwtFromStorage = () => {
     return localStorage.getItem(JWT_NAME);
 };
+
+export interface TokenPayload{
+    token: string;
+}

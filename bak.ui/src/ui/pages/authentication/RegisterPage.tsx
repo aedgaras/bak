@@ -13,11 +13,11 @@ import {
     useToast,
     VStack,
 } from '@chakra-ui/react';
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import { Field, Formik } from 'formik';
 import { JWT_NAME } from '../../../services/Authentication';
 import { UserRegisterDto } from '../../../utils/dto/User';
-import { sleep } from '../../../utils/utils';
+import { sleep, TokenPayload } from '../../../utils/utils';
 import {
     validatePassword,
     validateUsername,
@@ -55,7 +55,7 @@ export const RegisterPage = () => {
                                         'http://localhost:3030/api/auth/register',
                                         userPayload
                                     )
-                                    .then((r) => {
+                                    .then((r: AxiosResponse<TokenPayload>) => {
                                         toast({
                                             title: 'Success',
                                             description:
@@ -65,7 +65,7 @@ export const RegisterPage = () => {
                                             isClosable: true,
                                         });
                                         sleep(5000);
-                                        localStorage.setItem(JWT_NAME, r.data);
+                                        localStorage.setItem(JWT_NAME, r.data.token.split(' ')[1]);
                                         window.location.assign('/');
                                     })
                                     .catch((e: AxiosError) => {
