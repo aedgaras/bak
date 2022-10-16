@@ -1,5 +1,5 @@
-import { createColumnHelper } from "@tanstack/react-table";
-import { OrganizationDto } from "../../../../../utils/dto/Organization";
+import { createColumnHelper } from '@tanstack/react-table';
+import { OrganizationDto } from '../../../../../utils/dto/Organization';
 
 export function filterOrganizationTable(
     data: OrganizationDto[],
@@ -10,7 +10,8 @@ export function filterOrganizationTable(
     if (query.length > 0) {
         data.forEach((dataEntry) => {
             if (
-                dataEntry.name.toString()
+                dataEntry.name
+                    .toString()
                     .toLowerCase()
                     .includes(query.toLowerCase())
             ) {
@@ -27,7 +28,7 @@ export function filterOrganizationTable(
 export const organizationColumnHelper = createColumnHelper<OrganizationDto>();
 export const organizationTableColumns = [
     organizationColumnHelper.accessor('name', {
-        cell: (info: { getValue: () => any; }) => info.getValue(),
+        cell: (info: { getValue: () => any }) => info.getValue(),
         header: 'Name',
     }),
 ];

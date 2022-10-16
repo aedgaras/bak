@@ -1,14 +1,16 @@
-import axios, { AxiosResponse } from "axios";
-import { useState, useCallback, useMemo, useEffect } from "react";
-import { axiosAuthHeaders } from "../../../utils/constants";
-import { OrganizationDto } from "../../../utils/dto/Organization";
-import { filterOrganizationTable, organizationTableColumns } from "../../components/datadisplay/datatablehelpers/organizationhelpers/helpers";
-import { GenericTable } from "../../components/datadisplay/generic/GenericTable";
-import { GenericTableWithSearchAndCreate } from "../../components/datadisplay/generic/tablewithsearch/GenericTableWithActions";
-import { AppWrapper } from "../../components/wrappers/AppWrapper";
+import axios, { AxiosResponse } from 'axios';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { axiosAuthHeaders } from '../../../utils/constants';
+import { OrganizationDto } from '../../../utils/dto/Organization';
+import {
+    filterOrganizationTable,
+    organizationTableColumns,
+} from '../../components/datadisplay/datatablehelpers/organizationhelpers/helpers';
+import { GenericTable } from '../../components/datadisplay/generic/GenericTable';
+import { GenericTableWithSearchAndCreate } from '../../components/datadisplay/generic/tablewithsearch/GenericTableWithActions';
+import { AppWrapper } from '../../components/wrappers/AppWrapper';
 
-export const OrganizationsPage = () => 
-{
+export const OrganizationsPage = () => {
     const [usersToDisplay, setUsersToDisplay] = useState<OrganizationDto[]>([]);
     const [users, setUsers] = useState<OrganizationDto[]>([]);
     const [isLoaded, setIsLoaded] = useState<boolean>(true);
@@ -37,7 +39,12 @@ export const OrganizationsPage = () =>
     }, []);
 
     useEffect(() => {
-        filterOrganizationTable(users, queryFilter, filteredUsers, setUsersToDisplay);
+        filterOrganizationTable(
+            users,
+            queryFilter,
+            filteredUsers,
+            setUsersToDisplay
+        );
     }, [queryFilter, users]);
 
     return (
@@ -57,4 +64,4 @@ export const OrganizationsPage = () =>
             />
         </AppWrapper>
     );
-}
+};
