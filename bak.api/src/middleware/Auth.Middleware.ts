@@ -14,16 +14,11 @@ export function authenticateToken(
         return res.sendStatus(401);
     }
 
-    verify(
-        token,
-        process.env.TOKEN_SECRET as string,
-        (err: any, user: any) => {
-            if (err)
-                return res.sendStatus(403).json(returnMessage('Unauthorized'));
+    verify(token, process.env.TOKEN_SECRET as string, (err: any, user: any) => {
+        if (err) return res.sendStatus(403).json(returnMessage('Unauthorized'));
 
-            req.body.user = user;
+        req.body.user = user;
 
-            return next();
-        }
-    );
+        return next();
+    });
 }

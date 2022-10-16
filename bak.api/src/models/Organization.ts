@@ -1,7 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 import { db } from '../db/Config';
 import { OrganizationEntityName } from '../utils/constants';
-import { User } from "./User";
+import { User } from './User';
 
 export class Organization extends Model {}
 

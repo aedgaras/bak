@@ -88,14 +88,17 @@ export const seedInitialOrganization = async () => {
     }
 
     const initialOrg = await Organization.create({
-        name: 'organization'
+        name: 'organization',
     });
 
     await initialOrg.save();
 
-    const users = await User.update({OrganizationId: 1}, {
-        where: {
-            OrganizationId: null
+    const users = await User.update(
+        { OrganizationId: 1 },
+        {
+            where: {
+                OrganizationId: null,
+            },
         }
-    })
+    );
 };

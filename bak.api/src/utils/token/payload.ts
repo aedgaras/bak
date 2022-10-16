@@ -3,5 +3,5 @@ export interface JwtTokenPayload {
 }
 
 export const bearerToken = (token: string) => {
-    return {token: 'Bearer: ' + token};
-}
+    return { token: 'Bearer: ' + token };
+};

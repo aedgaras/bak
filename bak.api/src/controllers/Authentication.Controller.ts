@@ -26,7 +26,11 @@ export const login = async (req: Request, res: Response) => {
         } else {
             return res
                 .status(200)
-                .json(bearerToken(generateAccessToken({ username: userToLogin.username })));
+                .json(
+                    bearerToken(
+                        generateAccessToken({ username: userToLogin.username })
+                    )
+                );
         }
     }
 };
@@ -53,6 +57,12 @@ export const register = async (req: Request, res: Response) => {
 
         await newUser.save();
 
-        return res.status(200).json(bearerToken(generateAccessToken({ username: userToRegister.username })));
+        return res
+            .status(200)
+            .json(
+                bearerToken(
+                    generateAccessToken({ username: userToRegister.username })
+                )
+            );
     }
 };

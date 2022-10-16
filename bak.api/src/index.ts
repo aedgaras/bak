@@ -5,7 +5,10 @@ import cors from 'cors';
 import { userRouter } from './routes/User.Routes';
 import { authRouter } from './routes/Authentication.Routes';
 import { db } from './db/Config';
-import { seedInitialOrganization, seedInitialUsers } from './db/seed/InitialData';
+import {
+    seedInitialOrganization,
+    seedInitialUsers,
+} from './db/seed/InitialData';
 import { organizationRouter } from './routes/Organization.Routes';
 
 dotenv.config();
