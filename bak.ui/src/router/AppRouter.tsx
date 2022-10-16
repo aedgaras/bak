@@ -6,6 +6,7 @@ import { RegisterPage } from '../ui/pages/authentication/RegisterPage';
 import { UserDetailsPage } from '../ui/pages/details/UserDetailsPage';
 import { NotFound } from '../ui/pages/errorpages/NotFound';
 import { Unauthorized } from '../ui/pages/errorpages/Unauthorized';
+import { OrganizationsPage } from '../ui/pages/information/OrganizationsPage';
 import { ProfilePage } from '../ui/pages/information/ProfilePage';
 import { UsersPage } from '../ui/pages/information/UsersPage';
 import { UserApp } from '../ui/UserApp';
@@ -26,6 +27,7 @@ export const AppRouter = () => {
                 path="profile"
                 element={<ProtectedRoute element={<ProfilePage />} />}
             />
+            {/* Users paths */}
             <Route
                 path="/users"
                 element={<ProtectedRoute element={<UsersPage />} />}
@@ -38,7 +40,11 @@ export const AppRouter = () => {
                 path="/users/create"
                 element={<ProtectedRoute element={<UserDetailsPage />} />}
             />
-
+            {/* Organization paths */}
+            <Route
+                path="/organizations"
+                element={<ProtectedRoute element={<OrganizationsPage />} />}
+            />
             <Route path="*" element={<NotFound />} />
         </Routes>
     );

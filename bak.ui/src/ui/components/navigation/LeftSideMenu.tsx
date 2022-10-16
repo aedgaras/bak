@@ -13,6 +13,9 @@ export const LeftSideMenu = () => {
                     <Link to={'/users'}>
                         <Button>Users</Button>
                     </Link>
+                    <Link to={'/organizations'}>
+                        <Button>Organizations</Button>
+                    </Link>
                 </>
             }
         />
