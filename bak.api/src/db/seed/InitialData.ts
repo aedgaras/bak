@@ -2,6 +2,14 @@ import { Organization } from '../../models/Organization';
 import { User } from '../../models/User';
 import { hashedPassword } from '../../utils/utils';
 
+export const seedInitialEntities = async () => {
+    await seedInitialAdmin();
+    await seedInitialUser();
+    await seedInitialRandomUsers();
+
+    await seedInitialOrganization();
+};
+
 const seedInitialAdmin = async () => {
     const users = await User.findAndCountAll({
         where: {
@@ -68,12 +76,6 @@ const seedInitialRandomUsers = async () => {
         });
         await initialUser.save();
     });
-};
-
-export const seedInitialUsers = async () => {
-    await seedInitialAdmin();
-    await seedInitialUser();
-    await seedInitialRandomUsers();
 };
 
 export const seedInitialOrganization = async () => {

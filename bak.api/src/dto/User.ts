@@ -1,4 +1,4 @@
-import { Roles } from '../models/Roles';
+import { Role } from '../models/Roles';
 
 export type UserLoginDto = {
     username: string;
@@ -8,7 +8,7 @@ export type UserLoginDto = {
 export type UserRegisterDto = {
     username: string;
     password: string;
-    role?: Roles;
+    role?: Role;
     name?: string;
     lastname?: string;
     email?: string;
