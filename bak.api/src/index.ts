@@ -1,34 +1,24 @@
-import express, { Express } from 'express';
-import dotenv from 'dotenv';
-import { PORT_API } from './configuration/Configuration';
-import cors from 'cors';
+import { Express } from 'express';
+import { API_PORT } from './configuration/Configuration';
 import { userRouter } from './routes/User.Routes';
 import { authRouter } from './routes/Authentication.Routes';
 import { db } from './db/Config';
 import { seedInitialEntities } from './db/seed/InitialData';
 import { organizationRouter } from './routes/Organization.Routes';
+import { configuredApp } from './configuration/App';
 
-dotenv.config();
-
-const app: Express = express();
-
-app.use(express.json());
-app.use(
-    cors({
-        origin: '*',
-    })
-);
+const app: Express = configuredApp();
 
 app.use('/api/organizations', organizationRouter);
 app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
 
-app.listen(PORT_API, async () => {
-    await db.sync({ force: true });
+app.listen(API_PORT, async () => {
+    await db.sync({ alter: true });
 
     await seedInitialEntities();
-    
+
     console.log(
-        `⚡️[server]: Server is running at http://localhost:${PORT_API}`
+        `⚡️[server]: Server is running at http://localhost:${API_PORT}`
     );
 });
