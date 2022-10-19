@@ -9,10 +9,16 @@ import { configuredApp } from './configuration/App';
 
 const app: Express = configuredApp();
 
+/**
+ * Routers with controllers.
+ */
 app.use('/api/organizations', organizationRouter);
 app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
 
+/**
+ * Active application.
+ */
 app.listen(API_PORT, async () => {
     await db.sync({ alter: true });
 
