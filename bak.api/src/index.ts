@@ -20,7 +20,7 @@ app.use('/api/auth', authRouter);
  * Active application.
  */
 app.listen(API_PORT, async () => {
-    await db.sync({ alter: true });
+    await db.sync({ force: true });
 
     await seedInitialEntities();
 
