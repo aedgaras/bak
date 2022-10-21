@@ -1,14 +1,14 @@
 import { Request, Response } from 'express';
-import { User } from '../models/User';
-import { returnMessage } from '../utils/response/ResponseUtils';
-import { hashedPassword } from '../utils/utils';
-import { UserEntityName } from '../utils/constants';
 import { UserRegisterDto } from '../dto/User';
+import { User } from '../models/User';
+import { UserEntityName } from '../utils/constants';
 import {
-    ENTITY_NOT_FOUND,
     ENTITY_ALREADY_EXIST,
     ENTITY_DOESNT_EXIST,
+    ENTITY_NOT_FOUND,
 } from '../utils/response/ResponseTexts';
+import { returnMessage } from '../utils/response/ResponseUtils';
+import { hashedPassword } from '../utils/utils';
 
 export const getUsers = async (req: Request, res: Response) => {
     const users = await User.findAll();
@@ -22,9 +22,7 @@ export const getUser = async (req: Request, res: Response) => {
     const user = await User.findByPk(id);
 
     if (!user) {
-        return res
-            .sendStatus(404)
-            .json(returnMessage(ENTITY_NOT_FOUND(UserEntityName)));
+        return res.json(returnMessage(ENTITY_NOT_FOUND(UserEntityName)));
     } else {
         return res.json(user);
     }
@@ -40,9 +38,7 @@ export const getByUsername = async (req: Request, res: Response) => {
     });
 
     if (!user) {
-        return res
-            .sendStatus(404)
-            .json(returnMessage(ENTITY_NOT_FOUND(UserEntityName)));
+        return res.json(returnMessage(ENTITY_NOT_FOUND(UserEntityName)));
     } else {
         return res.json(user);
     }
@@ -61,7 +57,7 @@ export const createUser = async (req: Request, res: Response) => {
     });
 
     if (!existingUser) {
-        return res.status(400).send(ENTITY_ALREADY_EXIST(UserEntityName));
+        return res.send(ENTITY_ALREADY_EXIST(UserEntityName));
     } else {
         const createdUser = await User.create({ ...newUser });
 
@@ -88,9 +84,7 @@ export const updateUser = async (req: Request, res: Response) => {
 
         return res.status(200);
     } else {
-        return res
-            .sendStatus(401)
-            .json(returnMessage(ENTITY_DOESNT_EXIST(UserEntityName)));
+        return res.json(returnMessage(ENTITY_DOESNT_EXIST(UserEntityName)));
     }
 };
 
@@ -100,9 +94,7 @@ export const deleteUser = async (req: Request, res: Response) => {
     const user = await User.findByPk(userId);
 
     if (!user) {
-        return res
-            .sendStatus(404)
-            .json(returnMessage(ENTITY_NOT_FOUND(UserEntityName)));
+        return res.json(returnMessage(ENTITY_NOT_FOUND(UserEntityName)));
     } else {
         await user.destroy();
 

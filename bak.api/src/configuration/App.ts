@@ -1,7 +1,6 @@
 import cors from 'cors';
 import express, { Express } from 'express';
 
-
 /**
  * CORS and Json configured express application.
  * @returns express()

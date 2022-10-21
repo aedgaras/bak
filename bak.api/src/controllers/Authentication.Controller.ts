@@ -1,10 +1,10 @@
-import { Request, Response } from 'express';
-import { User } from '../models/User';
-import { hashedPassword } from '../utils/utils';
 import * as bcrypt from 'bcrypt';
+import { Request, Response } from 'express';
 import { UserLoginDto, UserRegisterDto } from '../dto/User';
+import { User } from '../models/User';
 import { generateAccessToken } from '../utils/token/generator';
 import { bearerToken } from '../utils/token/payload';
+import { hashedPassword } from '../utils/utils';
 
 export const login = async (req: Request, res: Response) => {
     const userToLogin: UserLoginDto = {

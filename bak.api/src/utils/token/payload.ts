@@ -3,7 +3,7 @@ export interface JwtTokenPayload {
 }
 
 interface JwtToken {
-    token: string
+    token: string;
 }
 
 /**
@@ -11,6 +11,6 @@ interface JwtToken {
  * @param token JWT token.
  * @returns Bearer token object.
  */
-export const bearerToken = (token: string): JwtToken=> {
+export const bearerToken = (token: string): JwtToken => {
     return { token: 'Bearer: ' + token };
 };
