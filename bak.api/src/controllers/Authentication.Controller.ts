@@ -24,13 +24,14 @@ export const login = async (req: Request, res: Response) => {
         if (!match) {
             return res.status(300).send('Password is incorrect.');
         } else {
-            return res
-                .status(200)
-                .json(
-                    bearerToken(
-                        generateAccessToken({ username: userToLogin.username })
-                    )
-                );
+            return res.status(200).json(
+                bearerToken(
+                    generateAccessToken({
+                        username: user.getDataValue('username'),
+                        role: user.getDataValue('role'),
+                    })
+                )
+            );
         }
     }
 };
@@ -57,12 +58,13 @@ export const register = async (req: Request, res: Response) => {
 
         await newUser.save();
 
-        return res
-            .status(200)
-            .json(
-                bearerToken(
-                    generateAccessToken({ username: userToRegister.username })
-                )
-            );
+        return res.status(200).json(
+            bearerToken(
+                generateAccessToken({
+                    username: newUser.getDataValue('username'),
+                    role: newUser.getDataValue('role'),
+                })
+            )
+        );
     }
 };
