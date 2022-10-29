@@ -6,8 +6,8 @@ export const seedInitialEntities = async () => {
     await seedInitialAdmin();
     await seedInitialUser();
     await seedInitialRandomUsers();
-
     await seedInitialOrganization();
+    await seedInitialRandomOrganizations();
 };
 
 const seedInitialAdmin = async () => {
@@ -51,16 +51,9 @@ const seedInitialUser = async () => {
 };
 
 const seedInitialRandomUsers = async () => {
-    const randomNames: string[] = [
-        'testRandom1',
-        'testRandom2',
-        'testRandom3',
-        'testRandom4',
-        'testRandom5',
-    ];
     const users = await User.findAndCountAll({
         where: {
-            username: randomNames,
+            username: randomUserNames,
         },
     });
 
@@ -68,7 +61,7 @@ const seedInitialRandomUsers = async () => {
         return;
     }
 
-    randomNames.map(async (name) => {
+    randomUserNames.map(async (name) => {
         const initialUser = await User.create({
             username: name,
             password: hashedPassword(name),
@@ -104,3 +97,40 @@ export const seedInitialOrganization = async () => {
         }
     );
 };
+
+const seedInitialRandomOrganizations = async () => {
+    const orgs = await Organization.findAndCountAll({
+        where: {
+            name: randomOrgNames,
+        },
+    });
+
+    if (orgs.count > 0) {
+        return;
+    }
+
+    randomOrgNames.map(async (name) => {
+        const userForOrg = await User.findOne();
+
+        const initialOrg = await Organization.create({
+            name: name,
+        });
+        await initialOrg.save();
+    });
+};
+
+const randomUserNames: string[] = [
+    'testRandom1',
+    'testRandom2',
+    'testRandom3',
+    'testRandom4',
+    'testRandom5',
+];
+
+const randomOrgNames: string[] = [
+    'testRandomOrg1',
+    'testRandomOrg2',
+    'testRandomOrg3',
+    'testRandomOrg4',
+    'testRandomOrg5',
+];

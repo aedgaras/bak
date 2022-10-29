@@ -4,8 +4,10 @@ import { User } from '../models/User';
 import { UserEntityName } from '../utils/constants';
 import {
     ENTITY_ALREADY_EXIST,
+    ENTITY_DELETED,
     ENTITY_DOESNT_EXIST,
     ENTITY_NOT_FOUND,
+    ENTITY_UPDATED,
 } from '../utils/response/ResponseTexts';
 import { returnMessage } from '../utils/response/ResponseUtils';
 import { hashedPassword } from '../utils/utils';
@@ -78,11 +80,13 @@ export const updateUser = async (req: Request, res: Response) => {
             password: req.body.password,
         };
 
-        existingUser.set({ ...updatedUser });
+        existingUser.update({ ...updatedUser });
 
         await existingUser.save();
 
-        return res.status(200);
+        return res
+            .status(200)
+            .json(returnMessage(ENTITY_UPDATED(UserEntityName, userId)));
     } else {
         return res.json(returnMessage(ENTITY_DOESNT_EXIST(UserEntityName)));
     }
@@ -100,6 +104,8 @@ export const deleteUser = async (req: Request, res: Response) => {
 
         await user.save();
 
-        return res.status(200);
+        return res
+            .status(200)
+            .json(returnMessage(ENTITY_DELETED(UserEntityName, userId)));
     }
 };

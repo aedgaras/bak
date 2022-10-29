@@ -24,4 +24,8 @@ userRouter.post('/', [authenticateToken], createUser);
 
 userRouter.put('/:userId', [authenticateToken], updateUser);
 
-userRouter.put('/:userId', [authenticateToken], deleteUser);
+userRouter.delete(
+    '/:userId',
+    [authenticateToken, authenticateRole(['admin'])],
+    deleteUser
+);
