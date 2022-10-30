@@ -10,6 +10,10 @@ export interface UserModel {
 export type Role = 'admin' | 'user';
 
 export interface ListResponse<T> {
-    count: number;
-    rows: T;
+    paging: {
+        total: number;
+        page: number;
+        pages: number;
+    };
+    data: T;
 }

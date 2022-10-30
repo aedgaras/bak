@@ -21,7 +21,7 @@ export const UsersPage = () => {
         const response = await axios
             .get('http://localhost:3030/api/users', axiosAuthHeaders)
             .then((r: AxiosResponse<ListResponse<UserModel[]>>) => {
-                return r.data.rows;
+                return r.data.data;
             });
         return response;
     }, []);

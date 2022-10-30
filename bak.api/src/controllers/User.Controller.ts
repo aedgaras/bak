@@ -2,7 +2,11 @@ import { Request, Response } from 'express';
 import { UserRegisterDto } from '../dto/User';
 import { User } from '../models/User';
 import { UserEntityName } from '../utils/constants';
-import { pagingQueryExists, RequestQueryPagination } from '../utils/request';
+import {
+    ListResponse,
+    pagingQueryExists,
+    RequestQueryPagination,
+} from '../utils/request';
 import {
     ENTITY_ALREADY_EXIST,
     ENTITY_DELETED,
@@ -23,7 +27,7 @@ export const getUsers = async (req: Request, res: Response) => {
         pagingQueryExists(paging) ? { ...paging } : {}
     );
 
-    return res.json(users);
+    return res.json(ListResponse(paging, users.count, users.rows));
 };
 
 export const getUser = async (req: Request, res: Response) => {

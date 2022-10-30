@@ -22,7 +22,7 @@ export const OrganizationsPage = () => {
         const response = await axios
             .get('http://localhost:3030/api/organizations', axiosAuthHeaders)
             .then((r: AxiosResponse<ListResponse<OrganizationDto[]>>) => {
-                return r.data.rows;
+                return r.data.data;
             });
         return response;
     }, []);

@@ -2,7 +2,11 @@ import { Request, Response } from 'express';
 import { Organization } from '../models/Organization';
 import { User } from '../models/User';
 import { OrganizationEntityName } from '../utils/constants';
-import { pagingQueryExists, RequestQueryPagination } from '../utils/request';
+import {
+    ListResponse,
+    pagingQueryExists,
+    RequestQueryPagination,
+} from '../utils/request';
 import { ENTITY_NOT_FOUND } from '../utils/response/ResponseTexts';
 import { returnMessage } from '../utils/response/ResponseUtils';
 
@@ -16,7 +20,9 @@ export const getOrganizations = async (req: Request, res: Response) => {
         pagingQueryExists(paging) ? { ...paging } : {}
     );
 
-    return res.json(organizations);
+    return res.json(
+        ListResponse(paging, organizations.count, organizations.rows)
+    );
 };
 
 export const getOrganizationMembers = async (req: Request, res: Response) => {
