@@ -1,8 +1,14 @@
 import * as bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
+import { sign, verify } from 'jsonwebtoken';
+import { REFRESH_SECRET, TOKEN_SECRET } from '../configuration/Configuration';
 import { UserLoginDto, UserRegisterDto } from '../dto/User';
 import { User } from '../models/User';
-import { bearerToken, generateAccessToken } from '../utils/token/utils';
+import {
+    bearerToken,
+    generateAccessToken,
+    generateRefreshToken,
+} from '../utils/token/utils';
 import { hashedPassword } from '../utils/utils';
 
 export const login = async (req: Request, res: Response) => {
@@ -23,6 +29,20 @@ export const login = async (req: Request, res: Response) => {
         if (!match) {
             return res.status(300).send('Password is incorrect.');
         } else {
+            res.cookie(
+                'jwt',
+                bearerToken(
+                    generateRefreshToken({
+                        username: user.getDataValue('username'),
+                    })
+                ).token,
+                {
+                    httpOnly: true,
+                    sameSite: 'none',
+                    secure: true,
+                    maxAge: 24 * 60 * 60 * 1000,
+                }
+            );
             return res.status(200).json(
                 bearerToken(
                     generateAccessToken({
@@ -57,6 +77,21 @@ export const register = async (req: Request, res: Response) => {
 
         await newUser.save();
 
+        res.cookie(
+            'jwt',
+            bearerToken(
+                generateRefreshToken({
+                    username: newUser.getDataValue('username'),
+                })
+            ).token,
+            {
+                httpOnly: true,
+                sameSite: 'none',
+                secure: true,
+                maxAge: 24 * 60 * 60 * 1000,
+            }
+        );
+
         return res.status(200).json(
             bearerToken(
                 generateAccessToken({
@@ -65,5 +100,35 @@ export const register = async (req: Request, res: Response) => {
                 })
             )
         );
+    }
+};
+
+export const refresh = async (req: Request, res: Response) => {
+    if (req.cookies?.jwt) {
+        // Destructuring refreshToken from cookie
+        const refreshToken = req.cookies.jwt;
+
+        // Verifying refresh token
+        verify(refreshToken, REFRESH_SECRET, (err: any, decoded: any) => {
+            if (err) {
+                // Wrong Refesh Token
+                return res.status(406).json({ message: 'Unauthorized' });
+            } else {
+                // Correct token we send a new access token
+                const accessToken = sign(
+                    {
+                        username: req.body.username,
+                        email: req.body.role,
+                    },
+                    TOKEN_SECRET,
+                    {
+                        expiresIn: '10m',
+                    }
+                );
+                return res.json({ accessToken });
+            }
+        });
+    } else {
+        return res.status(406).json({ message: 'Unauthorized' });
     }
 };

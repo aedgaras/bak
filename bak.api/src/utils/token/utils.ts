@@ -1,6 +1,9 @@
 import { Request } from 'express';
 import { sign } from 'jsonwebtoken';
-import { TOKEN_SECRET } from '../../configuration/Configuration';
+import {
+    REFRESH_SECRET,
+    TOKEN_SECRET,
+} from '../../configuration/Configuration';
 import { JwtToken, JwtTokenPayload } from './Models';
 
 /**
@@ -10,6 +13,10 @@ import { JwtToken, JwtTokenPayload } from './Models';
  */
 export function generateAccessToken(payload: JwtTokenPayload) {
     return sign(payload, TOKEN_SECRET, { expiresIn: '5m' });
+}
+
+export function generateRefreshToken(payload: { username: string }) {
+    return sign(payload, REFRESH_SECRET, { expiresIn: '10m' });
 }
 
 /**
