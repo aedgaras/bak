@@ -31,11 +31,9 @@ export const login = async (req: Request, res: Response) => {
         } else {
             res.cookie(
                 'jwt',
-                bearerToken(
-                    generateRefreshToken({
-                        username: user.getDataValue('username'),
-                    })
-                ).token,
+                generateRefreshToken({
+                    username: user.getDataValue('username'),
+                }),
                 {
                     httpOnly: true,
                     sameSite: 'none',
@@ -79,11 +77,9 @@ export const register = async (req: Request, res: Response) => {
 
         res.cookie(
             'jwt',
-            bearerToken(
-                generateRefreshToken({
-                    username: newUser.getDataValue('username'),
-                })
-            ).token,
+            generateRefreshToken({
+                username: newUser.getDataValue('username'),
+            }),
             {
                 httpOnly: true,
                 sameSite: 'none',
