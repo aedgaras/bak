@@ -5,7 +5,7 @@ import {
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogOverlay,
-    Button
+    Button,
 } from '@chakra-ui/react';
 import { DialogBase } from '../../../utils/Models/InterfaceModels';
 
