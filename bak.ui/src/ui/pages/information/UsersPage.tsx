@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { axiosAuthHeaders } from '../../../utils/constants';
-import { UserModel } from '../../../utils/Models/Models';
+import { ListResponse, UserModel } from '../../../utils/Models/Models';
 import {
     filterUserTable,
     userTableColumns,
@@ -19,12 +19,9 @@ export const UsersPage = () => {
 
     const getUsers = useCallback(async () => {
         const response = await axios
-            .get<UserModel[]>(
-                'http://localhost:3030/api/users',
-                axiosAuthHeaders
-            )
-            .then((r: AxiosResponse<UserModel[]>) => {
-                return r.data;
+            .get('http://localhost:3030/api/users', axiosAuthHeaders)
+            .then((r: AxiosResponse<ListResponse<UserModel[]>>) => {
+                return r.data.rows;
             });
         return response;
     }, []);

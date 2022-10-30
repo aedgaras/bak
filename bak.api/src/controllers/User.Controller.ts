@@ -19,7 +19,7 @@ export const getUsers = async (req: Request, res: Response) => {
         offset: Number(req.query.offset),
     };
 
-    const users = await User.findAll(
+    const users = await User.findAndCountAll(
         pagingQueryExists(paging) ? { ...paging } : {}
     );
 

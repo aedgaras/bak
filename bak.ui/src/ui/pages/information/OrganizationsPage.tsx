@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { axiosAuthHeaders } from '../../../utils/constants';
 import { OrganizationDto } from '../../../utils/dto/Organization';
+import { ListResponse } from '../../../utils/Models/Models';
 import {
     filterOrganizationTable,
     organizationTableColumns,
@@ -19,12 +20,9 @@ export const OrganizationsPage = () => {
 
     const getUsers = useCallback(async () => {
         const response = await axios
-            .get<OrganizationDto[]>(
-                'http://localhost:3030/api/organizations',
-                axiosAuthHeaders
-            )
-            .then((r: AxiosResponse<OrganizationDto[]>) => {
-                return r.data;
+            .get('http://localhost:3030/api/organizations', axiosAuthHeaders)
+            .then((r: AxiosResponse<ListResponse<OrganizationDto[]>>) => {
+                return r.data.rows;
             });
         return response;
     }, []);

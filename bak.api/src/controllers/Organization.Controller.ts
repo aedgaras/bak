@@ -12,7 +12,7 @@ export const getOrganizations = async (req: Request, res: Response) => {
         offset: Number(req.query.offset),
     };
 
-    const organizations = await Organization.findAll(
+    const organizations = await Organization.findAndCountAll(
         pagingQueryExists(paging) ? { ...paging } : {}
     );
 
