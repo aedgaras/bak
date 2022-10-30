@@ -1,3 +1,5 @@
+import { Request } from 'express';
+
 export interface RequestQueryPagination {
     offset: number;
     limit: number;
@@ -35,4 +37,11 @@ export const ListResponse = <T>(
         },
         data: dataList,
     };
+};
+
+export const entityIdFromParameter = (
+    req: Request,
+    paramId: 'userId' | 'orgId' | string
+) => {
+    return Number(req.params[paramId]);
 };

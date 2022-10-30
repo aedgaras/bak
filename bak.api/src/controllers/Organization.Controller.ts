@@ -1,13 +1,21 @@
 import { Request, Response } from 'express';
+import { OrganizationDto } from '../dto/Organization';
 import { Organization } from '../models/Organization';
 import { User } from '../models/User';
 import { OrganizationEntityName } from '../utils/constants';
 import {
+    entityIdFromParameter,
     ListResponse,
     pagingQueryExists,
     RequestQueryPagination,
 } from '../utils/request';
-import { ENTITY_NOT_FOUND } from '../utils/response/ResponseTexts';
+import {
+    ENTITY_ALREADY_EXIST,
+    ENTITY_DELETED,
+    ENTITY_DOESNT_EXIST,
+    ENTITY_NOT_FOUND,
+    ENTITY_UPDATED,
+} from '../utils/response/ResponseTexts';
 import { returnMessage } from '../utils/response/ResponseUtils';
 
 export const getOrganizations = async (req: Request, res: Response) => {
@@ -26,19 +34,33 @@ export const getOrganizations = async (req: Request, res: Response) => {
 };
 
 export const getOrganizationMembers = async (req: Request, res: Response) => {
-    const orgId: number = Number(req.params['orgId']);
+    const orgId = entityIdFromParameter(req, 'orgId');
 
-    const users = await User.findAll({
-        where: {
-            OrganizationId: orgId,
-        },
-    });
+    const paging: RequestQueryPagination = {
+        limit: Number(req.query.limit),
+        offset: Number(req.query.offset),
+    };
 
-    return res.json(users);
+    const users = await User.findAndCountAll(
+        pagingQueryExists(paging)
+            ? {
+                  where: {
+                      OrganizationId: orgId,
+                  },
+                  ...paging,
+              }
+            : {
+                  where: {
+                      OrganizationId: orgId,
+                  },
+              }
+    );
+
+    return res.json(ListResponse(paging, users.count, users.rows));
 };
 
 export const getOrganization = async (req: Request, res: Response) => {
-    const orgId: number = Number(req.params['orgId']);
+    const orgId = entityIdFromParameter(req, 'orgId');
 
     const organization = await Organization.findByPk(orgId);
 
@@ -48,5 +70,75 @@ export const getOrganization = async (req: Request, res: Response) => {
         );
     } else {
         return res.json(organization);
+    }
+};
+
+export const createOrganization = async (req: Request, res: Response) => {
+    const newOrganization: OrganizationDto = {
+        name: req.body.name as string,
+    };
+
+    const existingOrganization = await Organization.findOne({
+        where: {
+            name: newOrganization.name,
+        },
+    });
+
+    if (existingOrganization) {
+        return res
+            .status(403)
+            .json(returnMessage(ENTITY_ALREADY_EXIST(OrganizationEntityName)));
+    } else {
+        const createdOrganization = await Organization.create({
+            ...newOrganization,
+        });
+
+        await createdOrganization.save();
+
+        return res.sendStatus(200);
+    }
+};
+
+export const updateOrganization = async (req: Request, res: Response) => {
+    const orgId = entityIdFromParameter(req, 'orgId');
+
+    const existingOrg = await Organization.findByPk(orgId);
+
+    if (existingOrg) {
+        const updatedOrg: OrganizationDto = {
+            name: req.body.name,
+        };
+
+        existingOrg.update({ ...updatedOrg });
+
+        await existingOrg.save();
+
+        return res
+            .status(200)
+            .json(returnMessage(ENTITY_UPDATED(OrganizationEntityName, orgId)));
+    } else {
+        return res.json(
+            returnMessage(ENTITY_DOESNT_EXIST(OrganizationEntityName))
+        );
+    }
+};
+
+export const deleteOrganization = async (req: Request, res: Response) => {
+    const orgId = entityIdFromParameter(req, 'orgId');
+
+    const organization = await Organization.findByPk(orgId);
+
+    if (!organization) {
+        return res.json(
+            returnMessage(ENTITY_NOT_FOUND(OrganizationEntityName))
+        );
+    } else {
+        await organization.destroy();
+
+        await organization.save();
+
+        return res
+            .status(200)
+            .json(returnMessage(ENTITY_DELETED(OrganizationEntityName, orgId)));
     }
 };

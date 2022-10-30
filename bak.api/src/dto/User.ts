@@ -14,3 +14,13 @@ export type UserRegisterDto = {
     email?: string;
     avatar?: string;
 };
+
+export interface UserDto {
+    username: string;
+    role?: Role;
+    name?: string;
+    lastname?: string;
+    email?: string;
+    avatar?: string;
+    OrganizationId: number;
+}

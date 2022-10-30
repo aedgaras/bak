@@ -3,6 +3,7 @@ import { UserRegisterDto } from '../dto/User';
 import { User } from '../models/User';
 import { UserEntityName } from '../utils/constants';
 import {
+    entityIdFromParameter,
     ListResponse,
     pagingQueryExists,
     RequestQueryPagination,
@@ -31,9 +32,9 @@ export const getUsers = async (req: Request, res: Response) => {
 };
 
 export const getUser = async (req: Request, res: Response) => {
-    const id = Number(req.params.userId);
+    const userId = entityIdFromParameter(req, 'userId');
 
-    const user = await User.findByPk(id);
+    const user = await User.findByPk(userId);
 
     if (!user) {
         return res.json(returnMessage(ENTITY_NOT_FOUND(UserEntityName)));
@@ -51,7 +52,7 @@ export const getByUsername = async (req: Request, res: Response) => {
         },
     });
 
-    if (!user) {
+    if (user) {
         return res.json(returnMessage(ENTITY_NOT_FOUND(UserEntityName)));
     } else {
         return res.json(user);
@@ -70,8 +71,10 @@ export const createUser = async (req: Request, res: Response) => {
         },
     });
 
-    if (!existingUser) {
-        return res.send(ENTITY_ALREADY_EXIST(UserEntityName));
+    if (existingUser) {
+        return res
+            .status(403)
+            .send(returnMessage(ENTITY_ALREADY_EXIST(UserEntityName)));
     } else {
         const createdUser = await User.create({ ...newUser });
 
@@ -82,7 +85,7 @@ export const createUser = async (req: Request, res: Response) => {
 };
 
 export const updateUser = async (req: Request, res: Response) => {
-    const userId = Number(req.params.userId);
+    const userId = entityIdFromParameter(req, 'userId');
 
     const existingUser = await User.findByPk(userId);
 
@@ -105,7 +108,7 @@ export const updateUser = async (req: Request, res: Response) => {
 };
 
 export const deleteUser = async (req: Request, res: Response) => {
-    const userId = Number(req.params.userId);
+    const userId = entityIdFromParameter(req, 'userId');
 
     const user = await User.findByPk(userId);
 

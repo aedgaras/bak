@@ -3,9 +3,9 @@
  */
 
 export const ENTITY_DOESNT_EXIST = (entityName: string) =>
-    `Entity: ${entityName} doesn\'t exist.`;
+    `Entity: ${entityName}, doesn\'t exist.`;
 export const ENTITY_ALREADY_EXIST = (entityName: string) =>
-    `Entity: ${entityName} already exists.`;
+    `Entity: ${entityName}, already exists.`;
 export const ENTITY_NOT_FOUND = (entityName: string) =>
     `Entity: ${entityName} not found.`;
 export const ENTITY_UPDATED = (entityName: string, entityId: number) =>

@@ -1,8 +1,11 @@
 import express from 'express';
 import {
+    createOrganization,
+    deleteOrganization,
     getOrganization,
     getOrganizationMembers,
     getOrganizations,
+    updateOrganization,
 } from '../controllers/Organization.Controller';
 import { authenticateToken } from '../middleware/Auth.Middleware';
 
@@ -17,3 +20,9 @@ organizationRouter.get(
 );
 
 organizationRouter.get('/:orgId', [authenticateToken], getOrganization);
+
+organizationRouter.post('/', [authenticateToken], createOrganization);
+
+organizationRouter.put('/:orgId', [authenticateToken], updateOrganization);
+
+organizationRouter.delete('/:orgId', [authenticateToken], deleteOrganization);
