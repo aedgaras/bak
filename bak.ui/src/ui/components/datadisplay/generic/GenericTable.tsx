@@ -1,16 +1,26 @@
 import {
+    ArrowLeftIcon,
+    ArrowRightIcon,
+    ChevronLeftIcon,
+    ChevronRightIcon,
     DeleteIcon,
     MinusIcon,
     TriangleDownIcon,
     TriangleUpIcon,
 } from '@chakra-ui/icons';
 import {
+    Box,
     Button,
     chakra,
+    HStack,
+    Select,
+    Spacer,
     Table,
     TableContainer,
     Tbody,
     Td,
+    Text,
+    Tfoot,
     Th,
     Thead,
     Tr,
@@ -20,6 +30,7 @@ import {
     ColumnDef,
     flexRender,
     getCoreRowModel,
+    getFilteredRowModel,
     getPaginationRowModel,
     getSortedRowModel,
     SortingState,
@@ -54,6 +65,7 @@ export function GenericTable<Data extends object>({
             sorting,
         },
         getPaginationRowModel: getPaginationRowModel(),
+        getFilteredRowModel: getFilteredRowModel(),
     });
 
     return (
@@ -143,7 +155,57 @@ export function GenericTable<Data extends object>({
                     onClose={onClose}
                     entityToDeleteId={toDeleteId[0]}
                 />
+                <Tfoot></Tfoot>
             </Table>
+            <HStack pt={2} spacing={2}>
+                <Button
+                    onClick={() => table.setPageIndex(0)}
+                    disabled={!table.getCanPreviousPage()}
+                >
+                    <ArrowLeftIcon />
+                </Button>
+                <Button
+                    className="border rounded p-1"
+                    onClick={() => table.previousPage()}
+                    disabled={!table.getCanPreviousPage()}
+                >
+                    <ChevronLeftIcon />
+                </Button>
+                <Button
+                    onClick={() => table.nextPage()}
+                    disabled={!table.getCanNextPage()}
+                >
+                    <ChevronRightIcon />
+                </Button>
+                <Button
+                    onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+                    disabled={!table.getCanNextPage()}
+                >
+                    <ArrowRightIcon />
+                </Button>
+                <Spacer />
+                <Box>
+                    <Text>
+                        {'Page '}
+                        {table.getState().pagination.pageIndex + 1} of{' '}
+                        {table.getPageCount()}
+                    </Text>
+                </Box>
+                <Box>
+                    <Select
+                        value={table.getState().pagination.pageSize}
+                        onChange={(e) => {
+                            table.setPageSize(Number(e.target.value));
+                        }}
+                    >
+                        {[5, 10, 20, 30, 50].map((pageSize) => (
+                            <option key={pageSize} value={pageSize}>
+                                Show {pageSize}
+                            </option>
+                        ))}
+                    </Select>
+                </Box>
+            </HStack>
         </TableContainer>
     );
 }

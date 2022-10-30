@@ -3,6 +3,15 @@ export interface RequestQueryPagination {
     limit: number;
 }
 
+export interface PaginatedResponse<T> {
+    paging: {
+        listCount: number;
+        currentPage: number;
+        totalPages: number;
+    };
+    data: T;
+}
+
 export const pagingQueryExists = (query: RequestQueryPagination): boolean => {
     return (query.limit &&
         query.offset &&
@@ -14,7 +23,7 @@ export const ListResponse = <T>(
     pagingQuery: RequestQueryPagination,
     dataCount: number,
     dataList: T
-) => {
+): PaginatedResponse<T> => {
     const totalPages = Math.ceil(dataCount / pagingQuery.limit);
     const currentPage = Math.ceil(dataCount / pagingQuery.offset);
 
