@@ -11,9 +11,9 @@ export type Role = 'admin' | 'user';
 
 export interface ListResponse<T> {
     paging: {
-        total: number;
-        page: number;
-        pages: number;
+        listCount: number;
+        currentPage: number;
+        totalPages: number;
     };
     data: T;
 }

@@ -11,19 +11,19 @@ export const pagingQueryExists = (query: RequestQueryPagination): boolean => {
 };
 
 export const ListResponse = <T>(
-    paging: RequestQueryPagination,
-    count: number,
-    data: T
+    pagingQuery: RequestQueryPagination,
+    dataCount: number,
+    dataList: T
 ) => {
-    const totalPages = Math.ceil(count / paging.limit);
-    const currentPage = Math.ceil(count / paging.offset);
+    const totalPages = Math.ceil(dataCount / pagingQuery.limit);
+    const currentPage = Math.ceil(dataCount / pagingQuery.offset);
 
     return {
         paging: {
-            total: count,
-            page: currentPage,
-            pages: totalPages,
+            listCount: dataCount,
+            currentPage: currentPage,
+            totalPages: totalPages,
         },
-        data: data,
+        data: dataList,
     };
 };
