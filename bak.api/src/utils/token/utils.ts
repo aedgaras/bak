@@ -9,7 +9,7 @@ import { JwtToken, JwtTokenPayload } from './Models';
  * @returns Signed token payload.
  */
 export function generateAccessToken(payload: JwtTokenPayload) {
-    return sign(payload, TOKEN_SECRET, { expiresIn: '1h' });
+    return sign(payload, TOKEN_SECRET, { expiresIn: '5m' });
 }
 
 /**

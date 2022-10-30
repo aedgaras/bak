@@ -20,7 +20,11 @@ userRouter.get('/:userId', [authenticateToken], getUser);
 
 userRouter.get('/getByUsername/:username', [authenticateToken], getByUsername);
 
-userRouter.post('/', [authenticateToken], createUser);
+userRouter.post(
+    '/',
+    [authenticateToken, authenticateRole(['admin'])],
+    createUser
+);
 
 userRouter.put('/:userId', [authenticateToken], updateUser);
 

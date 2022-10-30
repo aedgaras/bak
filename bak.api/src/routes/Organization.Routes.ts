@@ -7,7 +7,10 @@ import {
     getOrganizations,
     updateOrganization,
 } from '../controllers/Organization.Controller';
-import { authenticateToken } from '../middleware/Auth.Middleware';
+import {
+    authenticateRole,
+    authenticateToken,
+} from '../middleware/Auth.Middleware';
 
 export const organizationRouter = express.Router();
 
@@ -21,8 +24,20 @@ organizationRouter.get(
 
 organizationRouter.get('/:orgId', [authenticateToken], getOrganization);
 
-organizationRouter.post('/', [authenticateToken], createOrganization);
+organizationRouter.post(
+    '/',
+    [authenticateToken, authenticateRole(['admin'])],
+    createOrganization
+);
 
-organizationRouter.put('/:orgId', [authenticateToken], updateOrganization);
+organizationRouter.put(
+    '/:orgId',
+    [authenticateToken, authenticateRole(['admin'])],
+    updateOrganization
+);
 
-organizationRouter.delete('/:orgId', [authenticateToken], deleteOrganization);
+organizationRouter.delete(
+    '/:orgId',
+    [authenticateToken, authenticateRole(['admin'])],
+    deleteOrganization
+);
