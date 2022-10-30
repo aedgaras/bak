@@ -12,7 +12,6 @@ export const RightSideMenu = () => {
     const cancelRef = useRef(null);
     return (
         <>
-            {' '}
             <IsLoggedInElement
                 element={
                     <>
@@ -20,13 +19,11 @@ export const RightSideMenu = () => {
                             <Text>{`Hello, ${userContext.name}`}</Text>
                         </Link>
                         <Link to={'/profile'}>
-                            <Text>
-                                <Avatar
-                                    name={userContext.name}
-                                    src={''}
-                                    size="sm"
-                                />
-                            </Text>
+                            <Avatar
+                                name={userContext.name}
+                                src={''}
+                                size="sm"
+                            />
                         </Link>
                     </>
                 }

@@ -1,4 +1,5 @@
 import jwtDecode from 'jwt-decode';
+import ms from 'ms';
 import { JWT_NAME } from '../services/Authentication';
 import { Role } from './Models/Models';
 
@@ -35,11 +36,33 @@ export const isJwtExpired = () => {
 
     const decodedJwt: Jwt = jwtDecode(storedJwt);
 
-    const expDate = Date.now() >= decodedJwt.exp * 1000;
-    console.log(expDate);
-    if (decodedJwt.exp < Date.now() / 1000) {
+    const expDate = new Date(decodedJwt.exp * 1000);
+    const curDate = new Date();
+
+    if (curDate > expDate) {
         return true;
     }
 
     return false;
+};
+
+export const timeDifference = (expiryDate?: Date) => {
+    if (expiryDate === undefined) {
+        const storedJwt = getJwtFromStorage;
+
+        if (!storedJwt) {
+            return undefined;
+        }
+
+        const decodedJwt: Jwt = jwtDecode(storedJwt);
+
+        const expDate = new Date(decodedJwt.exp * 1000);
+        return Math.abs(new Date().getTime() - expDate.getTime());
+    }
+
+    return Math.abs(new Date().getTime() - expiryDate.getTime());
+};
+
+export const timeDifferenceInText = (time: number) => {
+    return ms(time);
 };
