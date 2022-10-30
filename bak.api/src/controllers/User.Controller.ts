@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { UserRegisterDto } from '../dto/User';
 import { User } from '../models/User';
 import { UserEntityName } from '../utils/constants';
+import { pagingQueryExists, RequestQueryPagination } from '../utils/request';
 import {
     ENTITY_ALREADY_EXIST,
     ENTITY_DELETED,
@@ -13,7 +14,14 @@ import { returnMessage } from '../utils/response/ResponseUtils';
 import { hashedPassword } from '../utils/utils';
 
 export const getUsers = async (req: Request, res: Response) => {
-    const users = await User.findAll();
+    const paging: RequestQueryPagination = {
+        limit: Number(req.query.limit),
+        offset: Number(req.query.offset),
+    };
+
+    const users = await User.findAll(
+        pagingQueryExists(paging) ? { ...paging } : {}
+    );
 
     return res.json(users);
 };
