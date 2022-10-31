@@ -13,6 +13,7 @@ export function userContextValues(): UserContextInterface {
     return {
         name: getCurrentUser()?.username,
         loggedIn: getCurrentUser() !== null,
+        role: getCurrentUser()?.role,
     };
 }
 

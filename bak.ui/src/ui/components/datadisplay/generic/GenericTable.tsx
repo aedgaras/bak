@@ -38,6 +38,7 @@ import {
 } from '@tanstack/react-table';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
+import { useUserContext } from '../../../../context/UserContext';
 import { DeleteDialog } from '../../dialogs/DeleteDialog';
 
 export type DataTableProps<Data extends object> = {
@@ -58,6 +59,7 @@ export function GenericTable<Data extends object>({
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [toDeleteId, setToDeleteId] = React.useState<string[]>([]);
     const cancelRef = React.useRef(null);
+    const userContext = useUserContext();
 
     const table = useReactTable({
         columns,
@@ -127,29 +129,38 @@ export function GenericTable<Data extends object>({
                                     </Td>
                                 );
                             })}
-                            <Td key={row.id + '_details'}>
-                                <Link
-                                    to={`${row
-                                        .getVisibleCells()[0]
-                                        .getValue()}`}
-                                >
-                                    <Button>Details</Button>
-                                </Link>
-                            </Td>
-                            <Td key={row.id + '_delete'}>
-                                <Button
-                                    onClick={(e) => {
-                                        setToDeleteId([
-                                            row
+                            {userContext.role === 'admin' ? (
+                                <>
+                                    <Td key={row.id + '_details'}>
+                                        <Link
+                                            to={`${row
                                                 .getVisibleCells()[0]
-                                                .getValue() as string,
-                                        ]);
-                                        onOpen();
-                                    }}
-                                >
-                                    <DeleteIcon color={'red'} />
-                                </Button>
-                            </Td>
+                                                .getValue()}`}
+                                        >
+                                            <Button>Details</Button>
+                                        </Link>
+                                    </Td>
+                                    <Td key={row.id + '_delete'}>
+                                        <Button
+                                            onClick={(e) => {
+                                                setToDeleteId([
+                                                    row
+                                                        .getVisibleCells()[0]
+                                                        .getValue() as string,
+                                                ]);
+                                                onOpen();
+                                            }}
+                                        >
+                                            <DeleteIcon color={'red'} />
+                                        </Button>
+                                    </Td>
+                                </>
+                            ) : (
+                                <>
+                                    <Td></Td>
+                                    <Td></Td>
+                                </>
+                            )}
                         </Tr>
                     ))}
                 </Tbody>

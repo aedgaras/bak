@@ -14,7 +14,7 @@ import {
 
 export const userRouter = express.Router();
 
-userRouter.get('/', [authenticateToken, authenticateRole(['admin'])], getUsers);
+userRouter.get('/', [authenticateToken], getUsers);
 
 userRouter.get('/:userId', [authenticateToken], getUser);
 

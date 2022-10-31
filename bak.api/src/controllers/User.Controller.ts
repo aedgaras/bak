@@ -90,9 +90,8 @@ export const updateUser = async (req: Request, res: Response) => {
     const existingUser = await User.findByPk(userId);
 
     if (existingUser) {
-        const updatedUser: UserRegisterDto = {
+        const updatedUser = {
             username: req.body.username,
-            password: req.body.password,
         };
 
         existingUser.update({ ...updatedUser });
