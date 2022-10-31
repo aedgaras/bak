@@ -1,9 +1,10 @@
 import * as bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
-import { sign, verify } from 'jsonwebtoken';
-import { REFRESH_SECRET, TOKEN_SECRET } from '../configuration/Configuration';
+import { verify } from 'jsonwebtoken';
+import { REFRESH_SECRET } from '../configuration/Configuration';
 import { UserLoginDto, UserRegisterDto } from '../dto/User';
 import { User } from '../models/User';
+import { returnMessage } from '../utils/response/ResponseUtils';
 import {
     bearerToken,
     generateAccessToken,
@@ -29,17 +30,12 @@ export const login = async (req: Request, res: Response) => {
         if (!match) {
             return res.status(300).send('Password is incorrect.');
         } else {
-            res.cookie(
-                'jwt',
-                generateRefreshToken({
-                    username: user.getDataValue('username'),
-                }),
-                {
-                    httpOnly: true,
-                    sameSite: 'none',
-                    secure: true,
-                    maxAge: 24 * 60 * 60 * 1000,
-                }
+            res.setHeader(
+                'Set-Cookie',
+                'jwt=' +
+                    generateRefreshToken({
+                        username: user.getDataValue('username'),
+                    })
             );
             return res.status(200).json(
                 bearerToken(
@@ -75,17 +71,12 @@ export const register = async (req: Request, res: Response) => {
 
         await newUser.save();
 
-        res.cookie(
-            'jwt',
-            generateRefreshToken({
-                username: newUser.getDataValue('username'),
-            }),
-            {
-                httpOnly: true,
-                sameSite: 'none',
-                secure: true,
-                maxAge: 24 * 60 * 60 * 1000,
-            }
+        res.setHeader(
+            'Set-Cookie',
+            'jwt=' +
+                generateRefreshToken({
+                    username: newUser.getDataValue('username'),
+                })
         );
 
         return res.status(200).json(
@@ -100,31 +91,30 @@ export const register = async (req: Request, res: Response) => {
 };
 
 export const refresh = async (req: Request, res: Response) => {
-    if (req.cookies?.jwt) {
-        // Destructuring refreshToken from cookie
-        const refreshToken = req.cookies.jwt;
+    // Destructuring refreshToken from cookie
 
+    const refreshToken: string | undefined =
+        req.headers['cookie']?.split('=')[1];
+
+    if (refreshToken !== undefined) {
         // Verifying refresh token
         verify(refreshToken, REFRESH_SECRET, (err: any, decoded: any) => {
             if (err) {
                 // Wrong Refesh Token
-                return res.status(406).json({ message: 'Unauthorized' });
+                return res.status(406).json(returnMessage(err));
             } else {
                 // Correct token we send a new access token
-                const accessToken = sign(
-                    {
-                        username: req.body.username,
-                        email: req.body.role,
-                    },
-                    TOKEN_SECRET,
-                    {
-                        expiresIn: '10m',
-                    }
+                return res.json(
+                    bearerToken(
+                        generateAccessToken({
+                            username: req.body.username,
+                            role: req.body.role,
+                        })
+                    )
                 );
-                return res.json({ accessToken });
             }
         });
     } else {
-        return res.status(406).json({ message: 'Unauthorized' });
+        return res.status(406).json(returnMessage('Bad token.'));
     }
 };
