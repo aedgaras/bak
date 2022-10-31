@@ -4,6 +4,7 @@ export interface DialogBase {
     isOpen: boolean;
     cancelRef: React.MutableRefObject<null>;
     onClose: () => void;
+    optionalText?: string;
 }
 
 export interface DeleteDialogProps extends DialogBase {

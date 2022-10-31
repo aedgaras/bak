@@ -13,7 +13,6 @@ import {
     ENTITY_DELETED,
     ENTITY_DOESNT_EXIST,
     ENTITY_NOT_FOUND,
-    ENTITY_UPDATED,
 } from '../utils/response/ResponseTexts';
 import { returnMessage } from '../utils/response/ResponseUtils';
 import { hashedPassword } from '../utils/utils';
@@ -37,7 +36,9 @@ export const getUser = async (req: Request, res: Response) => {
     const user = await User.findByPk(userId);
 
     if (!user) {
-        return res.json(returnMessage(ENTITY_NOT_FOUND(UserEntityName)));
+        return res
+            .status(404)
+            .json(returnMessage(ENTITY_NOT_FOUND(UserEntityName)));
     } else {
         return res.json(user);
     }
@@ -52,8 +53,10 @@ export const getByUsername = async (req: Request, res: Response) => {
         },
     });
 
-    if (user) {
-        return res.json(returnMessage(ENTITY_NOT_FOUND(UserEntityName)));
+    if (!user) {
+        return res
+            .status(404)
+            .json(returnMessage(ENTITY_NOT_FOUND(UserEntityName)));
     } else {
         return res.json(user);
     }
@@ -98,11 +101,11 @@ export const updateUser = async (req: Request, res: Response) => {
 
         await existingUser.save();
 
-        return res
-            .status(200)
-            .json(returnMessage(ENTITY_UPDATED(UserEntityName, userId)));
+        return res.status(200).json(existingUser);
     } else {
-        return res.json(returnMessage(ENTITY_DOESNT_EXIST(UserEntityName)));
+        return res
+            .status(404)
+            .json(returnMessage(ENTITY_DOESNT_EXIST(UserEntityName)));
     }
 };
 
@@ -112,7 +115,9 @@ export const deleteUser = async (req: Request, res: Response) => {
     const user = await User.findByPk(userId);
 
     if (!user) {
-        return res.json(returnMessage(ENTITY_NOT_FOUND(UserEntityName)));
+        return res
+            .status(404)
+            .json(returnMessage(ENTITY_NOT_FOUND(UserEntityName)));
     } else {
         await user.destroy();
 

@@ -10,7 +10,12 @@ import {
 import { logout } from '../../../services/Authentication';
 import { DialogBase } from '../../../utils/Models/InterfaceModels';
 
-export const LogoutDialog = ({ isOpen, cancelRef, onClose }: DialogBase) => {
+export const LogoutDialog = ({
+    isOpen,
+    cancelRef,
+    onClose,
+    optionalText,
+}: DialogBase) => {
     return (
         <AlertDialog
             isOpen={isOpen}
@@ -24,7 +29,9 @@ export const LogoutDialog = ({ isOpen, cancelRef, onClose }: DialogBase) => {
                     </AlertDialogHeader>
 
                     <AlertDialogBody>
-                        Are you sure you want to logout?
+                        {optionalText
+                            ? optionalText
+                            : 'Are you sure you want to logout?'}
                     </AlertDialogBody>
 
                     <AlertDialogFooter>
