@@ -3,9 +3,11 @@ import { Request, Response } from 'express';
 import { verify } from 'jsonwebtoken';
 import { REFRESH_SECRET } from '../configuration/Configuration';
 import { UserLoginDto, UserRegisterDto } from '../dto/User';
+import { Role } from '../models/Roles';
 import { User } from '../models/User';
 import { returnMessage } from '../utils/response/ResponseUtils';
 import {
+    accessRefreshTokens,
     bearerToken,
     generateAccessToken,
     generateRefreshToken,
@@ -30,18 +32,14 @@ export const login = async (req: Request, res: Response) => {
         if (!match) {
             return res.status(300).send('Password is incorrect.');
         } else {
-            res.setHeader(
-                'Set-Cookie',
-                'jwt=' +
-                    generateRefreshToken({
-                        username: user.getDataValue('username'),
-                    })
-            );
             return res.status(200).json(
-                bearerToken(
+                accessRefreshTokens(
                     generateAccessToken({
                         username: user.getDataValue('username'),
                         role: user.getDataValue('role'),
+                    }),
+                    generateRefreshToken({
+                        username: user.getDataValue('username'),
                     })
                 )
             );
@@ -71,19 +69,14 @@ export const register = async (req: Request, res: Response) => {
 
         await newUser.save();
 
-        res.setHeader(
-            'Set-Cookie',
-            'jwt=' +
-                generateRefreshToken({
-                    username: newUser.getDataValue('username'),
-                })
-        );
-
         return res.status(200).json(
-            bearerToken(
+            accessRefreshTokens(
                 generateAccessToken({
                     username: newUser.getDataValue('username'),
                     role: newUser.getDataValue('role'),
+                }),
+                generateRefreshToken({
+                    username: newUser.getDataValue('username'),
                 })
             )
         );
@@ -91,12 +84,19 @@ export const register = async (req: Request, res: Response) => {
 };
 
 export const refresh = async (req: Request, res: Response) => {
+    const payload = {
+        username: req.body.username as string,
+        role: req.body.role as Role,
+    };
+
     // Destructuring refreshToken from cookie
+    const refreshToken: string | undefined = req.headers['jwt'] as string;
 
-    const refreshToken: string | undefined =
-        req.headers['cookie']?.split('=')[1];
-
-    if (refreshToken !== undefined) {
+    if (
+        refreshToken !== undefined &&
+        payload.username !== undefined &&
+        payload.role !== undefined
+    ) {
         // Verifying refresh token
         verify(refreshToken, REFRESH_SECRET, (err: any, decoded: any) => {
             if (err) {
@@ -107,8 +107,8 @@ export const refresh = async (req: Request, res: Response) => {
                 return res.json(
                     bearerToken(
                         generateAccessToken({
-                            username: req.body.username,
-                            role: req.body.role,
+                            username: payload.username,
+                            role: payload.role,
                         })
                     )
                 );

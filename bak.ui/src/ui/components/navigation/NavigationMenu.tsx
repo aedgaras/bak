@@ -1,20 +1,20 @@
 import { Spacer, useDisclosure } from '@chakra-ui/react';
-import { useEffect } from 'react';
-import { logout } from '../../../services/Authentication';
-import { isJwtExpired, timeDifference } from '../../../utils/utils';
+import { useEffect, useState } from 'react';
+import { refreshToken } from '../../../services/Authentication';
+import { isJwtExpired } from '../../../utils/utils';
 import { NavBar } from '../wrappers/NavBar';
 import { LeftSideMenu } from './LeftSideMenu';
 import { RightSideMenu } from './RightSideMenu';
 
 export const NavigationMenu = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const [refresh, setRefresh] = useState<boolean>(false);
 
     useEffect(() => {
         const interval = setInterval(() => {
             const jwtExpired = isJwtExpired();
-            const timeDiff = timeDifference();
             if (jwtExpired !== undefined && jwtExpired === true) {
-                logout();
+                refreshToken();
             }
         }, 1000);
         return () => clearInterval(interval);

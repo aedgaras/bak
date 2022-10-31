@@ -7,4 +7,5 @@ export interface JwtTokenPayload {
 
 export interface JwtToken {
     token: string;
+    refreshToken?: string;
 }

@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { Field, Formik } from 'formik';
-import { JWT_NAME } from '../../../services/Authentication';
+import { JWT_NAME, REFRESH_TOKEN_NAME } from '../../../services/Authentication';
 import { UserRegisterDto } from '../../../utils/dto/User';
 import { sleep, TokenPayload } from '../../../utils/utils';
 import {
@@ -68,6 +68,10 @@ export const RegisterPage = () => {
                                         localStorage.setItem(
                                             JWT_NAME,
                                             r.data.token.split(' ')[1]
+                                        );
+                                        localStorage.setItem(
+                                            REFRESH_TOKEN_NAME,
+                                            r.data.refreshToken
                                         );
                                         window.location.assign('/');
                                     })

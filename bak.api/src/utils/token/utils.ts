@@ -12,11 +12,11 @@ import { JwtToken, JwtTokenPayload } from './Models';
  * @returns Signed token payload.
  */
 export function generateAccessToken(payload: JwtTokenPayload) {
-    return sign(payload, TOKEN_SECRET, { expiresIn: '5m' });
+    return sign(payload, TOKEN_SECRET, { expiresIn: '1h' });
 }
 
 export function generateRefreshToken(payload: { username: string }) {
-    return sign(payload, REFRESH_SECRET, { expiresIn: '10m' });
+    return sign(payload, REFRESH_SECRET, { expiresIn: '1d' });
 }
 
 /**
@@ -26,6 +26,13 @@ export function generateRefreshToken(payload: { username: string }) {
  */
 export const bearerToken = (token: string): JwtToken => {
     return { token: 'Bearer: ' + token };
+};
+
+export const accessRefreshTokens = (
+    token: string,
+    refreshToken: string
+): JwtToken => {
+    return { token: 'Bearer: ' + token, refreshToken: refreshToken };
 };
 
 export const tokenFromRequest = (req: Request) => {

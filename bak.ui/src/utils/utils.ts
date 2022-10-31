@@ -1,6 +1,5 @@
 import jwtDecode from 'jwt-decode';
 import ms from 'ms';
-import { JWT_NAME } from '../services/Authentication';
 import { Role } from './Models/Models';
 
 export const sleep = async (milliseconds: number) => {
@@ -14,10 +13,12 @@ export type ToastInfo = {
     description: string;
 };
 
-export const getJwtFromStorage = localStorage.getItem(JWT_NAME);
+export const getJwtFromStorage = localStorage.getItem('bakJWT');
+export const getRefreshTokenFromStorage = localStorage.getItem('refreshJWT');
 
 export interface TokenPayload {
     token: string;
+    refreshToken: string;
 }
 
 export interface Jwt {
@@ -46,12 +47,34 @@ export const isJwtExpired = () => {
     return false;
 };
 
-export const timeDifference = (expiryDate?: Date) => {
+export const isRefreshTokenExpired = () => {
+    const storedJwt = getRefreshTokenFromStorage;
+
+    if (!storedJwt) {
+        return undefined;
+    }
+
+    const decodedJwt: Jwt = jwtDecode(storedJwt);
+
+    const expDate = new Date(decodedJwt.exp * 1000);
+    const curDate = new Date();
+
+    if (curDate > expDate) {
+        return true;
+    }
+
+    return false;
+};
+
+export const timeDifference = (
+    jwtToken: string | null,
+    expiryDate?: Date
+): number => {
     if (expiryDate === undefined) {
-        const storedJwt = getJwtFromStorage;
+        const storedJwt = jwtToken;
 
         if (!storedJwt) {
-            return undefined;
+            return 0;
         }
 
         const decodedJwt: Jwt = jwtDecode(storedJwt);

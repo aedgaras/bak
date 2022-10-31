@@ -1,4 +1,4 @@
-import { createContext } from 'react';
+import React, { createContext } from 'react';
 import { getCurrentUser } from '../services/Authentication';
 
 export interface UserContextInterface {
@@ -15,3 +15,7 @@ export function userContextValues(): UserContextInterface {
         loggedIn: getCurrentUser() !== null,
     };
 }
+
+export const useUserContext = () => {
+    return React.useContext(UserContext);
+};

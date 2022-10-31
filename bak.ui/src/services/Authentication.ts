@@ -1,15 +1,37 @@
+import axios, { AxiosResponse } from 'axios';
 import jwtDecode from 'jwt-decode';
+import { API_URL } from '../utils/constants';
+import { Role } from '../utils/Models/Models';
 
 export interface User {
     username: string;
-    password: string;
+    role: Role;
 }
 
 export const JWT_NAME = 'bakJWT';
+export const REFRESH_TOKEN_NAME = 'refreshJWT';
 
 export async function logout(): Promise<void> {
     localStorage.removeItem(JWT_NAME);
+    localStorage.removeItem(REFRESH_TOKEN_NAME);
     window.location.assign('/');
+}
+
+export async function refreshToken() {
+    await axios
+        .post(
+            API_URL + '/auth/refresh',
+            {
+                username: getCurrentUser()?.username,
+                role: getCurrentUser()?.role,
+            },
+            { headers: { jwt: localStorage.getItem(REFRESH_TOKEN_NAME) ?? '' } }
+        )
+        .then((r: AxiosResponse<{ token: string }>) => {
+            console.log(r);
+            localStorage.setItem('bakJWT', r.data.token.split(' ')[1]);
+            window.location.reload();
+        });
 }
 
 export function getCurrentUser(): User | null {

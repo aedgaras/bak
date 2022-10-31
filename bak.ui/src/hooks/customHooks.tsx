@@ -1,6 +1,6 @@
 import { CreateToastFnReturn } from '@chakra-ui/react';
 import axios, { AxiosError, AxiosResponse } from 'axios';
-import { JWT_NAME } from '../services/Authentication';
+import { JWT_NAME, REFRESH_TOKEN_NAME } from '../services/Authentication';
 import { API_URL } from '../utils/constants';
 import { sleep, ToastInfo, TokenPayload } from '../utils/utils';
 
@@ -11,10 +11,14 @@ export const fetchThisUser = async (
     successToast: ToastInfo
 ): Promise<void> => {
     await axios
-        .post(API_URL + endpoint, {
-            username: payload.username,
-            password: payload.password,
-        })
+        .post(
+            API_URL + endpoint,
+            {
+                username: payload.username,
+                password: payload.password,
+            },
+            { withCredentials: true }
+        )
         .then((r: AxiosResponse<TokenPayload>) => {
             toast({
                 title: successToast.title,
@@ -25,6 +29,7 @@ export const fetchThisUser = async (
             });
             sleep(5000);
             localStorage.setItem(JWT_NAME, r.data.token.split(' ')[1]);
+            localStorage.setItem(REFRESH_TOKEN_NAME, r.data.refreshToken);
             window.location.assign('/');
         })
         .catch((e: AxiosError) => {
