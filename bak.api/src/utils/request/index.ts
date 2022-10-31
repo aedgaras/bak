@@ -41,7 +41,7 @@ export const ListResponse = <T>(
 
 export const entityIdFromParameter = (
     req: Request,
-    paramId: 'userId' | 'orgId' | string
+    paramId: 'userId' | 'orgId'
 ) => {
     return Number(req.params[paramId]);
 };
