@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
 import { LoginPage } from '../ui/pages/authentication/LoginPage';
 import { RegisterPage } from '../ui/pages/authentication/RegisterPage';
+import { OrganizationDetailsPage } from '../ui/pages/details/OrganizationDetailsPage';
 import { UserDetailsPage } from '../ui/pages/details/UserDetailsPage';
 import { NotFound } from '../ui/pages/errorpages/NotFound';
 import { Unauthorized } from '../ui/pages/errorpages/Unauthorized';
@@ -44,6 +45,18 @@ export const AppRouter = () => {
             <Route
                 path="/organizations"
                 element={<ProtectedRoute element={<OrganizationsPage />} />}
+            />
+            <Route
+                path="/organizations/:orgName"
+                element={
+                    <ProtectedRoute element={<OrganizationDetailsPage />} />
+                }
+            />
+            <Route
+                path="/organizations/create"
+                element={
+                    <ProtectedRoute element={<OrganizationDetailsPage />} />
+                }
             />
             <Route path="*" element={<NotFound />} />
         </Routes>

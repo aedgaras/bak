@@ -43,11 +43,15 @@ import { DeleteDialog } from '../../dialogs/DeleteDialog';
 export type DataTableProps<Data extends object> = {
     data: Data[];
     columns: ColumnDef<Data, any>[];
+    entityName: 'user' | 'org';
+    refreshData: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export function GenericTable<Data extends object>({
     data,
     columns,
+    entityName,
+    refreshData,
 }: DataTableProps<Data>) {
     // Use the state and functions returned from useTable to build your UI
     const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -154,6 +158,8 @@ export function GenericTable<Data extends object>({
                     cancelRef={cancelRef}
                     onClose={onClose}
                     entityToDeleteId={toDeleteId[0]}
+                    entityName={entityName}
+                    refreshData={refreshData}
                 />
                 <Tfoot></Tfoot>
             </Table>

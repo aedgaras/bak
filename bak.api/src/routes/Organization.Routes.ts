@@ -2,6 +2,7 @@ import express from 'express';
 import {
     createOrganization,
     deleteOrganization,
+    getByOrgName,
     getOrganization,
     getOrganizationMembers,
     getOrganizations,
@@ -23,6 +24,11 @@ organizationRouter.get(
 );
 
 organizationRouter.get('/:orgId', [authenticateToken], getOrganization);
+organizationRouter.get(
+    '/getByName/:orgName',
+    [authenticateToken],
+    getByOrgName
+);
 
 organizationRouter.post(
     '/',

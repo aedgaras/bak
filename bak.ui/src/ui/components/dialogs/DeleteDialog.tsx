@@ -7,13 +7,17 @@ import {
     AlertDialogOverlay,
     Button,
 } from '@chakra-ui/react';
+import axios from 'axios';
 import * as React from 'react';
+import { API_URL, axiosAuthHeaders } from '../../../utils/constants';
 
 export interface DeleteDialogProps {
     isOpen: boolean;
     cancelRef: React.MutableRefObject<null>;
     onClose: () => void;
     entityToDeleteId: string;
+    entityName: 'user' | 'org';
+    refreshData: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const DeleteDialog = (props: DeleteDialogProps) => {
@@ -39,8 +43,24 @@ export const DeleteDialog = (props: DeleteDialogProps) => {
                         </Button>
                         <Button
                             colorScheme="red"
-                            onClick={(e) => {
-                                console.log(props.entityToDeleteId);
+                            onClick={async (e) => {
+                                if (props.entityName === 'user') {
+                                    await axios.delete(
+                                        API_URL +
+                                            '/users/' +
+                                            props.entityToDeleteId,
+                                        axiosAuthHeaders
+                                    );
+                                }
+                                if (props.entityName === 'org') {
+                                    await axios.delete(
+                                        API_URL +
+                                            '/organizations/' +
+                                            props.entityToDeleteId,
+                                        axiosAuthHeaders
+                                    );
+                                }
+                                props.refreshData(true);
                                 props.onClose();
                             }}
                             ml={3}

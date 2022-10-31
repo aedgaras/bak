@@ -16,6 +16,8 @@ export const UsersPage = () => {
     const [isLoaded, setIsLoaded] = useState<boolean>(true);
     const [queryFilter, setQueryFilter] = useState<string>('');
     const filteredUsers: UserModel[] = [];
+    const [userToDeleteId, setUserToDeleteId] = useState<number>();
+    const [refreshData, setRefreshData] = useState<boolean>(false);
 
     const getUsers = useCallback(async () => {
         const response = await axios
@@ -33,9 +35,12 @@ export const UsersPage = () => {
             setUsersToDisplay(users);
             setIsLoaded(true);
         })();
-    }, []);
+    }, [refreshData]);
 
     useEffect(() => {
+        if (refreshData === true) {
+            setRefreshData(false);
+        }
         filterUserTable(users, queryFilter, filteredUsers, setUsersToDisplay);
     }, [queryFilter, users]);
 
@@ -51,6 +56,8 @@ export const UsersPage = () => {
                     <GenericTable
                         data={usersToDisplay}
                         columns={userTableColumns}
+                        entityName={'user'}
+                        refreshData={setRefreshData}
                     />
                 }
             />

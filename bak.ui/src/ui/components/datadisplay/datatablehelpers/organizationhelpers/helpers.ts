@@ -27,6 +27,10 @@ export function filterOrganizationTable(
 
 export const organizationColumnHelper = createColumnHelper<OrganizationDto>();
 export const organizationTableColumns = [
+    organizationColumnHelper.accessor('id', {
+        cell: (info: { getValue: () => any }) => info.getValue(),
+        header: 'Id',
+    }),
     organizationColumnHelper.accessor('name', {
         cell: (info: { getValue: () => any }) => info.getValue(),
         header: 'Name',

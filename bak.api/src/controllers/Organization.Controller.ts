@@ -73,6 +73,24 @@ export const getOrganization = async (req: Request, res: Response) => {
     }
 };
 
+export const getByOrgName = async (req: Request, res: Response) => {
+    const paramOrgName = req.params['orgName'];
+
+    const org = await Organization.findOne({
+        where: {
+            name: paramOrgName,
+        },
+    });
+
+    if (!org) {
+        return res.json(
+            returnMessage(ENTITY_NOT_FOUND(OrganizationEntityName))
+        );
+    } else {
+        return res.json(org);
+    }
+};
+
 export const createOrganization = async (req: Request, res: Response) => {
     const newOrganization: OrganizationDto = {
         name: req.body.name as string,

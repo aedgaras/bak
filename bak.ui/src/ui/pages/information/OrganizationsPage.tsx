@@ -17,6 +17,7 @@ export const OrganizationsPage = () => {
     const [isLoaded, setIsLoaded] = useState<boolean>(true);
     const [queryFilter, setQueryFilter] = useState<string>('');
     const filteredUsers: OrganizationDto[] = [];
+    const [refreshData, setRefreshData] = useState<boolean>(false);
 
     const getUsers = useCallback(async () => {
         const response = await axios
@@ -34,9 +35,12 @@ export const OrganizationsPage = () => {
             setUsersToDisplay(users);
             setIsLoaded(true);
         })();
-    }, []);
+    }, [refreshData]);
 
     useEffect(() => {
+        if (refreshData === true) {
+            setRefreshData(false);
+        }
         filterOrganizationTable(
             users,
             queryFilter,
@@ -57,6 +61,8 @@ export const OrganizationsPage = () => {
                     <GenericTable
                         data={usersToDisplay}
                         columns={organizationTableColumns}
+                        entityName="org"
+                        refreshData={setRefreshData}
                     />
                 }
             />
