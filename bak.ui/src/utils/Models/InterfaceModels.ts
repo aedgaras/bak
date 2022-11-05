@@ -9,6 +9,8 @@ export interface DialogBase {
 
 export interface DeleteDialogProps extends DialogBase {
     entityToDeleteId: string;
+    entityName: 'user' | 'org';
+    refreshData: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface MenuDropdownProps extends DialogBase {

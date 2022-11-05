@@ -8,7 +8,6 @@ import {
 } from '../../components/datadisplay/datatablehelpers/userhelpers/helpers';
 import { GenericTable } from '../../components/datadisplay/generic/GenericTable';
 import { GenericTableWithSearchAndCreate } from '../../components/datadisplay/generic/tablewithsearch/GenericTableWithActions';
-import { AppWrapper } from '../../components/wrappers/AppWrapper';
 
 export const UsersPage = () => {
     const [usersToDisplay, setUsersToDisplay] = useState<UserModel[]>([]);
@@ -45,22 +44,20 @@ export const UsersPage = () => {
     }, [queryFilter, users]);
 
     return (
-        <AppWrapper>
-            <GenericTableWithSearchAndCreate
-                isLoaded={isLoaded}
-                setQueryFilter={setQueryFilter}
-                dataDisplay={usersToDisplay}
-                entityCreatePath={'/users/create'}
-                entityName={'User'}
-                genericTable={
-                    <GenericTable
-                        data={usersToDisplay}
-                        columns={userTableColumns}
-                        entityName={'user'}
-                        refreshData={setRefreshData}
-                    />
-                }
-            />
-        </AppWrapper>
+        <GenericTableWithSearchAndCreate
+            isLoaded={isLoaded}
+            setQueryFilter={setQueryFilter}
+            dataDisplay={usersToDisplay}
+            entityCreatePath={'/users/create'}
+            entityName={'User'}
+            genericTable={
+                <GenericTable
+                    data={usersToDisplay}
+                    columns={userTableColumns}
+                    entityName={'user'}
+                    refreshData={setRefreshData}
+                />
+            }
+        />
     );
 };

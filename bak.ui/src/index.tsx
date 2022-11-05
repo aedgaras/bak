@@ -10,6 +10,7 @@ import { AppRouter } from './router/AppRouter';
 
 import * as serviceWorker from './serviceWorker';
 import { NavigationMenu } from './ui/components/navigation/NavigationMenu';
+import { AppWrapper } from './ui/components/wrappers/AppWrapper';
 
 const container = document.getElementById('root');
 if (!container) throw new Error('Failed to find the root element');
@@ -23,7 +24,9 @@ root.render(
                 <AnimatePresence exitBeforeEnter>
                     <BrowserRouter>
                         <NavigationMenu />
-                        <AppRouter />
+                        <AppWrapper>
+                            <AppRouter />
+                        </AppWrapper>
                     </BrowserRouter>
                 </AnimatePresence>
             </UserContext.Provider>

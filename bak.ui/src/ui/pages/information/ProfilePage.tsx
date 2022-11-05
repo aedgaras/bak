@@ -15,21 +15,19 @@ import {
     Switch,
     Text,
     Tooltip,
-    useDisclosure,
     VStack,
 } from '@chakra-ui/react';
 import axios, { AxiosResponse } from 'axios';
 import { Field, Formik } from 'formik';
-import { useContext, useMemo, useRef, useState } from 'react';
-import { UserContext } from '../../../context/UserContext';
+import { useMemo, useState } from 'react';
+import { useUserContext } from '../../../context/UserContext';
 import { API_URL, axiosAuthHeaders } from '../../../utils/constants';
 import { UserModel } from '../../../utils/Models/Models';
 import { validateUsername } from '../../../utils/validation/validation';
-import { AppWrapper } from '../../components/wrappers/AppWrapper';
 import { BoxWithShadowMax } from '../../components/wrappers/BoxWithShadow';
 
 export const ProfilePage = () => {
-    const userContext = useContext(UserContext);
+    const userContext = useUserContext();
     const [user, setUser] = useState<UserModel>();
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
     document.title = 'Profile page';
@@ -47,44 +45,41 @@ export const ProfilePage = () => {
     }, [userContext.name]);
 
     return (
-        <AppWrapper>
-            <Grid
-                templateRows="repeat(2, 1fr)"
-                templateColumns="repeat(5, 1fr)"
-                gap={4}
-            >
-                <GridItem rowSpan={2} colSpan={1}>
-                    <ProfileSection user={user} isLoaded={isLoaded} />
-                </GridItem>
-                <GridItem colSpan={2}>
-                    <Skeleton isLoaded={false}>
-                        <BoxWithShadowMax>Profile</BoxWithShadowMax>
-                    </Skeleton>
-                </GridItem>
-                <GridItem colSpan={2}>
-                    <Skeleton isLoaded={false}>
-                        <BoxWithShadowMax>Profile</BoxWithShadowMax>
-                    </Skeleton>
-                </GridItem>
-                <GridItem colSpan={4}>
-                    <Skeleton isLoaded={false}>
-                        <BoxWithShadowMax>Profile</BoxWithShadowMax>
-                    </Skeleton>
-                </GridItem>
-            </Grid>
-        </AppWrapper>
+        <Grid
+            templateRows="repeat(2, 1fr)"
+            templateColumns="repeat(5, 1fr)"
+            gap={4}
+        >
+            <GridItem rowSpan={2} colSpan={1}>
+                <ProfileSection user={user} isLoaded={isLoaded} />
+            </GridItem>
+            <GridItem colSpan={2}>
+                <Skeleton isLoaded={false}>
+                    <BoxWithShadowMax>Profile</BoxWithShadowMax>
+                </Skeleton>
+            </GridItem>
+            <GridItem colSpan={2}>
+                <Skeleton isLoaded={false}>
+                    <BoxWithShadowMax>Profile</BoxWithShadowMax>
+                </Skeleton>
+            </GridItem>
+            <GridItem colSpan={4}>
+                <Skeleton isLoaded={false}>
+                    <BoxWithShadowMax>Profile</BoxWithShadowMax>
+                </Skeleton>
+            </GridItem>
+        </Grid>
     );
 };
 
-interface ProfileSectionProps {
+const ProfileSection = ({
+    isLoaded,
+    user,
+}: {
     isLoaded: boolean;
     user: UserModel | undefined;
-}
-
-const ProfileSection = ({ isLoaded, user }: ProfileSectionProps) => {
-    const userContext = useContext(UserContext);
-    const { isOpen, onOpen, onClose } = useDisclosure();
-    const cancelRef = useRef(null);
+}) => {
+    const userContext = useUserContext();
     const [edit, setEdit] = useState<boolean>(false);
 
     return (

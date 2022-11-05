@@ -1,13 +1,13 @@
 import { Avatar, Text, useDisclosure } from '@chakra-ui/react';
-import { useContext, useRef } from 'react';
+import { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { UserContext } from '../../../context/UserContext';
+import { useUserContext } from '../../../context/UserContext';
 import { ColorModeSwitcher } from '../ColorModeSwitcher';
 import { IsLoggedInElement } from '../wrappers/HelperWrappers';
 import { MenuDropdown } from './MenuDropdown';
 
 export const RightSideMenu = () => {
-    const userContext = useContext(UserContext);
+    const userContext = useUserContext();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const cancelRef = useRef(null);
     return (

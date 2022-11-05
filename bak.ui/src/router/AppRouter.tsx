@@ -1,6 +1,5 @@
-import { useContext } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { UserContext } from '../context/UserContext';
+import { useUserContext } from '../context/UserContext';
 import { LoginPage } from '../ui/pages/authentication/LoginPage';
 import { RegisterPage } from '../ui/pages/authentication/RegisterPage';
 import { OrganizationDetailsPage } from '../ui/pages/details/OrganizationDetailsPage';
@@ -64,11 +63,11 @@ export const AppRouter = () => {
 };
 
 function ProtectedRoute({ element }: { element: JSX.Element }) {
-    const { loggedIn } = useContext(UserContext);
+    const { loggedIn } = useUserContext();
     return loggedIn === true ? element : <Unauthorized />;
 }
 
 function DisabledAfterLoginRoute({ element }: { element: JSX.Element }) {
-    const { loggedIn } = useContext(UserContext);
+    const { loggedIn } = useUserContext();
     return loggedIn !== true ? element : <NotFound />;
 }

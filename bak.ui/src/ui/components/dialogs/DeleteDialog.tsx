@@ -8,17 +8,8 @@ import {
     Button,
 } from '@chakra-ui/react';
 import axios from 'axios';
-import * as React from 'react';
 import { API_URL, axiosAuthHeaders } from '../../../utils/constants';
-
-export interface DeleteDialogProps {
-    isOpen: boolean;
-    cancelRef: React.MutableRefObject<null>;
-    onClose: () => void;
-    entityToDeleteId: string;
-    entityName: 'user' | 'org';
-    refreshData: React.Dispatch<React.SetStateAction<boolean>>;
-}
+import { DeleteDialogProps } from '../../../utils/Models/InterfaceModels';
 
 export const DeleteDialog = (props: DeleteDialogProps) => {
     return (
