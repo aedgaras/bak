@@ -30,9 +30,8 @@ export function validatePassword(value: string) {
 export function validateEmail(value: string) {
     let error: string = '';
 
-    if (value.length < 4) {
-        error = 'Minimum length is 4.';
-        return error;
+    if (!value.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
+        error = 'Email must be valid.';
     }
 
     return error;
