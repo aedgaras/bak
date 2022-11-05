@@ -4,8 +4,7 @@ import { LoginPage } from '../ui/pages/authentication/LoginPage';
 import { RegisterPage } from '../ui/pages/authentication/RegisterPage';
 import { OrganizationDetailsPage } from '../ui/pages/details/OrganizationDetailsPage';
 import { UserDetailsPage } from '../ui/pages/details/UserDetailsPage';
-import { NotFound } from '../ui/pages/errorpages/NotFound';
-import { Unauthorized } from '../ui/pages/errorpages/Unauthorized';
+import { PageNotFound, Unauthorized } from '../ui/pages/errorpages';
 import { OrganizationsPage } from '../ui/pages/information/OrganizationsPage';
 import { ProfilePage } from '../ui/pages/information/ProfilePage';
 import { UsersPage } from '../ui/pages/information/UsersPage';
@@ -57,7 +56,7 @@ export const AppRouter = () => {
                     <ProtectedRoute element={<OrganizationDetailsPage />} />
                 }
             />
-            <Route path="*" element={<NotFound />} />
+            <Route path="*" element={<PageNotFound />} />
         </Routes>
     );
 };
@@ -69,5 +68,5 @@ function ProtectedRoute({ element }: { element: JSX.Element }) {
 
 function DisabledAfterLoginRoute({ element }: { element: JSX.Element }) {
     const { loggedIn } = useUserContext();
-    return loggedIn !== true ? element : <NotFound />;
+    return loggedIn !== true ? element : <PageNotFound />;
 }
