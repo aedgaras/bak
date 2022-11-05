@@ -7,13 +7,13 @@ import {
     AlertDialogOverlay,
     Button,
 } from '@chakra-ui/react';
-import { DialogBase } from '../../../utils/Models/InterfaceModels';
+import { ClosableObject } from '../../../utils/Models/InterfaceModels';
 
 export const AboutToLogoutDialog = ({
     isOpen,
     cancelRef,
     onClose,
-}: DialogBase) => {
+}: ClosableObject) => {
     return (
         <AlertDialog
             isOpen={isOpen}

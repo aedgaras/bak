@@ -8,14 +8,14 @@ import {
     Button,
 } from '@chakra-ui/react';
 import { logout } from '../../../services/Authentication';
-import { DialogBase } from '../../../utils/Models/InterfaceModels';
+import { ClosableObject } from '../../../utils/Models/InterfaceModels';
 
 export const LogoutDialog = ({
     isOpen,
     cancelRef,
     onClose,
     optionalText,
-}: DialogBase) => {
+}: ClosableObject) => {
     return (
         <AlertDialog
             isOpen={isOpen}
