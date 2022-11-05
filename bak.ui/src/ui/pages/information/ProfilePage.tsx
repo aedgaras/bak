@@ -17,11 +17,11 @@ import {
     Tooltip,
     VStack,
 } from '@chakra-ui/react';
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { Field, Formik } from 'formik';
 import { useMemo, useState } from 'react';
 import { useUserContext } from '../../../context/UserContext';
-import { API_URL, axiosAuthHeaders } from '../../../utils/constants';
+import { getRequest, putRequest } from '../../../services/Requests';
 import { UserModel } from '../../../utils/Models/Models';
 import { validateUsername } from '../../../utils/validation/validation';
 import { BoxWithShadowMax } from '../../components/wrappers/BoxWithShadow';
@@ -33,15 +33,12 @@ export const ProfilePage = () => {
     document.title = 'Profile page';
 
     useMemo(async () => {
-        await axios
-            .get<UserModel>(
-                `${API_URL}/users/getByUsername/${userContext.name}`,
-                axiosAuthHeaders
-            )
-            .then((r: AxiosResponse<UserModel>) => {
-                setUser(r.data);
-                setIsLoaded(true);
-            });
+        await getRequest<UserModel>(
+            `/users/getByUsername/${userContext.name}`
+        ).then((r: AxiosResponse<UserModel>) => {
+            setUser(r.data);
+            setIsLoaded(true);
+        });
     }, [userContext.name]);
 
     return (
@@ -99,18 +96,11 @@ const ProfileSection = ({
                         initialValues={user ?? ({} as UserModel)}
                         onSubmit={async (values, actions) => {
                             actions.setSubmitting(true);
-                            console.log(user);
-                            await axios
-                                .put(
-                                    API_URL + '/users/' + user?.id,
-                                    {
-                                        username: values.username,
-                                    },
-                                    axiosAuthHeaders
-                                )
-                                .then((r) => {
-                                    actions.setSubmitting(false);
-                                });
+                            await putRequest('/users/' + user?.id, {
+                                username: values.username,
+                            }).then((r) => {
+                                actions.setSubmitting(false);
+                            });
                         }}
                     >
                         {({ handleSubmit, errors, touched, isSubmitting }) => (

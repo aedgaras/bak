@@ -1,6 +1,6 @@
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { axiosAuthHeaders } from '../../../utils/constants';
+import { getRequest } from '../../../services/Requests';
 import { ListResponse, UserModel } from '../../../utils/Models/Models';
 import {
     filterUserTable,
@@ -19,11 +19,11 @@ export const UsersPage = () => {
     const [refreshData, setRefreshData] = useState<boolean>(false);
 
     const getUsers = useCallback(async () => {
-        const response = await axios
-            .get('http://localhost:3030/api/users', axiosAuthHeaders)
-            .then((r: AxiosResponse<ListResponse<UserModel[]>>) => {
-                return r.data.data;
-            });
+        const response = await getRequest<ListResponse<UserModel[]>>(
+            '/users'
+        ).then((r: AxiosResponse<ListResponse<UserModel[]>>) => {
+            return r.data.data;
+        });
         return response;
     }, []);
 

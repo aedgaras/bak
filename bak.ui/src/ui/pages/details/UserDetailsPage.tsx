@@ -17,6 +17,7 @@ import { Field, Formik } from 'formik';
 import { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useUserContext } from '../../../context/UserContext';
+import { getRequest } from '../../../services/Requests';
 import { API_URL, axiosAuthHeaders } from '../../../utils/constants';
 import { UserRegisterDto } from '../../../utils/dto/User';
 import { UserModel } from '../../../utils/Models/Models';
@@ -36,15 +37,12 @@ export const UserDetailsPage = () => {
         document.title = 'Profile Creation';
         if (isNotCreating) {
             document.title = 'Profile Details';
-            await axios
-                .get<UserModel>(
-                    `${API_URL}/users/${params.userId}`,
-                    axiosAuthHeaders
-                )
-                .then((r: AxiosResponse<UserModel>) => {
+            await getRequest<UserModel>(`/users/${params.userId}`).then(
+                (r: AxiosResponse<UserModel>) => {
                     setUser(r.data);
                     setIsLoaded(true);
-                });
+                }
+            );
         }
         setIsLoaded(true);
     }, [userContext.name]);

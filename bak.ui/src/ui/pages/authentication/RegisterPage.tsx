@@ -13,9 +13,10 @@ import {
     useToast,
     VStack,
 } from '@chakra-ui/react';
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import { Field, Formik } from 'formik';
 import { JWT_NAME, REFRESH_TOKEN_NAME } from '../../../services/Authentication';
+import { postRequest } from '../../../services/Requests';
 import { UserRegisterDto } from '../../../utils/dto/User';
 import { sleep, TokenPayload } from '../../../utils/utils';
 import {
@@ -48,11 +49,10 @@ export const RegisterPage = () => {
                         onSubmit={async (values, actions) => {
                             const userPayload = values;
                             actions.setSubmitting(true);
-                            await axios
-                                .post(
-                                    'http://localhost:3030/api/auth/register',
-                                    userPayload
-                                )
+                            await postRequest<TokenPayload>(
+                                '/auth/register',
+                                userPayload
+                            )
                                 .then((r: AxiosResponse<TokenPayload>) => {
                                     toast({
                                         title: 'Success',

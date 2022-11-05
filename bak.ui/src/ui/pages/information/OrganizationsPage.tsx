@@ -1,6 +1,6 @@
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { axiosAuthHeaders } from '../../../utils/constants';
+import { getRequest } from '../../../services/Requests';
 import { OrganizationDto } from '../../../utils/dto/Organization';
 import { ListResponse } from '../../../utils/Models/Models';
 import {
@@ -19,11 +19,11 @@ export const OrganizationsPage = () => {
     const [refreshData, setRefreshData] = useState<boolean>(false);
 
     const getUsers = useCallback(async () => {
-        const response = await axios
-            .get('http://localhost:3030/api/organizations', axiosAuthHeaders)
-            .then((r: AxiosResponse<ListResponse<OrganizationDto[]>>) => {
-                return r.data.data;
-            });
+        const response = getRequest<ListResponse<OrganizationDto[]>>(
+            '/organizations'
+        ).then((r: AxiosResponse<ListResponse<OrganizationDto[]>>) => {
+            return r.data.data;
+        });
         return response;
     }, []);
 
