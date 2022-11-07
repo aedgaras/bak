@@ -1,27 +1,22 @@
 import {
     Box,
     Button,
-    Center,
-    FormControl,
-    FormErrorIcon,
-    FormErrorMessage,
-    FormLabel,
     Heading,
-    HStack,
-    Input,
     Link as ChakraLink,
     Text,
-    useColorModeValue,
     useToast,
-    VStack,
 } from '@chakra-ui/react';
-import { Field, Formik } from 'formik';
+import { Formik } from 'formik';
 import { Link } from 'react-router-dom';
-import { fetchThisUser } from '../../../hooks/customHooks';
+import { authenticateUserHook } from '../../../hooks/customHooks';
 import {
     validatePassword,
     validateUsername,
 } from '../../../utils/validation/validation';
+import {
+    FormBox,
+    GenericInput,
+} from '../../components/datadisplay/generic/form';
 
 export const LoginPage = () => {
     const initialValue = { username: '', password: '' };
@@ -29,9 +24,9 @@ export const LoginPage = () => {
     document.title = 'Login';
 
     return (
-        <VStack>
-            <Center p={2}>
-                <VStack>
+        <FormBox
+            upperSection={
+                <>
                     <Heading>Login</Heading>
                     <Link to="/register">
                         <ChakraLink>
@@ -40,94 +35,51 @@ export const LoginPage = () => {
                             </Text>
                         </ChakraLink>
                     </Link>
-                </VStack>
-            </Center>
-            <Box
-                padding={2}
-                borderWidth={1}
-                borderRadius={'lg'}
-                boxShadow={{
-                    base: 'none',
-                    sm: useColorModeValue('md', 'md-dark'),
+                </>
+            }
+            innerForm={LoginForm()}
+        />
+    );
+
+    function LoginForm() {
+        return (
+            <Formik
+                initialValues={initialValue}
+                onSubmit={async (values, actions) => {
+                    actions.setSubmitting(true);
+                    await authenticateUserHook(toast, 'login', values);
                 }}
             >
-                <HStack>
-                    <Formik
-                        initialValues={initialValue}
-                        onSubmit={async (values, actions) => {
-                            actions.setSubmitting(true);
-                            await fetchThisUser(
-                                toast,
-                                '/auth/login',
-                                {
-                                    username: values.username,
-                                    password: values.password,
-                                },
-                                {
-                                    title: 'Success',
-                                    description: 'Logged in successfully.',
-                                }
-                            );
-                        }}
-                    >
-                        {({ handleSubmit, errors, touched, isSubmitting }) => (
-                            <form onSubmit={handleSubmit}>
-                                <FormControl
-                                    isInvalid={
-                                        !!errors.username && touched.username
-                                    }
-                                    p={2}
-                                >
-                                    <FormLabel>Username</FormLabel>
-                                    <Field
-                                        as={Input}
-                                        type="text"
-                                        name="username"
-                                        validate={(value: string) =>
-                                            validateUsername(value)
-                                        }
-                                    />
-
-                                    <FormErrorMessage>
-                                        <FormErrorIcon />
-                                        {errors.username}
-                                    </FormErrorMessage>
-                                </FormControl>
-                                <FormControl
-                                    isInvalid={
-                                        !!errors.password && touched.password
-                                    }
-                                    p={2}
-                                >
-                                    <FormLabel>Password</FormLabel>
-                                    <Field
-                                        as={Input}
-                                        type="password"
-                                        name="password"
-                                        validate={(value: string) =>
-                                            validatePassword(value)
-                                        }
-                                    />
-                                    <FormErrorMessage>
-                                        <FormErrorIcon />
-
-                                        {errors.password}
-                                    </FormErrorMessage>
-                                </FormControl>
-                                <Box p={2}>
-                                    <Button
-                                        type="submit"
-                                        isLoading={isSubmitting}
-                                        color="teal"
-                                    >
-                                        Submit
-                                    </Button>
-                                </Box>
-                            </form>
-                        )}
-                    </Formik>
-                </HStack>
-            </Box>
-        </VStack>
-    );
+                {({ handleSubmit, errors, touched, isSubmitting }) => (
+                    <form onSubmit={handleSubmit}>
+                        <GenericInput
+                            fieldName={'Username'}
+                            fieldType={'text'}
+                            isRequired={true}
+                            errorField={errors.username}
+                            touchedField={touched.username}
+                            validation={validateUsername}
+                        />
+                        <GenericInput
+                            fieldName={'Password'}
+                            fieldType={'password'}
+                            isRequired={true}
+                            errorField={errors.password}
+                            touchedField={touched.password}
+                            validation={validatePassword}
+                        />
+                        <Box p={2}>
+                            <Button
+                                type="submit"
+                                isLoading={isSubmitting}
+                                color="teal"
+                            >
+                                Submit
+                            </Button>
+                        </Box>
+                    </form>
+                )}
+            </Formik>
+        );
+    }
 };

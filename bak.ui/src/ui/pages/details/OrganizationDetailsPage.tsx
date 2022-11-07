@@ -7,11 +7,10 @@ import {
     Skeleton,
     VStack,
 } from '@chakra-ui/react';
-import { AxiosResponse } from 'axios';
 import { useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useUserContext } from '../../../context/UserContext';
-import { getRequest } from '../../../services/Requests';
+import { getOrganizationByName } from '../../../services/Requests';
 import { OrganizationDto } from '../../../utils/dto/Organization';
 import { BackButton } from '../../components/navigation/BackButton';
 import { BoxWithShadow } from '../../components/wrappers/BoxWithShadow';
@@ -27,12 +26,12 @@ export const OrganizationDetailsPage = () => {
         document.title = 'Organization Creation';
         if (isNotCreating) {
             document.title = 'Organization Details';
-            await getRequest<OrganizationDto>(
-                `/organizations/getByName/${params.orgName}`
-            ).then((r: AxiosResponse<OrganizationDto>) => {
-                setOrg(r.data);
-                setIsLoaded(true);
-            });
+            if (params.orgName) {
+                await getOrganizationByName(params.orgName).then((r) => {
+                    setOrg(r);
+                    setIsLoaded(true);
+                });
+            }
         }
         setIsLoaded(true);
     }, [userContext.name]);

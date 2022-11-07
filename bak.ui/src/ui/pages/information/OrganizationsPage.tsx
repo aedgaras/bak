@@ -1,8 +1,6 @@
-import { AxiosResponse } from 'axios';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { getRequest } from '../../../services/Requests';
+import { useEffect, useMemo, useState } from 'react';
+import { getOrganizationList } from '../../../services/Requests';
 import { OrganizationDto } from '../../../utils/dto/Organization';
-import { ListResponse } from '../../../utils/Models/Models';
 import {
     filterOrganizationTable,
     organizationTableColumns,
@@ -18,18 +16,9 @@ export const OrganizationsPage = () => {
     const filteredUsers: OrganizationDto[] = [];
     const [refreshData, setRefreshData] = useState<boolean>(false);
 
-    const getUsers = useCallback(async () => {
-        const response = getRequest<ListResponse<OrganizationDto[]>>(
-            '/organizations'
-        ).then((r: AxiosResponse<ListResponse<OrganizationDto[]>>) => {
-            return r.data.data;
-        });
-        return response;
-    }, []);
-
     useMemo(() => {
         (async () => {
-            const usersGotten = await getUsers();
+            const usersGotten = await getOrganizationList();
             setUsers(usersGotten);
             setUsersToDisplay(users);
             setIsLoaded(true);

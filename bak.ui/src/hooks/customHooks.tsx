@@ -1,28 +1,25 @@
 import { CreateToastFnReturn } from '@chakra-ui/react';
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import { JWT_NAME, REFRESH_TOKEN_NAME } from '../services/Authentication';
-import { API_URL } from '../utils/constants';
-import { sleep, ToastInfo, TokenPayload } from '../utils/utils';
+import { authenticate } from '../services/Requests';
+import { sleep, TokenPayload } from '../utils/utils';
 
-export const fetchThisUser = async (
+export const authenticateUserHook = async (
     toast: CreateToastFnReturn,
-    endpoint: string,
-    payload: { username: string; password: string },
-    successToast: ToastInfo
+    action: 'login' | 'register',
+    payload: { username: string; password: string }
 ): Promise<void> => {
-    await axios
-        .post(
-            API_URL + endpoint,
-            {
-                username: payload.username,
-                password: payload.password,
-            },
-            { withCredentials: true }
-        )
+    await authenticate(action === 'login' ? '/login' : '/register', {
+        username: payload.username,
+        password: payload.password,
+    })
         .then((r: AxiosResponse<TokenPayload>) => {
             toast({
-                title: successToast.title,
-                description: successToast.description,
+                title: 'Success',
+                description:
+                    action === 'register'
+                        ? 'Registered successfully.'
+                        : 'Logged in successfully.',
                 status: 'success',
                 duration: 9000,
                 isClosable: true,

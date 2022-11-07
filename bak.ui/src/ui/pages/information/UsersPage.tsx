@@ -1,7 +1,6 @@
-import { AxiosResponse } from 'axios';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { getRequest } from '../../../services/Requests';
-import { ListResponse, UserModel } from '../../../utils/Models/Models';
+import { useEffect, useMemo, useState } from 'react';
+import { getUsersList } from '../../../services/Requests';
+import { UserModel } from '../../../utils/Models/Models';
 import {
     filterUserTable,
     userTableColumns,
@@ -18,18 +17,9 @@ export const UsersPage = () => {
     const [userToDeleteId, setUserToDeleteId] = useState<number>();
     const [refreshData, setRefreshData] = useState<boolean>(false);
 
-    const getUsers = useCallback(async () => {
-        const response = await getRequest<ListResponse<UserModel[]>>(
-            '/users'
-        ).then((r: AxiosResponse<ListResponse<UserModel[]>>) => {
-            return r.data.data;
-        });
-        return response;
-    }, []);
-
     useMemo(() => {
         (async () => {
-            const usersGotten = await getUsers();
+            const usersGotten = await getUsersList();
             setUsers(usersGotten);
             setUsersToDisplay(users);
             setIsLoaded(true);

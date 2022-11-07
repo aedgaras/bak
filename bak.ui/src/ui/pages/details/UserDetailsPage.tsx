@@ -12,14 +12,15 @@ import {
     Skeleton,
     VStack,
 } from '@chakra-ui/react';
-import axios, { AxiosResponse } from 'axios';
 import { Field, Formik } from 'formik';
 import { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useUserContext } from '../../../context/UserContext';
-import { getRequest } from '../../../services/Requests';
-import { API_URL, axiosAuthHeaders } from '../../../utils/constants';
-import { UserRegisterDto } from '../../../utils/dto/User';
+import {
+    getUserById,
+    postRequest,
+    putRequest,
+} from '../../../services/Requests';
 import { UserModel } from '../../../utils/Models/Models';
 import { validateUsername } from '../../../utils/validation/validation';
 import { BackButton } from '../../components/navigation/BackButton';
@@ -37,12 +38,12 @@ export const UserDetailsPage = () => {
         document.title = 'Profile Creation';
         if (isNotCreating) {
             document.title = 'Profile Details';
-            await getRequest<UserModel>(`/users/${params.userId}`).then(
-                (r: AxiosResponse<UserModel>) => {
-                    setUser(r.data);
+            if (params.userId) {
+                await getUserById(params.userId).then((r) => {
+                    setUser(r);
                     setIsLoaded(true);
-                }
-            );
+                });
+            }
         }
         setIsLoaded(true);
     }, [userContext.name]);
@@ -63,32 +64,20 @@ export const UserDetailsPage = () => {
                         onSubmit={async (values, actions) => {
                             actions.setSubmitting(true);
                             if (!isNotCreating) {
-                                await axios
-                                    .post(
-                                        API_URL + '/users/',
-                                        {
-                                            username: values.username,
-                                            password: values.password,
-                                        } as UserRegisterDto,
-                                        axiosAuthHeaders
-                                    )
-                                    .then((r) => {
-                                        actions.setSubmitting(false);
-                                        navigate(-1);
-                                    });
+                                await postRequest('/users/', {
+                                    username: values.username,
+                                    password: values.password,
+                                }).then((r) => {
+                                    actions.setSubmitting(false);
+                                    navigate(-1);
+                                });
                             } else {
-                                await axios
-                                    .put(
-                                        API_URL + '/users/' + values.id,
-                                        {
-                                            username: values.username,
-                                        } as UserRegisterDto,
-                                        axiosAuthHeaders
-                                    )
-                                    .then((r) => {
-                                        actions.setSubmitting(false);
-                                        navigate(-1);
-                                    });
+                                await putRequest('/users/' + values.id, {
+                                    username: values.username,
+                                }).then((r) => {
+                                    actions.setSubmitting(false);
+                                    navigate(-1);
+                                });
                             }
                         }}
                     >

@@ -17,11 +17,10 @@ import {
     Tooltip,
     VStack,
 } from '@chakra-ui/react';
-import { AxiosResponse } from 'axios';
 import { Field, Formik } from 'formik';
 import { useMemo, useState } from 'react';
 import { useUserContext } from '../../../context/UserContext';
-import { getRequest, putRequest } from '../../../services/Requests';
+import { getUserByUsername, putRequest } from '../../../services/Requests';
 import { UserModel } from '../../../utils/Models/Models';
 import { validateUsername } from '../../../utils/validation/validation';
 import { BoxWithShadowMax } from '../../components/wrappers/BoxWithShadow';
@@ -33,12 +32,11 @@ export const ProfilePage = () => {
     document.title = 'Profile page';
 
     useMemo(async () => {
-        await getRequest<UserModel>(
-            `/users/getByUsername/${userContext.name}`
-        ).then((r: AxiosResponse<UserModel>) => {
-            setUser(r.data);
-            setIsLoaded(true);
-        });
+        if (userContext.name) {
+            await getUserByUsername(userContext.name).then((r) => {
+                setUser(r), setIsLoaded(true);
+            });
+        }
     }, [userContext.name]);
 
     return (
