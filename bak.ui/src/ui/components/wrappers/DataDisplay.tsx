@@ -1,6 +1,6 @@
 import { Divider, HStack, Skeleton, VStack } from '@chakra-ui/react';
-import { BackButton } from '../../navigation/BackButton';
-import { BoxWithShadow } from '../../wrappers/BoxWithShadow';
+import { BackButton } from '../navigation/BackButton';
+import { BoxWithShadow } from './BoxWithShadow';
 
 export const DataDisplay = ({
     isLoaded,

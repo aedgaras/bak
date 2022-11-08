@@ -6,11 +6,7 @@ import {
     validatePassword,
     validateUsername,
 } from '../../../utils/validation/validation';
-import {
-    FormBox,
-    GenericInput,
-    SubmitButton,
-} from '../../components/datadisplay/generic/form';
+import { FormBox, GenericInput, SubmitButton } from '../../components/form';
 import { AppWrapper } from '../../components/wrappers/AppWrapper';
 
 export const LoginPage = () => {

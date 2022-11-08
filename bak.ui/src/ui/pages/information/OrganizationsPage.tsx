@@ -2,11 +2,13 @@ import { useEffect, useMemo, useState } from 'react';
 import { getOrganizationList } from '../../../services/Requests';
 import { OrganizationDto } from '../../../utils/dto';
 import {
+    GenericTable,
+    GenericTableWithSearchAndCreate,
+} from '../../components/table/GenericTable';
+import {
     filterOrganizationTable,
     organizationTableColumns,
-} from '../../components/datadisplay/datatablehelpers/organizationhelpers/helpers';
-import { GenericTable } from '../../components/datadisplay/generic/GenericTable';
-import { GenericTableWithSearchAndCreate } from '../../components/datadisplay/generic/tablewithsearch/GenericTableWithActions';
+} from '../../components/table/Helpers';
 import { AppWrapper } from '../../components/wrappers/AppWrapper';
 
 export const OrganizationsPage = () => {

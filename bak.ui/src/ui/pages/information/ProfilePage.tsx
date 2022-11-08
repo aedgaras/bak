@@ -12,10 +12,7 @@ import { useUserContext } from '../../../context/UserContext';
 import { getUserByUsername, putRequest } from '../../../services/Requests';
 import { UserModel } from '../../../utils/dto';
 import { validateUsername } from '../../../utils/validation/validation';
-import {
-    GenericInput,
-    SubmitButton,
-} from '../../components/datadisplay/generic/form';
+import { GenericInput, SubmitButton } from '../../components/form';
 import { AppWrapper } from '../../components/wrappers/AppWrapper';
 import { BoxWithShadowMax } from '../../components/wrappers/BoxWithShadow';
 

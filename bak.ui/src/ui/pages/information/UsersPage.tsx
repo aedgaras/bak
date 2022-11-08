@@ -2,11 +2,13 @@ import { useEffect, useMemo, useState } from 'react';
 import { getUsersList } from '../../../services/Requests';
 import { UserModel } from '../../../utils/dto';
 import {
+    GenericTable,
+    GenericTableWithSearchAndCreate,
+} from '../../components/table/GenericTable';
+import {
     filterUserTable,
     userTableColumns,
-} from '../../components/datadisplay/datatablehelpers/userhelpers/helpers';
-import { GenericTable } from '../../components/datadisplay/generic/GenericTable';
-import { GenericTableWithSearchAndCreate } from '../../components/datadisplay/generic/tablewithsearch/GenericTableWithActions';
+} from '../../components/table/Helpers';
 import { AppWrapper } from '../../components/wrappers/AppWrapper';
 
 export const UsersPage = () => {

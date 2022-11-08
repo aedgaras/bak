@@ -16,11 +16,8 @@ import {
 } from '../../../services/Requests';
 import { UserModel } from '../../../utils/dto';
 import { validateUsername } from '../../../utils/validation/validation';
-import { DataDisplay } from '../../components/datadisplay/generic/DataDisplay';
-import {
-    GenericInput,
-    SubmitButton,
-} from '../../components/datadisplay/generic/form';
+import { GenericInput, SubmitButton } from '../../components/form';
+import { DataDisplay } from '../../components/wrappers/DataDisplay';
 
 export const UserDetailsPage = () => {
     const userContext = useUserContext();

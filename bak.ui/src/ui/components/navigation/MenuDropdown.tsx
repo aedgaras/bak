@@ -9,8 +9,8 @@ import {
     useColorModeValue,
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
-import { MenuDropdownProps } from '../../../utils/Models/InterfaceModels';
-import { LogoutDialog } from '../dialogs/LogoutDialog';
+import { LogoutDialog } from '../dialogs';
+import { MenuDropdownProps } from '../interfaces';
 import {
     IsLoggedInElement,
     IsNotLoggedInElement,
