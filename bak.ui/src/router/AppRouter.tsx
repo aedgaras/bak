@@ -1,13 +1,13 @@
 import { Route, Routes } from 'react-router-dom';
 import { useUserContext } from '../context/UserContext';
+import { PageNotFound, Unauthorized } from '../ui/components/errors';
 import { LoginPage } from '../ui/pages/authentication/LoginPage';
 import { RegisterPage } from '../ui/pages/authentication/RegisterPage';
 import { OrganizationDetailsPage } from '../ui/pages/details/OrganizationDetailsPage';
+import { ProfilePage } from '../ui/pages/details/ProfilePage';
 import { UserDetailsPage } from '../ui/pages/details/UserDetailsPage';
-import { PageNotFound, Unauthorized } from '../ui/pages/errorpages';
-import { OrganizationsPage } from '../ui/pages/information/OrganizationsPage';
-import { ProfilePage } from '../ui/pages/information/ProfilePage';
-import { UsersPage } from '../ui/pages/information/UsersPage';
+import { OrganizationsPage } from '../ui/pages/lists/OrganizationsPage';
+import { UsersPage } from '../ui/pages/lists/UsersPage';
 import { UserApp } from '../ui/UserApp';
 
 export const AppRouter = () => {

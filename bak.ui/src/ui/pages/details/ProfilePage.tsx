@@ -11,8 +11,8 @@ import { useMemo, useState } from 'react';
 import { useUserContext } from '../../../context/UserContext';
 import { getUserByUsername, putRequest } from '../../../services/Requests';
 import { UserModel } from '../../../utils/dto';
-import { validateUsername } from '../../../utils/validation/validation';
 import { GenericInput, SubmitButton } from '../../components/form';
+import { validateUsername } from '../../components/form/validation/validation';
 import { AppWrapper } from '../../components/wrappers/AppWrapper';
 import { BoxWithShadowMax } from '../../components/wrappers/BoxWithShadow';
 

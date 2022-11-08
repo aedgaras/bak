@@ -2,11 +2,11 @@ import { Heading, useToast } from '@chakra-ui/react';
 import { Formik } from 'formik';
 import { authenticateUserHook } from '../../../hooks/customHooks';
 import { UserRegisterDto } from '../../../utils/dto';
+import { FormBox, GenericInput, SubmitButton } from '../../components/form';
 import {
     validatePassword,
     validateUsername,
-} from '../../../utils/validation/validation';
-import { FormBox, GenericInput, SubmitButton } from '../../components/form';
+} from '../../components/form/validation/validation';
 import { AppWrapper } from '../../components/wrappers/AppWrapper';
 
 export const RegisterPage = () => {

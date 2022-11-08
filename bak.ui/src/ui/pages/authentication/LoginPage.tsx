@@ -2,11 +2,11 @@ import { Heading, Link as ChakraLink, Text, useToast } from '@chakra-ui/react';
 import { Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import { authenticateUserHook } from '../../../hooks/customHooks';
+import { FormBox, GenericInput, SubmitButton } from '../../components/form';
 import {
     validatePassword,
     validateUsername,
-} from '../../../utils/validation/validation';
-import { FormBox, GenericInput, SubmitButton } from '../../components/form';
+} from '../../components/form/validation/validation';
 import { AppWrapper } from '../../components/wrappers/AppWrapper';
 
 export const LoginPage = () => {

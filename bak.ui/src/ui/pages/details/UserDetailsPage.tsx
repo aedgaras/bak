@@ -15,8 +15,8 @@ import {
     putRequest,
 } from '../../../services/Requests';
 import { UserModel } from '../../../utils/dto';
-import { validateUsername } from '../../../utils/validation/validation';
 import { GenericInput, SubmitButton } from '../../components/form';
+import { validateUsername } from '../../components/form/validation/validation';
 import { DataDisplay } from '../../components/wrappers/DataDisplay';
 
 export const UserDetailsPage = () => {
