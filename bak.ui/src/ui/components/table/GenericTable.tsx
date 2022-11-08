@@ -121,6 +121,7 @@ export function GenericTable<Data extends object>({
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [toDeleteId, setToDeleteId] = React.useState<string[]>([]);
     const cancelRef = React.useRef(null);
+
     const userContext = useUserContext();
 
     const table = useReactTable({
@@ -176,7 +177,15 @@ export function GenericTable<Data extends object>({
                 </Thead>
                 <Tbody>
                     {table.getRowModel().rows.map((row) => (
-                        <Tr key={row.id}>
+                        <Tr
+                            key={row.id}
+                            _hover={{
+                                backgroundColor: 'gray.400',
+                            }}
+                            onClick={(e) => {
+                                console.log(row);
+                            }}
+                        >
                             {row.getVisibleCells().map((cell) => {
                                 const meta: any = cell.column.columnDef.meta;
                                 return (
