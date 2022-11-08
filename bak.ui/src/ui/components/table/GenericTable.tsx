@@ -45,21 +45,20 @@ import { useUserContext } from '../../../context/UserContext';
 import { DeleteDialog } from '../dialogs';
 import { BoxWithShadowMax } from '../wrappers/BoxWithShadow';
 
-export interface GenericTableWithSearchAndCreateProps<T> {
+export interface GenericTableWithSearchAndCreateProps<T extends object>
+    extends DataTableProps<T> {
     isLoaded: boolean;
     setQueryFilter: React.Dispatch<React.SetStateAction<string>>;
     dataDisplay: T[];
-    entityCreatePath: string;
-    entityName: string;
-    genericTable: JSX.Element;
 }
 
-export const GenericTableWithSearchAndCreate = <T extends unknown>({
+export const GenericTableWithSearchAndCreate = <T extends object>({
     isLoaded,
     setQueryFilter,
-    entityCreatePath,
-    entityName,
-    genericTable,
+    data,
+    columns,
+    entity,
+    refreshData,
 }: GenericTableWithSearchAndCreateProps<T>) => {
     const userContext = useUserContext();
     return (
@@ -74,9 +73,16 @@ export const GenericTableWithSearchAndCreate = <T extends unknown>({
                     />
                     <Spacer />
                     {userContext.role === 'admin' ? (
-                        <Link to={entityCreatePath}>
+                        <Link
+                            to={
+                                entity === 'user'
+                                    ? '/users/create'
+                                    : '/orgnizations/create'
+                            }
+                        >
                             <Button rightIcon={<AddIcon />} colorScheme="teal">
-                                Create {entityName}
+                                Create{' '}
+                                {entity === 'user' ? 'User' : 'Organization'}
                             </Button>
                         </Link>
                     ) : null}
@@ -84,7 +90,12 @@ export const GenericTableWithSearchAndCreate = <T extends unknown>({
 
                 <Box padding={2}>
                     <Box borderWidth="1px" borderRadius="lg" padding={2}>
-                        {genericTable}
+                        <GenericTable
+                            data={data}
+                            columns={columns}
+                            entity={entity}
+                            refreshData={refreshData}
+                        />
                     </Box>
                 </Box>
             </Skeleton>
@@ -95,14 +106,14 @@ export const GenericTableWithSearchAndCreate = <T extends unknown>({
 export type DataTableProps<Data extends object> = {
     data: Data[];
     columns: ColumnDef<Data, any>[];
-    entityName: 'user' | 'org';
+    entity: 'user' | 'org';
     refreshData: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export function GenericTable<Data extends object>({
     data,
     columns,
-    entityName,
+    entity,
     refreshData,
 }: DataTableProps<Data>) {
     // Use the state and functions returned from useTable to build your UI
@@ -220,7 +231,7 @@ export function GenericTable<Data extends object>({
                     cancelRef={cancelRef}
                     onClose={onClose}
                     entityToDeleteId={toDeleteId[0]}
-                    entityName={entityName}
+                    entityName={entity}
                     refreshData={refreshData}
                 />
                 <Tfoot></Tfoot>

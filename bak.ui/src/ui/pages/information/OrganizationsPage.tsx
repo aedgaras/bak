@@ -1,10 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { getOrganizationList } from '../../../services/Requests';
 import { OrganizationDto } from '../../../utils/dto';
-import {
-    GenericTable,
-    GenericTableWithSearchAndCreate,
-} from '../../components/table/GenericTable';
+import { GenericTableWithSearchAndCreate } from '../../components/table/GenericTable';
 import {
     filterOrganizationTable,
     organizationTableColumns,
@@ -47,16 +44,10 @@ export const OrganizationsPage = () => {
                     isLoaded={isLoaded}
                     setQueryFilter={setQueryFilter}
                     dataDisplay={usersToDisplay}
-                    entityCreatePath={'/orgnizations/create'}
-                    entityName={'Organization'}
-                    genericTable={
-                        <GenericTable
-                            data={usersToDisplay}
-                            columns={organizationTableColumns}
-                            entityName="org"
-                            refreshData={setRefreshData}
-                        />
-                    }
+                    data={usersToDisplay}
+                    columns={organizationTableColumns}
+                    entity="org"
+                    refreshData={setRefreshData}
                 />
             }
         />

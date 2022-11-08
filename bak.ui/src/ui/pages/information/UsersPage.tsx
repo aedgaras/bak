@@ -1,10 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { getUsersList } from '../../../services/Requests';
 import { UserModel } from '../../../utils/dto';
-import {
-    GenericTable,
-    GenericTableWithSearchAndCreate,
-} from '../../components/table/GenericTable';
+import { GenericTableWithSearchAndCreate } from '../../components/table/GenericTable';
 import {
     filterUserTable,
     userTableColumns,
@@ -43,16 +40,10 @@ export const UsersPage = () => {
                     isLoaded={isLoaded}
                     setQueryFilter={setQueryFilter}
                     dataDisplay={usersToDisplay}
-                    entityCreatePath={'/users/create'}
-                    entityName={'User'}
-                    genericTable={
-                        <GenericTable
-                            data={usersToDisplay}
-                            columns={userTableColumns}
-                            entityName={'user'}
-                            refreshData={setRefreshData}
-                        />
-                    }
+                    data={usersToDisplay}
+                    columns={userTableColumns}
+                    entity={'user'}
+                    refreshData={setRefreshData}
                 />
             }
         />
