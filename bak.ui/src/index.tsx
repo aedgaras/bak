@@ -10,7 +10,6 @@ import { AppRouter } from './router/AppRouter';
 
 import * as serviceWorker from './serviceWorker';
 import { NavigationMenu } from './ui/components/navigation/NavigationMenu';
-import { AppWrapper } from './ui/components/wrappers/AppWrapper';
 
 const container = document.getElementById('root');
 if (!container) throw new Error('Failed to find the root element');
@@ -20,16 +19,14 @@ root.render(
     <React.StrictMode>
         <ColorModeScript />
         <ChakraProvider theme={theme}>
-            <UserContext.Provider value={userContextValues()}>
-                <AnimatePresence exitBeforeEnter>
+            <AnimatePresence exitBeforeEnter>
+                <UserContext.Provider value={userContextValues()}>
                     <BrowserRouter>
                         <NavigationMenu />
-                        <AppWrapper>
-                            <AppRouter />
-                        </AppWrapper>
+                        <AppRouter />
                     </BrowserRouter>
-                </AnimatePresence>
-            </UserContext.Provider>
+                </UserContext.Provider>
+            </AnimatePresence>
         </ChakraProvider>
     </React.StrictMode>
 );

@@ -1,7 +1,7 @@
-import { Box, Button, Heading, useToast } from '@chakra-ui/react';
+import { Heading, useToast } from '@chakra-ui/react';
 import { Formik } from 'formik';
 import { authenticateUserHook } from '../../../hooks/customHooks';
-import { UserRegisterDto } from '../../../utils/dto/User';
+import { UserRegisterDto } from '../../../utils/dto';
 import {
     validatePassword,
     validateUsername,
@@ -9,16 +9,22 @@ import {
 import {
     FormBox,
     GenericInput,
+    SubmitButton,
 } from '../../components/datadisplay/generic/form';
+import { AppWrapper } from '../../components/wrappers/AppWrapper';
 
 export const RegisterPage = () => {
     const toast = useToast();
     document.title = 'Register';
 
     return (
-        <FormBox
-            upperSection={<Heading>Register</Heading>}
-            innerForm={RegisterForm()}
+        <AppWrapper
+            children={
+                <FormBox
+                    upperSection={<Heading>Register</Heading>}
+                    innerForm={RegisterForm()}
+                />
+            }
         />
     );
 
@@ -60,15 +66,7 @@ export const RegisterPage = () => {
                             touchedField={touched.name}
                             validation={() => ''}
                         />
-                        <Box p={2}>
-                            <Button
-                                type="submit"
-                                isLoading={isSubmitting}
-                                color="teal"
-                            >
-                                Submit
-                            </Button>
-                        </Box>
+                        <SubmitButton isSubmitting={isSubmitting} />
                     </form>
                 )}
             </Formik>

@@ -8,11 +8,6 @@ export const sleep = async (milliseconds: number) => {
     });
 };
 
-export type ToastInfo = {
-    title: string;
-    description: string;
-};
-
 export const getJwtFromStorage = localStorage.getItem('bakJWT');
 export const getRefreshTokenFromStorage = localStorage.getItem('refreshJWT');
 

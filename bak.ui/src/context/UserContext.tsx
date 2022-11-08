@@ -1,10 +1,11 @@
 import React, { createContext } from 'react';
 import { getCurrentUser } from '../services/Authentication';
+import { Role } from '../utils/Models/Models';
 
-export interface UserContextInterface {
+interface UserContextInterface {
     name?: string;
     loggedIn?: boolean;
-    role?: 'admin' | 'user';
+    role?: Role;
 }
 
 export const UserContext = createContext<UserContextInterface>({});

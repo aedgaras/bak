@@ -8,7 +8,7 @@ import {
     Button,
 } from '@chakra-ui/react';
 import { logout } from '../../../services/Authentication';
-import { ClosableObject } from '../../../utils/Models/InterfaceModels';
+import { ClosableObject } from '../interfaces';
 
 export const LogoutDialog = ({
     isOpen,

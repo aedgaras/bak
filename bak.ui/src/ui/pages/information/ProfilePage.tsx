@@ -1,28 +1,22 @@
 import {
     Avatar,
-    Button,
-    Divider,
-    FormControl,
-    FormErrorIcon,
-    FormErrorMessage,
-    FormLabel,
     Grid,
     GridItem,
     HStack,
-    Input,
     Skeleton,
-    Spacer,
-    Switch,
-    Text,
-    Tooltip,
     VStack,
 } from '@chakra-ui/react';
-import { Field, Formik } from 'formik';
+import { Formik } from 'formik';
 import { useMemo, useState } from 'react';
 import { useUserContext } from '../../../context/UserContext';
 import { getUserByUsername, putRequest } from '../../../services/Requests';
-import { UserModel } from '../../../utils/Models/Models';
+import { UserModel } from '../../../utils/dto';
 import { validateUsername } from '../../../utils/validation/validation';
+import {
+    GenericInput,
+    SubmitButton,
+} from '../../components/datadisplay/generic/form';
+import { AppWrapper } from '../../components/wrappers/AppWrapper';
 import { BoxWithShadowMax } from '../../components/wrappers/BoxWithShadow';
 
 export const ProfilePage = () => {
@@ -78,68 +72,57 @@ const ProfileSection = ({
     const [edit, setEdit] = useState<boolean>(false);
 
     return (
-        <Skeleton isLoaded={isLoaded}>
-            <BoxWithShadowMax>
-                <VStack>
-                    <HStack w={'100%'}>
-                        <Text>Edit Profile</Text>
-                        <Spacer />
-                        <Tooltip label="Changing current values requires logout.">
-                            <Switch onChange={() => setEdit(!edit)} />
-                        </Tooltip>
-                    </HStack>
-                    <Divider />
-                    <Avatar name={userContext.name} src={''} size={'2xl'} />
-                    <Formik
-                        initialValues={user ?? ({} as UserModel)}
-                        onSubmit={async (values, actions) => {
-                            actions.setSubmitting(true);
-                            await putRequest('/users/' + user?.id, {
-                                username: values.username,
-                            }).then((r) => {
-                                actions.setSubmitting(false);
-                            });
-                        }}
-                    >
-                        {({ handleSubmit, errors, touched, isSubmitting }) => (
-                            <form onSubmit={handleSubmit}>
-                                <FormControl
-                                    isInvalid={
-                                        !!errors.username && touched.username
-                                    }
-                                    p={2}
-                                >
-                                    <FormLabel>Username</FormLabel>
-                                    <Field
-                                        as={Input}
-                                        placeholder={userContext.name}
-                                        type="text"
-                                        name="username"
-                                        validate={(value: string) =>
-                                            validateUsername(value)
-                                        }
-                                    />
-                                    <FormErrorMessage>
-                                        <FormErrorIcon />
-                                        {errors.username}
-                                    </FormErrorMessage>
-                                </FormControl>
-                                <HStack w={'100%'}>
-                                    {edit ? (
-                                        <Button
-                                            type="submit"
-                                            color="teal"
-                                            isLoading={isSubmitting}
-                                        >
-                                            Submit
-                                        </Button>
-                                    ) : null}
-                                </HStack>
-                            </form>
-                        )}
-                    </Formik>
-                </VStack>
-            </BoxWithShadowMax>
-        </Skeleton>
+        <AppWrapper
+            children={
+                <Skeleton isLoaded={isLoaded}>
+                    <BoxWithShadowMax>
+                        <VStack>
+                            <Avatar
+                                name={userContext.name}
+                                src={''}
+                                size={'2xl'}
+                            />
+                            <Formik
+                                initialValues={user ?? ({} as UserModel)}
+                                onSubmit={async (values, actions) => {
+                                    actions.setSubmitting(true);
+                                    await putRequest('/users/' + user?.id, {
+                                        username: values.username,
+                                    }).then((r) => {
+                                        actions.setSubmitting(false);
+                                    });
+                                }}
+                            >
+                                {({
+                                    handleSubmit,
+                                    errors,
+                                    touched,
+                                    isSubmitting,
+                                }) => (
+                                    <form onSubmit={handleSubmit}>
+                                        <GenericInput
+                                            fieldName={'Username'}
+                                            fieldType={'text'}
+                                            isRequired={true}
+                                            errorField={errors.username}
+                                            touchedField={touched.username}
+                                            validation={validateUsername}
+                                            placeholder={userContext.name}
+                                        />
+                                        <HStack w={'100%'}>
+                                            {edit ? (
+                                                <SubmitButton
+                                                    isSubmitting={isSubmitting}
+                                                />
+                                            ) : null}
+                                        </HStack>
+                                    </form>
+                                )}
+                            </Formik>
+                        </VStack>
+                    </BoxWithShadowMax>
+                </Skeleton>
+            }
+        />
     );
 };

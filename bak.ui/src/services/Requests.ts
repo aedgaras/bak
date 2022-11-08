@@ -5,9 +5,17 @@ import {
     ORGANIZATIONS_URL,
     USERS_URL,
 } from '../utils/constants';
-import { OrganizationDto } from '../utils/dto/Organization';
-import { ListResponse, UserModel } from '../utils/Models/Models';
+import { OrganizationDto, UserModel } from '../utils/dto';
 import { TokenPayload } from '../utils/utils';
+
+interface ListResponse<T> {
+    paging: {
+        listCount: number;
+        currentPage: number;
+        totalPages: number;
+    };
+    data: T;
+}
 
 export const getRequest = async <T>(
     url: string

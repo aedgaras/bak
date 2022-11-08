@@ -7,7 +7,7 @@ import {
     AlertDialogOverlay,
     Button,
 } from '@chakra-ui/react';
-import { ClosableObject } from '../../../utils/Models/InterfaceModels';
+import { ClosableObject } from '../interfaces';
 
 export const AboutToLogoutDialog = ({
     isOpen,

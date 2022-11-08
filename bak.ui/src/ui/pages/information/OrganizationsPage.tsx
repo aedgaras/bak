@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useState } from 'react';
 import { getOrganizationList } from '../../../services/Requests';
-import { OrganizationDto } from '../../../utils/dto/Organization';
+import { OrganizationDto } from '../../../utils/dto';
 import {
     filterOrganizationTable,
     organizationTableColumns,
 } from '../../components/datadisplay/datatablehelpers/organizationhelpers/helpers';
 import { GenericTable } from '../../components/datadisplay/generic/GenericTable';
 import { GenericTableWithSearchAndCreate } from '../../components/datadisplay/generic/tablewithsearch/GenericTableWithActions';
+import { AppWrapper } from '../../components/wrappers/AppWrapper';
 
 export const OrganizationsPage = () => {
     const [usersToDisplay, setUsersToDisplay] = useState<OrganizationDto[]>([]);
@@ -38,18 +39,22 @@ export const OrganizationsPage = () => {
     }, [queryFilter, users]);
 
     return (
-        <GenericTableWithSearchAndCreate
-            isLoaded={isLoaded}
-            setQueryFilter={setQueryFilter}
-            dataDisplay={usersToDisplay}
-            entityCreatePath={'/orgnizations/create'}
-            entityName={'Organization'}
-            genericTable={
-                <GenericTable
-                    data={usersToDisplay}
-                    columns={organizationTableColumns}
-                    entityName="org"
-                    refreshData={setRefreshData}
+        <AppWrapper
+            children={
+                <GenericTableWithSearchAndCreate
+                    isLoaded={isLoaded}
+                    setQueryFilter={setQueryFilter}
+                    dataDisplay={usersToDisplay}
+                    entityCreatePath={'/orgnizations/create'}
+                    entityName={'Organization'}
+                    genericTable={
+                        <GenericTable
+                            data={usersToDisplay}
+                            columns={organizationTableColumns}
+                            entityName="org"
+                            refreshData={setRefreshData}
+                        />
+                    }
                 />
             }
         />

@@ -1,15 +1,12 @@
 import axios, { AxiosResponse } from 'axios';
 import jwtDecode from 'jwt-decode';
-import { API_URL } from '../utils/constants';
+import { API_URL, JWT_NAME, REFRESH_TOKEN_NAME } from '../utils/constants';
 import { Role } from '../utils/Models/Models';
 
-export interface User {
+interface User {
     username: string;
     role: Role;
 }
-
-export const JWT_NAME = 'bakJWT';
-export const REFRESH_TOKEN_NAME = 'refreshJWT';
 
 export async function logout(): Promise<void> {
     localStorage.removeItem(JWT_NAME);

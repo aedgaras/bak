@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { API_URL, axiosAuthHeaders } from '../../../utils/constants';
-import { DeleteDialogProps } from '../../../utils/Models/InterfaceModels';
+import { DeleteDialogProps } from '../interfaces';
 
 export const DeleteDialog = (props: DeleteDialogProps) => {
     return (

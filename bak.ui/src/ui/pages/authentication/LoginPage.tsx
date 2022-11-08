@@ -1,11 +1,4 @@
-import {
-    Box,
-    Button,
-    Heading,
-    Link as ChakraLink,
-    Text,
-    useToast,
-} from '@chakra-ui/react';
+import { Heading, Link as ChakraLink, Text, useToast } from '@chakra-ui/react';
 import { Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import { authenticateUserHook } from '../../../hooks/customHooks';
@@ -16,7 +9,9 @@ import {
 import {
     FormBox,
     GenericInput,
+    SubmitButton,
 } from '../../components/datadisplay/generic/form';
+import { AppWrapper } from '../../components/wrappers/AppWrapper';
 
 export const LoginPage = () => {
     const initialValue = { username: '', password: '' };
@@ -24,20 +19,24 @@ export const LoginPage = () => {
     document.title = 'Login';
 
     return (
-        <FormBox
-            upperSection={
-                <>
-                    <Heading>Login</Heading>
-                    <Link to="/register">
-                        <ChakraLink>
-                            <Text color={'muted'}>
-                                Don't have an account? Register
-                            </Text>
-                        </ChakraLink>
-                    </Link>
-                </>
+        <AppWrapper
+            children={
+                <FormBox
+                    upperSection={
+                        <>
+                            <Heading>Login</Heading>
+                            <Link to="/register">
+                                <ChakraLink>
+                                    <Text color={'muted'}>
+                                        Don't have an account? Register
+                                    </Text>
+                                </ChakraLink>
+                            </Link>
+                        </>
+                    }
+                    innerForm={LoginForm()}
+                />
             }
-            innerForm={LoginForm()}
         />
     );
 
@@ -68,15 +67,7 @@ export const LoginPage = () => {
                             touchedField={touched.password}
                             validation={validatePassword}
                         />
-                        <Box p={2}>
-                            <Button
-                                type="submit"
-                                isLoading={isSubmitting}
-                                color="teal"
-                            >
-                                Submit
-                            </Button>
-                        </Box>
+                        <SubmitButton isSubmitting={isSubmitting} />
                     </form>
                 )}
             </Formik>

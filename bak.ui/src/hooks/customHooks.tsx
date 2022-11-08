@@ -1,7 +1,7 @@
 import { CreateToastFnReturn } from '@chakra-ui/react';
 import { AxiosError, AxiosResponse } from 'axios';
-import { JWT_NAME, REFRESH_TOKEN_NAME } from '../services/Authentication';
 import { authenticate } from '../services/Requests';
+import { JWT_NAME, REFRESH_TOKEN_NAME } from '../utils/constants';
 import { sleep, TokenPayload } from '../utils/utils';
 
 export const authenticateUserHook = async (

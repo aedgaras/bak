@@ -1,5 +1,6 @@
 import {
     Box,
+    Button,
     Center,
     FormControl,
     FormErrorIcon,
@@ -19,6 +20,7 @@ export const GenericInput = ({
     errorField,
     touchedField,
     validation,
+    placeholder,
 }: {
     fieldName: string;
     fieldType: string;
@@ -26,6 +28,7 @@ export const GenericInput = ({
     errorField?: string;
     touchedField?: boolean;
     validation: (value: string) => string;
+    placeholder?: string;
 }) => {
     return (
         <FormControl
@@ -39,6 +42,7 @@ export const GenericInput = ({
                 type={fieldType}
                 name={fieldName.toLowerCase()}
                 validate={(value: string) => validation(value)}
+                placeholder={placeholder}
             />
 
             <FormErrorMessage>
@@ -73,5 +77,15 @@ export const FormBox = ({
                 <HStack>{innerForm}</HStack>
             </Box>
         </VStack>
+    );
+};
+
+export const SubmitButton = ({ isSubmitting }: { isSubmitting: boolean }) => {
+    return (
+        <Box p={2}>
+            <Button type="submit" isLoading={isSubmitting} color="teal">
+                Submit
+            </Button>
+        </Box>
     );
 };
