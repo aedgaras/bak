@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { verify } from 'jsonwebtoken';
 import { Role } from '../models/Roles';
-import { returnMessage } from '../utils/response/ResponseUtils';
+import { returnMessage } from '../utils/response';
 import { tokenFromRequest } from '../utils/token/utils';
 
 interface RequestBody {

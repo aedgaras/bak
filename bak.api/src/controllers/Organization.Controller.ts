@@ -15,8 +15,8 @@ import {
     ENTITY_DOESNT_EXIST,
     ENTITY_NOT_FOUND,
     ENTITY_UPDATED,
-} from '../utils/response/ResponseTexts';
-import { returnMessage } from '../utils/response/ResponseUtils';
+    returnMessage,
+} from '../utils/response';
 
 export const getOrganizations = async (req: Request, res: Response) => {
     const paging: RequestQueryPagination = {
@@ -65,9 +65,7 @@ export const getOrganization = async (req: Request, res: Response) => {
     const organization = await Organization.findByPk(orgId);
 
     if (!organization) {
-        return res.json(
-            returnMessage(ENTITY_NOT_FOUND(OrganizationEntityName))
-        );
+        return res.json(ENTITY_NOT_FOUND(OrganizationEntityName));
     } else {
         return res.json(organization);
     }
@@ -83,9 +81,7 @@ export const getByOrgName = async (req: Request, res: Response) => {
     });
 
     if (!org) {
-        return res.json(
-            returnMessage(ENTITY_NOT_FOUND(OrganizationEntityName))
-        );
+        return res.json(ENTITY_NOT_FOUND(OrganizationEntityName));
     } else {
         return res.json(org);
     }
@@ -105,7 +101,7 @@ export const createOrganization = async (req: Request, res: Response) => {
     if (existingOrganization) {
         return res
             .status(403)
-            .json(returnMessage(ENTITY_ALREADY_EXIST(OrganizationEntityName)));
+            .json(ENTITY_ALREADY_EXIST(OrganizationEntityName));
     } else {
         const createdOrganization = await Organization.create({
             ...newOrganization,
@@ -133,11 +129,9 @@ export const updateOrganization = async (req: Request, res: Response) => {
 
         return res
             .status(200)
-            .json(returnMessage(ENTITY_UPDATED(OrganizationEntityName, orgId)));
+            .json(ENTITY_UPDATED(OrganizationEntityName, orgId));
     } else {
-        return res.json(
-            returnMessage(ENTITY_DOESNT_EXIST(OrganizationEntityName))
-        );
+        return res.json(ENTITY_DOESNT_EXIST(OrganizationEntityName));
     }
 };
 
@@ -147,9 +141,7 @@ export const deleteOrganization = async (req: Request, res: Response) => {
     const organization = await Organization.findByPk(orgId);
 
     if (!organization) {
-        return res.json(
-            returnMessage(ENTITY_NOT_FOUND(OrganizationEntityName))
-        );
+        return res.json(ENTITY_NOT_FOUND(OrganizationEntityName));
     } else {
         await organization.destroy();
 

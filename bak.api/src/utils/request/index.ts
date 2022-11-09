@@ -5,7 +5,7 @@ export interface RequestQueryPagination {
     limit: number;
 }
 
-export interface PaginatedResponse<T> {
+interface PaginatedResponse<T> {
     paging: {
         listCount: number;
         currentPage: number;

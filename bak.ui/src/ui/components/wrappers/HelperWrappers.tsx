@@ -1,5 +1,5 @@
 import { useUserContext } from '../../../context/UserContext';
-import { ElementChildren } from '../../../utils/Models/InterfaceModels';
+import { ElementChildren } from '../interfaces';
 
 export const IsLoggedInElement = ({ element }: ElementChildren) => {
     const userContext = useUserContext();

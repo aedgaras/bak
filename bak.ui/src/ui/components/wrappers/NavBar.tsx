@@ -1,5 +1,5 @@
 import { Box, HStack, useColorModeValue } from '@chakra-ui/react';
-import { ElementChildren } from '../../../utils/Models/InterfaceModels';
+import { ElementChildren } from '../interfaces';
 
 export const NavBar = ({ element }: ElementChildren) => {
     return (

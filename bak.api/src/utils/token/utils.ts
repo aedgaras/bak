@@ -1,17 +1,14 @@
 import { Request } from 'express';
 import { sign } from 'jsonwebtoken';
-import {
-    REFRESH_SECRET,
-    TOKEN_SECRET,
-} from '../../configuration/Configuration';
-import { JwtToken, JwtTokenPayload } from './Models';
+import { Role } from '../../models/Roles';
+import { REFRESH_SECRET, TOKEN_SECRET } from '../constants';
 
 /**
  * Singns incoming payload to jwt token.
  * @param payload JWT Token payload to be signed.
  * @returns Signed token payload.
  */
-export function generateAccessToken(payload: JwtTokenPayload) {
+export function generateAccessToken(payload: { username: string; role: Role }) {
     return sign(payload, TOKEN_SECRET, { expiresIn: '1h' });
 }
 
@@ -24,14 +21,19 @@ export function generateRefreshToken(payload: { username: string }) {
  * @param token JWT token.
  * @returns Bearer token object.
  */
-export const bearerToken = (token: string): JwtToken => {
+export const bearerToken = (
+    token: string
+): {
+    token: string;
+    refreshToken?: string;
+} => {
     return { token: 'Bearer: ' + token };
 };
 
 export const accessRefreshTokens = (
     token: string,
     refreshToken: string
-): JwtToken => {
+): { token: string; refreshToken?: string } => {
     return { token: 'Bearer: ' + token, refreshToken: refreshToken };
 };
 

@@ -1,17 +1,16 @@
 import * as bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
 import { verify } from 'jsonwebtoken';
-import { REFRESH_SECRET } from '../configuration/Configuration';
 import { UserLoginDto, UserRegisterDto } from '../dto/User';
 import { Role } from '../models/Roles';
 import { User } from '../models/User';
-import { UserEntityName } from '../utils/constants';
+import { REFRESH_SECRET, UserEntityName } from '../utils/constants';
 import { entityIdFromParameter } from '../utils/request';
 import {
     ENTITY_NOT_FOUND,
     ENTITY_UPDATED,
-} from '../utils/response/ResponseTexts';
-import { returnMessage } from '../utils/response/ResponseUtils';
+    returnMessage,
+} from '../utils/response';
 import {
     accessRefreshTokens,
     bearerToken,
