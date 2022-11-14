@@ -15,7 +15,6 @@ import {
     ENTITY_DOESNT_EXIST,
     ENTITY_NOT_FOUND,
     ENTITY_UPDATED,
-    returnMessage,
 } from '../utils/response';
 
 export const getOrganizations = async (req: Request, res: Response) => {
@@ -149,6 +148,6 @@ export const deleteOrganization = async (req: Request, res: Response) => {
 
         return res
             .status(200)
-            .json(returnMessage(ENTITY_DELETED(OrganizationEntityName, orgId)));
+            .json(ENTITY_DELETED(OrganizationEntityName, orgId));
     }
 };

@@ -1,11 +1,11 @@
 import { Express } from 'express';
 import { configuredApp } from './configuration/App';
-import { API_PORT } from './configuration/Configuration';
 import { db } from './db/Config';
 import { seedInitialEntities } from './db/seed/InitialData';
 import { authRouter } from './routes/Authentication.Routes';
 import { organizationRouter } from './routes/Organization.Routes';
 import { userRouter } from './routes/User.Routes';
+import { API_PORT } from './utils/constants';
 
 const app: Express = configuredApp();
 

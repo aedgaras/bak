@@ -5,6 +5,10 @@ interface ReturnMessage {
 export const returnMessage = (info: string): ReturnMessage =>
     ({ message: info } as ReturnMessage);
 
+export const returnError = (obj: any) => {
+    error: obj;
+};
+
 /**
  * Response texts.
  */
@@ -18,4 +22,4 @@ export const ENTITY_NOT_FOUND = (entityName: string) =>
 export const ENTITY_UPDATED = (entityName: string, entityId: number) =>
     returnMessage(`Entity ${entityName} with id: ${entityId} was updated.`);
 export const ENTITY_DELETED = (entityName: string, entityId: number) =>
-    `returnMessage(Entity ${entityName} with id: ${entityId} was deleted.`);
+    returnMessage(`Entity ${entityName} with id: ${entityId} was deleted.`);

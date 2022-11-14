@@ -1,6 +1,7 @@
 import * as bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
 import { verify } from 'jsonwebtoken';
+import { parseSchema, userDataSchema } from '../dto/Schema';
 import { UserLoginDto, UserRegisterDto } from '../dto/User';
 import { Role } from '../models/Roles';
 import { User } from '../models/User';
@@ -60,6 +61,11 @@ export const register = async (req: Request, res: Response) => {
         lastname: req.body.lastname,
         email: req.body.email,
     };
+
+    const errors = await parseSchema(userDataSchema, req.body);
+    if (errors) {
+        return res.status(400).json(errors);
+    }
 
     const user = await User.findOne({
         where: { username: userToRegister.username },
@@ -137,16 +143,12 @@ export const changePassword = async (req: Request, res: Response) => {
 
     const user = await User.findByPk(userId);
     if (!user) {
-        return res
-            .status(200)
-            .json(returnMessage(ENTITY_NOT_FOUND(UserEntityName)));
+        return res.status(200).json(ENTITY_NOT_FOUND(UserEntityName));
     } else {
         const pass = hashedPassword(payload.password);
         await user.update({ password: pass });
         await user.save();
 
-        return res
-            .status(200)
-            .json(returnMessage(ENTITY_UPDATED(UserEntityName, userId)));
+        return res.status(200).json(ENTITY_UPDATED(UserEntityName, userId));
     }
 };

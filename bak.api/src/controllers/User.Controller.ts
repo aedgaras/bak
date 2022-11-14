@@ -87,7 +87,7 @@ export const updateUser = async (req: Request, res: Response) => {
 
     if (existingUser) {
         const updatedUser = {
-            username: req.body.username,
+            ...req.body,
         };
 
         existingUser.update({ ...updatedUser });
