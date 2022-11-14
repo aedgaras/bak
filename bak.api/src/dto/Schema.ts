@@ -1,9 +1,17 @@
 import { z, ZodError } from 'zod';
 
+/**
+ * Custom errors.
+ */
+
 const isRequired = (param: string) => `${param} is required.`;
 const isNotValid = (param: string) => `${param} is not valid.`;
 const mustBeLong = (param: string, length: number) =>
     `${param} must be ${length} characters long.`;
+
+/**
+ * Parameters
+ */
 
 const usenameParam = z
     .string({ required_error: isRequired('Username') })
@@ -15,6 +23,15 @@ const passwordParam = z
     .string({ required_error: isRequired('Password') })
     .min(4, mustBeLong('Password', 4));
 
+/**
+ * Schemas
+ */
+
+export const userLoginFormSchema = z.object({
+    username: usenameParam,
+    password: passwordParam,
+});
+
 export const userDataSchema = z.object({
     username: usenameParam,
     email: emailParam,
@@ -22,6 +39,17 @@ export const userDataSchema = z.object({
     name: z.string().optional(),
     lastname: z.string().optional(),
 });
+
+export const changePasswordFormSchema = z.object({
+    password: passwordParam,
+});
+
+/**
+ * Schema object parser.
+ * @param schema Schema definition.
+ * @param objToValidate Object that will be validated.
+ * @returns Errors if there are any.
+ */
 
 export async function parseSchema<T extends z.AnyZodObject>(
     schema: T,

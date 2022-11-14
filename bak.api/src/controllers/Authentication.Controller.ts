@@ -1,7 +1,12 @@
 import * as bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
 import { verify } from 'jsonwebtoken';
-import { parseSchema, userDataSchema } from '../dto/Schema';
+import {
+    changePasswordFormSchema,
+    parseSchema,
+    userDataSchema,
+    userLoginFormSchema,
+} from '../dto/Schema';
 import { UserLoginDto, UserRegisterDto } from '../dto/User';
 import { Role } from '../models/Roles';
 import { User } from '../models/User';
@@ -21,6 +26,11 @@ import {
 import { hashedPassword } from '../utils/utils';
 
 export const login = async (req: Request, res: Response) => {
+    const errors = await parseSchema(userLoginFormSchema, req.body);
+    if (errors) {
+        return res.status(400).json(errors);
+    }
+
     const userToLogin: UserLoginDto = {
         username: req.body.username as string,
         password: req.body.password as string,
@@ -31,12 +41,14 @@ export const login = async (req: Request, res: Response) => {
     });
 
     if (!user) {
-        return res.status(400).json("Such user doesn't exist");
+        return res.status(400).json(returnMessage("Such user doesn't exist"));
     } else {
         const hashedPass = user.getDataValue('password');
         const match = bcrypt.compareSync(userToLogin.password, hashedPass);
         if (!match) {
-            return res.status(300).send('Password is incorrect.');
+            return res
+                .status(300)
+                .send(returnMessage('Password is incorrect.'));
         } else {
             return res.status(200).json(
                 accessRefreshTokens(
@@ -72,7 +84,7 @@ export const register = async (req: Request, res: Response) => {
     });
 
     if (user) {
-        return res.status(400).send('Such user already exists.');
+        return res.status(400).send(returnMessage('Such user already exists.'));
     } else {
         const newUser = await User.create({
             ...userToRegister,
@@ -137,8 +149,10 @@ export const changePassword = async (req: Request, res: Response) => {
     if (userId === NaN) {
         return res.status(406).json(returnMessage('UserId is required.'));
     }
-    if (payload.password === undefined) {
-        return res.status(406).json(returnMessage('Password is required.'));
+
+    const errors = await parseSchema(changePasswordFormSchema, req.body);
+    if (errors) {
+        return res.status(400).json(errors);
     }
 
     const user = await User.findByPk(userId);
