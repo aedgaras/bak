@@ -47,6 +47,10 @@ export const changePasswordFormSchema = z.object({
     password: passwordParam,
 });
 
+export const deleteFormSchema = z.object({
+    id: entityIdParam,
+});
+
 /**
  * Schema object parser.
  * @param schema Schema definition.

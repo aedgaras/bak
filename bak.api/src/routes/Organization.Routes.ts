@@ -43,7 +43,7 @@ organizationRouter.put(
 );
 
 organizationRouter.delete(
-    '/:orgId',
+    '/',
     [authenticateToken, authenticateRole(['admin'])],
     deleteOrganization
 );

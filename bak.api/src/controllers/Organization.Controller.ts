@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { OrganizationDto } from '../dto/Organization';
+import { deleteFormSchema, parseSchema } from '../dto/Schema';
 import { Organization } from '../models/Organization';
 import { User } from '../models/User';
 import { OrganizationEntityName } from '../utils/constants';
@@ -135,9 +136,14 @@ export const updateOrganization = async (req: Request, res: Response) => {
 };
 
 export const deleteOrganization = async (req: Request, res: Response) => {
-    const orgId = entityIdFromParameter(req, 'orgId');
+    const errors = await parseSchema(deleteFormSchema, req.body);
+    if (errors) {
+        return res.status(400).json(errors);
+    }
 
-    const organization = await Organization.findByPk(orgId);
+    const org: { id: number } = { ...req.body };
+
+    const organization = await Organization.findByPk(org.id);
 
     if (!organization) {
         return res.json(ENTITY_NOT_FOUND(OrganizationEntityName));
@@ -148,6 +154,6 @@ export const deleteOrganization = async (req: Request, res: Response) => {
 
         return res
             .status(200)
-            .json(ENTITY_DELETED(OrganizationEntityName, orgId));
+            .json(ENTITY_DELETED(OrganizationEntityName, org.id));
     }
 };
