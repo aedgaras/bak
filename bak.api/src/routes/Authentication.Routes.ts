@@ -14,4 +14,4 @@ authRouter.post('/register', register);
 
 authRouter.post('/refresh', refresh);
 
-authRouter.post('/changePassword/:userId', changePassword);
+authRouter.post('/changePassword', changePassword);

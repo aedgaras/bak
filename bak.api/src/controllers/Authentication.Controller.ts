@@ -11,7 +11,6 @@ import { UserLoginDto, UserRegisterDto } from '../dto/User';
 import { Role } from '../models/Roles';
 import { User } from '../models/User';
 import { REFRESH_SECRET, UserEntityName } from '../utils/constants';
-import { entityIdFromParameter } from '../utils/request';
 import {
     ENTITY_NOT_FOUND,
     ENTITY_UPDATED,
@@ -143,19 +142,15 @@ export const refresh = async (req: Request, res: Response) => {
 };
 
 export const changePassword = async (req: Request, res: Response) => {
-    const userId = entityIdFromParameter(req, 'userId');
-    const payload: { password: string } = req.body;
-
-    if (userId === NaN) {
-        return res.status(406).json(returnMessage('UserId is required.'));
-    }
-
     const errors = await parseSchema(changePasswordFormSchema, req.body);
     if (errors) {
         return res.status(400).json(errors);
     }
 
-    const user = await User.findByPk(userId);
+    const payload: { userId: number; password: string } = { ...req.body };
+
+    const user = await User.findByPk(payload.userId);
+
     if (!user) {
         return res.status(200).json(ENTITY_NOT_FOUND(UserEntityName));
     } else {
@@ -163,6 +158,8 @@ export const changePassword = async (req: Request, res: Response) => {
         await user.update({ password: pass });
         await user.save();
 
-        return res.status(200).json(ENTITY_UPDATED(UserEntityName, userId));
+        return res
+            .status(200)
+            .json(ENTITY_UPDATED(UserEntityName, payload.userId));
     }
 };

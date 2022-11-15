@@ -23,6 +23,8 @@ const passwordParam = z
     .string({ required_error: isRequired('Password') })
     .min(4, mustBeLong('Password', 4));
 
+const entityIdParam = z.number({ required_error: isRequired('Id') }).positive();
+
 /**
  * Schemas
  */
@@ -41,6 +43,7 @@ export const userDataSchema = z.object({
 });
 
 export const changePasswordFormSchema = z.object({
+    userId: entityIdParam,
     password: passwordParam,
 });
 
