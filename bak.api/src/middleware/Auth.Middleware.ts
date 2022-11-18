@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { verify } from 'jsonwebtoken';
-import { Role } from '../models/Roles';
+import { Role } from '../objects/Roles';
 import { returnMessage } from '../utils/response';
 import { tokenFromRequest } from '../utils/token/utils';
 
@@ -13,7 +13,7 @@ interface RequestBody {
     };
 }
 
-export function authenticateToken(
+export async function authenticateToken(
     req: Request,
     res: Response,
     next: NextFunction
@@ -21,13 +21,14 @@ export function authenticateToken(
     const token = tokenFromRequest(req);
 
     if (token == null) {
-        return res.status(401);
+        return res.status(401).json(returnMessage('Token cannot be null'));
     }
 
     verify(token, process.env.TOKEN_SECRET as string, (err: any, user: any) => {
-        if (err) return res.status(403).json(returnMessage('Unauthorized'));
-
-        req.body.user = user;
+        if (err) {
+            return res.status(403).json(returnMessage('Unauthorized'));
+        }
+        // req.body.user = user;
 
         return next();
     });
@@ -46,9 +47,9 @@ export function authenticateRole(requiredRoles: Role[]) {
             token,
             process.env.TOKEN_SECRET as string,
             (err: any, user: any) => {
-                if (err)
+                if (err) {
                     return res.status(403).json(returnMessage('Unauthorized'));
-                if (requiredRoles.includes(reqBody.user.role)) {
+                } else if (requiredRoles.includes(reqBody.user.role)) {
                     return next();
                 } else {
                     return res.status(403).json({

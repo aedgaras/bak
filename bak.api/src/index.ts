@@ -1,7 +1,7 @@
 import { Express } from 'express';
 import { configuredApp } from './configuration/App';
-import { db } from './db/Config';
-import { seedInitialEntities } from './db/seed/InitialData';
+import { db } from './configuration/db/Config';
+import { seedInitialEntities } from './configuration/db/InitialData';
 import { authRouter } from './routes/Authentication.Routes';
 import { organizationRouter } from './routes/Organization.Routes';
 import { userRouter } from './routes/User.Routes';
@@ -14,6 +14,9 @@ const app: Express = configuredApp();
  */
 app.use('/api/organizations', organizationRouter);
 app.use('/api/users', userRouter);
+/**
+ * Authentication
+ */
 app.use('/api/auth', authRouter);
 
 /**

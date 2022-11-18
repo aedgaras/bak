@@ -1,6 +1,6 @@
 import { Request } from 'express';
 import { sign } from 'jsonwebtoken';
-import { Role } from '../../models/Roles';
+import { Role } from '../../objects/Roles';
 import { REFRESH_SECRET, TOKEN_SECRET } from '../constants';
 
 /**

@@ -29,7 +29,7 @@ userRouter.post(
 userRouter.put('/:userId', [authenticateToken], updateUser);
 
 userRouter.delete(
-    '/:userId',
+    '/',
     [authenticateToken, authenticateRole(['admin'])],
     deleteUser
 );

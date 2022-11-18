@@ -1,5 +1,5 @@
 import { Sequelize } from 'sequelize';
-import { env } from '../utils/constants';
+import { env } from '../../utils/constants';
 
 export const db = new Sequelize({
     database: env.DB_NAME,

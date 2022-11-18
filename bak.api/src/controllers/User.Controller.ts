@@ -1,18 +1,17 @@
 import { Request, Response } from 'express';
-import { UserRegisterDto } from '../dto/User';
 import { User } from '../models/User';
+import { deleteFormSchema, parseSchema } from '../objects/Schema';
+import { UserRegisterDto } from '../objects/User';
 import { UserEntityName } from '../utils/constants';
-import {
-    entityIdFromParameter,
-    ListResponse,
-    pagingQueryExists,
-    RequestQueryPagination,
-} from '../utils/request';
+import { entityIdFromParameter } from '../utils/request';
 import {
     ENTITY_ALREADY_EXIST,
     ENTITY_DELETED,
     ENTITY_DOESNT_EXIST,
     ENTITY_NOT_FOUND,
+    ListResponse,
+    pagingQueryExists,
+    RequestQueryPagination,
 } from '../utils/response';
 import { hashedPassword } from '../utils/utils';
 
@@ -101,9 +100,14 @@ export const updateUser = async (req: Request, res: Response) => {
 };
 
 export const deleteUser = async (req: Request, res: Response) => {
-    const userId = entityIdFromParameter(req, 'userId');
+    const errors = await parseSchema(deleteFormSchema, req.body);
+    if (errors) {
+        return res.status(400).json(errors);
+    }
 
-    const user = await User.findByPk(userId);
+    const userReq: { id: number } = { ...req.body };
+
+    const user = await User.findByPk(userReq.id);
 
     if (!user) {
         return res.status(404).json(ENTITY_NOT_FOUND(UserEntityName));
@@ -112,6 +116,6 @@ export const deleteUser = async (req: Request, res: Response) => {
 
         await user.save();
 
-        return res.status(200).json(ENTITY_DELETED(UserEntityName, userId));
+        return res.status(200).json(ENTITY_DELETED(UserEntityName, userReq.id));
     }
 };

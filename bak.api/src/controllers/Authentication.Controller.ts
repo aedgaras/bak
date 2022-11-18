@@ -1,15 +1,15 @@
 import * as bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
 import { verify } from 'jsonwebtoken';
+import { User } from '../models/User';
+import { Role } from '../objects/Roles';
 import {
     changePasswordFormSchema,
     parseSchema,
     userDataSchema,
     userLoginFormSchema,
-} from '../dto/Schema';
-import { UserLoginDto, UserRegisterDto } from '../dto/User';
-import { Role } from '../models/Roles';
-import { User } from '../models/User';
+} from '../objects/Schema';
+import { UserLoginDto, UserRegisterDto } from '../objects/User';
 import { REFRESH_SECRET, UserEntityName } from '../utils/constants';
 import {
     ENTITY_NOT_FOUND,
@@ -65,6 +65,11 @@ export const login = async (req: Request, res: Response) => {
 };
 
 export const register = async (req: Request, res: Response) => {
+    const errors = await parseSchema(userDataSchema, req.body);
+    if (errors) {
+        return res.status(400).json(errors);
+    }
+
     const userToRegister: UserRegisterDto = {
         username: req.body.username as string,
         password: hashedPassword(req.body.password as string),
@@ -72,11 +77,6 @@ export const register = async (req: Request, res: Response) => {
         lastname: req.body.lastname,
         email: req.body.email,
     };
-
-    const errors = await parseSchema(userDataSchema, req.body);
-    if (errors) {
-        return res.status(400).json(errors);
-    }
 
     const user = await User.findOne({
         where: { username: userToRegister.username },

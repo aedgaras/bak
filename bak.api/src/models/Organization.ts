@@ -1,5 +1,5 @@
 import { DataTypes, Model } from 'sequelize';
-import { db } from '../db/Config';
+import { db } from '../configuration/db/Config';
 import { OrganizationEntityName } from '../utils/constants';
 import { User } from './User';
 

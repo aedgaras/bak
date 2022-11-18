@@ -1,22 +1,23 @@
 import { Request, Response } from 'express';
-import { OrganizationDto } from '../dto/Organization';
-import { deleteFormSchema, parseSchema } from '../dto/Schema';
 import { Organization } from '../models/Organization';
 import { User } from '../models/User';
+import { deleteFormSchema, parseSchema } from '../objects/Schema';
 import { OrganizationEntityName } from '../utils/constants';
-import {
-    entityIdFromParameter,
-    ListResponse,
-    pagingQueryExists,
-    RequestQueryPagination,
-} from '../utils/request';
+import { entityIdFromParameter } from '../utils/request';
 import {
     ENTITY_ALREADY_EXIST,
     ENTITY_DELETED,
     ENTITY_DOESNT_EXIST,
     ENTITY_NOT_FOUND,
     ENTITY_UPDATED,
+    ListResponse,
+    pagingQueryExists,
+    RequestQueryPagination,
 } from '../utils/response';
+
+interface OrganizationDto {
+    name: string;
+}
 
 export const getOrganizations = async (req: Request, res: Response) => {
     const paging: RequestQueryPagination = {

@@ -1,5 +1,5 @@
 import { DataTypes, Model } from 'sequelize';
-import { db } from '../db/Config';
+import { db } from '../configuration/db/Config';
 import { UserEntityName } from '../utils/constants';
 
 export class User extends Model {}
@@ -33,7 +33,7 @@ User.init(
             },
         },
         avatar: {
-            type: DataTypes.TEXT,
+            type: DataTypes.BLOB,
         },
     },
     {
