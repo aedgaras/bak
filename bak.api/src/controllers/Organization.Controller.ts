@@ -1,6 +1,11 @@
 import { Request, Response } from 'express';
 import { Organization } from '../models/Organization';
 import { User } from '../models/User';
+import {
+    MapOrganization,
+    MapOrganizations,
+} from '../objects/dtos/OrganizationDtos';
+import { MapUsers } from '../objects/dtos/UserDtos';
 import { deleteFormSchema, parseSchema } from '../objects/Schema';
 import { OrganizationEntityName } from '../utils/constants';
 import {
@@ -30,7 +35,11 @@ export const getOrganizations = async (req: Request, res: Response) => {
     );
 
     return res.json(
-        ListResponse(paging, organizations.count, organizations.rows)
+        ListResponse(
+            paging,
+            organizations.count,
+            MapOrganizations(organizations.rows)
+        )
     );
 };
 
@@ -57,7 +66,7 @@ export const getOrganizationMembers = async (req: Request, res: Response) => {
               }
     );
 
-    return res.json(ListResponse(paging, users.count, users.rows));
+    return res.json(ListResponse(paging, users.count, MapUsers(users.rows)));
 };
 
 export const getOrganization = async (req: Request, res: Response) => {
@@ -68,23 +77,23 @@ export const getOrganization = async (req: Request, res: Response) => {
     if (!organization) {
         return res.json(ENTITY_NOT_FOUND(OrganizationEntityName));
     } else {
-        return res.json(organization);
+        return res.json(MapOrganization(organization));
     }
 };
 
 export const getByOrgName = async (req: Request, res: Response) => {
     const paramOrgName = req.params['orgName'];
 
-    const org = await Organization.findOne({
+    const orgEntity = await Organization.findOne({
         where: {
             name: paramOrgName,
         },
     });
 
-    if (!org) {
+    if (!orgEntity) {
         return res.json(ENTITY_NOT_FOUND(OrganizationEntityName));
     } else {
-        return res.json(org);
+        return res.status(200).json(MapOrganization(orgEntity));
     }
 };
 

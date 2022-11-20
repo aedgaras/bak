@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { User } from '../models/User';
+import { MapUser, MapUsers } from '../objects/dtos/UserDtos';
 import { deleteFormSchema, parseSchema } from '../objects/Schema';
 import { UserRegisterDto } from '../objects/User';
 import { UserEntityName } from '../utils/constants';
@@ -20,38 +21,40 @@ export const getUsers = async (req: Request, res: Response) => {
         offset: Number(req.query.offset),
     };
 
-    const users = await User.findAndCountAll(
+    const userEntities = await User.findAndCountAll(
         pagingQueryExists(paging) ? { ...paging } : {}
     );
 
-    return res.json(ListResponse(paging, users.count, users.rows));
+    return res.json(
+        ListResponse(paging, userEntities.count, MapUsers(userEntities.rows))
+    );
 };
 
 export const getUser = async (req: Request, res: Response) => {
     const userId = entityIdFromParameter(req, 'userId');
 
-    const user = await User.findByPk(userId);
+    const userEntity = await User.findByPk(userId);
 
-    if (!user) {
+    if (!userEntity) {
         return res.status(404).json(ENTITY_NOT_FOUND(UserEntityName));
     } else {
-        return res.json(user);
+        return res.status(200).json(MapUser(userEntity));
     }
 };
 
 export const getByUsername = async (req: Request, res: Response) => {
     const paramUsername = req.params.username;
 
-    const user = await User.findOne({
+    const userEntity = await User.findOne({
         where: {
             username: paramUsername,
         },
     });
 
-    if (!user) {
+    if (!userEntity) {
         return res.status(404).json(ENTITY_NOT_FOUND(UserEntityName));
     } else {
-        return res.json(user);
+        return res.status(200).json(MapUser(userEntity));
     }
 };
 
@@ -92,7 +95,7 @@ export const updateUser = async (req: Request, res: Response) => {
 
         await existingUser.save();
 
-        return res.status(200).json(existingUser);
+        return res.status(200).json(MapUser(existingUser));
     } else {
         return res.status(404).json(ENTITY_DOESNT_EXIST(UserEntityName));
     }
