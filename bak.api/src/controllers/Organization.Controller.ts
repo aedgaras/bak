@@ -3,7 +3,6 @@ import { Organization } from '../models/Organization';
 import { User } from '../models/User';
 import { deleteFormSchema, parseSchema } from '../objects/Schema';
 import { OrganizationEntityName } from '../utils/constants';
-import { entityIdFromParameter } from '../utils/request';
 import {
     ENTITY_ALREADY_EXIST,
     ENTITY_DELETED,
@@ -14,6 +13,7 @@ import {
     pagingQueryExists,
     RequestQueryPagination,
 } from '../utils/response';
+import { entityIdFromParameter } from '../utils/utils';
 
 interface OrganizationDto {
     name: string;

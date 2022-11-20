@@ -3,7 +3,6 @@ import { User } from '../models/User';
 import { deleteFormSchema, parseSchema } from '../objects/Schema';
 import { UserRegisterDto } from '../objects/User';
 import { UserEntityName } from '../utils/constants';
-import { entityIdFromParameter } from '../utils/request';
 import {
     ENTITY_ALREADY_EXIST,
     ENTITY_DELETED,
@@ -13,7 +12,7 @@ import {
     pagingQueryExists,
     RequestQueryPagination,
 } from '../utils/response';
-import { hashedPassword } from '../utils/utils';
+import { entityIdFromParameter, hashedPassword } from '../utils/utils';
 
 export const getUsers = async (req: Request, res: Response) => {
     const paging: RequestQueryPagination = {
