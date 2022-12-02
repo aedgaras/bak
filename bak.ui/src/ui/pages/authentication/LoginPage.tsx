@@ -21,7 +21,7 @@ export const LoginPage = () => {
                     upperSection={
                         <>
                             <Heading>Login</Heading>
-                            <Link to="/register">
+                            <Link to="auth/register">
                                 <ChakraLink>
                                     <Text color={'muted'}>
                                         Don't have an account? Register

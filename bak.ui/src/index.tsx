@@ -2,8 +2,8 @@ import { ChakraProvider, ColorModeScript, theme } from '@chakra-ui/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
-
 import { BrowserRouter } from 'react-router-dom';
+
 import { UserContext, userContextValues } from './context/UserContext';
 import reportWebVitals from './reportWebVitals';
 import { AppRouter } from './router/AppRouter';

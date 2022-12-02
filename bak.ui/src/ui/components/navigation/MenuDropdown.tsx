@@ -39,10 +39,10 @@ export const MenuDropdown = ({
                 <IsNotLoggedInElement
                     element={
                         <>
-                            <Link to={'/login'}>
+                            <Link to={'auth/login'}>
                                 <MenuItem>Login</MenuItem>
                             </Link>
-                            <Link to={'/register'}>
+                            <Link to={'auth/register'}>
                                 <MenuItem>Register</MenuItem>
                             </Link>
                         </>

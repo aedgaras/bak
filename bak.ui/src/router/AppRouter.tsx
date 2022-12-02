@@ -10,52 +10,68 @@ import { OrganizationsPage } from '../ui/pages/lists/OrganizationsPage';
 import { UsersPage } from '../ui/pages/lists/UsersPage';
 import { UserApp } from '../ui/UserApp';
 
+const authPath = '/auth';
+const usersPath = '/users';
+const organizationsPath = '/organizations';
+
 export const AppRouter = () => {
     return (
         <Routes>
             <Route index element={<UserApp />} />
-            <Route
-                path="login"
-                element={<DisabledAfterLoginRoute element={<LoginPage />} />}
-            />
-            <Route
-                path="register"
-                element={<DisabledAfterLoginRoute element={<RegisterPage />} />}
-            />
+            <Route path={authPath}>
+                <Route
+                    path={authPath + '/login'}
+                    element={
+                        <DisabledAfterLoginRoute element={<LoginPage />} />
+                    }
+                />
+                <Route
+                    path={authPath + '/register'}
+                    element={
+                        <DisabledAfterLoginRoute element={<RegisterPage />} />
+                    }
+                />
+            </Route>
             <Route
                 path="profile"
                 element={<ProtectedRoute element={<ProfilePage />} />}
             />
             {/* Users paths */}
-            <Route
-                path="/users"
-                element={<ProtectedRoute element={<UsersPage />} />}
-            />
-            <Route
-                path="/users/:userId"
-                element={<ProtectedRoute element={<UserDetailsPage />} />}
-            />
-            <Route
-                path="/users/create"
-                element={<ProtectedRoute element={<UserDetailsPage />} />}
-            />
+            <Route path={usersPath}>
+                <Route
+                    path={usersPath}
+                    element={<ProtectedRoute element={<UsersPage />} />}
+                />
+                <Route
+                    path={usersPath + '/:userId'}
+                    element={<ProtectedRoute element={<UserDetailsPage />} />}
+                />
+                <Route
+                    path={usersPath + '/create'}
+                    element={<ProtectedRoute element={<UserDetailsPage />} />}
+                />
+            </Route>
+
             {/* Organization paths */}
-            <Route
-                path="/organizations"
-                element={<ProtectedRoute element={<OrganizationsPage />} />}
-            />
-            <Route
-                path="/organizations/:orgName"
-                element={
-                    <ProtectedRoute element={<OrganizationDetailsPage />} />
-                }
-            />
-            <Route
-                path="/organizations/create"
-                element={
-                    <ProtectedRoute element={<OrganizationDetailsPage />} />
-                }
-            />
+            <Route path={organizationsPath}>
+                <Route
+                    path={organizationsPath}
+                    element={<ProtectedRoute element={<OrganizationsPage />} />}
+                />
+                <Route
+                    path={organizationsPath + '/:orgName'}
+                    element={
+                        <ProtectedRoute element={<OrganizationDetailsPage />} />
+                    }
+                />
+                <Route
+                    path={organizationsPath + '/create'}
+                    element={
+                        <ProtectedRoute element={<OrganizationDetailsPage />} />
+                    }
+                />
+            </Route>
+
             <Route path="*" element={<PageNotFound />} />
         </Routes>
     );
