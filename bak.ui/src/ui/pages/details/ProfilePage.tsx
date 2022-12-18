@@ -69,57 +69,51 @@ const ProfileSection = ({
     const [edit, setEdit] = useState<boolean>(false);
 
     return (
-        <AppWrapper
-            children={
-                <Skeleton isLoaded={isLoaded}>
-                    <BoxWithShadowMax>
-                        <VStack>
-                            <Avatar
-                                name={userContext.name}
-                                src={''}
-                                size={'2xl'}
-                            />
-                            <Formik
-                                initialValues={user ?? ({} as UserModel)}
-                                onSubmit={async (values, actions) => {
-                                    actions.setSubmitting(true);
-                                    await putRequest('/users/' + user?.id, {
-                                        username: values.username,
-                                    }).then((r) => {
-                                        actions.setSubmitting(false);
-                                    });
-                                }}
-                            >
-                                {({
-                                    handleSubmit,
-                                    errors,
-                                    touched,
-                                    isSubmitting,
-                                }) => (
-                                    <form onSubmit={handleSubmit}>
-                                        <GenericInput
-                                            fieldName={'Username'}
-                                            fieldType={'text'}
-                                            isRequired={true}
-                                            errorField={errors.username}
-                                            touchedField={touched.username}
-                                            validation={validateUsername}
-                                            placeholder={userContext.name}
-                                        />
-                                        <HStack w={'100%'}>
-                                            {edit ? (
-                                                <SubmitButton
-                                                    isSubmitting={isSubmitting}
-                                                />
-                                            ) : null}
-                                        </HStack>
-                                    </form>
-                                )}
-                            </Formik>
-                        </VStack>
-                    </BoxWithShadowMax>
-                </Skeleton>
-            }
-        />
+        <AppWrapper>
+            <Skeleton isLoaded={isLoaded}>
+                <BoxWithShadowMax>
+                    <VStack>
+                        <Avatar name={userContext.name} src={''} size={'2xl'} />
+                        <Formik
+                            initialValues={user ?? ({} as UserModel)}
+                            onSubmit={async (values, actions) => {
+                                actions.setSubmitting(true);
+                                await putRequest('/users/' + user?.id, {
+                                    username: values.username,
+                                }).then((r) => {
+                                    actions.setSubmitting(false);
+                                });
+                            }}
+                        >
+                            {({
+                                handleSubmit,
+                                errors,
+                                touched,
+                                isSubmitting,
+                            }) => (
+                                <form onSubmit={handleSubmit}>
+                                    <GenericInput
+                                        fieldName={'Username'}
+                                        fieldType={'text'}
+                                        isRequired={true}
+                                        errorField={errors.username}
+                                        touchedField={touched.username}
+                                        validation={validateUsername}
+                                        placeholder={userContext.name}
+                                    />
+                                    <HStack w={'100%'}>
+                                        {edit ? (
+                                            <SubmitButton
+                                                isSubmitting={isSubmitting}
+                                            />
+                                        ) : null}
+                                    </HStack>
+                                </form>
+                            )}
+                        </Formik>
+                    </VStack>
+                </BoxWithShadowMax>
+            </Skeleton>
+        </AppWrapper>
     );
 };

@@ -13,5 +13,6 @@ export const axiosAuthHeaders = {
         Authorization: 'Bearer: ' + getJwtFromStorage ?? '',
         Accept: 'application/json',
         'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
     },
 };
