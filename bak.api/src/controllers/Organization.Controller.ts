@@ -146,7 +146,10 @@ export const updateOrganization = async (req: Request, res: Response) => {
 };
 
 export const deleteOrganization = async (req: Request, res: Response) => {
-    const errors = await parseSchema(deleteFormSchema, req.body);
+    const errors = await parseSchema({
+        schema: deleteFormSchema,
+        objToValidate: req.body,
+    });
     if (errors) {
         return res.status(400).json(errors);
     }

@@ -51,6 +51,11 @@ export const deleteFormSchema = z.object({
     id: entityIdParam,
 });
 
+export const uploadAvatarSchema = z.object({
+    id: entityIdParam,
+    image: z.string(),
+});
+
 /**
  * Schema object parser.
  * @param schema Schema definition.
@@ -58,10 +63,13 @@ export const deleteFormSchema = z.object({
  * @returns Errors if there are any.
  */
 
-export async function parseSchema<T extends z.AnyZodObject>(
-    schema: T,
-    objToValidate: any
-) {
+export async function parseSchema<T extends z.AnyZodObject>({
+    schema,
+    objToValidate,
+}: {
+    schema: T;
+    objToValidate: any;
+}) {
     try {
         await schema.parseAsync(objToValidate);
     } catch (e: any) {

@@ -25,7 +25,10 @@ import {
 import { hashedPassword } from '../utils/utils';
 
 export const login = async (req: Request, res: Response) => {
-    const errors = await parseSchema(userLoginFormSchema, req.body);
+    const errors = await parseSchema({
+        schema: userLoginFormSchema,
+        objToValidate: req.body,
+    });
     if (errors) {
         return res.status(400).json(errors);
     }
@@ -65,7 +68,10 @@ export const login = async (req: Request, res: Response) => {
 };
 
 export const register = async (req: Request, res: Response) => {
-    const errors = await parseSchema(userDataSchema, req.body);
+    const errors = await parseSchema({
+        schema: userDataSchema,
+        objToValidate: req.body,
+    });
     if (errors) {
         return res.status(400).json(errors);
     }
@@ -142,7 +148,10 @@ export const refresh = async (req: Request, res: Response) => {
 };
 
 export const changePassword = async (req: Request, res: Response) => {
-    const errors = await parseSchema(changePasswordFormSchema, req.body);
+    const errors = await parseSchema({
+        schema: changePasswordFormSchema,
+        objToValidate: req.body,
+    });
     if (errors) {
         return res.status(400).json(errors);
     }
