@@ -86,17 +86,9 @@ export const UserDetailsPage = () => {
                                         navigate(-1);
                                     });
                                 } else {
-                                    let updateValues: Partial<UserModel> = {
+                                    await putRequest('/users/' + values.id, {
                                         username: values.username,
-                                    };
-                                    if (file) {
-                                        updateValues.avatar = file;
-                                    }
-
-                                    await putRequest(
-                                        '/users/' + values.id,
-                                        updateValues
-                                    ).then((r) => {
+                                    }).then((r) => {
                                         actions.setSubmitting(false);
                                         navigate(-1);
                                     });

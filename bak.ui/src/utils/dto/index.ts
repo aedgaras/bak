@@ -26,5 +26,4 @@ export interface UserModel {
     role: Role;
     createdAt: string;
     updatedAt: string;
-    avatar: string;
 }
