@@ -49,7 +49,6 @@ export interface GenericTableWithSearchAndCreateProps<T extends object>
     extends DataTableProps<T> {
     isLoaded: boolean;
     setQueryFilter: React.Dispatch<React.SetStateAction<string>>;
-    dataDisplay: T[];
 }
 
 export const GenericTableWithSearchAndCreate = <T extends object>({
