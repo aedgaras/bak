@@ -79,9 +79,9 @@ export const getUserByUsername = async (username: string) => {
     return response;
 };
 
-export const getOrganizationByName = async (orgName: string) => {
+export const getOrganizationByID = async (orgId: string) => {
     const response = await getRequest<OrganizationDto>(
-        ORGANIZATIONS_URL + `/getByName/${orgName}`
+        ORGANIZATIONS_URL + `/${orgId}`
     ).then((r) => {
         return r.data;
     });

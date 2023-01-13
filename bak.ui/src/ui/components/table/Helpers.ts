@@ -53,18 +53,7 @@ export function filterUserTable(
                 dataEntry.username
                     .toLowerCase()
                     .includes(query.toLowerCase()) ||
-                dataEntry.role
-                    .toString()
-                    .toLowerCase()
-                    .includes(query.toLowerCase()) /*||
-                dataEntry.createdAt
-                    .toString()
-                    .toLowerCase()
-                    .includes(query.toLowerCase()) ||
-                dataEntry.updatedAt
-                    .toString()
-                    .toLowerCase()
-                    .includes(query.toLowerCase())*/
+                dataEntry.role.toString().toLowerCase()
             ) {
                 filteredEntries.push(dataEntry);
             }
@@ -90,12 +79,4 @@ export const userTableColumns = [
         cell: (info) => info.getValue(),
         header: 'Role',
     }),
-    /*userColumnHelper.accessor('createdAt', {
-        cell: (info) => info.getValue(),
-        header: 'Created At',
-    }),
-    userColumnHelper.accessor('updatedAt', {
-        cell: (info) => info.getValue(),
-        header: 'Updated At',
-    }),*/
 ];

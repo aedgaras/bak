@@ -59,7 +59,7 @@ export const AppRouter = () => {
                     element={<ProtectedRoute element={<OrganizationsPage />} />}
                 />
                 <Route
-                    path={organizationsPath + '/:orgName'}
+                    path={organizationsPath + '/:orgId'}
                     element={
                         <ProtectedRoute element={<OrganizationDetailsPage />} />
                     }
