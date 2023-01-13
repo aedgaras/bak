@@ -1,4 +1,5 @@
 import { ChakraProvider, ColorModeScript, theme } from '@chakra-ui/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
@@ -14,25 +15,28 @@ import { NavigationMenu } from './ui/components/navigation/NavigationMenu';
 const container = document.getElementById('root');
 if (!container) throw new Error('Failed to find the root element');
 const root = ReactDOM.createRoot(container);
+const queryClient = new QueryClient();
 
 root.render(
     <React.StrictMode>
         <ColorModeScript />
         <ChakraProvider theme={theme}>
             <AnimatePresence exitBeforeEnter>
-                <UserContext.Provider value={userContextValues()}>
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.4 }}
-                    >
-                        <BrowserRouter>
-                            <NavigationMenu />
-                            <AppRouter />
-                        </BrowserRouter>
-                    </motion.div>
-                </UserContext.Provider>
+                <QueryClientProvider client={queryClient}>
+                    <UserContext.Provider value={userContextValues()}>
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.4 }}
+                        >
+                            <BrowserRouter>
+                                <NavigationMenu />
+                                <AppRouter />
+                            </BrowserRouter>
+                        </motion.div>
+                    </UserContext.Provider>
+                </QueryClientProvider>
             </AnimatePresence>
         </ChakraProvider>
     </React.StrictMode>
