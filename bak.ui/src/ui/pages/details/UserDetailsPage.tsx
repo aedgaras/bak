@@ -23,7 +23,7 @@ import { AppWrapper } from '../../components/wrappers/AppWrapper';
 import { DataDisplay } from '../../components/wrappers/DataDisplay';
 
 export const UserDetailsPage = () => {
-    const userContext = useUserContext();
+    const { state } = useUserContext();
     const params = useParams();
     const isNotCreating = !!params.userId;
     const navigate = useNavigate();
@@ -42,7 +42,7 @@ export const UserDetailsPage = () => {
         if (isNotCreating) {
             document.title = 'Profile Details';
         }
-    }, [userContext.name]);
+    }, [state.name]);
 
     async function handleChange(e: ChangeEvent<HTMLInputElement>) {
         if (e.target.files) {

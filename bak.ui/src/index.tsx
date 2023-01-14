@@ -5,7 +5,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 
-import { UserContext, userContextValues } from './context/UserContext';
+import { UserContextProvider } from './context/UserContext';
 import reportWebVitals from './reportWebVitals';
 import { AppRouter } from './router/AppRouter';
 
@@ -23,7 +23,7 @@ root.render(
         <ChakraProvider theme={theme}>
             <AnimatePresence exitBeforeEnter>
                 <QueryClientProvider client={queryClient}>
-                    <UserContext.Provider value={userContextValues()}>
+                    <UserContextProvider>
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
@@ -35,7 +35,7 @@ root.render(
                                 <AppRouter />
                             </BrowserRouter>
                         </motion.div>
-                    </UserContext.Provider>
+                    </UserContextProvider>
                 </QueryClientProvider>
             </AnimatePresence>
         </ChakraProvider>

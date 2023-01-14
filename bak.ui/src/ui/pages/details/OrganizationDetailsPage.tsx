@@ -10,7 +10,7 @@ import { AppWrapper } from '../../components/wrappers/AppWrapper';
 import { DataDisplay } from '../../components/wrappers/DataDisplay';
 
 export const OrganizationDetailsPage = () => {
-    const userContext = useUserContext();
+    const { state } = useUserContext();
     const params = useParams();
     const isNotCreating = !!params.orgId;
 
@@ -26,7 +26,7 @@ export const OrganizationDetailsPage = () => {
         if (isNotCreating) {
             document.title = 'Organization Details';
         }
-    }, [userContext.name]);
+    }, [state.name]);
 
     return (
         <AppWrapper>

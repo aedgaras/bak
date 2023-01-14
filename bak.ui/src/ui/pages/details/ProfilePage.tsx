@@ -18,17 +18,17 @@ import { AppWrapper } from '../../components/wrappers/AppWrapper';
 import { BoxWithShadowMax } from '../../components/wrappers/BoxWithShadow';
 
 export const ProfilePage = () => {
-    const userContext = useUserContext();
+    const { state } = useUserContext();
     const { isLoading, data } = useQuery({
-        queryKey: ['user', userContext.name],
+        queryKey: ['user', state.name],
         queryFn: async () => {
-            return await getUserByUsername(userContext.name);
+            return await getUserByUsername(state.name);
         },
     });
 
     useEffect(() => {
         document.title = 'Profile page';
-    }, [userContext.name]);
+    }, [state.name]);
 
     return (
         <Grid
@@ -65,7 +65,7 @@ const ProfileSection = ({
     isLoaded: boolean;
     user: UserModel | undefined;
 }) => {
-    const userContext = useUserContext();
+    const { state } = useUserContext();
     const [edit, setEdit] = useState<boolean>(false);
 
     return (
@@ -73,7 +73,7 @@ const ProfileSection = ({
             <Skeleton isLoaded={isLoaded}>
                 <BoxWithShadowMax>
                     <VStack>
-                        <Avatar name={userContext.name} src={''} size={'2xl'} />
+                        <Avatar name={state.name} src={''} size={'2xl'} />
                         <Formik
                             initialValues={user ?? ({} as UserModel)}
                             onSubmit={async (values, actions) => {
@@ -99,7 +99,7 @@ const ProfileSection = ({
                                         errorField={errors.username}
                                         touchedField={touched.username}
                                         validation={validateUsername}
-                                        placeholder={userContext.name}
+                                        placeholder={state.name}
                                     />
                                     <HStack w={'100%'}>
                                         {edit ? (

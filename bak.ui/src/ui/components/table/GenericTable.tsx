@@ -59,7 +59,7 @@ export const GenericTableWithSearchAndCreate = <T extends object>({
     entity,
     refreshData,
 }: GenericTableWithSearchAndCreateProps<T>) => {
-    const userContext = useUserContext();
+    const { state } = useUserContext();
     return (
         <BoxWithShadowMax>
             <Skeleton isLoaded={isLoaded}>
@@ -71,7 +71,7 @@ export const GenericTableWithSearchAndCreate = <T extends object>({
                         onChange={(e) => setQueryFilter(e.target.value)}
                     />
                     <Spacer />
-                    {userContext.role === 'admin' ? (
+                    {state.role === 'admin' ? (
                         <Link
                             to={
                                 entity === 'user'
@@ -121,7 +121,7 @@ export function GenericTable<Data extends object>({
     const [toDeleteId, setToDeleteId] = React.useState<string[]>([]);
     const cancelRef = React.useRef(null);
 
-    const userContext = useUserContext();
+    const { state } = useUserContext();
 
     const table = useReactTable({
         columns,
@@ -199,7 +199,7 @@ export function GenericTable<Data extends object>({
                                     </Td>
                                 );
                             })}
-                            {userContext.role === 'admin' ? (
+                            {state.role === 'admin' ? (
                                 <>
                                     <Td key={row.id + '_details'}>
                                         <Link

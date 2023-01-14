@@ -78,11 +78,11 @@ export const AppRouter = () => {
 };
 
 function ProtectedRoute({ element }: { element: JSX.Element }) {
-    const { loggedIn } = useUserContext();
-    return loggedIn === true ? element : <Unauthorized />;
+    const { state } = useUserContext();
+    return state.loggedIn === true ? element : <Unauthorized />;
 }
 
 function DisabledAfterLoginRoute({ element }: { element: JSX.Element }) {
-    const { loggedIn } = useUserContext();
-    return loggedIn !== true ? element : <PageNotFound />;
+    const { state } = useUserContext();
+    return state.loggedIn !== true ? element : <PageNotFound />;
 }
