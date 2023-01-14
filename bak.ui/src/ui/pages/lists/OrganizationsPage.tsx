@@ -1,4 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import { Skeleton } from '@chakra-ui/react';
+import { useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 import { getOrganizationList } from '../../../services/Requests';
 import { OrganizationDto } from '../../../utils/dto';
 import { GenericTableWithSearchAndCreate } from '../../components/table/GenericTable';
@@ -9,47 +11,44 @@ import {
 import { AppWrapper } from '../../components/wrappers/AppWrapper';
 
 export const OrganizationsPage = () => {
-    const [usersToDisplay, setUsersToDisplay] = useState<OrganizationDto[]>([]);
-    const [users, setUsers] = useState<OrganizationDto[]>([]);
-    const [isLoaded, setIsLoaded] = useState<boolean>(true);
+    const [orgsToDisplay, setOrgsToDisplay] = useState<OrganizationDto[]>([]);
     const [queryFilter, setQueryFilter] = useState<string>('');
-    const filteredUsers: OrganizationDto[] = [];
+    const filteredOrgs: OrganizationDto[] = [];
     const [refreshData, setRefreshData] = useState<boolean>(false);
 
-    useMemo(() => {
-        (async () => {
-            const usersGotten = await getOrganizationList();
-            setUsers(usersGotten);
-            setUsersToDisplay(users);
-            setIsLoaded(true);
-        })();
-    }, [refreshData]);
+    const { isLoading, isFetching, error, data } = useQuery({
+        queryKey: ['organizationList'],
+        queryFn: async () => {
+            return await getOrganizationList();
+        },
+    });
 
     useEffect(() => {
         if (refreshData === true) {
             setRefreshData(false);
         }
-        filterOrganizationTable(
-            users,
-            queryFilter,
-            filteredUsers,
-            setUsersToDisplay
-        );
-    }, [queryFilter, users]);
+        if (data) {
+            filterOrganizationTable(
+                data,
+                queryFilter,
+                filteredOrgs,
+                setOrgsToDisplay
+            );
+        }
+    }, [queryFilter, data]);
 
     return (
-        <AppWrapper
-            children={
+        <Skeleton isLoaded={!isLoading}>
+            <AppWrapper>
                 <GenericTableWithSearchAndCreate
-                    isLoaded={isLoaded}
+                    isLoaded={!isLoading}
                     setQueryFilter={setQueryFilter}
-                    dataDisplay={usersToDisplay}
-                    data={usersToDisplay}
+                    data={orgsToDisplay}
                     columns={organizationTableColumns}
                     entity="org"
                     refreshData={setRefreshData}
                 />
-            }
-        />
+            </AppWrapper>
+        </Skeleton>
     );
 };

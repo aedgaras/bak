@@ -11,12 +11,13 @@ import {
     authenticateRole,
     authenticateToken,
 } from '../middleware/Auth.Middleware';
+import { validateId } from '../middleware/Validation.Middleware';
 
 export const userRouter = express.Router();
 
 userRouter.get('/', [authenticateToken], getUsers);
 
-userRouter.get('/:userId', [authenticateToken], getUser);
+userRouter.get('/:userId', [authenticateToken, validateId('userId')], getUser);
 
 userRouter.get('/getByUsername/:username', [authenticateToken], getByUsername);
 
@@ -26,7 +27,11 @@ userRouter.post(
     createUser
 );
 
-userRouter.put('/:userId', [authenticateToken], updateUser);
+userRouter.put(
+    '/:userId',
+    [authenticateToken, validateId('userId')],
+    updateUser
+);
 
 userRouter.delete(
     '/',

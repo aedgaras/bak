@@ -5,6 +5,7 @@ import {
     HStack,
     Select,
 } from '@chakra-ui/react';
+import { useQuery } from '@tanstack/react-query';
 import { Formik } from 'formik';
 import { ChangeEvent, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -22,29 +23,26 @@ import { AppWrapper } from '../../components/wrappers/AppWrapper';
 import { DataDisplay } from '../../components/wrappers/DataDisplay';
 
 export const UserDetailsPage = () => {
-    const userContext = useUserContext();
-    const [user, setUser] = useState<UserModel>();
-    const [isLoaded, setIsLoaded] = useState<boolean>(false);
+    const { state } = useUserContext();
     const params = useParams();
     const isNotCreating = !!params.userId;
     const navigate = useNavigate();
     const [file, setFile] = useState<string>();
     const [image, setImage] = useState<string>();
 
+    const { isLoading, data, error, isFetching } = useQuery({
+        queryKey: ['user', params.userId],
+        queryFn: async () => {
+            return await getUserById(params.userId);
+        },
+    });
+
     useMemo(async () => {
         document.title = 'Profile Creation';
         if (isNotCreating) {
             document.title = 'Profile Details';
-            if (params.userId) {
-                await getUserById(params.userId).then((r) => {
-                    setUser(r);
-                    setIsLoaded(true);
-                });
-            }
         }
-        console.log(user);
-        setIsLoaded(true);
-    }, [userContext.name]);
+    }, [state.name]);
 
     async function handleChange(e: ChangeEvent<HTMLInputElement>) {
         if (e.target.files) {
@@ -63,18 +61,18 @@ export const UserDetailsPage = () => {
     return (
         <AppWrapper>
             <DataDisplay
-                isLoaded={isLoaded}
+                isLoaded={!isLoading && !error && !isFetching}
                 element={
                     <>
                         {isNotCreating ? (
                             <Avatar
-                                name={user?.username}
+                                name={data?.username}
                                 src={''}
                                 size={'2xl'}
                             />
                         ) : null}
                         <Formik
-                            initialValues={user ?? ({} as UserModel)}
+                            initialValues={data ?? ({} as UserModel)}
                             onSubmit={async (values, actions) => {
                                 actions.setSubmitting(true);
                                 if (!isNotCreating) {
@@ -123,7 +121,7 @@ export const UserDetailsPage = () => {
                                         <FormLabel>Role</FormLabel>
                                         <Select
                                             placeholder={
-                                                user?.role == 'admin'
+                                                data?.role == 'admin'
                                                     ? 'Admin'
                                                     : 'User'
                                             }

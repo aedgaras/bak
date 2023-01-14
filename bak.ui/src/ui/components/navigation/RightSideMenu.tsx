@@ -7,7 +7,7 @@ import { IsLoggedInElement } from '../wrappers/HelperWrappers';
 import { MenuDropdown } from './MenuDropdown';
 
 export const RightSideMenu = () => {
-    const userContext = useUserContext();
+    const { state } = useUserContext();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const cancelRef = useRef(null);
     return (
@@ -16,14 +16,10 @@ export const RightSideMenu = () => {
                 element={
                     <>
                         <Link to={'/profile'}>
-                            <Text>{`Hello, ${userContext.name}`}</Text>
+                            <Text>{`Hello, ${state.name}`}</Text>
                         </Link>
                         <Link to={'/profile'}>
-                            <Avatar
-                                name={userContext.name}
-                                src={''}
-                                size="sm"
-                            />
+                            <Avatar name={state.name} src={''} size="sm" />
                         </Link>
                     </>
                 }

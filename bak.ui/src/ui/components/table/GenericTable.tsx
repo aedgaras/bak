@@ -42,6 +42,7 @@ import {
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useUserContext } from '../../../context/UserContext';
+import { organizationsPath, usersPath } from '../../../router/AppRouter';
 import { DeleteDialog } from '../dialogs';
 import { BoxWithShadowMax } from '../wrappers/BoxWithShadow';
 
@@ -49,7 +50,6 @@ export interface GenericTableWithSearchAndCreateProps<T extends object>
     extends DataTableProps<T> {
     isLoaded: boolean;
     setQueryFilter: React.Dispatch<React.SetStateAction<string>>;
-    dataDisplay: T[];
 }
 
 export const GenericTableWithSearchAndCreate = <T extends object>({
@@ -60,7 +60,7 @@ export const GenericTableWithSearchAndCreate = <T extends object>({
     entity,
     refreshData,
 }: GenericTableWithSearchAndCreateProps<T>) => {
-    const userContext = useUserContext();
+    const { state } = useUserContext();
     return (
         <BoxWithShadowMax>
             <Skeleton isLoaded={isLoaded}>
@@ -72,12 +72,12 @@ export const GenericTableWithSearchAndCreate = <T extends object>({
                         onChange={(e) => setQueryFilter(e.target.value)}
                     />
                     <Spacer />
-                    {userContext.role === 'admin' ? (
+                    {state.role === 'admin' ? (
                         <Link
                             to={
                                 entity === 'user'
-                                    ? '/users/create'
-                                    : '/orgnizations/create'
+                                    ? usersPath + '/create'
+                                    : organizationsPath + '/create'
                             }
                         >
                             <Button rightIcon={<AddIcon />} colorScheme="teal">
@@ -122,7 +122,7 @@ export function GenericTable<Data extends object>({
     const [toDeleteId, setToDeleteId] = React.useState<string[]>([]);
     const cancelRef = React.useRef(null);
 
-    const userContext = useUserContext();
+    const { state } = useUserContext();
 
     const table = useReactTable({
         columns,
@@ -200,7 +200,7 @@ export function GenericTable<Data extends object>({
                                     </Td>
                                 );
                             })}
-                            {userContext.role === 'admin' ? (
+                            {state.role === 'admin' ? (
                                 <>
                                     <Td key={row.id + '_details'}>
                                         <Link

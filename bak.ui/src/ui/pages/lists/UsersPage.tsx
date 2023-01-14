@@ -1,4 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import { Skeleton } from '@chakra-ui/react';
+import { useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 import { getUsersList } from '../../../services/Requests';
 import { UserModel } from '../../../utils/dto';
 import { GenericTableWithSearchAndCreate } from '../../components/table/GenericTable';
@@ -10,42 +12,44 @@ import { AppWrapper } from '../../components/wrappers/AppWrapper';
 
 export const UsersPage = () => {
     const [usersToDisplay, setUsersToDisplay] = useState<UserModel[]>([]);
-    const [users, setUsers] = useState<UserModel[]>([]);
-    const [isLoaded, setIsLoaded] = useState<boolean>(true);
     const [queryFilter, setQueryFilter] = useState<string>('');
     const filteredUsers: UserModel[] = [];
     const [userToDeleteId, setUserToDeleteId] = useState<number>();
     const [refreshData, setRefreshData] = useState<boolean>(false);
 
-    useMemo(() => {
-        (async () => {
-            const usersGotten = await getUsersList();
-            setUsers(usersGotten);
-            setUsersToDisplay(users);
-            setIsLoaded(true);
-        })();
-    }, [refreshData]);
+    const { isLoading, isFetching, error, data } = useQuery({
+        queryKey: ['usersList'],
+        queryFn: async () => {
+            return await getUsersList();
+        },
+    });
 
     useEffect(() => {
         if (refreshData === true) {
             setRefreshData(false);
         }
-        filterUserTable(users, queryFilter, filteredUsers, setUsersToDisplay);
-    }, [queryFilter, users]);
+        if (data) {
+            filterUserTable(
+                data,
+                queryFilter,
+                filteredUsers,
+                setUsersToDisplay
+            );
+        }
+    }, [queryFilter, data]);
 
     return (
-        <AppWrapper
-            children={
+        <Skeleton isLoaded={!isLoading}>
+            <AppWrapper>
                 <GenericTableWithSearchAndCreate
-                    isLoaded={isLoaded}
+                    isLoaded={!isLoading}
                     setQueryFilter={setQueryFilter}
-                    dataDisplay={usersToDisplay}
                     data={usersToDisplay}
                     columns={userTableColumns}
                     entity={'user'}
                     refreshData={setRefreshData}
                 />
-            }
-        />
+            </AppWrapper>
+        </Skeleton>
     );
 };
