@@ -11,6 +11,7 @@ import { UserDetailsPage } from '../ui/pages/details/UserDetailsPage';
 import { OrganizationsPage } from '../ui/pages/lists/OrganizationsPage';
 import { UsersPage } from '../ui/pages/lists/UsersPage';
 import { UserApp } from '../ui/UserApp';
+import { Role } from '../utils/Models/Models';
 
 export const authPath = '/auth';
 export const usersPath = '/users';
@@ -50,7 +51,20 @@ export const AppRouter = () => {
                 />
                 <Route
                     path={usersPath + '/create'}
-                    element={<ProtectedRoute element={<UserCreatePage />} />}
+                    element={
+                        <ProtectedRoute
+                            element={
+                                <ProtectedRoute
+                                    element={
+                                        <RoleRoute
+                                            authorizedRoles={['admin']}
+                                            element={<UserCreatePage />}
+                                        />
+                                    }
+                                />
+                            }
+                        />
+                    }
                 />
             </Route>
 
@@ -69,7 +83,14 @@ export const AppRouter = () => {
                 <Route
                     path={organizationsPath + '/create'}
                     element={
-                        <ProtectedRoute element={<OrganizationCreatePage />} />
+                        <ProtectedRoute
+                            element={
+                                <RoleRoute
+                                    authorizedRoles={['admin']}
+                                    element={<OrganizationCreatePage />}
+                                />
+                            }
+                        />
                     }
                 />
             </Route>
@@ -87,4 +108,16 @@ function ProtectedRoute({ element }: { element: JSX.Element }) {
 function DisabledAfterLoginRoute({ element }: { element: JSX.Element }) {
     const { state } = useUserContext();
     return state.loggedIn !== true ? element : <PageNotFound />;
+}
+
+function RoleRoute({
+    element,
+    authorizedRoles,
+}: {
+    element: JSX.Element;
+    authorizedRoles: Role[];
+}) {
+    const { state } = useUserContext();
+
+    return authorizedRoles.includes(state.role!) ? element : <Unauthorized />;
 }

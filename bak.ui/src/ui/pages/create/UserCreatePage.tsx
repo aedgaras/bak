@@ -2,7 +2,8 @@ import { Heading, useToast } from '@chakra-ui/react';
 import { Formik } from 'formik';
 import { useUserContext } from '../../../context/UserContext';
 import { UserRegisterDto } from '../../../utils/dto';
-import { FormBox } from '../../components/form';
+import { FormBox, GenericInput, SubmitButton } from '../../components/form';
+import { validateUsername } from '../../components/form/validation/validation';
 import { AppWrapper } from '../../components/wrappers/AppWrapper';
 import { DataDisplay } from '../../components/wrappers/DataDisplay';
 
@@ -34,7 +35,19 @@ const UserCreationForm = () => {
                 actions.setSubmitting(true);
             }}
         >
-            {({ handleSubmit }) => <form onSubmit={handleSubmit}></form>}
+            {({ handleSubmit, errors, touched, isSubmitting }) => (
+                <form onSubmit={handleSubmit}>
+                    <GenericInput
+                        fieldName={'User Name'}
+                        fieldType={'string'}
+                        isRequired={true}
+                        errorField={errors.name}
+                        touchedField={touched.name}
+                        validation={validateUsername}
+                    />
+                    <SubmitButton isSubmitting={isSubmitting} />
+                </form>
+            )}
         </Formik>
     );
 };
