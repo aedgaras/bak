@@ -61,7 +61,7 @@ export const getUsersList = async () => {
     return response;
 };
 
-export const getUserById = async (id: string) => {
+export const getUserById = async (id: string | undefined) => {
     const repsonse = await getRequest<UserModel>(USERS_URL + `/${id}`).then(
         (r) => {
             return r.data;
@@ -79,7 +79,7 @@ export const getUserByUsername = async (username: string) => {
     return response;
 };
 
-export const getOrganizationByID = async (orgId: string) => {
+export const getOrganizationByID = async (orgId: string | undefined) => {
     const response = await getRequest<OrganizationDto>(
         ORGANIZATIONS_URL + `/${orgId}`
     ).then((r) => {

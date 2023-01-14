@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { z } from 'zod';
 import { Organization } from '../models/Organization';
 import { User } from '../models/User';
 import {
@@ -44,6 +45,14 @@ export const getOrganizations = async (req: Request, res: Response) => {
 };
 
 export const getOrganizationMembers = async (req: Request, res: Response) => {
+    const errors = await parseSchema({
+        schema: z.object({ orgId: z.number() }),
+        objToValidate: { orgId: Number(req.params['orgId']) },
+    });
+    if (errors) {
+        return res.status(400).json(errors);
+    }
+
     const orgId = entityIdFromParameter(req, 'orgId');
 
     const paging: RequestQueryPagination = {
@@ -70,6 +79,14 @@ export const getOrganizationMembers = async (req: Request, res: Response) => {
 };
 
 export const getOrganization = async (req: Request, res: Response) => {
+    const errors = await parseSchema({
+        schema: z.object({ orgId: z.number() }),
+        objToValidate: { orgId: Number(req.params['orgId']) },
+    });
+    if (errors) {
+        return res.status(400).json(errors);
+    }
+
     const orgId = entityIdFromParameter(req, 'orgId');
 
     const organization = await Organization.findByPk(orgId);
@@ -124,6 +141,13 @@ export const createOrganization = async (req: Request, res: Response) => {
 };
 
 export const updateOrganization = async (req: Request, res: Response) => {
+    const errors = await parseSchema({
+        schema: z.object({ orgId: z.number() }),
+        objToValidate: { orgId: Number(req.params['orgId']) },
+    });
+    if (errors) {
+        return res.status(400).json(errors);
+    }
     const orgId = entityIdFromParameter(req, 'orgId');
 
     const existingOrg = await Organization.findByPk(orgId);
