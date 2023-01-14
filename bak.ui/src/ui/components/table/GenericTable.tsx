@@ -42,6 +42,7 @@ import {
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useUserContext } from '../../../context/UserContext';
+import { organizationsPath, usersPath } from '../../../router/AppRouter';
 import { DeleteDialog } from '../dialogs';
 import { BoxWithShadowMax } from '../wrappers/BoxWithShadow';
 
@@ -75,8 +76,8 @@ export const GenericTableWithSearchAndCreate = <T extends object>({
                         <Link
                             to={
                                 entity === 'user'
-                                    ? '/users/create'
-                                    : '/orgnizations/create'
+                                    ? usersPath + '/create'
+                                    : organizationsPath + '/create'
                             }
                         >
                             <Button rightIcon={<AddIcon />} colorScheme="teal">

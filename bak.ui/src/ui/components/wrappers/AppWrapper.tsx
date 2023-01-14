@@ -8,6 +8,7 @@ export type ChildrenProps = {
         | string
         | React.ReactFragment
         | React.ReactNode
+        | undefined
         | any;
 };
 

@@ -3,6 +3,8 @@ import { useUserContext } from '../context/UserContext';
 import { PageNotFound, Unauthorized } from '../ui/components/errors';
 import { LoginPage } from '../ui/pages/authentication/LoginPage';
 import { RegisterPage } from '../ui/pages/authentication/RegisterPage';
+import { OrganizationCreatePage } from '../ui/pages/create/OrganizationCreatePage';
+import { UserCreatePage } from '../ui/pages/create/UserCreatePage';
 import { OrganizationDetailsPage } from '../ui/pages/details/OrganizationDetailsPage';
 import { ProfilePage } from '../ui/pages/details/ProfilePage';
 import { UserDetailsPage } from '../ui/pages/details/UserDetailsPage';
@@ -10,9 +12,9 @@ import { OrganizationsPage } from '../ui/pages/lists/OrganizationsPage';
 import { UsersPage } from '../ui/pages/lists/UsersPage';
 import { UserApp } from '../ui/UserApp';
 
-const authPath = '/auth';
-const usersPath = '/users';
-const organizationsPath = '/organizations';
+export const authPath = '/auth';
+export const usersPath = '/users';
+export const organizationsPath = '/organizations';
 
 export const AppRouter = () => {
     return (
@@ -48,7 +50,7 @@ export const AppRouter = () => {
                 />
                 <Route
                     path={usersPath + '/create'}
-                    element={<ProtectedRoute element={<UserDetailsPage />} />}
+                    element={<ProtectedRoute element={<UserCreatePage />} />}
                 />
             </Route>
 
@@ -67,7 +69,7 @@ export const AppRouter = () => {
                 <Route
                     path={organizationsPath + '/create'}
                     element={
-                        <ProtectedRoute element={<OrganizationDetailsPage />} />
+                        <ProtectedRoute element={<OrganizationCreatePage />} />
                     }
                 />
             </Route>
