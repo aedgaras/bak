@@ -70,7 +70,7 @@ export const getUserById = async (id: string | undefined) => {
     return repsonse;
 };
 
-export const getUserByUsername = async (username: string) => {
+export const getUserByUsername = async (username: string | undefined) => {
     const response = await getRequest<UserModel>(
         USERS_URL + `/getByUsername/${username}`
     ).then((r: AxiosResponse<UserModel>) => {

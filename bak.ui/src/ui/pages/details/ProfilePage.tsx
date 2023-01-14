@@ -6,8 +6,9 @@ import {
     Skeleton,
     VStack,
 } from '@chakra-ui/react';
+import { useQuery } from '@tanstack/react-query';
 import { Formik } from 'formik';
-import { useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useUserContext } from '../../../context/UserContext';
 import { getUserByUsername, putRequest } from '../../../services/Requests';
 import { UserModel } from '../../../utils/dto';
@@ -18,16 +19,15 @@ import { BoxWithShadowMax } from '../../components/wrappers/BoxWithShadow';
 
 export const ProfilePage = () => {
     const userContext = useUserContext();
-    const [user, setUser] = useState<UserModel>();
-    const [isLoaded, setIsLoaded] = useState<boolean>(false);
-    document.title = 'Profile page';
+    const { isLoading, data } = useQuery({
+        queryKey: ['user', userContext.name],
+        queryFn: async () => {
+            return await getUserByUsername(userContext.name);
+        },
+    });
 
-    useMemo(async () => {
-        if (userContext.name) {
-            await getUserByUsername(userContext.name).then((r) => {
-                setUser(r), setIsLoaded(true);
-            });
-        }
+    useEffect(() => {
+        document.title = 'Profile page';
     }, [userContext.name]);
 
     return (
@@ -37,7 +37,7 @@ export const ProfilePage = () => {
             gap={4}
         >
             <GridItem rowSpan={2} colSpan={1}>
-                <ProfileSection user={user} isLoaded={isLoaded} />
+                <ProfileSection user={data} isLoaded={!isLoading} />
             </GridItem>
             <GridItem colSpan={2}>
                 <Skeleton isLoaded={false}>

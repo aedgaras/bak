@@ -12,6 +12,7 @@ import {
     authenticateRole,
     authenticateToken,
 } from '../middleware/Auth.Middleware';
+import { validateId } from '../middleware/Validation.Middleware';
 
 export const organizationRouter = express.Router();
 
@@ -19,11 +20,15 @@ organizationRouter.get('/', [authenticateToken], getOrganizations);
 
 organizationRouter.get(
     '/members/:orgId',
-    [authenticateToken],
+    [authenticateToken, validateId('orgId')],
     getOrganizationMembers
 );
 
-organizationRouter.get('/:orgId', [authenticateToken], getOrganization);
+organizationRouter.get(
+    '/:orgId',
+    [authenticateToken, validateId('orgId')],
+    getOrganization
+);
 organizationRouter.get(
     '/getByName/:orgName',
     [authenticateToken],
@@ -38,7 +43,7 @@ organizationRouter.post(
 
 organizationRouter.put(
     '/:orgId',
-    [authenticateToken, authenticateRole(['admin'])],
+    [authenticateToken, authenticateRole(['admin']), validateId('orgId')],
     updateOrganization
 );
 

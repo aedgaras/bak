@@ -11,11 +11,15 @@ interface UserContextInterface {
 export const UserContext = createContext<UserContextInterface>({});
 
 export function userContextValues(): UserContextInterface {
-    return {
-        name: getCurrentUser()?.username,
-        loggedIn: getCurrentUser() !== null,
-        role: getCurrentUser()?.role,
-    };
+    const currentUser = getCurrentUser();
+
+    return currentUser
+        ? {
+              name: currentUser.username,
+              loggedIn: currentUser !== null,
+              role: currentUser.role,
+          }
+        : {};
 }
 
 export const useUserContext = () => {

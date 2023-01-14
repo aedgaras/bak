@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import { z } from 'zod';
 import { User } from '../models/User';
 import { MapUser, MapUsers } from '../objects/dtos/UserDtos';
 import {
@@ -37,14 +36,6 @@ export const getUsers = async (req: Request, res: Response) => {
 };
 
 export const getUser = async (req: Request, res: Response) => {
-    const errors = await parseSchema({
-        schema: z.object({ userId: z.number() }),
-        objToValidate: { userId: Number(req.params['userId']) },
-    });
-    if (errors) {
-        return res.status(400).json(errors);
-    }
-
     const userId = entityIdFromParameter(req, 'userId');
 
     const userEntity = await User.findByPk(userId);
@@ -96,13 +87,6 @@ export const createUser = async (req: Request, res: Response) => {
 };
 
 export const updateUser = async (req: Request, res: Response) => {
-    const errors = await parseSchema({
-        schema: z.object({ userId: z.number() }),
-        objToValidate: { userId: Number(req.params['userId']) },
-    });
-    if (errors) {
-        return res.status(400).json(errors);
-    }
     const userId = entityIdFromParameter(req, 'userId');
 
     const existingUser = await User.findByPk(userId);
