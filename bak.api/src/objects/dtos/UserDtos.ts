@@ -1,6 +1,8 @@
 import { BaseDto } from '.';
-import { User } from '../../models/User';
+import { User } from '../../configuration/db/models/User';
 import { Role } from '../Roles';
+
+
 
 export interface UserDto extends BaseDto {
     username: string;

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { User } from '../models/User';
+import { User } from '../configuration/db/models/User';
 import { MapUser, MapUsers } from '../objects/dtos/UserDtos';
 import {
     deleteFormSchema,

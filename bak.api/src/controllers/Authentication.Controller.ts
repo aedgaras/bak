@@ -1,7 +1,7 @@
 import * as bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
 import { verify } from 'jsonwebtoken';
-import { User } from '../models/User';
+import { User } from '../configuration/db/models/User';
 import { Role } from '../objects/Roles';
 import {
     changePasswordFormSchema,

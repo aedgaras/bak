@@ -1,9 +1,5 @@
-import { BaseDto } from '.';
-import { Organization } from '../../models/Organization';
-
-export interface OrganizationDto extends BaseDto {
-    name: string;
-}
+import { OrganizationDto } from ".";
+import { Organization } from "../../configuration/db/models/Organization";
 
 export function MapOrganizations(entities: Organization[]): OrganizationDto[] {
     const dtos: OrganizationDto[] = [];

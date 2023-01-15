@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { Organization } from '../models/Organization';
-import { User } from '../models/User';
+import { Organization } from '../configuration/db/models/Organization';
+import { User } from '../configuration/db/models/User';
 import {
     MapOrganization,
     MapOrganizations,
-} from '../objects/dtos/OrganizationDtos';
+} from '../objects/dtos/MapOrganizations';
 import { MapUsers } from '../objects/dtos/UserDtos';
 import { deleteFormSchema, parseSchema } from '../objects/Schema';
 import { OrganizationEntityName } from '../utils/constants';
