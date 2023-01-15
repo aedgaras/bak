@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
 import { Organization } from '../configuration/db/models/Organization';
 import { User } from '../configuration/db/models/User';
+import { OrganizationDto } from '../objects/dtos';
 import {
     MapOrganization,
     MapOrganizations,
     MapUsers,
 } from '../objects/dtos/Mappers';
-import { deleteFormSchema, parseSchema } from '../objects/Schema';
 import { OrganizationEntityName } from '../utils/constants';
 import {
     ENTITY_ALREADY_EXIST,
@@ -21,10 +21,6 @@ import {
     RequestQueryPagination,
 } from '../utils/response';
 import { entityIdFromParameter } from '../utils/utils';
-
-interface OrganizationDto {
-    name: string;
-}
 
 export const getOrganizations = async (req: Request, res: Response) => {
     const paging: RequestQueryPagination = {
@@ -159,3 +155,32 @@ export const deleteOrganization = async (req: Request, res: Response) => {
         return Ok(res, ENTITY_DELETED(OrganizationEntityName, org.id));
     }
 };
+
+export const addUsersToOrganization = async (req: Request, res: Response) => {
+    const org: { id: number } = { ...req.body };
+    const userIds: number[] = req.body.userIds;
+
+    const organization = await Organization.findByPk(org.id);
+
+    if (!organization) {
+        return NotFound(res, ENTITY_NOT_FOUND(OrganizationEntityName));
+    } else {
+        const users = await User.findAndCountAll({ where: { id: userIds } });
+
+        const resultUserIds = MapUsers(users.rows).map((x) => {
+            return x.id;
+        });
+
+        organization.update({});
+    }
+};
+
+export const updateUsersInOrganization = async (
+    req: Request,
+    res: Response
+) => {};
+
+export const removeUsersFromOrganization = async (
+    req: Request,
+    res: Response
+) => {};

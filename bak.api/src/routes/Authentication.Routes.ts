@@ -3,7 +3,7 @@ import {
     changePassword,
     login,
     refresh,
-    register
+    register,
 } from '../controllers/Authentication.Controller';
 import { validateSchema } from '../middleware/Validation.Middleware';
 import { userDataSchema, userLoginFormSchema } from '../objects/Schema';

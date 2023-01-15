@@ -1,5 +1,6 @@
 import express from 'express';
 import {
+    addUsersToOrganization,
     createOrganization,
     deleteOrganization,
     getByOrgName,
@@ -16,7 +17,7 @@ import {
     validateParamsId,
     validateSchema,
 } from '../middleware/Validation.Middleware';
-import { organizationSchema } from '../objects/dtos';
+import { organizationSchema, usersOrganizationSchema } from '../objects/dtos';
 import { deleteFormSchema } from '../objects/Schema';
 
 export const organizationRouter = express.Router();
@@ -69,4 +70,14 @@ organizationRouter.delete(
         validateSchema(deleteFormSchema),
     ],
     deleteOrganization
+);
+
+organizationRouter.post(
+    '/addUsers',
+    [
+        authenticateToken,
+        authenticateRole(['admin']),
+        validateSchema(usersOrganizationSchema),
+    ],
+    addUsersToOrganization
 );

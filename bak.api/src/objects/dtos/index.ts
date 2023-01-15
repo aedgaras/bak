@@ -18,6 +18,10 @@ export const userSchema = baseDto.extend({
     organizationId: z.number().optional(),
 });
 
+export const usersOrganizationSchema = baseDto.extend({
+    userIds: z.array(z.number().positive()),
+});
+
 // Types
 
 export type BaseDto = z.infer<typeof baseDto>;
