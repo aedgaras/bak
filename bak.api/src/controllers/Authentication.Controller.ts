@@ -3,17 +3,15 @@ import { Request, Response } from 'express';
 import { verify } from 'jsonwebtoken';
 import { User } from '../configuration/db/models/User';
 import { Role } from '../objects/Roles';
-import {
-    changePasswordFormSchema,
-    parseSchema,
-    userDataSchema,
-    userLoginFormSchema,
-} from '../objects/Schema';
+import { changePasswordFormSchema, parseSchema } from '../objects/Schema';
 import { UserLoginDto, UserRegisterDto } from '../objects/User';
 import { REFRESH_SECRET, UserEntityName } from '../utils/constants';
 import {
     ENTITY_NOT_FOUND,
     ENTITY_UPDATED,
+    Forbiden,
+    NotFound,
+    Ok,
     returnMessage,
 } from '../utils/response';
 import {
@@ -25,14 +23,6 @@ import {
 import { hashedPassword } from '../utils/utils';
 
 export const login = async (req: Request, res: Response) => {
-    const errors = await parseSchema({
-        schema: userLoginFormSchema,
-        objToValidate: req.body,
-    });
-    if (errors) {
-        return res.status(400).json(errors);
-    }
-
     const userToLogin: UserLoginDto = {
         username: req.body.username as string,
         password: req.body.password as string,
@@ -43,7 +33,7 @@ export const login = async (req: Request, res: Response) => {
     });
 
     if (!user) {
-        return res.status(400).json(returnMessage("Such user doesn't exist"));
+        return NotFound(res, returnMessage("Such user doesn't exist"));
     } else {
         const hashedPass = user.getDataValue('password');
         const match = bcrypt.compareSync(userToLogin.password, hashedPass);
@@ -52,7 +42,8 @@ export const login = async (req: Request, res: Response) => {
                 .status(300)
                 .send(returnMessage('Password is incorrect.'));
         } else {
-            return res.status(200).json(
+            return Ok(
+                res,
                 accessRefreshTokens(
                     generateAccessToken({
                         username: user.getDataValue('username'),
@@ -68,14 +59,6 @@ export const login = async (req: Request, res: Response) => {
 };
 
 export const register = async (req: Request, res: Response) => {
-    const errors = await parseSchema({
-        schema: userDataSchema,
-        objToValidate: req.body,
-    });
-    if (errors) {
-        return res.status(400).json(errors);
-    }
-
     const userToRegister: UserRegisterDto = {
         username: req.body.username as string,
         password: hashedPassword(req.body.password as string),
@@ -89,7 +72,7 @@ export const register = async (req: Request, res: Response) => {
     });
 
     if (user) {
-        return res.status(400).send(returnMessage('Such user already exists.'));
+        return Forbiden(res, returnMessage('Such user already exists.'));
     } else {
         const newUser = await User.create({
             ...userToRegister,
@@ -97,7 +80,8 @@ export const register = async (req: Request, res: Response) => {
 
         await newUser.save();
 
-        return res.status(200).json(
+        return Ok(
+            res,
             accessRefreshTokens(
                 generateAccessToken({
                     username: newUser.getDataValue('username'),

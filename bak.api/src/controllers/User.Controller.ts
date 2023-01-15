@@ -13,6 +13,7 @@ import {
     ENTITY_DELETED,
     ENTITY_NOT_FOUND,
     ENTITY_UPDATED,
+    Forbiden,
     ListResponse,
     NotFound,
     Ok,
@@ -77,7 +78,7 @@ export const createUser = async (req: Request, res: Response) => {
     });
 
     if (existingUser) {
-        return res.status(403).send(ENTITY_ALREADY_EXIST(UserEntityName));
+        return Forbiden(res, ENTITY_ALREADY_EXIST(UserEntityName));
     } else {
         const createdUser = await User.create({ ...newUser });
 

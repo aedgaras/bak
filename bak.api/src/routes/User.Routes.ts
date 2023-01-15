@@ -11,7 +11,11 @@ import {
     authenticateRole,
     authenticateToken,
 } from '../middleware/Auth.Middleware';
-import { validateId } from '../middleware/Validation.Middleware';
+import {
+    validateId,
+    validateSchema,
+} from '../middleware/Validation.Middleware';
+import { userLoginFormSchema } from '../objects/Schema';
 
 export const userRouter = express.Router();
 
@@ -23,7 +27,11 @@ userRouter.get('/getByUsername/:username', [authenticateToken], getByUsername);
 
 userRouter.post(
     '/',
-    [authenticateToken, authenticateRole(['admin'])],
+    [
+        authenticateToken,
+        authenticateRole(['admin']),
+        validateSchema(userLoginFormSchema),
+    ],
     createUser
 );
 

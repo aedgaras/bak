@@ -3,14 +3,16 @@ import {
     changePassword,
     login,
     refresh,
-    register,
+    register
 } from '../controllers/Authentication.Controller';
+import { validateSchema } from '../middleware/Validation.Middleware';
+import { userDataSchema, userLoginFormSchema } from '../objects/Schema';
 
 export const authRouter = express.Router();
 
-authRouter.post('/login', login);
+authRouter.post('/login', [validateSchema(userLoginFormSchema)], login);
 
-authRouter.post('/register', register);
+authRouter.post('/register', [validateSchema(userDataSchema)], register);
 
 authRouter.post('/refresh', refresh);
 
