@@ -3,7 +3,7 @@ import { z } from 'zod';
 // Schemas
 
 const baseDto = z.object({
-    id: z.number().positive(),
+    id: z.number().positive().optional(),
 });
 
 export const organizationSchema = baseDto.extend({ name: z.string().min(4) });
@@ -13,7 +13,7 @@ export const userSchema = baseDto.extend({
     role: z.enum(['admin', 'user']),
     name: z.string().optional(),
     lastname: z.string().optional(),
-    email: z.string().email(),
+    email: z.string().email().optional(),
     avatar: z.string().optional(),
     organizationId: z.number().optional(),
 });

@@ -1,11 +1,7 @@
 import { Request, Response } from 'express';
 import { User } from '../configuration/db/models/User';
 import { MapUser, MapUsers } from '../objects/dtos/Mappers';
-import {
-    deleteFormSchema,
-    parseSchema,
-    uploadAvatarSchema,
-} from '../objects/Schema';
+import { parseSchema, uploadAvatarSchema } from '../objects/Schema';
 import { UserRegisterDto } from '../objects/User';
 import { UserEntityName } from '../utils/constants';
 import {
@@ -109,14 +105,6 @@ export const updateUser = async (req: Request, res: Response) => {
 };
 
 export const deleteUser = async (req: Request, res: Response) => {
-    const errors = await parseSchema({
-        schema: deleteFormSchema,
-        objToValidate: req.body,
-    });
-    if (errors) {
-        return res.status(400).json(errors);
-    }
-
     const userReq: { id: number } = { ...req.body };
 
     const user = await User.findByPk(userReq.id);

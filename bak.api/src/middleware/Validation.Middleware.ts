@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { parseSchema } from '../objects/Schema';
 import { BadRequest } from '../utils/response';
 
-export function validateId(id: 'userId' | 'orgId') {
+export function validateParamsId(id: 'userId' | 'orgId') {
     return async (req: Request, res: Response, next: NextFunction) => {
         const errors = await parseSchema({
             schema: z.object({ id: z.number() }),

@@ -13,6 +13,7 @@ import {
     ENTITY_DELETED,
     ENTITY_NOT_FOUND,
     ENTITY_UPDATED,
+    Forbiden,
     ListResponse,
     NotFound,
     Ok,
@@ -101,7 +102,7 @@ export const getByOrgName = async (req: Request, res: Response) => {
 
 export const createOrganization = async (req: Request, res: Response) => {
     const newOrganization: OrganizationDto = {
-        name: req.body.name as string,
+        name: req.body.name,
     };
 
     const existingOrganization = await Organization.findOne({
@@ -111,9 +112,7 @@ export const createOrganization = async (req: Request, res: Response) => {
     });
 
     if (existingOrganization) {
-        return res
-            .status(403)
-            .json(ENTITY_ALREADY_EXIST(OrganizationEntityName));
+        return Forbiden(res, ENTITY_ALREADY_EXIST(OrganizationEntityName));
     } else {
         const createdOrganization = await Organization.create({
             ...newOrganization,
@@ -146,14 +145,6 @@ export const updateOrganization = async (req: Request, res: Response) => {
 };
 
 export const deleteOrganization = async (req: Request, res: Response) => {
-    const errors = await parseSchema({
-        schema: deleteFormSchema,
-        objToValidate: req.body,
-    });
-    if (errors) {
-        return res.status(400).json(errors);
-    }
-
     const org: { id: number } = { ...req.body };
 
     const organization = await Organization.findByPk(org.id);

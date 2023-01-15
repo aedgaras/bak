@@ -12,7 +12,12 @@ import {
     authenticateRole,
     authenticateToken,
 } from '../middleware/Auth.Middleware';
-import { validateId } from '../middleware/Validation.Middleware';
+import {
+    validateParamsId,
+    validateSchema,
+} from '../middleware/Validation.Middleware';
+import { organizationSchema } from '../objects/dtos';
+import { deleteFormSchema } from '../objects/Schema';
 
 export const organizationRouter = express.Router();
 
@@ -20,13 +25,13 @@ organizationRouter.get('/', [authenticateToken], getOrganizations);
 
 organizationRouter.get(
     '/members/:orgId',
-    [authenticateToken, validateId('orgId')],
+    [authenticateToken, validateParamsId('orgId')],
     getOrganizationMembers
 );
 
 organizationRouter.get(
     '/:orgId',
-    [authenticateToken, validateId('orgId')],
+    [authenticateToken, validateParamsId('orgId')],
     getOrganization
 );
 organizationRouter.get(
@@ -37,18 +42,31 @@ organizationRouter.get(
 
 organizationRouter.post(
     '/',
-    [authenticateToken, authenticateRole(['admin'])],
+    [
+        authenticateToken,
+        authenticateRole(['admin']),
+        validateSchema(organizationSchema),
+    ],
     createOrganization
 );
 
 organizationRouter.put(
     '/:orgId',
-    [authenticateToken, authenticateRole(['admin']), validateId('orgId')],
+    [
+        authenticateToken,
+        authenticateRole(['admin']),
+        validateParamsId('orgId'),
+        validateSchema(organizationSchema),
+    ],
     updateOrganization
 );
 
 organizationRouter.delete(
     '/',
-    [authenticateToken, authenticateRole(['admin'])],
+    [
+        authenticateToken,
+        authenticateRole(['admin']),
+        validateSchema(deleteFormSchema),
+    ],
     deleteOrganization
 );
