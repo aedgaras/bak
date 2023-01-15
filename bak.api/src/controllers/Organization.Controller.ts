@@ -4,8 +4,8 @@ import { User } from '../configuration/db/models/User';
 import {
     MapOrganization,
     MapOrganizations,
-} from '../objects/dtos/MapOrganizations';
-import { MapUsers } from '../objects/dtos/UserDtos';
+    MapUsers,
+} from '../objects/dtos/Mappers';
 import { deleteFormSchema, parseSchema } from '../objects/Schema';
 import { OrganizationEntityName } from '../utils/constants';
 import {

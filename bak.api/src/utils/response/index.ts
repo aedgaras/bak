@@ -37,8 +37,8 @@ interface PaginatedResponse<T> {
 export const pagingQueryExists = (query: RequestQueryPagination): boolean => {
     return (query.limit &&
         query.offset &&
-        query.limit !== NaN &&
-        query.offset !== NaN) as boolean;
+        !Number.isNaN(query.limit) &&
+        !Number.isNaN(query.offset)) as boolean;
 };
 
 export const ListResponse = <T>(
