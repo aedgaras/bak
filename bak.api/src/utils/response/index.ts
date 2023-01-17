@@ -62,8 +62,8 @@ export const ListResponse = <T>(
 };
 
 function baseResponse(res: Response, statusCode: number, obj?: any) {
-    if (!obj) {
-        return res.status(statusCode);
+    if (obj === undefined) {
+        return res.sendStatus(statusCode);
     }
 
     return res.status(statusCode).json(obj);
@@ -73,14 +73,16 @@ export function Ok(res: Response, obj?: any) {
     return baseResponse(res, 200, obj);
 }
 
-export function NotFound(res: Response, obj?: any) {
-    return baseResponse(res, 404, obj);
-}
-
 export function BadRequest(res: Response, obj?: any) {
     return baseResponse(res, 400, obj);
+}
+export function Unauthorized(res: Response, obj?: any) {
+    return baseResponse(res, 401, obj);
 }
 
 export function Forbiden(res: Response, obj?: any) {
     return baseResponse(res, 403, obj);
+}
+export function NotFound(res: Response, obj?: any) {
+    return baseResponse(res, 404, obj);
 }

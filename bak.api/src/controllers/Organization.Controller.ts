@@ -156,31 +156,23 @@ export const deleteOrganization = async (req: Request, res: Response) => {
     }
 };
 
-export const addUsersToOrganization = async (req: Request, res: Response) => {
-    const org: { id: number } = { ...req.body };
-    const userIds: number[] = req.body.userIds;
+export const addUsers = async (req: Request, res: Response) => {
+    const orgId: number = entityIdFromParameter(req, 'orgId');
 
-    const organization = await Organization.findByPk(org.id);
+    const organization = await Organization.findByPk(orgId);
 
     if (!organization) {
         return NotFound(res, ENTITY_NOT_FOUND(OrganizationEntityName));
     } else {
-        const users = await User.findAndCountAll({ where: { id: userIds } });
+        const userIds: number[] = req.body.userIds;
 
-        const resultUserIds = MapUsers(users.rows).map((x) => {
-            return x.id;
+        userIds.forEach(async (user) => {
+            await User.update(
+                { OrganizationId: organization.getDataValue('id') },
+                { where: { id: user } }
+            );
         });
 
-        organization.update({});
+        return Ok(res, undefined);
     }
 };
-
-export const updateUsersInOrganization = async (
-    req: Request,
-    res: Response
-) => {};
-
-export const removeUsersFromOrganization = async (
-    req: Request,
-    res: Response
-) => {};

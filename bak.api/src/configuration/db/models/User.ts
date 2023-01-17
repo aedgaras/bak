@@ -1,7 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
 import { UserEntityName } from '../../../utils/constants';
 import { db } from '../Config';
-import { Organization } from './Organization';
 
 export class User extends Model {}
 
@@ -42,5 +41,3 @@ User.init(
         modelName: UserEntityName,
     }
 );
-
-User.hasOne(Organization);

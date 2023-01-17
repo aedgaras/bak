@@ -7,5 +7,5 @@ export const db = new Sequelize({
     password: env.DB_PASSWORD,
     host: env.DB_HOST,
     dialect: 'postgres',
-    logging: false,
+    logging: true,
 });

@@ -1,6 +1,6 @@
 import express from 'express';
 import {
-    addUsersToOrganization,
+    addUsers,
     createOrganization,
     deleteOrganization,
     getByOrgName,
@@ -73,11 +73,12 @@ organizationRouter.delete(
 );
 
 organizationRouter.post(
-    '/addUsers',
+    '/:orgId/addUsers',
     [
         authenticateToken,
         authenticateRole(['admin']),
+        validateParamsId('orgId'),
         validateSchema(usersOrganizationSchema),
     ],
-    addUsersToOrganization
+    addUsers
 );
