@@ -88,6 +88,15 @@ export const getOrganizationByID = async (orgId: string | undefined) => {
     return response;
 };
 
+export const getOrganizationMembers = async (orgId: string | undefined) => {
+    const response = await getRequest<ListResponse<UserModel[]>>(
+        ORGANIZATIONS_URL + `/members/${orgId}`
+    ).then((r) => {
+        return r.data;
+    });
+    return response;
+};
+
 export const authenticate = async (
     endpoint: '/login' | '/register',
     payload: any
