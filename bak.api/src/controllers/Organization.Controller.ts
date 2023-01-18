@@ -173,6 +173,6 @@ export const addUsers = async (req: Request, res: Response) => {
             );
         });
 
-        return Ok(res, undefined);
+        return Ok(res);
     }
 };

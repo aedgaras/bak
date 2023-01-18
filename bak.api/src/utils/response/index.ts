@@ -61,7 +61,11 @@ export const ListResponse = <T>(
     };
 };
 
-function baseResponse(res: Response, statusCode: number, obj?: any) {
+function baseResponse(
+    res: Response,
+    statusCode: number,
+    obj?: any | undefined
+) {
     if (obj === undefined) {
         return res.sendStatus(statusCode);
     }
