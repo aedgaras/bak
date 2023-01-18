@@ -60,7 +60,7 @@ export const OrganizationDetailsPage = () => {
 
 const OrganizationMembersList = ({ orgId }: { orgId: string | undefined }) => {
     const { isLoading, data, error, isFetching } = useQuery({
-        queryKey: ['organizationMembers'],
+        queryKey: ['organizationMembers', orgId],
         queryFn: async () => {
             return await getOrganizationMembers(orgId);
         },
@@ -68,22 +68,18 @@ const OrganizationMembersList = ({ orgId }: { orgId: string | undefined }) => {
 
     return (
         <Box pt={2}>
-            <DataDisplay
-                isLoaded={!isLoading && !error && !isFetching}
-                element={
-                    <GenericTable
-                        data={data?.data!}
-                        columns={userTableColumns}
-                        entity={'user'}
-                        refreshData={function (
-                            value: SetStateAction<boolean>
-                        ): void {
-                            throw new Error('Function not implemented.');
-                        }}
-                    />
-                }
-                backButton={true}
-            />
+            <Box borderWidth="1px" borderRadius="lg" padding={2}>
+                <GenericTable
+                    data={data?.data!}
+                    columns={userTableColumns}
+                    entity={'user'}
+                    refreshData={function (
+                        value: SetStateAction<boolean>
+                    ): void {
+                        throw new Error('Function not implemented.');
+                    }}
+                />
+            </Box>
         </Box>
     );
 };
