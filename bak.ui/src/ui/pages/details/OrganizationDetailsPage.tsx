@@ -1,4 +1,4 @@
-import { Box, FormControl, FormLabel, Input } from '@chakra-ui/react';
+import { Box, FormControl, FormLabel, Input, Skeleton } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { Formik } from 'formik';
 import { SetStateAction, useMemo } from 'react';
@@ -67,19 +67,21 @@ const OrganizationMembersList = ({ orgId }: { orgId: string | undefined }) => {
     });
 
     return (
-        <Box pt={2}>
-            <Box borderWidth="1px" borderRadius="lg" padding={2}>
-                <GenericTable
-                    data={data?.data!}
-                    columns={userTableColumns}
-                    entity={'user'}
-                    refreshData={function (
-                        value: SetStateAction<boolean>
-                    ): void {
-                        throw new Error('Function not implemented.');
-                    }}
-                />
-            </Box>
-        </Box>
+        <Skeleton isLoaded={!isLoading && !error && !isFetching} pt={2}>
+            {data ? (
+                <Box borderWidth="1px" borderRadius="lg" padding={2}>
+                    <GenericTable
+                        data={data.data}
+                        columns={userTableColumns}
+                        entity={'user'}
+                        refreshData={function (
+                            value: SetStateAction<boolean>
+                        ): void {
+                            throw new Error('Function not implemented.');
+                        }}
+                    />
+                </Box>
+            ) : null}
+        </Skeleton>
     );
 };
