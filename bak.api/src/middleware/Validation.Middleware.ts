@@ -17,11 +17,26 @@ export function validateParamsId(id: 'userId' | 'orgId') {
     };
 }
 
-export function validateSchema<T extends z.AnyZodObject>(schema: T) {
+export function validateBodySchema<T extends z.AnyZodObject>(schema: T) {
     return async (req: Request, res: Response, next: NextFunction) => {
         const errors = await parseSchema({
             schema: schema,
             objToValidate: req.body,
+        });
+
+        if (errors) {
+            return BadRequest(res, errors);
+        } else {
+            return next();
+        }
+    };
+}
+
+export function validateHeaderSchema<T extends z.AnyZodObject>(schema: T) {
+    return async (req: Request, res: Response, next: NextFunction) => {
+        const errors = await parseSchema({
+            schema: schema,
+            objToValidate: req.headers,
         });
 
         if (errors) {

@@ -20,7 +20,7 @@ export const OrganizationDetailsPage = () => {
     const isNotCreating = !!params.orgId;
 
     const { isLoading, data, error, isFetching } = useQuery({
-        queryKey: ['organization'],
+        queryKey: ['organization', params.orgId],
         queryFn: async () => {
             return await getOrganizationByID(params.orgId);
         },

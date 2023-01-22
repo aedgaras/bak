@@ -12,8 +12,8 @@ import {
     authenticateToken,
 } from '../middleware/Auth.Middleware';
 import {
+    validateBodySchema,
     validateParamsId,
-    validateSchema,
 } from '../middleware/Validation.Middleware';
 import { userSchema } from '../objects/dtos';
 import { deleteFormSchema, userLoginFormSchema } from '../objects/Schema';
@@ -35,14 +35,18 @@ userRouter.post(
     [
         authenticateToken,
         authenticateRole(['admin']),
-        validateSchema(userLoginFormSchema),
+        validateBodySchema(userLoginFormSchema),
     ],
     createUser
 );
 
 userRouter.put(
     '/:userId',
-    [authenticateToken, validateParamsId('userId'), validateSchema(userSchema)],
+    [
+        authenticateToken,
+        validateParamsId('userId'),
+        validateBodySchema(userSchema),
+    ],
     updateUser
 );
 
@@ -51,7 +55,7 @@ userRouter.delete(
     [
         authenticateToken,
         authenticateRole(['admin']),
-        validateSchema(deleteFormSchema),
+        validateBodySchema(deleteFormSchema),
     ],
     deleteUser
 );

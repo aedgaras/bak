@@ -14,8 +14,8 @@ import {
     authenticateToken,
 } from '../middleware/Auth.Middleware';
 import {
+    validateBodySchema,
     validateParamsId,
-    validateSchema,
 } from '../middleware/Validation.Middleware';
 import { organizationSchema, usersOrganizationSchema } from '../objects/dtos';
 import { deleteFormSchema } from '../objects/Schema';
@@ -46,7 +46,7 @@ organizationRouter.post(
     [
         authenticateToken,
         authenticateRole(['admin']),
-        validateSchema(organizationSchema),
+        validateBodySchema(organizationSchema),
     ],
     createOrganization
 );
@@ -57,7 +57,7 @@ organizationRouter.put(
         authenticateToken,
         authenticateRole(['admin']),
         validateParamsId('orgId'),
-        validateSchema(organizationSchema),
+        validateBodySchema(organizationSchema),
     ],
     updateOrganization
 );
@@ -67,7 +67,7 @@ organizationRouter.delete(
     [
         authenticateToken,
         authenticateRole(['admin']),
-        validateSchema(deleteFormSchema),
+        validateBodySchema(deleteFormSchema),
     ],
     deleteOrganization
 );
@@ -78,7 +78,7 @@ organizationRouter.post(
         authenticateToken,
         authenticateRole(['admin']),
         validateParamsId('orgId'),
-        validateSchema(usersOrganizationSchema),
+        validateBodySchema(usersOrganizationSchema),
     ],
     addUsers
 );

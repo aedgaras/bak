@@ -90,3 +90,6 @@ export function Forbiden(res: Response, obj?: any) {
 export function NotFound(res: Response, obj?: any) {
     return baseResponse(res, 404, obj);
 }
+export function NotAcceptable(res: Response, obj?: any) {
+    return baseResponse(res, 460, obj);
+}

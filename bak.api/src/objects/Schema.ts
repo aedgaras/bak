@@ -34,6 +34,11 @@ export const userLoginFormSchema = z.object({
     password: passwordParam,
 });
 
+export const refreshTokenSchema = z.object({
+    username: usenameParam,
+    role: z.enum(['admin', 'user']),
+});
+
 export const userDataSchema = z.object({
     username: usenameParam,
     email: emailParam,
@@ -54,6 +59,10 @@ export const deleteFormSchema = z.object({
 export const uploadAvatarSchema = z.object({
     id: entityIdParam,
     image: z.string(),
+});
+
+export const refreshHeaderSchema = z.object({
+    jwt: z.string(),
 });
 
 /**
