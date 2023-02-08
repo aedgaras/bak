@@ -1,0 +1,10 @@
+{
+    "Greetings": {
+        "Hello": "Hello"
+    },
+    "Navigation": {
+        "Home": "Home",
+        "Users": "Users",
+        "Organizations": "Organizations"
+    }
+}

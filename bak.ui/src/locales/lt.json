@@ -1,0 +1,10 @@
+{
+    "Greetings": {
+        "Hello": "Labas"
+    },
+    "Navigation": {
+        "Home": "Namai",
+        "Users": "Naudotojai",
+        "Organizations": "Organizacijos"
+    }
+}

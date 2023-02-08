@@ -9,7 +9,7 @@ export const UserApp = () => {
         <AppWrapper
             children={
                 <Center height={'100vh'}>
-                    <Heading lineHeight="tall">{t('Hello')}</Heading>
+                    <Heading lineHeight="tall">{t('Greetings.Hello')}</Heading>
                 </Center>
             }
         />
