@@ -8,8 +8,8 @@ import express, { Express } from 'express';
 export const configuredApp = (): Express => {
     const app: Express = express();
 
-    app.use(express.json({ limit: '50mb' }));
-    app.use(express.urlencoded({ limit: '50mb' }));
+    app.use(express.json({ limit: 500000 }));
+    app.use(express.urlencoded({ extended: true }));
     app.use(
         cors({
             origin: 'http://localhost:3000',
