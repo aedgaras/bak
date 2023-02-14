@@ -57,7 +57,7 @@ export const AppRouter = () => {
                                 <ProtectedRoute
                                     element={
                                         <RoleRoute
-                                            authorizedRoles={['admin']}
+                                            authorizedRoles={['Admin']}
                                             element={<UserCreatePage />}
                                         />
                                     }
@@ -86,7 +86,7 @@ export const AppRouter = () => {
                         <ProtectedRoute
                             element={
                                 <RoleRoute
-                                    authorizedRoles={['admin']}
+                                    authorizedRoles={['Admin']}
                                     element={<OrganizationCreatePage />}
                                 />
                             }

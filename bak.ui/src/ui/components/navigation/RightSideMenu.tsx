@@ -38,12 +38,14 @@ export const RightSideMenu = () => {
 };
 
 function LanguageSwitcher() {
-    const { i18n } = useTranslation();
+    const { t, i18n } = useTranslation();
 
     const toggleLanguage = () => {
         i18n.language === 'en'
             ? i18n.changeLanguage('lt')
             : i18n.changeLanguage('en');
+
+        localStorage.setItem('languageMode', i18n.language);
     };
 
     return (
@@ -54,7 +56,7 @@ function LanguageSwitcher() {
             color="current"
             marginLeft="2"
             onClick={toggleLanguage}
-            aria-label={`Switch to ${i18n.language} mode`}
+            aria-label={`${t('Navigation.SwitchLanguage')}`}
         >
             {i18n.language === 'en' ? 'LT' : 'EN'}
         </Button>

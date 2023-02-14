@@ -1,4 +1,5 @@
 import { createColumnHelper } from '@tanstack/react-table';
+import { useTranslation } from 'react-i18next';
 import { OrganizationDto, UserModel } from '../../../utils/dto';
 
 export function filterOrganizationTable(
@@ -26,24 +27,28 @@ export function filterOrganizationTable(
 }
 
 export const organizationColumnHelper = createColumnHelper<OrganizationDto>();
-export const organizationTableColumns = [
-    organizationColumnHelper.accessor('id', {
-        cell: (info: { getValue: () => any }) => info.getValue(),
-        header: 'Id',
-    }),
-    organizationColumnHelper.accessor('name', {
-        cell: (info: { getValue: () => any }) => info.getValue(),
-        header: 'Name',
-    }),
-];
+export const organizationTableColumns = () => {
+    const { t } = useTranslation();
+
+    return [
+        organizationColumnHelper.accessor('id', {
+            cell: (info: { getValue: () => any }) => info.getValue(),
+            header: 'Id',
+        }),
+        organizationColumnHelper.accessor('name', {
+            cell: (info: { getValue: () => any }) => info.getValue(),
+            header: t('Table.Headers.Organization.Name').toString(),
+        }),
+    ];
+};
 
 export function filterUserTable(
     data: UserModel[],
     query: string,
-    filteredEntries: UserModel[],
     setDataToDisplay: React.Dispatch<React.SetStateAction<UserModel[]>>
 ): void {
-    if (query.length > 0) {
+    const filteredEntries: UserModel[] = [];
+    if (query.trim().length > 0) {
         data.forEach((dataEntry) => {
             if (
                 dataEntry.id
@@ -53,7 +58,8 @@ export function filterUserTable(
                 dataEntry.username
                     .toLowerCase()
                     .includes(query.toLowerCase()) ||
-                dataEntry.role.toString().toLowerCase()
+                dataEntry.role.toString().toLowerCase().includes(query) ||
+                dataEntry.classification.toLowerCase().includes(query)
             ) {
                 filteredEntries.push(dataEntry);
             }
@@ -66,17 +72,25 @@ export function filterUserTable(
 }
 
 export const userColumnHelper = createColumnHelper<UserModel>();
-export const userTableColumns = [
-    userColumnHelper.accessor('id', {
-        cell: (info) => info.getValue(),
-        header: 'Id',
-    }),
-    userColumnHelper.accessor('username', {
-        cell: (info) => info.getValue(),
-        header: 'Username',
-    }),
-    userColumnHelper.accessor('role', {
-        cell: (info) => info.getValue(),
-        header: 'Role',
-    }),
-];
+export const userTableColumns = () => {
+    const { t } = useTranslation();
+
+    return [
+        userColumnHelper.accessor('id', {
+            cell: (info) => info.getValue(),
+            header: 'Id',
+        }),
+        userColumnHelper.accessor('username', {
+            cell: (info) => info.getValue(),
+            header: t('Table.Headers.User.Username').toString(),
+        }),
+        userColumnHelper.accessor('role', {
+            cell: (info) => info.getValue(),
+            header: t('Table.Headers.User.Role').toString(),
+        }),
+        userColumnHelper.accessor('classification', {
+            cell: (info) => info.getValue(),
+            header: t('Table.Headers.User.Classification').toString(),
+        }),
+    ];
+};

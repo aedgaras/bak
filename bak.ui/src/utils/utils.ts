@@ -1,5 +1,5 @@
 import jwtDecode from 'jwt-decode';
-import { Role } from './Models/Models';
+import { Classification, Role } from './Models/Models';
 
 export const sleep = async (milliseconds: number) => {
     await new Promise((resolve) => {
@@ -7,7 +7,7 @@ export const sleep = async (milliseconds: number) => {
     });
 };
 
-export const getJwtFromStorage = localStorage.getItem('bakJWT');
+export const getJwtFromStorage = localStorage.getItem('token');
 export const getRefreshTokenFromStorage = localStorage.getItem('refreshJWT');
 
 export interface TokenPayload {
@@ -16,10 +16,12 @@ export interface TokenPayload {
 }
 
 interface Jwt {
-    username: string;
+    sub: string;
     role: Role;
-    iat: number;
+    classification: Classification;
     exp: number;
+    iss: string;
+    aud: string;
 }
 
 export const isJwtExpired = () => {

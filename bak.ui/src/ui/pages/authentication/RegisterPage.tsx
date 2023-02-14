@@ -1,5 +1,6 @@
 import { Heading, useToast } from '@chakra-ui/react';
 import { Formik } from 'formik';
+import { useTranslation } from 'react-i18next';
 import { authenticateUserHook } from '../../../hooks/customHooks';
 import { UserRegisterDto } from '../../../utils/dto';
 import { FormBox, GenericInput, SubmitButton } from '../../components/form';
@@ -11,13 +12,16 @@ import { AppWrapper } from '../../components/wrappers/AppWrapper';
 
 export const RegisterPage = () => {
     const toast = useToast();
+    const { t } = useTranslation();
     document.title = 'Register';
 
     return (
         <AppWrapper
             children={
                 <FormBox
-                    upperSection={<Heading>Register</Heading>}
+                    upperSection={
+                        <Heading>{t('Authentication.Register')}</Heading>
+                    }
                     innerForm={RegisterForm()}
                 />
             }
@@ -39,7 +43,7 @@ export const RegisterPage = () => {
                 {({ handleSubmit, errors, touched, isSubmitting }) => (
                     <form onSubmit={handleSubmit}>
                         <GenericInput
-                            fieldName={'Username'}
+                            fieldName={t('Form.Username')}
                             fieldType={'text'}
                             isRequired={true}
                             errorField={errors.username}
@@ -47,7 +51,7 @@ export const RegisterPage = () => {
                             validation={validateUsername}
                         />
                         <GenericInput
-                            fieldName={'Password'}
+                            fieldName={t('Form.Password')}
                             fieldType={'password'}
                             isRequired={true}
                             errorField={errors.password}
@@ -55,7 +59,7 @@ export const RegisterPage = () => {
                             validation={validatePassword}
                         />
                         <GenericInput
-                            fieldName={'Name'}
+                            fieldName={t('Form.Name')}
                             fieldType={'text'}
                             isRequired={false}
                             errorField={errors.name}

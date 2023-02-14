@@ -5,6 +5,7 @@
     "Navigation": {
         "Home": "Namai",
         "Users": "Naudotojai",
-        "Organizations": "Organizacijos"
+        "Organizations": "Organizacijos",
+        "SwitchLanguage": "Pakeisti kalba i anglu k."
     }
 }

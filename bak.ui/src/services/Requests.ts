@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import {
     API_URL,
+    AUTH_URL,
     axiosAuthHeaders,
     ORGANIZATIONS_URL,
     USERS_URL,
@@ -53,11 +54,11 @@ export const getOrganizationList = async () => {
 };
 
 export const getUsersList = async () => {
-    const response = await getRequest<ListResponse<UserModel[]>>(
-        USERS_URL
-    ).then((r: AxiosResponse<ListResponse<UserModel[]>>) => {
-        return r.data.data;
-    });
+    const response = await getRequest<UserModel[]>(USERS_URL).then(
+        (r: AxiosResponse<UserModel[]>) => {
+            return r.data;
+        }
+    );
     return response;
 };
 
@@ -102,7 +103,7 @@ export const authenticate = async (
     payload: any
 ) => {
     const response = await postRequest<TokenPayload>(
-        '/auth' + endpoint,
+        AUTH_URL + endpoint,
         payload
     );
     return response;

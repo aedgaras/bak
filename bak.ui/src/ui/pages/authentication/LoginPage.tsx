@@ -1,5 +1,6 @@
 import { Heading, Link as ChakraLink, Text, useToast } from '@chakra-ui/react';
 import { Formik } from 'formik';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { authenticateUserHook } from '../../../hooks/customHooks';
 import { FormBox, GenericInput, SubmitButton } from '../../components/form';
@@ -12,6 +13,7 @@ import { AppWrapper } from '../../components/wrappers/AppWrapper';
 export const LoginPage = () => {
     const initialValue = { username: '', password: '' };
     const toast = useToast();
+    const { t } = useTranslation();
     document.title = 'Login';
 
     return (
@@ -20,11 +22,11 @@ export const LoginPage = () => {
                 <FormBox
                     upperSection={
                         <>
-                            <Heading>Login</Heading>
+                            <Heading>{t('Authentication.Login')}</Heading>
                             <Link to="auth/register">
                                 <ChakraLink>
                                     <Text color={'muted'}>
-                                        Don't have an account? Register
+                                        {t('Authentication.DontHaveAccount')}
                                     </Text>
                                 </ChakraLink>
                             </Link>
@@ -42,13 +44,14 @@ export const LoginPage = () => {
                 initialValues={initialValue}
                 onSubmit={async (values, actions) => {
                     actions.setSubmitting(true);
-                    await authenticateUserHook(toast, 'login', values);
+                    await authenticateUserHook(toast, 'login', values, t);
                 }}
             >
                 {({ handleSubmit, errors, touched, isSubmitting }) => (
                     <form onSubmit={handleSubmit}>
                         <GenericInput
-                            fieldName={'Username'}
+                            fieldTitle={t('Authentication.Name')}
+                            fieldName={'username'}
                             fieldType={'text'}
                             isRequired={true}
                             errorField={errors.username}
@@ -56,7 +59,8 @@ export const LoginPage = () => {
                             validation={validateUsername}
                         />
                         <GenericInput
-                            fieldName={'Password'}
+                            fieldTitle={t('Authentication.Password')}
+                            fieldName={'password'}
                             fieldType={'password'}
                             isRequired={true}
                             errorField={errors.password}

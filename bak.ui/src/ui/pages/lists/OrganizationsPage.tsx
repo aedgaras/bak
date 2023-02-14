@@ -44,7 +44,7 @@ export const OrganizationsPage = () => {
                     isLoaded={!isLoading}
                     setQueryFilter={setQueryFilter}
                     data={orgsToDisplay}
-                    columns={organizationTableColumns}
+                    columns={organizationTableColumns()}
                     entity="org"
                     refreshData={setRefreshData}
                 />

@@ -40,6 +40,7 @@ import {
     useReactTable,
 } from '@tanstack/react-table';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { useUserContext } from '../../../context/UserContext';
 import { organizationsPath, usersPath } from '../../../router/AppRouter';
@@ -49,18 +50,19 @@ import { BoxWithShadowMax } from '../wrappers/BoxWithShadow';
 export interface GenericTableWithSearchAndCreateProps<T extends object>
     extends DataTableProps<T> {
     isLoaded: boolean;
-    setQueryFilter: React.Dispatch<React.SetStateAction<string>>;
+    filter: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const GenericTableWithSearchAndCreate = <T extends object>({
     isLoaded,
-    setQueryFilter,
+    filter,
     data,
     columns,
     entity,
     refreshData,
 }: GenericTableWithSearchAndCreateProps<T>) => {
     const { state } = useUserContext();
+    const { t } = useTranslation();
     return (
         <BoxWithShadowMax>
             <Skeleton isLoaded={isLoaded}>
@@ -69,10 +71,10 @@ export const GenericTableWithSearchAndCreate = <T extends object>({
                         placeholder={'Search'}
                         w={'auto'}
                         p={2}
-                        onChange={(e) => setQueryFilter(e.target.value)}
+                        onChange={(e) => filter(e.target.value)}
                     />
                     <Spacer />
-                    {state.role === 'admin' ? (
+                    {state.role === 'Admin' ? (
                         <Link
                             to={
                                 entity === 'user'
@@ -81,8 +83,10 @@ export const GenericTableWithSearchAndCreate = <T extends object>({
                             }
                         >
                             <Button rightIcon={<AddIcon />} colorScheme="teal">
-                                Create{' '}
-                                {entity === 'user' ? 'User' : 'Organization'}
+                                {t('Table.Create') + ' '}
+                                {entity === 'user'
+                                    ? t('Table.User')
+                                    : t('Table.Organization')}
                             </Button>
                         </Link>
                     ) : null}
@@ -121,6 +125,7 @@ export function GenericTable<Data extends object>({
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [toDeleteId, setToDeleteId] = React.useState<string[]>([]);
     const cancelRef = React.useRef(null);
+    const { t } = useTranslation();
 
     const { state } = useUserContext();
 
@@ -200,7 +205,7 @@ export function GenericTable<Data extends object>({
                                     </Td>
                                 );
                             })}
-                            {state.role === 'admin' ? (
+                            {state.role === 'Admin' ? (
                                 <>
                                     <Td key={row.id + '_details'}>
                                         <Link
@@ -274,7 +279,7 @@ export function GenericTable<Data extends object>({
                 <Spacer />
                 <Box>
                     <Text>
-                        {'Page '}
+                        {`${t('Table.Page')}` + ' '}
                         {table.getState().pagination.pageIndex + 1} of{' '}
                         {table.getPageCount()}
                     </Text>
@@ -288,7 +293,7 @@ export function GenericTable<Data extends object>({
                     >
                         {[5, 10, 20, 30, 50].map((pageSize) => (
                             <option key={pageSize} value={pageSize}>
-                                Show {pageSize}
+                                {t('Table.Show') + pageSize}
                             </option>
                         ))}
                     </Select>

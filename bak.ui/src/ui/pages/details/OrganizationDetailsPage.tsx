@@ -72,7 +72,7 @@ const OrganizationMembersList = ({ orgId }: { orgId: string | undefined }) => {
                 <Box borderWidth="1px" borderRadius="lg" padding={2}>
                     <GenericTable
                         data={data.data}
-                        columns={userTableColumns}
+                        columns={userTableColumns()}
                         entity={'user'}
                         refreshData={function (
                             value: SetStateAction<boolean>

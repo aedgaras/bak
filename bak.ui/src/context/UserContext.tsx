@@ -1,11 +1,12 @@
 import React, { useMemo } from 'react';
 import { getCurrentUser } from '../services/Authentication';
-import { Role } from '../utils/Models/Models';
+import { Classification, Role } from '../utils/Models/Models';
 
 interface UserContextInterface {
     name?: string;
     loggedIn?: boolean;
     role?: Role;
+    classification?: Classification;
 }
 
 //export const UserContext = createContext<UserContextInterface>({});
@@ -48,9 +49,10 @@ export function userContextValues(): UserContextInterface {
 
     return currentUser
         ? {
-              name: currentUser.username,
+              name: currentUser.sub,
               loggedIn: currentUser !== null,
               role: currentUser.role,
+              classification: currentUser.classifaction,
           }
         : {};
 }

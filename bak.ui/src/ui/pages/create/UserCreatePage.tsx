@@ -38,7 +38,8 @@ const UserCreationForm = () => {
             {({ handleSubmit, errors, touched, isSubmitting }) => (
                 <form onSubmit={handleSubmit}>
                     <GenericInput
-                        fieldName={'User Name'}
+                        fieldTitle="Username"
+                        fieldName={'Username'}
                         fieldType={'string'}
                         isRequired={true}
                         errorField={errors.name}
