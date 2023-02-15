@@ -8,6 +8,7 @@ import {
     MenuList,
     useColorModeValue,
 } from '@chakra-ui/react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { LogoutDialog } from '../dialogs';
 import { MenuDropdownProps } from '../interfaces';
@@ -22,6 +23,7 @@ export const MenuDropdown = ({
     isOpen,
     cancelRef,
 }: MenuDropdownProps) => {
+    const { t } = useTranslation();
     return (
         <Menu>
             <MenuButton
@@ -40,10 +42,12 @@ export const MenuDropdown = ({
                     element={
                         <>
                             <Link to={'auth/login'}>
-                                <MenuItem>Login</MenuItem>
+                                <MenuItem>{t('Authentication.Login')}</MenuItem>
                             </Link>
                             <Link to={'auth/register'}>
-                                <MenuItem>Register</MenuItem>
+                                <MenuItem>
+                                    {t('Authentication.Register')}
+                                </MenuItem>
                             </Link>
                         </>
                     }
@@ -52,12 +56,12 @@ export const MenuDropdown = ({
                     element={
                         <>
                             <Link to={'/profile'}>
-                                <MenuItem>Profile</MenuItem>
+                                <MenuItem>{t('MenuDropdown.Profile')}</MenuItem>
                             </Link>
                             <MenuDivider />
                             <MenuItem onClick={onOpen}>
                                 <>
-                                    Logout
+                                    {t('MenuDropdown.Logout')}
                                     <LogoutDialog
                                         isOpen={isOpen}
                                         cancelRef={cancelRef}

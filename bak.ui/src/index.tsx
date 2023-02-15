@@ -9,6 +9,7 @@ import { UserContextProvider } from './context/UserContext';
 import reportWebVitals from './reportWebVitals';
 import { AppRouter } from './router/AppRouter';
 
+import './i18n';
 import * as serviceWorker from './serviceWorker';
 import { NavigationMenu } from './ui/components/navigation/NavigationMenu';
 

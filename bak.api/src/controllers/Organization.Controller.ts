@@ -1,28 +1,26 @@
 import { Request, Response } from 'express';
-import { Organization } from '../models/Organization';
-import { User } from '../models/User';
+import { Organization } from '../configuration/db/models/Organization';
+import { User } from '../configuration/db/models/User';
+import { OrganizationDto } from '../objects/dtos';
 import {
     MapOrganization,
     MapOrganizations,
-} from '../objects/dtos/OrganizationDtos';
-import { MapUsers } from '../objects/dtos/UserDtos';
-import { deleteFormSchema, parseSchema } from '../objects/Schema';
+    MapUsers,
+} from '../objects/dtos/Mappers';
 import { OrganizationEntityName } from '../utils/constants';
 import {
     ENTITY_ALREADY_EXIST,
     ENTITY_DELETED,
-    ENTITY_DOESNT_EXIST,
     ENTITY_NOT_FOUND,
     ENTITY_UPDATED,
+    Forbiden,
     ListResponse,
+    NotFound,
+    Ok,
     pagingQueryExists,
     RequestQueryPagination,
 } from '../utils/response';
 import { entityIdFromParameter } from '../utils/utils';
-
-interface OrganizationDto {
-    name: string;
-}
 
 export const getOrganizations = async (req: Request, res: Response) => {
     const paging: RequestQueryPagination = {
@@ -34,7 +32,8 @@ export const getOrganizations = async (req: Request, res: Response) => {
         pagingQueryExists(paging) ? { ...paging } : {}
     );
 
-    return res.json(
+    return Ok(
+        res,
         ListResponse(
             paging,
             organizations.count,
@@ -66,7 +65,7 @@ export const getOrganizationMembers = async (req: Request, res: Response) => {
               }
     );
 
-    return res.json(ListResponse(paging, users.count, MapUsers(users.rows)));
+    return Ok(res, ListResponse(paging, users.count, MapUsers(users.rows)));
 };
 
 export const getOrganization = async (req: Request, res: Response) => {
@@ -75,9 +74,9 @@ export const getOrganization = async (req: Request, res: Response) => {
     const organization = await Organization.findByPk(orgId);
 
     if (!organization) {
-        return res.json(ENTITY_NOT_FOUND(OrganizationEntityName));
+        return NotFound(res, ENTITY_NOT_FOUND(OrganizationEntityName));
     } else {
-        return res.json(MapOrganization(organization));
+        return Ok(res, MapOrganization(organization));
     }
 };
 
@@ -91,15 +90,15 @@ export const getByOrgName = async (req: Request, res: Response) => {
     });
 
     if (!orgEntity) {
-        return res.json(ENTITY_NOT_FOUND(OrganizationEntityName));
+        return NotFound(res, ENTITY_NOT_FOUND(OrganizationEntityName));
     } else {
-        return res.status(200).json(MapOrganization(orgEntity));
+        return Ok(res, MapOrganization(orgEntity));
     }
 };
 
 export const createOrganization = async (req: Request, res: Response) => {
     const newOrganization: OrganizationDto = {
-        name: req.body.name as string,
+        name: req.body.name,
     };
 
     const existingOrganization = await Organization.findOne({
@@ -109,9 +108,7 @@ export const createOrganization = async (req: Request, res: Response) => {
     });
 
     if (existingOrganization) {
-        return res
-            .status(403)
-            .json(ENTITY_ALREADY_EXIST(OrganizationEntityName));
+        return Forbiden(res, ENTITY_ALREADY_EXIST(OrganizationEntityName));
     } else {
         const createdOrganization = await Organization.create({
             ...newOrganization,
@@ -119,7 +116,7 @@ export const createOrganization = async (req: Request, res: Response) => {
 
         await createdOrganization.save();
 
-        return res.sendStatus(200);
+        return Ok(res);
     }
 };
 
@@ -137,36 +134,45 @@ export const updateOrganization = async (req: Request, res: Response) => {
 
         await existingOrg.save();
 
-        return res
-            .status(200)
-            .json(ENTITY_UPDATED(OrganizationEntityName, orgId));
+        return Ok(res, ENTITY_UPDATED(OrganizationEntityName, orgId));
     } else {
-        return res.json(ENTITY_DOESNT_EXIST(OrganizationEntityName));
+        return NotFound(res, ENTITY_NOT_FOUND(OrganizationEntityName));
     }
 };
 
 export const deleteOrganization = async (req: Request, res: Response) => {
-    const errors = await parseSchema({
-        schema: deleteFormSchema,
-        objToValidate: req.body,
-    });
-    if (errors) {
-        return res.status(400).json(errors);
-    }
-
     const org: { id: number } = { ...req.body };
 
     const organization = await Organization.findByPk(org.id);
 
     if (!organization) {
-        return res.json(ENTITY_NOT_FOUND(OrganizationEntityName));
+        return NotFound(res, ENTITY_NOT_FOUND(OrganizationEntityName));
     } else {
         await organization.destroy();
 
         await organization.save();
 
-        return res
-            .status(200)
-            .json(ENTITY_DELETED(OrganizationEntityName, org.id));
+        return Ok(res, ENTITY_DELETED(OrganizationEntityName, org.id));
+    }
+};
+
+export const addUsers = async (req: Request, res: Response) => {
+    const orgId: number = entityIdFromParameter(req, 'orgId');
+
+    const organization = await Organization.findByPk(orgId);
+
+    if (!organization) {
+        return NotFound(res, ENTITY_NOT_FOUND(OrganizationEntityName));
+    } else {
+        const userIds: number[] = req.body.userIds;
+
+        userIds.forEach(async (user) => {
+            await User.update(
+                { OrganizationId: organization.getDataValue('id') },
+                { where: { id: user } }
+            );
+        });
+
+        return Ok(res);
     }
 };

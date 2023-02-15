@@ -1,19 +1,17 @@
 import * as bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
 import { verify } from 'jsonwebtoken';
-import { User } from '../models/User';
+import { User } from '../configuration/db/models/User';
 import { Role } from '../objects/Roles';
-import {
-    changePasswordFormSchema,
-    parseSchema,
-    userDataSchema,
-    userLoginFormSchema,
-} from '../objects/Schema';
 import { UserLoginDto, UserRegisterDto } from '../objects/User';
 import { REFRESH_SECRET, UserEntityName } from '../utils/constants';
 import {
+    BadRequest,
     ENTITY_NOT_FOUND,
-    ENTITY_UPDATED,
+    Forbiden,
+    NotAcceptable,
+    NotFound,
+    Ok,
     returnMessage,
 } from '../utils/response';
 import {
@@ -25,14 +23,6 @@ import {
 import { hashedPassword } from '../utils/utils';
 
 export const login = async (req: Request, res: Response) => {
-    const errors = await parseSchema({
-        schema: userLoginFormSchema,
-        objToValidate: req.body,
-    });
-    if (errors) {
-        return res.status(400).json(errors);
-    }
-
     const userToLogin: UserLoginDto = {
         username: req.body.username as string,
         password: req.body.password as string,
@@ -43,16 +33,15 @@ export const login = async (req: Request, res: Response) => {
     });
 
     if (!user) {
-        return res.status(400).json(returnMessage("Such user doesn't exist"));
+        return NotFound(res, returnMessage("Such user doesn't exist"));
     } else {
         const hashedPass = user.getDataValue('password');
         const match = bcrypt.compareSync(userToLogin.password, hashedPass);
         if (!match) {
-            return res
-                .status(300)
-                .send(returnMessage('Password is incorrect.'));
+            return BadRequest(res, returnMessage('Password is incorrect.'));
         } else {
-            return res.status(200).json(
+            return Ok(
+                res,
                 accessRefreshTokens(
                     generateAccessToken({
                         username: user.getDataValue('username'),
@@ -68,14 +57,6 @@ export const login = async (req: Request, res: Response) => {
 };
 
 export const register = async (req: Request, res: Response) => {
-    const errors = await parseSchema({
-        schema: userDataSchema,
-        objToValidate: req.body,
-    });
-    if (errors) {
-        return res.status(400).json(errors);
-    }
-
     const userToRegister: UserRegisterDto = {
         username: req.body.username as string,
         password: hashedPassword(req.body.password as string),
@@ -89,15 +70,14 @@ export const register = async (req: Request, res: Response) => {
     });
 
     if (user) {
-        return res.status(400).send(returnMessage('Such user already exists.'));
+        return Forbiden(res, returnMessage('Such user already exists.'));
     } else {
-        const newUser = await User.create({
-            ...userToRegister,
-        });
+        const newUser = await User.create(userToRegister);
 
         await newUser.save();
 
-        return res.status(200).json(
+        return Ok(
+            res,
             accessRefreshTokens(
                 generateAccessToken({
                     username: newUser.getDataValue('username'),
@@ -120,16 +100,13 @@ export const refresh = async (req: Request, res: Response) => {
     // Destructuring refreshToken from cookie
     const refreshToken: string | undefined = req.headers['jwt'] as string;
 
-    if (
-        refreshToken !== undefined &&
-        payload.username !== undefined &&
-        payload.role !== undefined
-    ) {
-        // Verifying refresh token
+    if (refreshToken === undefined) {
+        return NotAcceptable(res, 'Bad token');
+    } else {
         verify(refreshToken, REFRESH_SECRET, (err: any, decoded: any) => {
             if (err) {
                 // Wrong Refesh Token
-                return res.status(406).json(returnMessage(err));
+                return NotAcceptable(res, err);
             } else {
                 // Correct token we send a new access token
                 return res.json(
@@ -142,33 +119,21 @@ export const refresh = async (req: Request, res: Response) => {
                 );
             }
         });
-    } else {
-        return res.status(406).json(returnMessage('Bad token.'));
     }
 };
 
 export const changePassword = async (req: Request, res: Response) => {
-    const errors = await parseSchema({
-        schema: changePasswordFormSchema,
-        objToValidate: req.body,
-    });
-    if (errors) {
-        return res.status(400).json(errors);
-    }
-
     const payload: { userId: number; password: string } = { ...req.body };
 
     const user = await User.findByPk(payload.userId);
 
     if (!user) {
-        return res.status(200).json(ENTITY_NOT_FOUND(UserEntityName));
+        return NotFound(res, ENTITY_NOT_FOUND(UserEntityName));
     } else {
         const pass = hashedPassword(payload.password);
         await user.update({ password: pass });
         await user.save();
 
-        return res
-            .status(200)
-            .json(ENTITY_UPDATED(UserEntityName, payload.userId));
+        return Ok(res);
     }
 };

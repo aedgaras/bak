@@ -1,20 +1,18 @@
 import { Request, Response } from 'express';
-import { User } from '../models/User';
-import { MapUser, MapUsers } from '../objects/dtos/UserDtos';
-import {
-    deleteFormSchema,
-    parseSchema,
-    uploadAvatarSchema,
-} from '../objects/Schema';
+import { User } from '../configuration/db/models/User';
+import { MapUser, MapUsers } from '../objects/dtos/Mappers';
+import { parseSchema, uploadAvatarSchema } from '../objects/Schema';
 import { UserRegisterDto } from '../objects/User';
 import { UserEntityName } from '../utils/constants';
 import {
     ENTITY_ALREADY_EXIST,
     ENTITY_DELETED,
-    ENTITY_DOESNT_EXIST,
     ENTITY_NOT_FOUND,
     ENTITY_UPDATED,
+    Forbiden,
     ListResponse,
+    NotFound,
+    Ok,
     pagingQueryExists,
     RequestQueryPagination,
 } from '../utils/response';
@@ -41,9 +39,9 @@ export const getUser = async (req: Request, res: Response) => {
     const userEntity = await User.findByPk(userId);
 
     if (!userEntity) {
-        return res.status(404).json(ENTITY_NOT_FOUND(UserEntityName));
+        return NotFound(res, ENTITY_NOT_FOUND(UserEntityName));
     } else {
-        return res.status(200).json(MapUser(userEntity));
+        return Ok(res, MapUser(userEntity));
     }
 };
 
@@ -57,9 +55,9 @@ export const getByUsername = async (req: Request, res: Response) => {
     });
 
     if (!userEntity) {
-        return res.status(404).json(ENTITY_NOT_FOUND(UserEntityName));
+        return NotFound(res, ENTITY_NOT_FOUND(UserEntityName));
     } else {
-        return res.status(200).json(MapUser(userEntity));
+        return Ok(res, MapUser(userEntity));
     }
 };
 
@@ -76,13 +74,13 @@ export const createUser = async (req: Request, res: Response) => {
     });
 
     if (existingUser) {
-        return res.status(403).send(ENTITY_ALREADY_EXIST(UserEntityName));
+        return Forbiden(res, ENTITY_ALREADY_EXIST(UserEntityName));
     } else {
         const createdUser = await User.create({ ...newUser });
 
         await createdUser.save();
 
-        return res.sendStatus(200);
+        return Ok(res);
     }
 };
 
@@ -100,33 +98,25 @@ export const updateUser = async (req: Request, res: Response) => {
 
         await existingUser.save();
 
-        return res.status(200).json(MapUser(existingUser));
+        return Ok(res, MapUser(existingUser));
     } else {
-        return res.status(404).json(ENTITY_DOESNT_EXIST(UserEntityName));
+        return NotFound(res, ENTITY_NOT_FOUND(UserEntityName));
     }
 };
 
 export const deleteUser = async (req: Request, res: Response) => {
-    const errors = await parseSchema({
-        schema: deleteFormSchema,
-        objToValidate: req.body,
-    });
-    if (errors) {
-        return res.status(400).json(errors);
-    }
-
     const userReq: { id: number } = { ...req.body };
 
     const user = await User.findByPk(userReq.id);
 
     if (!user) {
-        return res.status(404).json(ENTITY_NOT_FOUND(UserEntityName));
+        return NotFound(res, ENTITY_NOT_FOUND(UserEntityName));
     } else {
         await user.destroy();
 
         await user.save();
 
-        return res.status(200).json(ENTITY_DELETED(UserEntityName, userReq.id));
+        return Ok(res, ENTITY_DELETED(UserEntityName, userReq.id));
     }
 };
 
@@ -145,7 +135,7 @@ export const uploadUserAvatar = async (req: Request, res: Response) => {
     const user = await User.findByPk(userReq.id);
 
     if (!user) {
-        return res.status(404).json(ENTITY_NOT_FOUND(UserEntityName));
+        return NotFound(res, ENTITY_NOT_FOUND(UserEntityName));
     } else {
         const updatedUser = {
             avatar: req.body.avatar,
@@ -155,6 +145,6 @@ export const uploadUserAvatar = async (req: Request, res: Response) => {
 
         await user.save();
 
-        return res.status(200).json(ENTITY_UPDATED(UserEntityName, userReq.id));
+        return Ok(res, ENTITY_UPDATED(UserEntityName, userReq.id));
     }
 };

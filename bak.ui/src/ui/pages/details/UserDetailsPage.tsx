@@ -31,7 +31,7 @@ export const UserDetailsPage = () => {
     const [image, setImage] = useState<string>();
 
     const { isLoading, data, error, isFetching } = useQuery({
-        queryKey: ['user', params.userId],
+        queryKey: [`user${params.userId}`],
         queryFn: async () => {
             return await getUserById(params.userId);
         },
@@ -110,6 +110,7 @@ export const UserDetailsPage = () => {
                                         ) => handleChange(e)}
                                     /> */}
                                     <GenericInput
+                                        fieldTitle="Username"
                                         fieldName={'Username'}
                                         fieldType={'text'}
                                         isRequired={true}
@@ -121,15 +122,15 @@ export const UserDetailsPage = () => {
                                         <FormLabel>Role</FormLabel>
                                         <Select
                                             placeholder={
-                                                data?.role == 'admin'
+                                                data?.role == 'Admin'
                                                     ? 'Admin'
                                                     : 'User'
                                             }
                                         >
-                                            <option value={'admin'}>
+                                            <option value={'Admin'}>
                                                 Admin
                                             </option>
-                                            <option value={'user'}>User</option>
+                                            <option value={'User'}>User</option>
                                         </Select>
                                     </FormControl>
                                     <HStack w={'100%'}>

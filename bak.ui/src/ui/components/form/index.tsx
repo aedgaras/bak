@@ -12,8 +12,10 @@ import {
     VStack,
 } from '@chakra-ui/react';
 import { Field } from 'formik';
+import { useTranslation } from 'react-i18next';
 
 export const GenericInput = ({
+    fieldTitle,
     fieldName,
     fieldType,
     isRequired,
@@ -22,6 +24,7 @@ export const GenericInput = ({
     validation,
     placeholder,
 }: {
+    fieldTitle: string;
     fieldName: string;
     fieldType: string;
     isRequired: boolean;
@@ -36,7 +39,7 @@ export const GenericInput = ({
             p={2}
             isRequired={isRequired}
         >
-            <FormLabel>{fieldName}</FormLabel>
+            <FormLabel>{fieldTitle}</FormLabel>
             <Field
                 as={Input}
                 type={fieldType}
@@ -81,10 +84,12 @@ export const FormBox = ({
 };
 
 export const SubmitButton = ({ isSubmitting }: { isSubmitting: boolean }) => {
+    const { t } = useTranslation();
+
     return (
         <Box p={2}>
             <Button type="submit" isLoading={isSubmitting} color="teal">
-                Submit
+                {t('Form.Submit')}
             </Button>
         </Box>
     );

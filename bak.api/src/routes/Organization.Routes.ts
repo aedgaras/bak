@@ -1,5 +1,6 @@
 import express from 'express';
 import {
+    addUsers,
     createOrganization,
     deleteOrganization,
     getByOrgName,
@@ -12,7 +13,12 @@ import {
     authenticateRole,
     authenticateToken,
 } from '../middleware/Auth.Middleware';
-import { validateId } from '../middleware/Validation.Middleware';
+import {
+    validateBodySchema,
+    validateParamsId,
+} from '../middleware/Validation.Middleware';
+import { organizationSchema, usersOrganizationSchema } from '../objects/dtos';
+import { deleteFormSchema } from '../objects/Schema';
 
 export const organizationRouter = express.Router();
 
@@ -20,13 +26,13 @@ organizationRouter.get('/', [authenticateToken], getOrganizations);
 
 organizationRouter.get(
     '/members/:orgId',
-    [authenticateToken, validateId('orgId')],
+    [authenticateToken, validateParamsId('orgId')],
     getOrganizationMembers
 );
 
 organizationRouter.get(
     '/:orgId',
-    [authenticateToken, validateId('orgId')],
+    [authenticateToken, validateParamsId('orgId')],
     getOrganization
 );
 organizationRouter.get(
@@ -37,18 +43,42 @@ organizationRouter.get(
 
 organizationRouter.post(
     '/',
-    [authenticateToken, authenticateRole(['admin'])],
+    [
+        authenticateToken,
+        authenticateRole(['admin']),
+        validateBodySchema(organizationSchema),
+    ],
     createOrganization
 );
 
 organizationRouter.put(
     '/:orgId',
-    [authenticateToken, authenticateRole(['admin']), validateId('orgId')],
+    [
+        authenticateToken,
+        authenticateRole(['admin']),
+        validateParamsId('orgId'),
+        validateBodySchema(organizationSchema),
+    ],
     updateOrganization
 );
 
 organizationRouter.delete(
     '/',
-    [authenticateToken, authenticateRole(['admin'])],
+    [
+        authenticateToken,
+        authenticateRole(['admin']),
+        validateBodySchema(deleteFormSchema),
+    ],
     deleteOrganization
+);
+
+organizationRouter.post(
+    '/:orgId/addUsers',
+    [
+        authenticateToken,
+        authenticateRole(['admin']),
+        validateParamsId('orgId'),
+        validateBodySchema(usersOrganizationSchema),
+    ],
+    addUsers
 );

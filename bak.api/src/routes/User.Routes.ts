@@ -11,30 +11,51 @@ import {
     authenticateRole,
     authenticateToken,
 } from '../middleware/Auth.Middleware';
-import { validateId } from '../middleware/Validation.Middleware';
+import {
+    validateBodySchema,
+    validateParamsId,
+} from '../middleware/Validation.Middleware';
+import { userSchema } from '../objects/dtos';
+import { deleteFormSchema, userLoginFormSchema } from '../objects/Schema';
 
 export const userRouter = express.Router();
 
 userRouter.get('/', [authenticateToken], getUsers);
 
-userRouter.get('/:userId', [authenticateToken, validateId('userId')], getUser);
+userRouter.get(
+    '/:userId',
+    [authenticateToken, validateParamsId('userId')],
+    getUser
+);
 
 userRouter.get('/getByUsername/:username', [authenticateToken], getByUsername);
 
 userRouter.post(
     '/',
-    [authenticateToken, authenticateRole(['admin'])],
+    [
+        authenticateToken,
+        authenticateRole(['admin']),
+        validateBodySchema(userLoginFormSchema),
+    ],
     createUser
 );
 
 userRouter.put(
     '/:userId',
-    [authenticateToken, validateId('userId')],
+    [
+        authenticateToken,
+        validateParamsId('userId'),
+        validateBodySchema(userSchema),
+    ],
     updateUser
 );
 
 userRouter.delete(
     '/',
-    [authenticateToken, authenticateRole(['admin'])],
+    [
+        authenticateToken,
+        authenticateRole(['admin']),
+        validateBodySchema(deleteFormSchema),
+    ],
     deleteUser
 );

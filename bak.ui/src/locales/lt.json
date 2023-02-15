@@ -1,0 +1,11 @@
+{
+    "Greetings": {
+        "Hello": "Labas"
+    },
+    "Navigation": {
+        "Home": "Namai",
+        "Users": "Naudotojai",
+        "Organizations": "Organizacijos",
+        "SwitchLanguage": "Pakeisti kalba i anglu k."
+    }
+}

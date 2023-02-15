@@ -24,6 +24,5 @@ export interface UserModel {
     username: string;
     password: string;
     role: Role;
-    createdAt: string;
-    updatedAt: string;
+    classification: string;
 }

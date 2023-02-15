@@ -1,26 +1,15 @@
-import { Center, Heading, Highlight } from '@chakra-ui/react';
+import { Center, Heading } from '@chakra-ui/react';
+import { useTranslation } from 'react-i18next';
 import { AppWrapper } from './components/wrappers/AppWrapper';
 
 export const UserApp = () => {
+    const { t, i18n } = useTranslation();
     document.title = 'Blossom HR';
     return (
         <AppWrapper
             children={
                 <Center height={'100vh'}>
-                    <Heading lineHeight="tall">
-                        <Highlight
-                            query={['spotlight', 'emphasize', 'Accentuate']}
-                            styles={{
-                                px: '2',
-                                py: '1',
-                                rounded: 'full',
-                                bg: 'teal.100',
-                            }}
-                        >
-                            With the Highlight component, you can spotlight,
-                            emphasize and accentuate words.
-                        </Highlight>
-                    </Heading>
+                    <Heading lineHeight="tall">{t('Greetings.Hello')}</Heading>
                 </Center>
             }
         />

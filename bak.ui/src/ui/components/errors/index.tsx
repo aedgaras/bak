@@ -1,4 +1,5 @@
 import { Center, Divider, Heading, Text, VStack } from '@chakra-ui/react';
+import { useTranslation } from 'react-i18next';
 
 const BaseExceptionPage = ({
     title,
@@ -29,18 +30,24 @@ const BaseExceptionPage = ({
     );
 };
 
-export const PageNotFound = ({ message }: { message?: string }) =>
-    BaseExceptionPage({
-        title: 'Page not found',
-        heading: 'Page not found',
+export const PageNotFound = ({ message }: { message?: string }) => {
+    const { t } = useTranslation();
+
+    return BaseExceptionPage({
+        title: t('Page.Exception.NotFound'),
+        heading: t('Page.Exception.NotFound'),
         statusCode: 404,
         message: message,
     });
+};
 
-export const Unauthorized = ({ message }: { message?: string }) =>
-    BaseExceptionPage({
-        title: 'Unauthorized',
-        heading: 'Unauthorized',
+export const Unauthorized = ({ message }: { message?: string }) => {
+    const { t } = useTranslation();
+
+    return BaseExceptionPage({
+        title: t('Page.Exception.Unauthorized'),
+        heading: t('Page.Exception.Unauthorized'),
         statusCode: 401,
         message: message,
     });
+};

@@ -13,8 +13,6 @@ import { AppWrapper } from '../../components/wrappers/AppWrapper';
 export const UsersPage = () => {
     const [usersToDisplay, setUsersToDisplay] = useState<UserModel[]>([]);
     const [queryFilter, setQueryFilter] = useState<string>('');
-    const filteredUsers: UserModel[] = [];
-    const [userToDeleteId, setUserToDeleteId] = useState<number>();
     const [refreshData, setRefreshData] = useState<boolean>(false);
 
     const { isLoading, isFetching, error, data } = useQuery({
@@ -29,23 +27,18 @@ export const UsersPage = () => {
             setRefreshData(false);
         }
         if (data) {
-            filterUserTable(
-                data,
-                queryFilter,
-                filteredUsers,
-                setUsersToDisplay
-            );
+            filterUserTable(data, queryFilter, setUsersToDisplay);
         }
     }, [queryFilter, data]);
 
     return (
         <Skeleton isLoaded={!isLoading}>
             <AppWrapper>
-                <GenericTableWithSearchAndCreate
+                <GenericTableWithSearchAndCreate<UserModel>
                     isLoaded={!isLoading}
-                    setQueryFilter={setQueryFilter}
+                    filter={setQueryFilter}
                     data={usersToDisplay}
-                    columns={userTableColumns}
+                    columns={userTableColumns()}
                     entity={'user'}
                     refreshData={setRefreshData}
                 />

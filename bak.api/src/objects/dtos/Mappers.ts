@@ -1,15 +1,25 @@
-import { BaseDto } from '.';
-import { User } from '../../models/User';
-import { Role } from '../Roles';
+import { OrganizationDto, UserDto } from '.';
+import { Organization } from '../../configuration/db/models/Organization';
+import { User } from '../../configuration/db/models/User';
 
-export interface UserDto extends BaseDto {
-    username: string;
-    role: Role;
-    name: string | undefined;
-    lastname: string | undefined;
-    email: string | undefined;
-    avatar: string | undefined;
-    organizationId: number;
+export function MapOrganizations(entities: Organization[]): OrganizationDto[] {
+    const dtos: OrganizationDto[] = [];
+
+    entities.forEach((x) => {
+        dtos.push({
+            id: x.getDataValue('id'),
+            name: x.getDataValue('name'),
+        });
+    });
+
+    return dtos;
+}
+
+export function MapOrganization(entity: Organization): OrganizationDto {
+    return {
+        id: entity.getDataValue('id'),
+        name: entity.getDataValue('name'),
+    };
 }
 
 export function MapUsers(userEntities: User[]): UserDto[] {

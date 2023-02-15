@@ -1,3 +1,5 @@
+import { Response } from 'express';
+
 interface ReturnMessage {
     message: string;
 }
@@ -37,8 +39,8 @@ interface PaginatedResponse<T> {
 export const pagingQueryExists = (query: RequestQueryPagination): boolean => {
     return (query.limit &&
         query.offset &&
-        query.limit !== NaN &&
-        query.offset !== NaN) as boolean;
+        !Number.isNaN(query.limit) &&
+        !Number.isNaN(query.offset)) as boolean;
 };
 
 export const ListResponse = <T>(
@@ -58,3 +60,36 @@ export const ListResponse = <T>(
         data: dataList,
     };
 };
+
+function baseResponse(
+    res: Response,
+    statusCode: number,
+    obj?: any | undefined
+) {
+    if (obj === undefined) {
+        return res.sendStatus(statusCode);
+    }
+
+    return res.status(statusCode).json(obj);
+}
+
+export function Ok(res: Response, obj?: any) {
+    return baseResponse(res, 200, obj);
+}
+
+export function BadRequest(res: Response, obj?: any) {
+    return baseResponse(res, 400, obj);
+}
+export function Unauthorized(res: Response, obj?: any) {
+    return baseResponse(res, 401, obj);
+}
+
+export function Forbiden(res: Response, obj?: any) {
+    return baseResponse(res, 403, obj);
+}
+export function NotFound(res: Response, obj?: any) {
+    return baseResponse(res, 404, obj);
+}
+export function NotAcceptable(res: Response, obj?: any) {
+    return baseResponse(res, 460, obj);
+}

@@ -6,7 +6,7 @@
     "scripts": {
         "build": "npx tsc",
         "start": "node dist/index.js",
-        "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
+        "dev": "nodemon src/index.ts",
         "docker:dev": "docker compose -f docker-compose.yml up",
         "format": "npx prettier --write .",
         "docker:remove": "docker stop api;docker rm api; docker rmi api;docker stop db;docker rm db; docker rmi db;docker stop db-1;docker rm db-1; docker rmi db-1"
@@ -34,10 +34,12 @@
         "@types/jsonwebtoken": "^8.5.9",
         "@types/node": "^18.8.2",
         "concurrently": "^7.4.0",
+        "cypress": "^12.3.0",
         "nodemon": "^2.0.20",
         "prettier": "^2.7.1",
         "prettier-plugin-organize-imports": "^3.1.1",
         "sequelize-cli": "^6.5.1",
+        "ts-node": "^10.9.1",
         "typescript": "^4.8.4"
     }
 }

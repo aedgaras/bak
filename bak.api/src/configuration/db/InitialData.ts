@@ -1,6 +1,6 @@
-import { Organization } from '../../models/Organization';
-import { User } from '../../models/User';
 import { hashedPassword } from '../../utils/utils';
+import { Organization } from './models/Organization';
+import { User } from './models/User';
 
 export const seedInitialEntities = async () => {
     await seedInitialAdmin();

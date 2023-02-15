@@ -1,11 +1,12 @@
 import axios, { AxiosResponse } from 'axios';
 import jwtDecode from 'jwt-decode';
 import { API_URL, JWT_NAME, REFRESH_TOKEN_NAME } from '../utils/constants';
-import { Role } from '../utils/Models/Models';
+import { Classification, Role } from '../utils/Models/Models';
 
 interface User {
-    username: string;
+    sub: string;
     role: Role;
+    classifaction: Classification;
 }
 
 export async function logout(): Promise<void> {
@@ -19,7 +20,7 @@ export async function refreshToken() {
         .post(
             API_URL + '/auth/refresh',
             {
-                username: getCurrentUser()?.username,
+                username: getCurrentUser()?.sub,
                 role: getCurrentUser()?.role,
             },
             { headers: { jwt: localStorage.getItem(REFRESH_TOKEN_NAME) ?? '' } }

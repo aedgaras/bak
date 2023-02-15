@@ -1,4 +1,4 @@
-FROM node:16-alpine AS development
+FROM node:latest AS development
 ENV NODE_ENV development
 # Add a work directory
 WORKDIR /app
@@ -10,4 +10,4 @@ COPY . .
 # Expose port
 EXPOSE 3000
 # Start the app
-CMD [ "npm", "start" ]
+CMD [ "npm", "run", "build" ]
