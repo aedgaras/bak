@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { getCurrentUser } from '../services/Authentication';
-import { Classification, Role } from '../utils/Models/Models';
+import { Classification, Role } from '../utils/Models';
 
 interface UserContextInterface {
     name?: string;

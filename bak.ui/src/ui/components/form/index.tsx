@@ -8,11 +8,23 @@ import {
     FormLabel,
     HStack,
     Input,
+    Select,
     useColorModeValue,
     VStack,
 } from '@chakra-ui/react';
 import { Field } from 'formik';
 import { useTranslation } from 'react-i18next';
+
+type InputType = {
+    fieldTitle: string;
+    fieldName: string;
+    fieldType: string;
+    isRequired: boolean;
+    errorField?: string;
+    touchedField?: boolean;
+    validation: (value: string) => string;
+    placeholder?: string;
+};
 
 export const GenericInput = ({
     fieldTitle,
@@ -23,23 +35,16 @@ export const GenericInput = ({
     touchedField,
     validation,
     placeholder,
-}: {
-    fieldTitle: string;
-    fieldName: string;
-    fieldType: string;
-    isRequired: boolean;
-    errorField?: string;
-    touchedField?: boolean;
-    validation: (value: string) => string;
-    placeholder?: string;
-}) => {
+}: InputType) => {
+    const { t } = useTranslation();
+
     return (
         <FormControl
             isInvalid={!!errorField && touchedField}
             p={2}
             isRequired={isRequired}
         >
-            <FormLabel>{fieldTitle}</FormLabel>
+            <FormLabel>{t(`${fieldTitle}`)}</FormLabel>
             <Field
                 as={Input}
                 type={fieldType}
@@ -55,6 +60,31 @@ export const GenericInput = ({
         </FormControl>
     );
 };
+
+export function GenericSelect<T extends string>({
+    keys,
+    fieldTitle,
+}: {
+    keys: T[];
+    fieldTitle: string;
+}) {
+    const { t } = useTranslation();
+
+    return (
+        <FormControl p={2}>
+            <FormLabel>{t(`${fieldTitle}`)}</FormLabel>
+            <Select>
+                {keys.map((key) => {
+                    return (
+                        <option value={key}>
+                            {t(`Form.Select.Classification.${key}`)}
+                        </option>
+                    );
+                })}
+            </Select>
+        </FormControl>
+    );
+}
 
 export const FormBox = ({
     upperSection,

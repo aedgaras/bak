@@ -1,5 +1,5 @@
 import jwtDecode from 'jwt-decode';
-import { Classification, Role } from './Models/Models';
+import { Classification, Role } from './Models';
 
 export const sleep = async (milliseconds: number) => {
     await new Promise((resolve) => {
@@ -11,7 +11,7 @@ export const getJwtFromStorage = localStorage.getItem('token');
 export const getRefreshTokenFromStorage = localStorage.getItem('refreshJWT');
 
 export interface TokenPayload {
-    token: string;
+    accessToken: string;
     refreshToken: string;
 }
 

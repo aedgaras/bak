@@ -28,7 +28,7 @@ export const authenticateUserHook = async (
             });
             sleep(5000);
 
-            localStorage.setItem(JWT_NAME, r.data.token);
+            localStorage.setItem(JWT_NAME, r.data.accessToken);
             localStorage.setItem(REFRESH_TOKEN_NAME, r.data.refreshToken);
             window.location.assign('/');
         })

@@ -34,7 +34,7 @@
         "Login": "Login"
     },
     "Toast": {
-        "Sucess": "Sucess",
+        "Sucess": "Success",
         "RegisterSucess": "Registered successfully.",
         "LoginSucess": "Logged in successfully."
     },
@@ -48,7 +48,15 @@
         "Submit": "Submit",
         "Username": "Username",
         "Password": "Password",
-        "Name": "Name"
+        "Name": "Name",
+        "Classification": "Classification",
+        "Select": {
+            "Classification": {
+                "Veterinarian": "Veterinar",
+                "Specialist": "On duty Veterinar"
+            }
+        },
+        "Specification": "Specification"
     },
     "MenuDropdown": {
         "Profile": "Profile",

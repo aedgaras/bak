@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import jwtDecode from 'jwt-decode';
 import { API_URL, JWT_NAME, REFRESH_TOKEN_NAME } from '../utils/constants';
-import { Classification, Role } from '../utils/Models/Models';
+import { Classification, Role } from '../utils/Models';
 
 interface User {
     sub: string;

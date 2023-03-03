@@ -9,6 +9,7 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import { Formik } from 'formik';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useUserContext } from '../../../context/UserContext';
 import { getUserByUsername, putRequest } from '../../../services/Requests';
 import { UserModel } from '../../../utils/dto';
@@ -67,6 +68,7 @@ const ProfileSection = ({
 }) => {
     const { state } = useUserContext();
     const [edit, setEdit] = useState<boolean>(false);
+    const { t } = useTranslation();
 
     return (
         <AppWrapper>
@@ -100,6 +102,7 @@ const ProfileSection = ({
                                         touchedField={touched.username}
                                         validation={validateUsername}
                                         placeholder={state.name}
+                                        fieldTitle={t('Form.Username')}
                                     />
                                     <HStack w={'100%'}>
                                         {edit ? (

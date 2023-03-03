@@ -7,7 +7,7 @@ import {
 } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { Formik } from 'formik';
-import { ChangeEvent, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useUserContext } from '../../../context/UserContext';
 import {
@@ -16,7 +16,6 @@ import {
     putRequest,
 } from '../../../services/Requests';
 import { UserModel } from '../../../utils/dto';
-import { fileToBase64 } from '../../../utils/utils';
 import { GenericInput, SubmitButton } from '../../components/form';
 import { validateUsername } from '../../components/form/validation/validation';
 import { AppWrapper } from '../../components/wrappers/AppWrapper';
@@ -27,8 +26,6 @@ export const UserDetailsPage = () => {
     const params = useParams();
     const isNotCreating = !!params.userId;
     const navigate = useNavigate();
-    const [file, setFile] = useState<string>();
-    const [image, setImage] = useState<string>();
 
     const { isLoading, data, error, isFetching } = useQuery({
         queryKey: [`user${params.userId}`],
@@ -43,20 +40,6 @@ export const UserDetailsPage = () => {
             document.title = 'Profile Details';
         }
     }, [state.name]);
-
-    async function handleChange(e: ChangeEvent<HTMLInputElement>) {
-        if (e.target.files) {
-            const file = (await fileToBase64(e.target.files[0])) as string;
-            setFile(file);
-        }
-    }
-
-    function arrayBufferToBase64(buffer: any) {
-        var binary = '';
-        var bytes = [].slice.call(new Uint8Array(buffer));
-        bytes.forEach((b) => (binary += String.fromCharCode(b)));
-        return window.btoa(binary);
-    }
 
     return (
         <AppWrapper>

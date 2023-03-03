@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Dispatch } from 'react';
 
 export interface ClosableObject {
     isOpen: boolean;
@@ -10,7 +11,7 @@ export interface ClosableObject {
 export interface DeleteDialogProps extends ClosableObject {
     entityToDeleteId: string;
     entityName: 'user' | 'org';
-    refreshData: React.Dispatch<React.SetStateAction<boolean>>;
+    refreshData: Dispatch<unknown>;
 }
 
 export interface MenuDropdownProps extends ClosableObject {

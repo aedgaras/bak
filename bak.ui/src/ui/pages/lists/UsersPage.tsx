@@ -13,7 +13,7 @@ import { AppWrapper } from '../../components/wrappers/AppWrapper';
 export const UsersPage = () => {
     const [usersToDisplay, setUsersToDisplay] = useState<UserModel[]>([]);
     const [queryFilter, setQueryFilter] = useState<string>('');
-    const [refreshData, setRefreshData] = useState<boolean>(false);
+    const [refreshFlag, setRefreshFlag] = useState<unknown>({});
 
     const { isLoading, isFetching, error, data } = useQuery({
         queryKey: ['usersList'],
@@ -23,13 +23,10 @@ export const UsersPage = () => {
     });
 
     useEffect(() => {
-        if (refreshData === true) {
-            setRefreshData(false);
-        }
         if (data) {
             filterUserTable(data, queryFilter, setUsersToDisplay);
         }
-    }, [queryFilter, data]);
+    }, [queryFilter, data, refreshFlag]);
 
     return (
         <Skeleton isLoaded={!isLoading}>
@@ -40,7 +37,7 @@ export const UsersPage = () => {
                     data={usersToDisplay}
                     columns={userTableColumns()}
                     entity={'user'}
-                    refreshData={setRefreshData}
+                    refreshData={setRefreshFlag}
                 />
             </AppWrapper>
         </Skeleton>

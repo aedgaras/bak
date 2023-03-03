@@ -3,33 +3,30 @@ import { useUserContext } from '../context/UserContext';
 import { PageNotFound, Unauthorized } from '../ui/components/errors';
 import { LoginPage } from '../ui/pages/authentication/LoginPage';
 import { RegisterPage } from '../ui/pages/authentication/RegisterPage';
-import { OrganizationCreatePage } from '../ui/pages/create/OrganizationCreatePage';
 import { UserCreatePage } from '../ui/pages/create/UserCreatePage';
-import { OrganizationDetailsPage } from '../ui/pages/details/OrganizationDetailsPage';
 import { ProfilePage } from '../ui/pages/details/ProfilePage';
 import { UserDetailsPage } from '../ui/pages/details/UserDetailsPage';
-import { OrganizationsPage } from '../ui/pages/lists/OrganizationsPage';
 import { UsersPage } from '../ui/pages/lists/UsersPage';
 import { UserApp } from '../ui/UserApp';
-import { Role } from '../utils/Models/Models';
+import { Role } from '../utils/Models';
 
-export const authPath = '/auth';
-export const usersPath = '/users';
+export const authRoutePath = '/auth';
+export const usersRoutePath = '/users';
 export const organizationsPath = '/organizations';
 
 export const AppRouter = () => {
     return (
         <Routes>
             <Route index element={<UserApp />} />
-            <Route path={authPath}>
+            <Route path={authRoutePath}>
                 <Route
-                    path={authPath + '/login'}
+                    path={authRoutePath + '/login'}
                     element={
                         <DisabledAfterLoginRoute element={<LoginPage />} />
                     }
                 />
                 <Route
-                    path={authPath + '/register'}
+                    path={authRoutePath + '/register'}
                     element={
                         <DisabledAfterLoginRoute element={<RegisterPage />} />
                     }
@@ -40,17 +37,17 @@ export const AppRouter = () => {
                 element={<ProtectedRoute element={<ProfilePage />} />}
             />
             {/* Users paths */}
-            <Route path={usersPath}>
+            <Route path={usersRoutePath}>
                 <Route
-                    path={usersPath}
+                    path={usersRoutePath}
                     element={<ProtectedRoute element={<UsersPage />} />}
                 />
                 <Route
-                    path={usersPath + '/:userId'}
+                    path={usersRoutePath + '/:userId'}
                     element={<ProtectedRoute element={<UserDetailsPage />} />}
                 />
                 <Route
-                    path={usersPath + '/create'}
+                    path={usersRoutePath + '/create'}
                     element={
                         <ProtectedRoute
                             element={
@@ -67,34 +64,6 @@ export const AppRouter = () => {
                     }
                 />
             </Route>
-
-            {/* Organization paths */}
-            <Route path={organizationsPath}>
-                <Route
-                    path={organizationsPath}
-                    element={<ProtectedRoute element={<OrganizationsPage />} />}
-                />
-                <Route
-                    path={organizationsPath + '/:orgId'}
-                    element={
-                        <ProtectedRoute element={<OrganizationDetailsPage />} />
-                    }
-                />
-                <Route
-                    path={organizationsPath + '/create'}
-                    element={
-                        <ProtectedRoute
-                            element={
-                                <RoleRoute
-                                    authorizedRoles={['Admin']}
-                                    element={<OrganizationCreatePage />}
-                                />
-                            }
-                        />
-                    }
-                />
-            </Route>
-
             <Route path="*" element={<PageNotFound />} />
         </Routes>
     );

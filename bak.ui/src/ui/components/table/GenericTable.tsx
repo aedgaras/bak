@@ -39,11 +39,11 @@ import {
     SortingState,
     useReactTable,
 } from '@tanstack/react-table';
-import React from 'react';
+import React, { Dispatch } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { useUserContext } from '../../../context/UserContext';
-import { organizationsPath, usersPath } from '../../../router/AppRouter';
+import { organizationsPath, usersRoutePath } from '../../../router/AppRouter';
 import { DeleteDialog } from '../dialogs';
 import { BoxWithShadowMax } from '../wrappers/BoxWithShadow';
 
@@ -78,7 +78,7 @@ export const GenericTableWithSearchAndCreate = <T extends object>({
                         <Link
                             to={
                                 entity === 'user'
-                                    ? usersPath + '/create'
+                                    ? usersRoutePath + '/create'
                                     : organizationsPath + '/create'
                             }
                         >
@@ -111,7 +111,7 @@ export type DataTableProps<Data extends object> = {
     data: Data[];
     columns: ColumnDef<Data, any>[];
     entity: 'user' | 'org';
-    refreshData: React.Dispatch<React.SetStateAction<boolean>>;
+    refreshData: Dispatch<unknown>;
 };
 
 export function GenericTable<Data extends object>({
@@ -293,7 +293,7 @@ export function GenericTable<Data extends object>({
                     >
                         {[5, 10, 20, 30, 50].map((pageSize) => (
                             <option key={pageSize} value={pageSize}>
-                                {t('Table.Show') + pageSize}
+                                {`${t('Table.Show')} ${pageSize}`}
                             </option>
                         ))}
                     </Select>
