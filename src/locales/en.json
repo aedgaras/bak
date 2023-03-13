@@ -1,0 +1,65 @@
+{
+  "Greetings": {
+    "Hello": "Hello"
+  },
+  "Navigation": {
+    "Home": "Home",
+    "Users": "Users",
+    "Organizations": "Organizations",
+    "SwitchLanguage": "Switch language to lithuanian"
+  },
+  "Table": {
+    "Create": "Create",
+    "Organization": "Organization",
+    "User": "User",
+    "Page": "Page",
+    "Show": "Show",
+    "Headers": {
+      "Organization": {
+        "Name": "Name"
+      },
+      "User": {
+        "Username": "Username",
+        "Role": "Role",
+        "Classification": "Classification"
+      }
+    }
+  },
+  "Authentication": {
+    "DontHaveAccount": "Don't have an account? Register",
+    "Username": "Username",
+    "Password": "Password",
+    "Register": "Register",
+    "Name": "Name",
+    "Login": "Login"
+  },
+  "Toast": {
+    "Sucess": "Success",
+    "RegisterSucess": "Registered successfully.",
+    "LoginSucess": "Logged in successfully."
+  },
+  "Page": {
+    "Exception": {
+      "NotFound": "Page not found",
+      "Unauthorized": "Unauthorized"
+    }
+  },
+  "Form": {
+    "Submit": "Submit",
+    "Username": "Username",
+    "Password": "Password",
+    "Name": "Name",
+    "Classification": "Classification",
+    "Select": {
+      "Classification": {
+        "Veterinarian": "Veterinar",
+        "Specialist": "On duty Veterinar"
+      }
+    },
+    "Specification": "Specification"
+  },
+  "MenuDropdown": {
+    "Profile": "Profile",
+    "Logout": "Logout"
+  }
+}
