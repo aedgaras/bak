@@ -1,7 +1,7 @@
-export type Role = 'Admin' | 'User';
+export type Role = "Admin" | "User";
 
-export type Classification = 'Veterinarian' | 'Specialist' | 'Customer';
+export type Classification = "Veterinarian" | "Specialist" | "Customer";
 
-export type AnimalType = 'Dog' | 'Cat';
+export type AnimalType = "Dog" | "Cat";
 
-export type CaseStatus = 'Filled' | 'Ongoing' | 'Completed' | 'Closed';
+export type CaseStatus = "Filled" | "Ongoing" | "Completed" | "Closed";
