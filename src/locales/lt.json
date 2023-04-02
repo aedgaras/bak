@@ -1,61 +1,61 @@
 {
-  "Greetings": {
-    "Hello": "Labas"
-  },
-  "Navigation": {
-    "Home": "Namai",
-    "Users": "Naudotojai",
-    "Organizations": "Organizacijos",
-    "SwitchLanguage": "Pakeisti kalba i anglu k."
-  },
-  "Authentication": {
-    "Register": "Registracija",
-    "Username": "Slapyvardis",
-    "Password": "Slaptažodis",
-    "Login": "Prisijungti",
-    "Name": "Vardas",
-    "DontHaveAccount": "Neturite paskyros? Registruokites"
-  },
-  "Form": {
-    "Name": "Vardas",
-    "Password": "Slaptažodis",
-    "Select": {
-      "Classification": {
-        "Veterinarian": "Veterinaras",
-        "Specialist": "Budintis veterinaras"
-      }
+    "Greetings": {
+        "Hello": "Labas"
     },
-    "Specification": "Specifikacija",
-    "Username": "Slapyvardis",
-    "Submit": "Patvirtinti",
-    "Classification": "Klasifikacija"
-  },
-  "Table": {
-    "User": "Paskyra",
-    "Show": "Rodyti",
-    "Page": "Puslapis",
-    "Create": "Sukurti",
-    "Headers": {
-      "User": {
-        "Classification": "Clasifikacija",
-        "Role": "Rolė",
-        "Username": "Slapyvardis"
-      }
+    "Navigation": {
+        "Home": "Namai",
+        "Users": "Naudotojai",
+        "Organizations": "Organizacijos",
+        "SwitchLanguage": "Pakeisti kalba i anglu k."
+    },
+    "Authentication": {
+        "Register": "Registracija",
+        "Username": "Slapyvardis",
+        "Password": "Slaptažodis",
+        "Login": "Prisijungti",
+        "Name": "Vardas",
+        "DontHaveAccount": "Neturite paskyros? Registruokites"
+    },
+    "Form": {
+        "Name": "Vardas",
+        "Password": "Slaptažodis",
+        "Select": {
+            "Classification": {
+                "Veterinarian": "Veterinaras",
+                "Specialist": "Budintis veterinaras"
+            }
+        },
+        "Specification": "Specifikacija",
+        "Username": "Slapyvardis",
+        "Submit": "Patvirtinti",
+        "Classification": "Klasifikacija"
+    },
+    "Table": {
+        "User": "Paskyra",
+        "Show": "Rodyti",
+        "Page": "Puslapis",
+        "Create": "Sukurti",
+        "Headers": {
+            "User": {
+                "Classification": "Clasifikacija",
+                "Role": "Rolė",
+                "Username": "Slapyvardis"
+            }
+        }
+    },
+    "Page": {
+        "Exception": {
+            "NotFound": "Puslapis nerastas",
+            "Unauthorized": "Ne autorizuota"
+        }
+    },
+    "MenuDropdown": {
+        "Profile": "Profilis",
+        "Logout": "Atsijungti"
+    },
+    "Toast": {
+        "LoginSucess": "Sėkmingai prisijungta.",
+        "RegisterSucess": "Sėkmingai užsiregistruota.",
+        "Sucess": "Sekmė"
     }
-  },
-  "Page": {
-    "Exception": {
-      "NotFound": "Puslapis nerastas",
-      "Unauthorized": "Ne autorizuota"
-    }
-  },
-  "MenuDropdown": {
-    "Profile": "Profilis",
-    "Logout": "Atsijungti"
-  },
-  "Toast": {
-    "LoginSucess": "Sėkmingai prisijungta.",
-    "RegisterSucess": "Sėkmingai užsiregistruota.",
-    "Sucess": "Sekmė"
-  }
 }
