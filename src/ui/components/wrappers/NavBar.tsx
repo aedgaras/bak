@@ -1,7 +1,6 @@
 import { Box, HStack, useColorModeValue } from '@chakra-ui/react';
-import { ElementChildren } from '../interfaces';
 
-export const NavBar = ({ element }: ElementChildren) => {
+export const NavBar = ({ children }: any) => {
     return (
         <Box>
             <Box p={2}>
@@ -14,7 +13,7 @@ export const NavBar = ({ element }: ElementChildren) => {
                         sm: useColorModeValue('md', 'md-dark'),
                     }}
                 >
-                    <HStack>{element}</HStack>
+                    <HStack>{children}</HStack>
                 </Box>
             </Box>
         </Box>

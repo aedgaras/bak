@@ -2,6 +2,14 @@ import { ChevronDownIcon } from '@chakra-ui/icons';
 import { Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import {
+    animalsRoutePath,
+    diagnosesResultsRoutePath,
+    diagnosesRoutePath,
+    healthRecordsRoutePath,
+    recipesRoutePath,
+    usersRoutePath,
+} from '../../../router/AppRouter';
 import { IsLoggedInElement } from '../wrappers/HelperWrappers';
 
 export const LeftSideMenu = () => {
@@ -14,13 +22,13 @@ export const LeftSideMenu = () => {
                     <Link to={'/'}>
                         <Button>{t('Navigation.Home')}</Button>
                     </Link>
-                    <Link to={'/users'}>
+                    <Link to={usersRoutePath}>
                         <Button>{t('Navigation.Users')}</Button>
                     </Link>
-                    <Link to={'/healthrecords'}>
+                    <Link to={healthRecordsRoutePath}>
                         <Button>{t('Navigation.HealthRecords')}</Button>
                     </Link>
-                    <Link to={'/animals'}>
+                    <Link to={animalsRoutePath}>
                         <Button>{t('Navigation.Animals')}</Button>
                     </Link>
                     <Menu>
@@ -28,13 +36,13 @@ export const LeftSideMenu = () => {
                             {t('Navigation.Cases')}
                         </MenuButton>
                         <MenuList>
-                            <Link to={'/diagnoses'}>
+                            <Link to={diagnosesRoutePath}>
                                 <MenuItem>{t('Navigation.Diagnoses')}</MenuItem>
                             </Link>
-                            <Link to={'/results'}>
+                            <Link to={diagnosesResultsRoutePath}>
                                 <MenuItem>{t('Navigation.Results')}</MenuItem>
                             </Link>
-                            <Link to={'/recipes'}>
+                            <Link to={recipesRoutePath}>
                                 <MenuItem>{t('Navigation.Recipes')}</MenuItem>
                             </Link>
                         </MenuList>

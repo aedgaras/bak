@@ -7,8 +7,8 @@ export const sleep = async (milliseconds: number) => {
     });
 };
 
-export const getJwtFromStorage = localStorage.getItem('token');
-export const getRefreshTokenFromStorage = localStorage.getItem('refreshJWT');
+export const getJwtFromStorage = localStorage.getItem('accessToken');
+export const getRefreshTokenFromStorage = localStorage.getItem('refreshToken');
 
 export interface TokenPayload {
     accessToken: string;
@@ -61,13 +61,3 @@ export const isRefreshTokenExpired = () => {
 
     return false;
 };
-
-export function fileToBase64(file: File) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = (error) => reject(error);
-    });
-}

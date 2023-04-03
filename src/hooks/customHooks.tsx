@@ -2,8 +2,8 @@ import { CreateToastFnReturn } from '@chakra-ui/react';
 import { AxiosError, AxiosResponse } from 'axios';
 import { TFunction } from 'i18next';
 import { authenticate } from '../services/Requests';
-import { JWT_NAME, REFRESH_TOKEN_NAME } from '../utils/constants';
-import { sleep, TokenPayload } from '../utils/utils';
+import { ACCESS_TOKEN_NAME, REFRESH_TOKEN_NAME } from '../utils/constants';
+import { TokenPayload } from '../utils/utils';
 
 export const authenticateUserHook = async (
     toast: CreateToastFnReturn,
@@ -26,9 +26,9 @@ export const authenticateUserHook = async (
                 duration: 9000,
                 isClosable: true,
             });
-            sleep(5000);
+            console.log(r.data);
 
-            localStorage.setItem(JWT_NAME, r.data.accessToken);
+            localStorage.setItem(ACCESS_TOKEN_NAME, r.data.accessToken);
             localStorage.setItem(REFRESH_TOKEN_NAME, r.data.refreshToken);
             window.location.assign('/');
         })

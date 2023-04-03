@@ -6,7 +6,11 @@ import { RegisterPage } from '../ui/pages/authentication/RegisterPage';
 import { UserCreatePage } from '../ui/pages/create/UserCreatePage';
 import { ProfilePage } from '../ui/pages/details/ProfilePage';
 import { UserDetailsPage } from '../ui/pages/details/UserDetailsPage';
+import { AnimalsPage } from '../ui/pages/lists/AnimalsPage';
+import { DiagnoseResultsPage } from '../ui/pages/lists/DiagnoseResults';
+import { DiagnosesPage } from '../ui/pages/lists/DiagnosesPage';
 import { HealthRecordsPage } from '../ui/pages/lists/HealthRecordsPage';
+import { RecipesPage } from '../ui/pages/lists/RecipesPage';
 import { UsersPage } from '../ui/pages/lists/UsersPage';
 import { UserApp } from '../ui/UserApp';
 import { Role } from '../utils/Models';
@@ -14,6 +18,10 @@ import { Role } from '../utils/Models';
 export const authRoutePath = '/auth';
 export const usersRoutePath = '/users';
 export const healthRecordsRoutePath = '/healthrecords';
+export const animalsRoutePath = '/animals';
+export const diagnosesRoutePath = '/diagnoses';
+export const diagnosesResultsRoutePath = '/diagnosesResults';
+export const recipesRoutePath = '/recipes';
 
 export const AppRouter = () => {
     return (
@@ -23,45 +31,54 @@ export const AppRouter = () => {
                 <Route
                     path={authRoutePath + '/login'}
                     element={
-                        <DisabledAfterLoginRoute element={<LoginPage />} />
+                        <DisabledAfterLoginRoute>
+                            <LoginPage />
+                        </DisabledAfterLoginRoute>
                     }
                 />
                 <Route
                     path={authRoutePath + '/register'}
                     element={
-                        <DisabledAfterLoginRoute element={<RegisterPage />} />
+                        <DisabledAfterLoginRoute>
+                            <RegisterPage />
+                        </DisabledAfterLoginRoute>
                     }
                 />
             </Route>
             <Route
                 path="profile"
-                element={<ProtectedRoute element={<ProfilePage />} />}
+                element={
+                    <ProtectedRoute>
+                        <ProfilePage />
+                    </ProtectedRoute>
+                }
             />
             {/* Users paths */}
             <Route path={usersRoutePath}>
                 <Route
                     path={usersRoutePath}
-                    element={<ProtectedRoute element={<UsersPage />} />}
+                    element={
+                        <ProtectedRoute>
+                            <UsersPage />
+                        </ProtectedRoute>
+                    }
                 />
                 <Route
                     path={usersRoutePath + '/:userId'}
-                    element={<ProtectedRoute element={<UserDetailsPage />} />}
+                    element={
+                        <ProtectedRoute>
+                            <UserDetailsPage />
+                        </ProtectedRoute>
+                    }
                 />
                 <Route
                     path={usersRoutePath + '/create'}
                     element={
-                        <ProtectedRoute
-                            element={
-                                <ProtectedRoute
-                                    element={
-                                        <RoleRoute
-                                            authorizedRoles={['Admin']}
-                                            element={<UserCreatePage />}
-                                        />
-                                    }
-                                />
-                            }
-                        />
+                        <ProtectedRoute>
+                            <RoleRoute authorizedRoles={['Admin']}>
+                                <UserCreatePage />
+                            </RoleRoute>
+                        </ProtectedRoute>
                     }
                 />
             </Route>
@@ -70,31 +87,46 @@ export const AppRouter = () => {
                 <Route
                     path={healthRecordsRoutePath}
                     element={<HealthRecordsPage />}
-                ></Route>
+                />
+            </Route>
+            <Route path={animalsRoutePath}>
+                <Route path={animalsRoutePath} element={<AnimalsPage />} />
+            </Route>
+            <Route path={diagnosesRoutePath}>
+                <Route path={diagnosesRoutePath} element={<DiagnosesPage />} />
+            </Route>
+            <Route path={diagnosesResultsRoutePath}>
+                <Route
+                    path={diagnosesResultsRoutePath}
+                    element={<DiagnoseResultsPage />}
+                />
+            </Route>
+            <Route path={recipesRoutePath}>
+                <Route path={recipesRoutePath} element={<RecipesPage />} />
             </Route>
             <Route path="*" element={<PageNotFound />} />
         </Routes>
     );
 };
 
-function ProtectedRoute({ element }: { element: JSX.Element }) {
+function ProtectedRoute({ children }: any) {
     const { state } = useUserContext();
-    return state.loggedIn === true ? element : <Unauthorized />;
+    return state.loggedIn === true ? children : <Unauthorized />;
 }
 
-function DisabledAfterLoginRoute({ element }: { element: JSX.Element }) {
+function DisabledAfterLoginRoute({ children }: any) {
     const { state } = useUserContext();
-    return state.loggedIn !== true ? element : <PageNotFound />;
+    return state.loggedIn !== true ? children : <PageNotFound />;
 }
 
 function RoleRoute({
-    element,
+    children,
     authorizedRoles,
 }: {
-    element: JSX.Element;
+    children: any;
     authorizedRoles: Role[];
 }) {
     const { state } = useUserContext();
 
-    return authorizedRoles.includes(state.role!) ? element : <Unauthorized />;
+    return authorizedRoles.includes(state.role!) ? children : <Unauthorized />;
 }
