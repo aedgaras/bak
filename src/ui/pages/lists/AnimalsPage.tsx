@@ -1,7 +1,7 @@
 import { Skeleton } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
-import { API } from '../../../services';
+import { AnimalService } from '../../../services';
 import { AnimalDto } from '../../../utils/dto';
 import { GenericTableWithSearchAndCreate } from '../../components/table/GenericTable';
 import {
@@ -18,8 +18,8 @@ export const AnimalsPage = () => {
     const { isLoading, isFetching, error, data } = useQuery({
         queryKey: ['animalsList'],
         queryFn: async () => {
-            const api = new API();
-            return await api.getAnimalsList();
+            const animalService = new AnimalService();
+            return await animalService.getAnimalsList();
         },
     });
 

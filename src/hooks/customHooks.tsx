@@ -1,7 +1,7 @@
 import { CreateToastFnReturn } from '@chakra-ui/react';
 import { AxiosError, AxiosResponse } from 'axios';
 import { TFunction } from 'i18next';
-import { API } from '../services';
+import { AuthService } from '../services';
 import { ACCESS_TOKEN_NAME, REFRESH_TOKEN_NAME } from '../utils/constants';
 import { TokenPayload } from '../utils/utils';
 
@@ -11,9 +11,9 @@ export const authenticateUserHook = async (
     payload: { username: string; password: string },
     t: TFunction<'translation', undefined, 'translation'>
 ): Promise<void> => {
-    const api = new API();
+    const authService = new AuthService();
 
-    await api
+    await authService
         .authenticate(action === 'login' ? '/login' : '/register', {
             username: payload.username,
             password: payload.password,

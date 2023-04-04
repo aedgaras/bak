@@ -15,80 +15,45 @@ import {
     TokenPayload,
 } from '../utils/utils';
 
-export const getRequest = async <T>(
-    url: string
-): Promise<AxiosResponse<T, any>> => {
-    return await axios.get<T>(API_URL + url, axiosAuthHeaders);
-};
-
-export const postRequest = async <T>(
-    url: string,
-    data: any
-): Promise<AxiosResponse<T, any>> => {
-    return await axios.post<T>(API_URL + url, data, axiosAuthHeaders);
-};
-
-export const putRequest = async <T>(
-    url: string,
-    data: any
-): Promise<AxiosResponse<T, any>> => {
-    return await axios.put<T>(API_URL + url, data, axiosAuthHeaders);
-};
-
-export const deleteRequest = async <T>(
-    url: string
-): Promise<AxiosResponse<T, any>> => {
-    return await axios.delete<T>(API_URL + url, axiosAuthHeaders);
-};
-
 export class API {
-    getUsersList = async () => {
-        const response = await getRequest<UserDto[]>(USERS_URL).then(
-            (r: AxiosResponse<UserDto[]>) => {
-                return r.data;
-            }
-        );
-        return response;
+    getRequest = async <T>(url: string): Promise<AxiosResponse<T, any>> => {
+        return await axios.get<T>(API_URL + url, axiosAuthHeaders);
     };
 
-    getAnimalsList = async () => {
-        const response = await getRequest<AnimalDto[]>(ANIMALS_URL).then(
-            (r: AxiosResponse<AnimalDto[]>) => {
-                return r.data;
-            }
-        );
-        return response;
+    postRequest = async <T>(
+        url: string,
+        data: any
+    ): Promise<AxiosResponse<T, any>> => {
+        return await axios.post<T>(API_URL + url, data, axiosAuthHeaders);
     };
 
-    getHealthRecordsList = async () => {
-        const response = await getRequest<HealthRecordDto[]>(
-            HEALTH_RECORDS_URL
-        ).then((r: AxiosResponse<HealthRecordDto[]>) => {
-            return r.data;
-        });
-        return response;
+    putRequest = async <T>(
+        url: string,
+        data: any
+    ): Promise<AxiosResponse<T, any>> => {
+        return await axios.put<T>(API_URL + url, data, axiosAuthHeaders);
     };
 
-    getUserById = async (id: string | undefined) => {
-        const repsonse = await getRequest<UserDto>(USERS_URL + `/${id}`).then(
-            (r) => {
-                return r.data;
-            }
-        );
-        return repsonse;
+    deleteRequest = async <T>(url: string): Promise<AxiosResponse<T, any>> => {
+        return await axios.delete<T>(API_URL + url, axiosAuthHeaders);
     };
+}
 
-    getUserByUsername = async (username: string | undefined) => {
-        const response = await getRequest<UserDto>(
-            USERS_URL + `/getByUsername/${username}`
-        ).then((r: AxiosResponse<UserDto>) => {
-            return r.data;
-        });
-        return response;
-    };
+class Service {
+    api: API;
+
+    constructor() {
+        this.api = new API();
+    }
+}
+
+export class AuthService extends Service {
+    constructor() {
+        super();
+    }
 
     authenticate = async (endpoint: '/login' | '/register', payload: any) => {
-        const response = await postRequest<TokenPayload>(
+        const response = await this.api.postRequest<TokenPayload>(
             AUTH_URL + endpoint,
             payload
         );
@@ -143,5 +108,75 @@ export class API {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         window.location.assign('/');
+    };
+}
+
+export class UserService extends Service {
+    /**
+     *
+     */
+    constructor() {
+        super();
+    }
+
+    getUserById = async (id: string | undefined) => {
+        const repsonse = await this.api
+            .getRequest<UserDto>(USERS_URL + `/${id}`)
+            .then((r) => {
+                return r.data;
+            });
+        return repsonse;
+    };
+
+    getUserByUsername = async (username: string | undefined) => {
+        const response = await this.api
+            .getRequest<UserDto>(USERS_URL + `/getByUsername/${username}`)
+            .then((r: AxiosResponse<UserDto>) => {
+                return r.data;
+            });
+        return response;
+    };
+    getUsersList = async () => {
+        const response = await this.api
+            .getRequest<UserDto[]>(USERS_URL)
+            .then((r: AxiosResponse<UserDto[]>) => {
+                return r.data;
+            });
+        return response;
+    };
+}
+
+export class AnimalService extends Service {
+    /**
+     *
+     */
+    constructor() {
+        super();
+    }
+    getAnimalsList = async () => {
+        const response = await this.api
+            .getRequest<AnimalDto[]>(ANIMALS_URL)
+            .then((r: AxiosResponse<AnimalDto[]>) => {
+                return r.data;
+            });
+        return response;
+    };
+}
+
+export class HealthRecordService extends Service {
+    /**
+     *
+     */
+    constructor() {
+        super();
+    }
+
+    getHealthRecordsList = async () => {
+        const response = await this.api
+            .getRequest<HealthRecordDto[]>(HEALTH_RECORDS_URL)
+            .then((r: AxiosResponse<HealthRecordDto[]>) => {
+                return r.data;
+            });
+        return response;
     };
 }
