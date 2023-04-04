@@ -16,16 +16,12 @@ export const RegisterPage = () => {
     document.title = 'Register';
 
     return (
-        <AppWrapper
-            children={
-                <FormBox
-                    upperSection={
-                        <Heading>{t('Authentication.Register')}</Heading>
-                    }
-                    innerForm={RegisterForm()}
-                />
-            }
-        />
+        <AppWrapper>
+            <FormBox
+                upperSection={<Heading>{t('Authentication.Register')}</Heading>}
+                innerForm={RegisterForm()}
+            />
+        </AppWrapper>
     );
 
     function RegisterForm() {
@@ -36,14 +32,15 @@ export const RegisterPage = () => {
                 }
                 onSubmit={async (values, actions) => {
                     actions.setSubmitting(true);
-                    await authenticateUserHook(toast, 'register', values);
+                    await authenticateUserHook(toast, 'register', values, t);
                     actions.setSubmitting(false);
                 }}
             >
                 {({ handleSubmit, errors, touched, isSubmitting }) => (
                     <form onSubmit={handleSubmit}>
                         <GenericInput
-                            fieldName={t('Form.Username')}
+                            fieldTitle={t('Form.Username')}
+                            fieldName={'username'}
                             fieldType={'text'}
                             isRequired={true}
                             errorField={errors.username}
@@ -51,7 +48,8 @@ export const RegisterPage = () => {
                             validation={validateUsername}
                         />
                         <GenericInput
-                            fieldName={t('Form.Password')}
+                            fieldTitle={t('Form.Password')}
+                            fieldName={'password'}
                             fieldType={'password'}
                             isRequired={true}
                             errorField={errors.password}
@@ -59,11 +57,12 @@ export const RegisterPage = () => {
                             validation={validatePassword}
                         />
                         <GenericInput
-                            fieldName={t('Form.Name')}
+                            fieldTitle={t('Form.Name')}
+                            fieldName={'name'}
                             fieldType={'text'}
                             isRequired={false}
-                            errorField={errors.name}
-                            touchedField={touched.name}
+                            errorField={errors.username}
+                            touchedField={touched.username}
                             validation={() => ''}
                         />
                         <SubmitButton isSubmitting={isSubmitting} />

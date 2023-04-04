@@ -12,7 +12,7 @@ export type ChildrenProps = {
         | any;
 };
 
-export const AppWrapper = ({ children }: ChildrenProps): JSX.Element => {
+export const AppWrapper = ({ children }: any): JSX.Element => {
     return (
         <Box paddingLeft={2} paddingRight={2} paddingBottom={2}>
             <motion.div

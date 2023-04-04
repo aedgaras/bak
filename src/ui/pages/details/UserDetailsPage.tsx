@@ -10,11 +10,7 @@ import { Formik } from 'formik';
 import { useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useUserContext } from '../../../context/UserContext';
-import {
-    getUserById,
-    postRequest,
-    putRequest,
-} from '../../../services/Requests';
+import { getUserById, postRequest, putRequest } from '../../../services';
 import { UserDto } from '../../../utils/dto';
 import { GenericInput, SubmitButton } from '../../components/form';
 import { validateUsername } from '../../components/form/validation/validation';

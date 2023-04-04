@@ -1,7 +1,7 @@
 import { Skeleton } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
-import { getUsersList } from '../../../services/Requests';
+import { API } from '../../../services';
 import { UserDto } from '../../../utils/dto';
 import { GenericTableWithSearchAndCreate } from '../../components/table/GenericTable';
 import {
@@ -18,7 +18,8 @@ export const UsersPage = () => {
     const { isLoading, isFetching, error, data } = useQuery({
         queryKey: ['usersList'],
         queryFn: async () => {
-            return await getUsersList();
+            const api = new API();
+            return await api.getUsersList();
         },
     });
 

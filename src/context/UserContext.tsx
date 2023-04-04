@@ -1,5 +1,7 @@
+import jwtDecode from 'jwt-decode';
 import React, { useMemo } from 'react';
-import { getCurrentUser } from '../services/Authentication';
+import { API } from '../services';
+import { ACCESS_TOKEN_NAME } from '../utils/constants';
 import { Classification, Role } from '../utils/Models';
 
 interface UserContextInterface {
@@ -43,6 +45,41 @@ export const UserContextProvider = ({ children }: any): JSX.Element => {
 };
 
 const UserContext = ctx;
+
+interface User {
+    sub: string;
+    role: Role;
+    classifaction: Classification;
+}
+
+export function getCurrentUser(): User | null {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN_NAME);
+    const refreshToken = localStorage.getItem(ACCESS_TOKEN_NAME);
+
+    if (!accessToken || !refreshToken) {
+        return null;
+    }
+
+    const decodedAccessToken = jwtDecode<{ iat: number; exp: number }>(
+        accessToken
+    );
+    const decodedRefreshToken = jwtDecode<{ iat: number; exp: number }>(
+        refreshToken
+    );
+
+    if (
+        decodedAccessToken.iat > decodedAccessToken.exp ||
+        decodedRefreshToken.iat > decodedRefreshToken.exp
+    ) {
+        const api = new API();
+        api.logout();
+        return null;
+    }
+
+    const decodedUserJwt = jwtDecode<User>(accessToken);
+
+    return decodedUserJwt;
+}
 
 export function userContextValues(): UserContextInterface {
     const currentUser = getCurrentUser();

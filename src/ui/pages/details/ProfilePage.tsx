@@ -11,7 +11,7 @@ import { Formik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useUserContext } from '../../../context/UserContext';
-import { getUserByUsername, putRequest } from '../../../services/Requests';
+import { getUserByUsername, putRequest } from '../../../services';
 import { UserDto } from '../../../utils/dto';
 import { GenericInput, SubmitButton } from '../../components/form';
 import { validateUsername } from '../../components/form/validation/validation';

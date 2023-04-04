@@ -1,7 +1,7 @@
 import { Skeleton } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
-import { getHealthRecordsList } from '../../../services/Requests';
+import { API } from '../../../services';
 import { HealthRecordDto } from '../../../utils/dto';
 import { GenericTableWithSearchAndCreate } from '../../components/table/GenericTable';
 import {
@@ -18,7 +18,8 @@ export const HealthRecordsPage = () => {
     const { isLoading, isFetching, error, data } = useQuery({
         queryKey: ['healthRecordList'],
         queryFn: async () => {
-            return await getHealthRecordsList();
+            const api = new API();
+            return await api.getHealthRecordsList();
         },
     });
 
