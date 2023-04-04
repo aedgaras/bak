@@ -1,12 +1,19 @@
 import axios, { AxiosResponse } from 'axios';
 import {
+    ANIMALS_URL,
     API_URL,
     AUTH_URL,
     axiosAuthHeaders,
+    HEALTH_RECORDS_URL,
     ORGANIZATIONS_URL,
     USERS_URL,
 } from '../utils/constants';
-import { OrganizationDto, UserModel } from '../utils/dto';
+import {
+    AnimalDto,
+    HealthRecordDto,
+    OrganizationDto,
+    UserDto,
+} from '../utils/dto';
 import { TokenPayload } from '../utils/utils';
 
 interface ListResponse<T> {
@@ -54,16 +61,34 @@ export const getOrganizationList = async () => {
 };
 
 export const getUsersList = async () => {
-    const response = await getRequest<UserModel[]>(USERS_URL).then(
-        (r: AxiosResponse<UserModel[]>) => {
+    const response = await getRequest<UserDto[]>(USERS_URL).then(
+        (r: AxiosResponse<UserDto[]>) => {
             return r.data;
         }
     );
     return response;
 };
 
+export const getAnimalsList = async () => {
+    const response = await getRequest<AnimalDto[]>(ANIMALS_URL).then(
+        (r: AxiosResponse<AnimalDto[]>) => {
+            return r.data;
+        }
+    );
+    return response;
+};
+
+export const getHealthRecordsList = async () => {
+    const response = await getRequest<HealthRecordDto[]>(
+        HEALTH_RECORDS_URL
+    ).then((r: AxiosResponse<HealthRecordDto[]>) => {
+        return r.data;
+    });
+    return response;
+};
+
 export const getUserById = async (id: string | undefined) => {
-    const repsonse = await getRequest<UserModel>(USERS_URL + `/${id}`).then(
+    const repsonse = await getRequest<UserDto>(USERS_URL + `/${id}`).then(
         (r) => {
             return r.data;
         }
@@ -72,27 +97,9 @@ export const getUserById = async (id: string | undefined) => {
 };
 
 export const getUserByUsername = async (username: string | undefined) => {
-    const response = await getRequest<UserModel>(
+    const response = await getRequest<UserDto>(
         USERS_URL + `/getByUsername/${username}`
-    ).then((r: AxiosResponse<UserModel>) => {
-        return r.data;
-    });
-    return response;
-};
-
-export const getOrganizationByID = async (orgId: string | undefined) => {
-    const response = await getRequest<OrganizationDto>(
-        ORGANIZATIONS_URL + `/${orgId}`
-    ).then((r) => {
-        return r.data;
-    });
-    return response;
-};
-
-export const getOrganizationMembers = async (orgId: string | undefined) => {
-    const response = await getRequest<ListResponse<UserModel[]>>(
-        ORGANIZATIONS_URL + `/members/${orgId}`
-    ).then((r) => {
+    ).then((r: AxiosResponse<UserDto>) => {
         return r.data;
     });
     return response;

@@ -4,6 +4,10 @@ import { getJwtFromStorage } from './utils';
 export const API_URL = 'http://localhost:5002';
 export const ORGANIZATIONS_URL = '/organizations';
 export const USERS_URL = '/Users';
+export const ANIMALS_URL = '/Animals';
+export const CASES_URL = '/Cases';
+export const HEALTH_RECORDS_URL = '/HealthRecords';
+export const VIEW_HISTORY_URL = '/ViewHistory';
 export const AUTH_URL = '/Auth';
 
 export const ACCESS_TOKEN_NAME = 'accessToken';

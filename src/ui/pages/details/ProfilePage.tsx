@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useUserContext } from '../../../context/UserContext';
 import { getUserByUsername, putRequest } from '../../../services/Requests';
-import { UserModel } from '../../../utils/dto';
+import { UserDto } from '../../../utils/dto';
 import { GenericInput, SubmitButton } from '../../components/form';
 import { validateUsername } from '../../components/form/validation/validation';
 import { AppWrapper } from '../../components/wrappers/AppWrapper';
@@ -64,7 +64,7 @@ const ProfileSection = ({
     user,
 }: {
     isLoaded: boolean;
-    user: UserModel | undefined;
+    user: UserDto | undefined;
 }) => {
     const { state } = useUserContext();
     const [edit, setEdit] = useState<boolean>(false);
@@ -77,7 +77,7 @@ const ProfileSection = ({
                     <VStack>
                         <Avatar name={state.name} src={''} size={'2xl'} />
                         <Formik
-                            initialValues={user ?? ({} as UserModel)}
+                            initialValues={user ?? ({} as UserDto)}
                             onSubmit={async (values, actions) => {
                                 actions.setSubmitting(true);
                                 await putRequest('/users/' + user?.id, {

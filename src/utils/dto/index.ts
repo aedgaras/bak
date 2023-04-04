@@ -16,10 +16,26 @@ export type UserRegisterDto = {
     role?: Role;
 };
 
-export interface UserModel {
+export interface UserDto {
     id: string;
     username: string;
     password: string;
     role: Role;
     classification: Classification;
+}
+
+export interface AnimalDto {
+    id: string;
+    name: string;
+    type: 'Dog' | 'Cat';
+}
+
+export interface HealthRecordDto {
+    id: string;
+    heartRate: string;
+}
+
+export interface CaseDto {
+    id: string;
+    status: string;
 }

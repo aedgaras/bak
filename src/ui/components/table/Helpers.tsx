@@ -1,53 +1,14 @@
 import { createColumnHelper } from '@tanstack/react-table';
+import { Dispatch, SetStateAction } from 'react';
 import { useTranslation } from 'react-i18next';
-import { OrganizationDto, UserModel } from '../../../utils/dto';
-
-export function filterOrganizationTable(
-    data: OrganizationDto[],
-    query: string,
-    filteredEntries: OrganizationDto[],
-    setDataToDisplay: React.Dispatch<React.SetStateAction<OrganizationDto[]>>
-): void {
-    if (query.length > 0) {
-        data.forEach((dataEntry) => {
-            if (
-                dataEntry.name
-                    .toString()
-                    .toLowerCase()
-                    .includes(query.toLowerCase())
-            ) {
-                filteredEntries.push(dataEntry);
-            }
-        });
-
-        setDataToDisplay(filteredEntries);
-    } else {
-        setDataToDisplay(data);
-    }
-}
-
-export const organizationColumnHelper = createColumnHelper<OrganizationDto>();
-export const organizationTableColumns = () => {
-    const { t } = useTranslation();
-
-    return [
-        organizationColumnHelper.accessor('id', {
-            cell: (info: { getValue: () => any }) => info.getValue(),
-            header: 'Id',
-        }),
-        organizationColumnHelper.accessor('name', {
-            cell: (info: { getValue: () => any }) => info.getValue(),
-            header: t('Table.Headers.Organization.Name').toString(),
-        }),
-    ];
-};
+import { AnimalDto, HealthRecordDto, UserDto } from '../../../utils/dto';
 
 export function filterUserTable(
-    data: UserModel[],
+    data: UserDto[],
     query: string,
-    setDataToDisplay: React.Dispatch<React.SetStateAction<UserModel[]>>
+    setDataToDisplay: Dispatch<SetStateAction<UserDto[]>>
 ): void {
-    const filteredEntries: UserModel[] = [];
+    const filteredEntries: UserDto[] = [];
     if (query.trim().length > 0) {
         data.forEach((dataEntry) => {
             if (
@@ -71,7 +32,58 @@ export function filterUserTable(
     }
 }
 
-export const userColumnHelper = createColumnHelper<UserModel>();
+export function filterAnimalsTable(
+    data: AnimalDto[],
+    query: string,
+    setDataToDisplay: Dispatch<SetStateAction<AnimalDto[]>>
+): void {
+    const filteredEntries: AnimalDto[] = [];
+    if (query.trim().length > 0) {
+        data.forEach((dataEntry) => {
+            if (
+                dataEntry.id
+                    .toString()
+                    .toLowerCase()
+                    .includes(query.toLowerCase()) ||
+                dataEntry.name.toLowerCase().includes(query.toLowerCase()) ||
+                dataEntry.type.toString().toLowerCase().includes(query)
+            ) {
+                filteredEntries.push(dataEntry);
+            }
+        });
+
+        setDataToDisplay(filteredEntries);
+    } else {
+        setDataToDisplay(data);
+    }
+}
+
+export function filterHeartRatesTable(
+    data: HealthRecordDto[],
+    query: string,
+    setDataToDisplay: Dispatch<SetStateAction<HealthRecordDto[]>>
+): void {
+    const filteredEntries: HealthRecordDto[] = [];
+    if (query.trim().length > 0) {
+        data.forEach((dataEntry) => {
+            if (
+                dataEntry.id
+                    .toString()
+                    .toLowerCase()
+                    .includes(query.toLowerCase()) ||
+                dataEntry.heartRate.toLowerCase().includes(query.toLowerCase())
+            ) {
+                filteredEntries.push(dataEntry);
+            }
+        });
+
+        setDataToDisplay(filteredEntries);
+    } else {
+        setDataToDisplay(data);
+    }
+}
+
+const userColumnHelper = createColumnHelper<UserDto>();
 export const userTableColumns = () => {
     const { t } = useTranslation();
 
@@ -91,6 +103,42 @@ export const userTableColumns = () => {
         userColumnHelper.accessor('classification', {
             cell: (info) => info.getValue(),
             header: t('Table.Headers.User.Classification').toString(),
+        }),
+    ];
+};
+
+const animalColumnHelper = createColumnHelper<AnimalDto>();
+export const animalTableColumns = () => {
+    const { t } = useTranslation();
+
+    return [
+        animalColumnHelper.accessor('id', {
+            cell: (info) => info.getValue(),
+            header: 'Id',
+        }),
+        animalColumnHelper.accessor('name', {
+            cell: (info) => info.getValue(),
+            header: t('Table.Headers.Animal.Name').toString(),
+        }),
+        animalColumnHelper.accessor('type', {
+            cell: (info) => info.getValue(),
+            header: t('Table.Headers.Animal.Type').toString(),
+        }),
+    ];
+};
+
+const healthRecordColumnHelper = createColumnHelper<HealthRecordDto>();
+export const healthRecordTableColumns = () => {
+    const { t } = useTranslation();
+
+    return [
+        healthRecordColumnHelper.accessor('id', {
+            cell: (info) => info.getValue(),
+            header: 'Id',
+        }),
+        healthRecordColumnHelper.accessor('heartRate', {
+            cell: (info) => info.getValue(),
+            header: t('Table.Headers.HeartRate.HeartRate').toString(),
         }),
     ];
 };

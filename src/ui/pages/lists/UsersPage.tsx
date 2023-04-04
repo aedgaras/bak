@@ -2,7 +2,7 @@ import { Skeleton } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { getUsersList } from '../../../services/Requests';
-import { UserModel } from '../../../utils/dto';
+import { UserDto } from '../../../utils/dto';
 import { GenericTableWithSearchAndCreate } from '../../components/table/GenericTable';
 import {
     filterUserTable,
@@ -11,7 +11,7 @@ import {
 import { AppWrapper } from '../../components/wrappers/AppWrapper';
 
 export const UsersPage = () => {
-    const [usersToDisplay, setUsersToDisplay] = useState<UserModel[]>([]);
+    const [usersToDisplay, setUsersToDisplay] = useState<UserDto[]>([]);
     const [queryFilter, setQueryFilter] = useState<string>('');
     const [refreshFlag, setRefreshFlag] = useState<unknown>({});
 
@@ -31,12 +31,11 @@ export const UsersPage = () => {
     return (
         <AppWrapper>
             <Skeleton isLoaded={!isLoading}>
-                <GenericTableWithSearchAndCreate<UserModel>
+                <GenericTableWithSearchAndCreate<UserDto>
                     isLoaded={!isLoading}
                     filter={setQueryFilter}
                     data={usersToDisplay}
                     columns={userTableColumns()}
-                    entity={'user'}
                     refreshData={setRefreshFlag}
                 />
             </Skeleton>

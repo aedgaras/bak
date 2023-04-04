@@ -9,8 +9,6 @@ export interface ClosableObject {
 }
 
 export interface DeleteDialogProps extends ClosableObject {
-    entityToDeleteId: string;
-    entityName: 'user' | 'org';
     refreshData: Dispatch<unknown>;
 }
 

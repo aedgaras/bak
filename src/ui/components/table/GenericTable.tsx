@@ -1,5 +1,4 @@
 import {
-    AddIcon,
     ArrowLeftIcon,
     ArrowRightIcon,
     ChevronLeftIcon,
@@ -43,7 +42,6 @@ import React, { Dispatch } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { useUserContext } from '../../../context/UserContext';
-import { usersRoutePath } from '../../../router/AppRouter';
 import { DeleteDialog } from '../dialogs';
 import { BoxWithShadowMax } from '../wrappers/BoxWithShadow';
 
@@ -58,8 +56,8 @@ export const GenericTableWithSearchAndCreate = <T extends object>({
     filter,
     data,
     columns,
-    entity,
     refreshData,
+    createButton,
 }: GenericTableWithSearchAndCreateProps<T>) => {
     const { state } = useUserContext();
     const { t } = useTranslation();
@@ -74,22 +72,7 @@ export const GenericTableWithSearchAndCreate = <T extends object>({
                         onChange={(e) => filter(e.target.value)}
                     />
                     <Spacer />
-                    {state.role === 'Admin' ? (
-                        <Link
-                            to={
-                                entity === 'user'
-                                    ? usersRoutePath + '/create'
-                                    : '/' + '/create'
-                            }
-                        >
-                            <Button rightIcon={<AddIcon />} colorScheme="teal">
-                                {t('Table.Create') + ' '}
-                                {entity === 'user'
-                                    ? t('Table.User')
-                                    : t('Table.Organization')}
-                            </Button>
-                        </Link>
-                    ) : null}
+                    {state.role === 'Admin' ? createButton : null}
                 </HStack>
 
                 <Box padding={2}>
@@ -97,7 +80,6 @@ export const GenericTableWithSearchAndCreate = <T extends object>({
                         <GenericTable
                             data={data}
                             columns={columns}
-                            entity={entity}
                             refreshData={refreshData}
                         />
                     </Box>
@@ -110,14 +92,13 @@ export const GenericTableWithSearchAndCreate = <T extends object>({
 export type DataTableProps<Data extends object> = {
     data: Data[];
     columns: ColumnDef<Data, any>[];
-    entity: 'user' | 'org';
     refreshData: Dispatch<unknown>;
+    createButton?: JSX.Element;
 };
 
 export function GenericTable<Data extends object>({
     data,
     columns,
-    entity,
     refreshData,
 }: DataTableProps<Data>) {
     // Use the state and functions returned from useTable to build your UI
@@ -244,8 +225,6 @@ export function GenericTable<Data extends object>({
                     isOpen={isOpen}
                     cancelRef={cancelRef}
                     onClose={onClose}
-                    entityToDeleteId={toDeleteId[0]}
-                    entityName={entity}
                     refreshData={refreshData}
                 />
                 <Tfoot></Tfoot>

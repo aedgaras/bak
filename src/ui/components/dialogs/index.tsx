@@ -8,9 +8,7 @@ import {
     Button,
     Text,
 } from '@chakra-ui/react';
-import axios from 'axios';
 import { logout } from '../../../services/Authentication';
-import { API_URL, axiosAuthHeaders } from '../../../utils/constants';
 import { ClosableObject, DeleteDialogProps } from '../interfaces';
 
 const BaseDialog = ({
@@ -90,8 +88,6 @@ export const DeleteDialog = ({
     isOpen,
     onClose,
     cancelRef,
-    entityName,
-    entityToDeleteId,
     refreshData,
 }: DeleteDialogProps) =>
     BaseDialog({
@@ -110,18 +106,6 @@ export const DeleteDialog = ({
                 <Button
                     colorScheme="red"
                     onClick={async (e) => {
-                        if (entityName === 'user') {
-                            await axios.delete(
-                                API_URL + '/users/' + entityToDeleteId,
-                                axiosAuthHeaders
-                            );
-                        }
-                        if (entityName === 'org') {
-                            await axios.delete(
-                                API_URL + '/organizations/' + entityToDeleteId,
-                                axiosAuthHeaders
-                            );
-                        }
                         refreshData(true);
                         onClose();
                     }}

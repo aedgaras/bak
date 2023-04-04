@@ -15,7 +15,7 @@ import {
     postRequest,
     putRequest,
 } from '../../../services/Requests';
-import { UserModel } from '../../../utils/dto';
+import { UserDto } from '../../../utils/dto';
 import { GenericInput, SubmitButton } from '../../components/form';
 import { validateUsername } from '../../components/form/validation/validation';
 import { AppWrapper } from '../../components/wrappers/AppWrapper';
@@ -55,7 +55,7 @@ export const UserDetailsPage = () => {
                             />
                         ) : null}
                         <Formik
-                            initialValues={data ?? ({} as UserModel)}
+                            initialValues={data ?? ({} as UserDto)}
                             onSubmit={async (values, actions) => {
                                 actions.setSubmitting(true);
                                 if (!isNotCreating) {
