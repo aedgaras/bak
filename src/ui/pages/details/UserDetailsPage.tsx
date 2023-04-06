@@ -10,7 +10,7 @@ import { Formik } from 'formik';
 import { useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useUserContext } from '../../../context/UserContext';
-import { getUserById, postRequest, putRequest } from '../../../services';
+import { UserService } from '../../../services';
 import { UserDto } from '../../../utils/dto';
 import { GenericInput, SubmitButton } from '../../components/form';
 import { validateUsername } from '../../components/form/validation/validation';
@@ -22,11 +22,12 @@ export const UserDetailsPage = () => {
     const params = useParams();
     const isNotCreating = !!params.userId;
     const navigate = useNavigate();
+    const userService = new UserService();
 
     const { isLoading, data, error, isFetching } = useQuery({
         queryKey: [`user${params.userId}`],
         queryFn: async () => {
-            return await getUserById(params.userId);
+            return await userService.getUserById(params.userId);
         },
     });
 
@@ -55,20 +56,24 @@ export const UserDetailsPage = () => {
                             onSubmit={async (values, actions) => {
                                 actions.setSubmitting(true);
                                 if (!isNotCreating) {
-                                    await postRequest('/users/', {
-                                        username: values.username,
-                                        password: values.password,
-                                    }).then((r) => {
-                                        actions.setSubmitting(false);
-                                        navigate(-1);
-                                    });
+                                    await userService.api
+                                        .postRequest('/users/', {
+                                            username: values.username,
+                                            password: values.password,
+                                        })
+                                        .then((r) => {
+                                            actions.setSubmitting(false);
+                                            navigate(-1);
+                                        });
                                 } else {
-                                    await putRequest('/users/' + values.id, {
-                                        username: values.username,
-                                    }).then((r) => {
-                                        actions.setSubmitting(false);
-                                        navigate(-1);
-                                    });
+                                    await userService.api
+                                        .putRequest('/users/' + values.id, {
+                                            username: values.username,
+                                        })
+                                        .then((r) => {
+                                            actions.setSubmitting(false);
+                                            navigate(-1);
+                                        });
                                 }
                             }}
                         >

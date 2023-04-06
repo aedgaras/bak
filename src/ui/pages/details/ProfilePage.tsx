@@ -11,7 +11,7 @@ import { Formik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useUserContext } from '../../../context/UserContext';
-import { getUserByUsername, putRequest } from '../../../services';
+import { UserService } from '../../../services';
 import { UserDto } from '../../../utils/dto';
 import { GenericInput, SubmitButton } from '../../components/form';
 import { validateUsername } from '../../components/form/validation/validation';
@@ -23,7 +23,9 @@ export const ProfilePage = () => {
     const { isLoading, data } = useQuery({
         queryKey: ['user', state.name],
         queryFn: async () => {
-            return await getUserByUsername(state.name);
+            const userService = new UserService();
+
+            return await userService.getUserByUsername(state.name);
         },
     });
 
@@ -80,11 +82,15 @@ const ProfileSection = ({
                             initialValues={user ?? ({} as UserDto)}
                             onSubmit={async (values, actions) => {
                                 actions.setSubmitting(true);
-                                await putRequest('/users/' + user?.id, {
-                                    username: values.username,
-                                }).then((r) => {
-                                    actions.setSubmitting(false);
-                                });
+                                const services = new UserService();
+
+                                await services.api
+                                    .putRequest('/users/' + user?.id, {
+                                        username: values.username,
+                                    })
+                                    .then((r) => {
+                                        actions.setSubmitting(false);
+                                    });
                             }}
                         >
                             {({

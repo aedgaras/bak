@@ -15,7 +15,7 @@ import {
     TokenPayload,
 } from '../utils/utils';
 
-export class API {
+class API {
     getRequest = async <T>(url: string): Promise<AxiosResponse<T, any>> => {
         return await axios.get<T>(API_URL + url, axiosAuthHeaders);
     };
@@ -153,6 +153,7 @@ export class AnimalService extends Service {
     constructor() {
         super();
     }
+
     getAnimalsList = async () => {
         const response = await this.api
             .getRequest<AnimalDto[]>(ANIMALS_URL)

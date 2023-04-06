@@ -1,6 +1,6 @@
 import jwtDecode from 'jwt-decode';
 import React, { useMemo } from 'react';
-import { API } from '../services';
+import { AuthService } from '../services';
 import { ACCESS_TOKEN_NAME } from '../utils/constants';
 import { Classification, Role } from '../utils/Models';
 
@@ -71,8 +71,8 @@ export function getCurrentUser(): User | null {
         decodedAccessToken.iat > decodedAccessToken.exp ||
         decodedRefreshToken.iat > decodedRefreshToken.exp
     ) {
-        const api = new API();
-        api.logout();
+        const authService = new AuthService();
+        authService.logout();
         return null;
     }
 

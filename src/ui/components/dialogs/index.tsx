@@ -8,7 +8,7 @@ import {
     Button,
     Text,
 } from '@chakra-ui/react';
-import { logout } from '../../../services/Authentication';
+import { AuthService } from '../../../services';
 import { ClosableObject, DeleteDialogProps } from '../interfaces';
 
 const BaseDialog = ({
@@ -142,7 +142,8 @@ export const LogoutDialog = ({
                 <Button
                     colorScheme="red"
                     onClick={() => {
-                        logout();
+                        const authService = new AuthService();
+                        authService.logout();
                         onClose();
                     }}
                     ml={3}
