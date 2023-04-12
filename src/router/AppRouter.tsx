@@ -6,13 +6,13 @@ import { RegisterPage } from '../ui/pages/authentication/RegisterPage';
 import { UserCreatePage } from '../ui/pages/create/UserCreatePage';
 import { ProfilePage } from '../ui/pages/details/ProfilePage';
 import { UserDetailsPage } from '../ui/pages/details/UserDetailsPage';
+import { HomePage } from '../ui/pages/HomePage';
 import { AnimalsPage } from '../ui/pages/lists/AnimalsPage';
 import { DiagnoseResultsPage } from '../ui/pages/lists/DiagnoseResults';
 import { DiagnosesPage } from '../ui/pages/lists/DiagnosesPage';
 import { HealthRecordsPage } from '../ui/pages/lists/HealthRecordsPage';
 import { RecipesPage } from '../ui/pages/lists/RecipesPage';
 import { UsersPage } from '../ui/pages/lists/UsersPage';
-import { UserApp } from '../ui/UserApp';
 import { Role } from '../utils/Models';
 
 export const authRoutePath = '/auth';
@@ -24,9 +24,23 @@ export const diagnosesResultsRoutePath = '/diagnosesResults';
 export const recipesRoutePath = '/recipes';
 
 export const AppRouter = () => {
+    const { state } = useUserContext();
+    console.log(state.loggedIn);
+
     return (
         <Routes>
-            <Route index element={<UserApp />} />
+            <Route
+                index
+                element={
+                    state.loggedIn === false || state.loggedIn === undefined ? (
+                        <DisabledAfterLoginRoute>
+                            <LoginPage />
+                        </DisabledAfterLoginRoute>
+                    ) : (
+                        <HomePage />
+                    )
+                }
+            />
             <Route path={authRoutePath}>
                 <Route
                     path={authRoutePath + '/login'}
@@ -45,6 +59,7 @@ export const AppRouter = () => {
                     }
                 />
             </Route>
+            <></>
             <Route
                 path="profile"
                 element={

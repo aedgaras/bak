@@ -68,8 +68,7 @@ export function getCurrentUser(): User | null {
     );
 
     if (
-        decodedAccessToken.iat > decodedAccessToken.exp ||
-        decodedRefreshToken.iat > decodedRefreshToken.exp
+        decodedAccessToken.iat > decodedAccessToken.exp
     ) {
         const authService = new AuthService();
         authService.logout();
