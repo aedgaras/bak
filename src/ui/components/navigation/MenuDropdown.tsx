@@ -1,9 +1,9 @@
 import { HamburgerIcon } from '@chakra-ui/icons';
 import {
+    Box,
     IconButton,
     Menu,
     MenuButton,
-    MenuDivider,
     MenuItem,
     MenuList,
     useColorModeValue,
@@ -38,40 +38,40 @@ export const MenuDropdown = ({
                     sm: useColorModeValue('md', 'md-dark'),
                 }}
             >
-                <IsNotLoggedInElement
-                    element={
-                        <>
-                            <Link to={'auth/login'}>
-                                <MenuItem>{t('Authentication.Login')}</MenuItem>
-                            </Link>
-                            <Link to={'auth/register'}>
-                                <MenuItem>
-                                    {t('Authentication.Register')}
+                <Box>
+                    <IsNotLoggedInElement
+                        element={
+                            <>
+                                <Link to={'auth/login'}>
+                                    <MenuItem>
+                                        {t('Authentication.Login')}
+                                    </MenuItem>
+                                </Link>
+                                <Link to={'auth/register'}>
+                                    <MenuItem>
+                                        {t('Authentication.Register')}
+                                    </MenuItem>
+                                </Link>
+                            </>
+                        }
+                    />
+                    <IsLoggedInElement
+                        element={
+                            <>
+                                <MenuItem onClick={onOpen}>
+                                    <>
+                                        {t('MenuDropdown.Logout')}
+                                        <LogoutDialog
+                                            isOpen={isOpen}
+                                            cancelRef={cancelRef}
+                                            onClose={onClose}
+                                        />
+                                    </>
                                 </MenuItem>
-                            </Link>
-                        </>
-                    }
-                />
-                <IsLoggedInElement
-                    element={
-                        <>
-                            <Link to={'/profile'}>
-                                <MenuItem>{t('MenuDropdown.Profile')}</MenuItem>
-                            </Link>
-                            <MenuDivider />
-                            <MenuItem onClick={onOpen}>
-                                <>
-                                    {t('MenuDropdown.Logout')}
-                                    <LogoutDialog
-                                        isOpen={isOpen}
-                                        cancelRef={cancelRef}
-                                        onClose={onClose}
-                                    />
-                                </>
-                            </MenuItem>
-                        </>
-                    }
-                />
+                            </>
+                        }
+                    />
+                </Box>
             </MenuList>
         </Menu>
     );

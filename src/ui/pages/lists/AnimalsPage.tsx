@@ -1,6 +1,7 @@
-import { Skeleton } from '@chakra-ui/react';
+import { Button, Skeleton } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { AnimalService } from '../../../services';
 import { AnimalDto } from '../../../utils/dto';
 import { GenericTableWithSearchAndCreate } from '../../components/table/GenericTable';
@@ -38,6 +39,11 @@ export const AnimalsPage = () => {
                     data={animals}
                     columns={animalTableColumns()}
                     refreshData={setRefreshFlag}
+                    createButton={
+                        <Link to="create">
+                            <Button color="teal">Create Animal</Button>
+                        </Link>
+                    }
                 />
             </Skeleton>
         </AppWrapper>

@@ -1,6 +1,7 @@
-import { Skeleton } from '@chakra-ui/react';
+import { Button, Skeleton } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { UserService } from '../../../services';
 import { UserDto } from '../../../utils/dto';
 import { GenericTableWithSearchAndCreate } from '../../components/table/GenericTable';
@@ -38,7 +39,12 @@ export const UsersPage = () => {
                     data={usersToDisplay}
                     columns={userTableColumns()}
                     refreshData={setRefreshFlag}
-                />
+                    createButton={
+                        <Link to="create">
+                            <Button color="teal">Create User</Button>
+                        </Link>
+                    }
+                ></GenericTableWithSearchAndCreate>
             </Skeleton>
         </AppWrapper>
     );

@@ -43,7 +43,7 @@ export const HomePage = () => {
                 >
                     {t('Page.HomePage.Title')}
                 </Heading>
-                <SimpleGrid columns={2} gap={4}>
+                <SimpleGrid columns={[1, null, null, 2]} gap={4}>
                     <HealthRecordTable />
                     <DiagnosesTable />
                     <MedicineRecipesTable />

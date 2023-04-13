@@ -1,10 +1,18 @@
-import { Heading, useToast } from '@chakra-ui/react';
+import {
+    FormControl,
+    FormLabel,
+    Heading,
+    Select,
+    useToast,
+    VStack,
+} from '@chakra-ui/react';
 import { Formik } from 'formik';
+import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
 import { useUserContext } from '../../../context/UserContext';
 import { UserRegisterDto } from '../../../utils/dto';
-import { Classification } from '../../../utils/Models';
+import { Classification, Role } from '../../../utils/Models';
 import {
-    FormBox,
     GenericInput,
     GenericSelect,
     SubmitButton,
@@ -14,20 +22,26 @@ import {
     validateUsername,
 } from '../../components/form/validation/validation';
 import { AppWrapper } from '../../components/wrappers/AppWrapper';
+import { BoxWithShadow } from '../../components/wrappers/BoxWithShadow';
 import { DataDisplay } from '../../components/wrappers/DataDisplay';
 
 export const UserCreatePage = () => {
     const toast = useToast();
+    const { t } = useTranslation();
 
     return (
         <AppWrapper>
             <DataDisplay
                 isLoaded={true}
                 element={
-                    <FormBox
-                        upperSection={<Heading>User Creation</Heading>}
-                        innerForm={<UserCreationForm />}
-                    />
+                    <BoxWithShadow>
+                        <VStack>
+                            <Heading size={'lg'} sx={{ p: 2 }}>
+                                {t('Form.UserCreate')}
+                            </Heading>
+                            <UserCreationForm />
+                        </VStack>
+                    </BoxWithShadow>
                 }
             />
         </AppWrapper>
@@ -36,7 +50,8 @@ export const UserCreatePage = () => {
 
 const UserCreationForm = () => {
     const { state } = useUserContext();
-    const specification: Classification[] = ['Veterinarian', 'Specialist'];
+    const classification: Classification[] = ['Veterinarian', 'Specialist'];
+    const specification: Role[] = ['Admin', 'User'];
 
     return (
         <Formik
@@ -65,10 +80,38 @@ const UserCreationForm = () => {
                         touchedField={touched.password}
                         validation={validatePassword}
                     />
+                    <GenericInput
+                        fieldTitle="Form.Email"
+                        fieldName={'Email'}
+                        fieldType={'email'}
+                        isRequired={true}
+                        errorField={errors.password}
+                        touchedField={touched.password}
+                        validation={validatePassword}
+                    />
+                    <GenericInput
+                        fieldTitle="Form.PhoneNumber"
+                        fieldName={'Phonenumber'}
+                        fieldType={'string'}
+                        isRequired={true}
+                        errorField={errors.password}
+                        touchedField={touched.password}
+                        validation={validatePassword}
+                    />
                     <GenericSelect
                         fieldTitle="Form.Classification"
-                        keys={specification}
+                        keys={classification}
                     />
+                    <FormControl p={2}>
+                        <FormLabel>{t(`Form.Specification`)}</FormLabel>
+                        <Select>
+                            {specification.map((key) => {
+                                return (
+                                    <option value={key}>{t(`${key}`)}</option>
+                                );
+                            })}
+                        </Select>
+                    </FormControl>
                     <SubmitButton isSubmitting={isSubmitting} />
                 </form>
             )}

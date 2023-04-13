@@ -3,12 +3,17 @@ import { useUserContext } from '../context/UserContext';
 import { PageNotFound, Unauthorized } from '../ui/components/errors';
 import { LoginPage } from '../ui/pages/authentication/LoginPage';
 import { RegisterPage } from '../ui/pages/authentication/RegisterPage';
+import { AnimalCreatePage } from '../ui/pages/create/AnimalCreatePage';
+import { CaseCreatePage } from '../ui/pages/create/CaseCreatePage';
+import { DiagnosisCreatePage } from '../ui/pages/create/DiagnosisCreatePage';
+import { DiagnosisResultsCreatePage } from '../ui/pages/create/DiagnosisResultCreatePage';
+import { RecipeCreatePage } from '../ui/pages/create/RecipeCreatePage';
 import { UserCreatePage } from '../ui/pages/create/UserCreatePage';
 import { ProfilePage } from '../ui/pages/details/ProfilePage';
 import { UserDetailsPage } from '../ui/pages/details/UserDetailsPage';
 import { HomePage } from '../ui/pages/HomePage';
 import { AnimalsPage } from '../ui/pages/lists/AnimalsPage';
-import { DiagnoseResultsPage } from '../ui/pages/lists/DiagnoseResults';
+import { DiagnosesResultsPage } from '../ui/pages/lists/DiagnoseResults';
 import { DiagnosesPage } from '../ui/pages/lists/DiagnosesPage';
 import { HealthRecordsPage } from '../ui/pages/lists/HealthRecordsPage';
 import { RecipesPage } from '../ui/pages/lists/RecipesPage';
@@ -103,21 +108,41 @@ export const AppRouter = () => {
                     path={healthRecordsRoutePath}
                     element={<HealthRecordsPage />}
                 />
+                <Route
+                    path={healthRecordsRoutePath + '/create'}
+                    element={<CaseCreatePage />}
+                />
             </Route>
             <Route path={animalsRoutePath}>
                 <Route path={animalsRoutePath} element={<AnimalsPage />} />
+                <Route
+                    path={animalsRoutePath + '/create'}
+                    element={<AnimalCreatePage />}
+                />
             </Route>
             <Route path={diagnosesRoutePath}>
                 <Route path={diagnosesRoutePath} element={<DiagnosesPage />} />
+                <Route
+                    path={diagnosesRoutePath + '/create'}
+                    element={<DiagnosisCreatePage />}
+                />
             </Route>
             <Route path={diagnosesResultsRoutePath}>
                 <Route
                     path={diagnosesResultsRoutePath}
-                    element={<DiagnoseResultsPage />}
+                    element={<DiagnosesResultsPage />}
+                />
+                <Route
+                    path={diagnosesResultsRoutePath + '/create'}
+                    element={<DiagnosisResultsCreatePage />}
                 />
             </Route>
             <Route path={recipesRoutePath}>
                 <Route path={recipesRoutePath} element={<RecipesPage />} />
+                <Route
+                    path={recipesRoutePath + '/create'}
+                    element={<RecipeCreatePage />}
+                />
             </Route>
             <Route path="*" element={<PageNotFound />} />
         </Routes>

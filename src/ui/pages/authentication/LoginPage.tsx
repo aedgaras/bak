@@ -1,14 +1,21 @@
-import { Heading, Link as ChakraLink, Text, useToast } from '@chakra-ui/react';
+import {
+    Heading,
+    Link as ChakraLink,
+    Text,
+    useToast,
+    VStack,
+} from '@chakra-ui/react';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { authenticateUserHook } from '../../../hooks/customHooks';
-import { FormBox, GenericInput, SubmitButton } from '../../components/form';
+import { GenericInput, SubmitButton } from '../../components/form';
 import {
     validatePassword,
     validateUsername,
 } from '../../components/form/validation/validation';
 import { AppWrapper } from '../../components/wrappers/AppWrapper';
+import { BoxWithShadow } from '../../components/wrappers/BoxWithShadow';
 
 export const LoginPage = () => {
     const initialValue = { username: '', password: '' };
@@ -17,25 +24,21 @@ export const LoginPage = () => {
     document.title = 'Login';
 
     return (
-        <AppWrapper
-            children={
-                <FormBox
-                    upperSection={
-                        <>
-                            <Heading>{t('Authentication.Login')}</Heading>
-                            <Link to="auth/register">
-                                <ChakraLink>
-                                    <Text color={'muted'}>
-                                        {t('Authentication.DontHaveAccount')}
-                                    </Text>
-                                </ChakraLink>
-                            </Link>
-                        </>
-                    }
-                    innerForm={LoginForm()}
-                />
-            }
-        />
+        <AppWrapper>
+            <BoxWithShadow>
+                <VStack>
+                    <Heading>{t('Authentication.Login')}</Heading>
+                    <Link to="auth/register">
+                        <ChakraLink>
+                            <Text color={'muted'}>
+                                {t('Authentication.DontHaveAccount')}
+                            </Text>
+                        </ChakraLink>
+                    </Link>
+                    {LoginForm()}
+                </VStack>
+            </BoxWithShadow>
+        </AppWrapper>
     );
 
     function LoginForm() {

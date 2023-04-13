@@ -2,7 +2,6 @@ import { Button, Text, useDisclosure } from '@chakra-ui/react';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useUserContext } from '../../../context/UserContext';
-import { ColorModeSwitcher } from '../ColorModeSwitcher';
 import { MenuDropdown } from './MenuDropdown';
 
 export const RightSideMenu = () => {
@@ -11,9 +10,10 @@ export const RightSideMenu = () => {
     const cancelRef = useRef(null);
     return (
         <>
-            <Text>{`Hello, ${state.name}`}</Text>
+            {state.loggedIn === true ? (
+                <Text>{`Hello, ${state.name}`}</Text>
+            ) : null}
             <LanguageSwitcher />
-            <ColorModeSwitcher />
             <MenuDropdown
                 isOpen={isOpen}
                 onClose={onClose}
@@ -24,7 +24,7 @@ export const RightSideMenu = () => {
     );
 };
 
-function LanguageSwitcher() {
+export function LanguageSwitcher() {
     const { t, i18n } = useTranslation();
 
     const toggleLanguage = () => {

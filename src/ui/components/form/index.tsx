@@ -1,19 +1,19 @@
 import {
     Box,
     Button,
-    Center,
     FormControl,
     FormErrorIcon,
     FormErrorMessage,
     FormLabel,
-    HStack,
+    Heading,
     Input,
     Select,
-    useColorModeValue,
+    SimpleGrid,
     VStack,
 } from '@chakra-ui/react';
 import { Field } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { BoxWithShadow } from '../wrappers/BoxWithShadow';
 
 type InputType = {
     fieldTitle: string;
@@ -87,29 +87,27 @@ export function GenericSelect<T extends string>({
 }
 
 export const FormBox = ({
+    detailsSection,
     upperSection,
     innerForm,
 }: {
-    upperSection: JSX.Element;
+    detailsSection?: JSX.Element;
+    upperSection: string;
     innerForm: JSX.Element;
 }) => {
     return (
-        <VStack>
-            <Center p={2}>
-                <VStack>{upperSection}</VStack>
-            </Center>
-            <Box
-                padding={2}
-                borderWidth={1}
-                borderRadius={'lg'}
-                boxShadow={{
-                    base: 'none',
-                    sm: useColorModeValue('md', 'md-dark'),
-                }}
-            >
-                <HStack>{innerForm}</HStack>
-            </Box>
-        </VStack>
+        <SimpleGrid columns={[1, null, null, 2]} gap={4}>
+            {detailsSection}
+            <BoxWithShadow>
+                <VStack>
+                    <Heading size={'lg'} sx={{ p: 2 }}>
+                        {upperSection}
+                    </Heading>
+
+                    {innerForm}
+                </VStack>
+            </BoxWithShadow>
+        </SimpleGrid>
     );
 };
 

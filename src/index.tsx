@@ -11,7 +11,7 @@ import { AppRouter } from './router/AppRouter';
 
 import './i18n';
 import * as serviceWorker from './serviceWorker';
-import { NavigationMenu } from './ui/components/navigation/NavigationMenu';
+import { NavBar } from './ui/components/wrappers/NavBar';
 
 const container = document.getElementById('root');
 if (!container) throw new Error('Failed to find the root element');
@@ -32,7 +32,7 @@ root.render(
                             transition={{ duration: 0.4 }}
                         >
                             <BrowserRouter>
-                                <NavigationMenu />
+                                <NavBar />
                                 <AppRouter />
                             </BrowserRouter>
                         </motion.div>
