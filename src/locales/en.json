@@ -38,7 +38,36 @@
       },
       "HealthRecors": {
         "Header": "Health Records"
+      },
+      "Diagnoses": {
+        "Header": "Diagnoses"
+      },
+      "MedicineRecipes": {
+        "Header": "Medicine Recipes"
+      },
+      "DiagnosesResults": {
+        "Header": "Diagnoses Results"
       }
+    },
+    "Info": {
+      "NoNewData": "No new data"
+    },
+    "HealthRecors": {
+      "Action": {
+        "Details": "Details",
+        "Rate": "Rate"
+      },
+      "Details": "Details"
+    },
+    "Diagnoses": {
+      "FormResult": "Form result"
+    },
+    "MedicineRecipes": {
+      "Details": "Details"
+    },
+    "DiagnosesResults": {
+      "PrescribeMedicine": "Prescribe medicine",
+      "Details": "Details"
     }
   },
   "Authentication": {

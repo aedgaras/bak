@@ -1,10 +1,8 @@
-import { Avatar, Button, Text, useDisclosure } from '@chakra-ui/react';
+import { Button, Text, useDisclosure } from '@chakra-ui/react';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
 import { useUserContext } from '../../../context/UserContext';
 import { ColorModeSwitcher } from '../ColorModeSwitcher';
-import { IsLoggedInElement } from '../wrappers/HelperWrappers';
 import { MenuDropdown } from './MenuDropdown';
 
 export const RightSideMenu = () => {
@@ -13,18 +11,7 @@ export const RightSideMenu = () => {
     const cancelRef = useRef(null);
     return (
         <>
-            <IsLoggedInElement
-                element={
-                    <>
-                        <Link to={'/profile'}>
-                            <Text>{`Hello, ${state.name}`}</Text>
-                        </Link>
-                        <Link to={'/profile'}>
-                            <Avatar name={state.name} src={''} size="sm" />
-                        </Link>
-                    </>
-                }
-            />
+            <Text>{`Hello, ${state.name}`}</Text>
             <LanguageSwitcher />
             <ColorModeSwitcher />
             <MenuDropdown
