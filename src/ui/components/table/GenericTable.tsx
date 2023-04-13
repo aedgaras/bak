@@ -66,7 +66,7 @@ export const GenericTableWithSearchAndCreate = <T extends object>({
             <Skeleton isLoaded={isLoaded}>
                 <HStack p={2}>
                     <Input
-                        placeholder={'Search'}
+                        placeholder={t('Table.Search').toString()}
                         w={'auto'}
                         p={2}
                         onChange={(e) => filter(e.target.value)}

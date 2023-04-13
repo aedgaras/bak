@@ -1,172 +1,172 @@
 {
-    "Greetings": {
-        "Hello": "Hello"
-    },
-    "Navigation": {
-        "Home": "Home",
-        "Users": "Users",
-        "Organizations": "Organizations",
-        "SwitchLanguage": "Switch language to lithuanian",
-        "HealthRecords": "Health Records",
-        "Animals": "Animals",
-        "Cases": "Cases",
-        "Diagnoses": "Diagnoses",
-        "Results": "Results",
-        "Recipes": "Recipes"
-    },
-    "Table": {
-        "Create": "Create",
-        "Organization": "Organization",
-        "User": "User",
-        "Page": "Page",
-        "Show": "Show",
-        "Headers": {
-            "Organization": {
-                "Name": "Name"
-            },
-            "User": {
-                "Username": "Username",
-                "Role": "Role",
-                "Classification": "Classification"
-            },
-            "Animal": {
-                "Type": "Type",
-                "Name": "Name"
-            },
-            "HeartRate": {
-                "HeartRate": "Heart Rate"
-            },
-            "HealthRecors": {
-                "Header": "Health Records"
-            },
-            "Diagnoses": {
-                "Header": "Diagnoses"
-            },
-            "MedicineRecipes": {
-                "Header": "Medicine Recipes"
-            },
-            "DiagnosesResults": {
-                "Header": "Diagnoses Results"
-            }
-        },
-        "Info": {
-            "NoNewData": "No new data"
-        },
-        "HealthRecors": {
-            "Action": {
-                "Details": "Details",
-                "Rate": "Rate"
-            },
-            "Details": "Details"
-        },
-        "Diagnoses": {
-            "FormResult": "Form result"
-        },
-        "MedicineRecipes": {
-            "Details": "Details"
-        },
-        "DiagnosesResults": {
-            "PrescribeMedicine": "Prescribe medicine",
-            "Details": "Details"
-        }
-    },
-    "Authentication": {
-        "DontHaveAccount": "Don't have an account? Register",
+  "Greetings": {
+    "Hello": "Hello"
+  },
+  "Navigation": {
+    "Home": "Home",
+    "Users": "Users",
+    "Organizations": "Organizations",
+    "SwitchLanguage": "Switch language to lithuanian",
+    "HealthRecords": "Health Records",
+    "Animals": "Animals",
+    "Cases": "Cases",
+    "Diagnoses": "Diagnoses",
+    "Results": "Results",
+    "Recipes": "Recipes"
+  },
+  "Table": {
+    "Create": "Create",
+    "User": "User",
+    "Page": "Page",
+    "Show": "Show",
+    "Headers": {
+      "Organization": {},
+      "User": {
         "Username": "Username",
-        "Password": "Password",
-        "Register": "Register",
-        "Name": "Name",
-        "Login": "Login"
+        "Role": "Role",
+        "Classification": "Classification"
+      },
+      "Animal": {
+        "Type": "Type",
+        "Name": "Name"
+      },
+      "HeartRate": {
+        "HeartRate": "Heart Rate"
+      },
+      "HealthRecors": {
+        "Header": "Health Records"
+      },
+      "Diagnoses": {
+        "Header": "Diagnoses"
+      },
+      "MedicineRecipes": {
+        "Header": "Medicine Recipes"
+      },
+      "DiagnosesResults": {
+        "Header": "Diagnoses Results"
+      }
     },
-    "Toast": {
-        "Sucess": "Success",
-        "RegisterSucess": "Registered successfully.",
-        "LoginSucess": "Logged in successfully."
+    "Info": {
+      "NoNewData": "No new data"
     },
-    "Page": {
-        "Exception": {
-            "NotFound": "Page not found",
-            "Unauthorized": "Unauthorized"
-        },
-        "HomePage": {
-            "Title": "Home page"
-        }
+    "HealthRecors": {
+      "Action": {
+        "Details": "Details",
+        "Rate": "Rate"
+      },
+      "Details": "Details"
     },
-    "Form": {
-        "Submit": "Submit",
-        "Username": "Username",
-        "Password": "Password",
-        "Name": "Name",
-        "Classification": "Classification",
-        "Select": {
-            "Classification": {
-                "Veterinarian": "Veterinar",
-                "Specialist": "On duty Veterinar"
-            }
-        },
-        "Animal": {
-            "User": "User",
-            "Type": "Animal Type",
-            "Name": "Animal Name"
-        },
-        "Specification": "Specification",
-        "AnimalCreate": "Create Animal",
-        "UserCreate": "Create User",
-        "DiagnosisCreate": "Create Diagnosis",
-        "DiagnosisResult": {
-            "Create": "Create Diagnosis Result"
-        },
-        "MedicineRecipeCreate": "Create Medicine Recipe",
-        "Diagnosis": {
-            "Type": "Diagnosis Type",
-            "HealthRecord": "Case",
-            "Diangosis": "Diagnosis",
-            "Case": "Case",
-            "Name": "Name",
-            "Description": "Description",
-            "Result": {
-                "User": "User",
-                "Animal": "Animal",
-                "Diangosis": "Diagnosis",
-                "ResultType": "Result Type",
-                "Name": "Result",
-                "Description": "Description"
-            }
-        },
-        "Diangosis": {
-            "Pulse": "Pulse",
-            "Description": "Description",
-            "AnimalType": "Animal Type",
-            "CaseDate": "Case Date",
-            "Status": "Status",
-            "Priority": "Priority",
-            "Phonenumber": "Phone number",
-            "HealthRecord": "Health Record"
-        },
-        "Case": {
-            "HealthRecord": "Health Record",
-            "Pulse": "Pulse",
-            "AnimalType": "Animal Type",
-            "HealthRecordDate": "Health record date",
-            "Email": "E-Mail",
-            "Case": "Case",
-            "Status": "Status",
-            "Priority": "Priority"
-        },
-        "MedicineRecipe": {
-            "Create": "Create Medicine Recipe",
-            "User": "User",
-            "Animal": "Animal",
-            "Diagnosis": "Diagnosis",
-            "DiagnosisResults": "Diangosis Result",
-            "Name": "Recipe Name",
-            "Description": "Description",
-            "DateDue": "Date Due",
-            "Count": "Prescribed medicine count"
-        }
+    "Diagnoses": {
+      "FormResult": "Form result"
     },
-    "MenuDropdown": {
-        "Profile": "Profile",
-        "Logout": "Logout"
+    "MedicineRecipes": {
+      "Details": "Details"
+    },
+    "DiagnosesResults": {
+      "PrescribeMedicine": "Prescribe medicine",
+      "Details": "Details"
+    },
+    "Search": "Search"
+  },
+  "Authentication": {
+    "DontHaveAccount": "Don't have an account? Register",
+    "Username": "Username",
+    "Password": "Password",
+    "Register": "Register",
+    "Name": "Name",
+    "Login": "Login"
+  },
+  "Toast": {
+    "Sucess": "Success",
+    "RegisterSucess": "Registered successfully.",
+    "LoginSucess": "Logged in successfully."
+  },
+  "Page": {
+    "Exception": {
+      "NotFound": "Page not found",
+      "Unauthorized": "Unauthorized"
+    },
+    "HomePage": {
+      "Title": "Home page"
     }
+  },
+  "Form": {
+    "Submit": "Submit",
+    "Username": "Username",
+    "Password": "Password",
+    "Name": "Name",
+    "Classification": "Classification",
+    "Select": {
+      "Classification": {
+        "Veterinarian": "Veterinar",
+        "Specialist": "On duty Veterinar"
+      }
+    },
+    "Animal": {
+      "User": "User",
+      "Type": "Animal Type",
+      "Name": "Animal Name"
+    },
+    "Specification": "Specification",
+    "AnimalCreate": "Create Animal",
+    "UserCreate": "Create User",
+    "DiagnosisCreate": "Create Diagnosis",
+    "DiagnosisResult": {
+      "Create": "Create Diagnosis Result"
+    },
+    "MedicineRecipeCreate": "Create Medicine Recipe",
+    "Diagnosis": {
+      "Type": "Diagnosis Type",
+      "HealthRecord": "Case",
+      "Diangosis": "Diagnosis",
+      "Case": "Case",
+      "Name": "Name",
+      "Description": "Description",
+      "Result": {
+        "User": "User",
+        "Animal": "Animal",
+        "Diangosis": "Diagnosis",
+        "ResultType": "Result Type",
+        "Name": "Result",
+        "Description": "Description"
+      }
+    },
+    "Diangosis": {
+      "Pulse": "Pulse",
+      "Description": "Description",
+      "AnimalType": "Animal Type",
+      "CaseDate": "Case Date",
+      "Status": "Status",
+      "Priority": "Priority",
+      "Phonenumber": "Phone number",
+      "HealthRecord": "Health Record"
+    },
+    "Case": {
+      "HealthRecord": "Health Record",
+      "Pulse": "Pulse",
+      "AnimalType": "Animal Type",
+      "HealthRecordDate": "Health record date",
+      "Email": "E-Mail",
+      "Case": "Case",
+      "Status": "Status",
+      "Priority": "Priority"
+    },
+    "MedicineRecipe": {
+      "Create": "Create Medicine Recipe",
+      "User": "User",
+      "Animal": "Animal",
+      "Diagnosis": "Diagnosis",
+      "DiagnosisResults": "Diangosis Result",
+      "Name": "Recipe Name",
+      "Description": "Description",
+      "DateDue": "Date Due",
+      "Count": "Prescribed medicine count"
+    },
+    "PhoneNumber": "Phone Number",
+    "Email": "E-Mail"
+  },
+  "MenuDropdown": {
+    "Profile": "Profile",
+    "Logout": "Logout"
+  }
 }

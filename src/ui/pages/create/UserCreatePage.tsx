@@ -81,7 +81,7 @@ const UserCreationForm = () => {
                         validation={validatePassword}
                     />
                     <GenericInput
-                        fieldTitle="Form.Email"
+                        fieldTitle={t('Form.Email')}
                         fieldName={'Email'}
                         fieldType={'email'}
                         isRequired={true}
@@ -90,7 +90,7 @@ const UserCreationForm = () => {
                         validation={validatePassword}
                     />
                     <GenericInput
-                        fieldTitle="Form.PhoneNumber"
+                        fieldTitle={t('Form.PhoneNumber')}
                         fieldName={'Phonenumber'}
                         fieldType={'string'}
                         isRequired={true}
