@@ -35,6 +35,8 @@ export interface AnimalDto {
 export interface HealthRecordDto {
     id: string;
     heartRate: string;
+    description: string;
+    entryDate: string;
 }
 
 export interface CaseDto {
@@ -43,6 +45,13 @@ export interface CaseDto {
     urgency: number;
     entryDate: string;
     HealthRecordId: string;
+    healthRecord?: {
+        heartRate: number;
+        description: string;
+        entryDate: string;
+        animalId: number;
+        id: number;
+    };
 }
 
 export interface DiagnosisDto {
@@ -74,4 +83,30 @@ export interface MedicineRecipeDto {
     description: string;
     expiryTime: string;
     entryDate: string;
+}
+
+export interface CreateAnimalDto {
+    name: string;
+    type: number;
+    userId: number;
+}
+
+export interface CreateHealthRecordDto {
+    heartRate: number;
+    description: string;
+    animalId: number;
+}
+
+export interface CreateCaseDto {
+    status: number;
+    urgency: number;
+    healthRecordId: number;
+}
+
+export interface CreateDiagnosisDto {
+    userId: number;
+    caseId: number;
+    caseType: number;
+    diagnosis: string;
+    description: string;
 }

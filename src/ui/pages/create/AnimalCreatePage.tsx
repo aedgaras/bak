@@ -1,16 +1,22 @@
 import {
     FormControl,
+    FormErrorIcon,
+    FormErrorMessage,
     FormLabel,
     Heading,
     Select,
     useToast,
     VStack,
 } from '@chakra-ui/react';
-import { Formik } from 'formik';
+import { useQuery } from '@tanstack/react-query';
+import { Field, Formik } from 'formik';
 import { t } from 'i18next';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { useUserContext } from '../../../context/UserContext';
-import { UserRegisterDto } from '../../../utils/dto';
+import { AnimalService, UserService } from '../../../services';
+import { CreateAnimalDto } from '../../../utils/dto';
+import { AnimalValues } from '../../../utils/utils';
 import { GenericInput, SubmitButton } from '../../components/form';
 import { validateUsername } from '../../components/form/validation/validation';
 import { AppWrapper } from '../../components/wrappers/AppWrapper';
@@ -42,14 +48,26 @@ export const AnimalCreatePage = () => {
 
 const AnimalCreationForm = () => {
     const { state } = useUserContext();
-    const AnimalType = ['Dog', 'Cat'];
-    const Users = ['A', 'B'];
+    const navigate = useNavigate();
+
+    const { data } = useQuery({
+        queryKey: ['animalCreation'],
+        queryFn: async () => {
+            const userService = new UserService();
+            return await userService.getUsersList();
+        },
+    });
 
     return (
         <Formik
-            initialValues={{} as UserRegisterDto}
+            initialValues={{} as CreateAnimalDto}
             onSubmit={async (values, actions) => {
                 actions.setSubmitting(true);
+                const service = new AnimalService();
+
+                service.addAnimal(values).then(() => {
+                    navigate(-1);
+                });
             }}
         >
             {({ handleSubmit, errors, touched, isSubmitting }) => (
@@ -57,11 +75,19 @@ const AnimalCreationForm = () => {
                     {state.role === 'Admin' ? (
                         <FormControl p={2}>
                             <FormLabel>{t('Form.Animal.User')}</FormLabel>
-                            <Select>
-                                {Users.map((key) => {
-                                    return <option value={key}>{key}</option>;
+                            <Field as={Select} name="userId" required>
+                                {data?.map((key) => {
+                                    return (
+                                        <option value={key.id}>
+                                            {key.username}
+                                        </option>
+                                    );
                                 })}
-                            </Select>
+                            </Field>
+                            <FormErrorMessage>
+                                <FormErrorIcon />
+                                {errors.userId}
+                            </FormErrorMessage>
                         </FormControl>
                     ) : null}
 
@@ -70,20 +96,26 @@ const AnimalCreationForm = () => {
                         fieldName={'Name'}
                         fieldType={'string'}
                         isRequired={true}
-                        errorField={errors.username}
-                        touchedField={touched.username}
+                        errorField={errors.name}
+                        touchedField={touched.name}
                         validation={validateUsername}
                     />
 
                     <FormControl p={2}>
                         <FormLabel>{t('Form.Animal.Type')}</FormLabel>
-                        <Select>
-                            {AnimalType.map((key) => {
+                        <Field as={Select} name="type" required>
+                            {AnimalValues.map((key) => {
                                 return (
-                                    <option value={key}>{t(`${key}`)}</option>
+                                    <option value={key.value}>
+                                        {t(`${key.key}`)}
+                                    </option>
                                 );
                             })}
-                        </Select>
+                        </Field>
+                        <FormErrorMessage>
+                            <FormErrorIcon />
+                            {errors.type}
+                        </FormErrorMessage>
                     </FormControl>
                     <SubmitButton isSubmitting={isSubmitting} />
                 </form>

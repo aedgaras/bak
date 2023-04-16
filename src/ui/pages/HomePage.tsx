@@ -85,7 +85,10 @@ const HealthRecordTable = () => {
     const { isLoading, isFetching, error, data } = useQuery({
         queryKey: ['newestHealthRecords'],
         queryFn: async () => {
-            return await healthRecordService.getHealthRecordsList();
+            return (await healthRecordService.getHealthRecordsList()).slice(
+                0,
+                3
+            );
         },
     });
 
@@ -112,7 +115,11 @@ const HealthRecordTable = () => {
                                             </Td>
                                             <Td>
                                                 <Link
-                                                    to={healthRecordsRoutePath}
+                                                    to={
+                                                        healthRecordsRoutePath +
+                                                        '/rate/' +
+                                                        x.id
+                                                    }
                                                 >
                                                     <Button>
                                                         {t(
@@ -161,7 +168,7 @@ const DiagnosesTable = () => {
         queryKey: ['diagnoses'],
         queryFn: async () => {
             const service = new DiagnosisService();
-            return await service.getDiagnosisList();
+            return (await service.getDiagnosisList()).slice(0, 3);
         },
     });
 
@@ -232,7 +239,7 @@ const MedicineRecipesTable = () => {
         queryKey: ['recipes'],
         queryFn: async () => {
             const service = new RecipeService();
-            return await service.getRecipesList();
+            return (await service.getRecipesList()).slice(0, 3);
         },
     });
 
@@ -254,14 +261,6 @@ const MedicineRecipesTable = () => {
                                         <Tr>
                                             <Td>{x.id}</Td>
                                             <Td>{x.title}</Td>
-                                            <Td>
-                                                <Tooltip
-                                                    hasArrow
-                                                    label={'number'}
-                                                >
-                                                    <PhoneIcon />
-                                                </Tooltip>
-                                            </Td>
                                             <Td>
                                                 <Link
                                                     to={healthRecordsRoutePath}
@@ -302,7 +301,7 @@ const DiagnosesResultsTable = () => {
         queryKey: ['diagnoses'],
         queryFn: async () => {
             const service = new DiagnosisService();
-            return await service.getDiagnosisList();
+            return (await service.getDiagnosisList()).slice(0, 3);
         },
     });
 
@@ -324,14 +323,6 @@ const DiagnosesResultsTable = () => {
                                         <Tr>
                                             <Td>{x.id}</Td>
                                             <Td>{getCaseType(x.caseType)}</Td>
-                                            <Td>
-                                                <Tooltip
-                                                    hasArrow
-                                                    label={'number'}
-                                                >
-                                                    <PhoneIcon />
-                                                </Tooltip>
-                                            </Td>
                                             <Td>
                                                 <Link
                                                     to={healthRecordsRoutePath}

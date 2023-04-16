@@ -7,6 +7,7 @@ import { LoginPage } from '../ui/pages/authentication/LoginPage';
 import { RegisterPage } from '../ui/pages/authentication/RegisterPage';
 import { AnimalCreatePage } from '../ui/pages/create/AnimalCreatePage';
 import { CaseCreatePage } from '../ui/pages/create/CaseCreatePage';
+import { CreateHealthRecordPage } from '../ui/pages/create/CreateHealthRecordPage';
 import { DiagnosisCreatePage } from '../ui/pages/create/DiagnosisCreatePage';
 import { DiagnosisResultsCreatePage } from '../ui/pages/create/DiagnosisResultCreatePage';
 import { RecipeCreatePage } from '../ui/pages/create/RecipeCreatePage';
@@ -130,12 +131,20 @@ export const AppRouter = () => {
                     path={casesRoutePath + '/create'}
                     element={<CaseCreatePage />}
                 />
+                <Route
+                    path={casesRoutePath + '/createDiagnosis/:caseId'}
+                    element={<DiagnosisCreatePage />}
+                />
             </Route>
             <Route path={animalsRoutePath}>
                 <Route path={animalsRoutePath} element={<AnimalsPage />} />
                 <Route
                     path={animalsRoutePath + '/create'}
                     element={<AnimalCreatePage />}
+                />
+                <Route
+                    path={animalsRoutePath + '/createHealthRecord/:animalId'}
+                    element={<CreateHealthRecordPage />}
                 />
             </Route>
             <Route path={diagnosesRoutePath}>

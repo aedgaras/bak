@@ -9,6 +9,7 @@ interface UserContextInterface {
     loggedIn?: boolean;
     role?: Role;
     classification?: Classification;
+    userId?: number;
 }
 
 //export const UserContext = createContext<UserContextInterface>({});
@@ -50,6 +51,7 @@ interface User {
     sub: string;
     role: Role;
     classifaction: Classification;
+    userId: number;
 }
 
 export function getCurrentUser(): User | null {
@@ -87,6 +89,7 @@ export function userContextValues(): UserContextInterface {
               loggedIn: currentUser !== null,
               role: currentUser.role,
               classification: currentUser.classifaction,
+              userId: currentUser.userId,
           }
         : {};
 }

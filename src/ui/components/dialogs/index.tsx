@@ -8,7 +8,7 @@ import {
     Button,
     Text,
 } from '@chakra-ui/react';
-import { AuthService } from '../../../services';
+import { AnimalService, AuthService } from '../../../services';
 import { ClosableObject, DeleteDialogProps } from '../interfaces';
 
 const BaseDialog = ({
@@ -110,8 +110,13 @@ export const DeleteDialog = ({
                     onClick={async (e) => {
                         if (entity === 'user') {
                         }
+                        if (entity === 'animal') {
+                            const service = new AnimalService();
+                            await service.deleteAnimal(parseInt(id));
+                            refreshData({});
+                        }
 
-                        refreshData(true);
+                        refreshData({});
                         onClose();
                     }}
                     ml={3}

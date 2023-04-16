@@ -60,7 +60,8 @@
       "Description": "Aprašymas",
       "Diangosis": "Diagnozė",
       "Case": "Padietis",
-      "HealthRecord": "Padietis"
+      "HealthRecord": "Padietis",
+      "Diagnosis": "Diagnozė"
     },
     "DiagnosisCreate": "Kurti Diagnozę",
     "MedicineRecipe": {
@@ -95,7 +96,12 @@
       "Create": "Kurti Diagnozės Rezultatą"
     },
     "PhoneNumber": "Tel. Numeris",
-    "Email": "E-Paštas"
+    "Email": "E-Paštas",
+    "HealthRecordCreate": "Kūrti sveikatos įrašą",
+    "HealthRecord": {
+      "HeartRate": "Širdies ritmas",
+      "Description": "Aprašymas"
+    }
   },
   "Table": {
     "User": "Paskyra",
@@ -161,7 +167,9 @@
     },
     "Buttons": {
       "Details": "Detalės",
-      "Rate": "Įvertinti"
+      "Rate": "Įvertinti",
+      "CreateHealthRecord": "Sveikatos įrašas",
+      "CreateDiagnosis": "Pateikti Diagnozė"
     }
   },
   "Page": {
@@ -181,5 +189,18 @@
     "LoginSucess": "Sėkmingai prisijungta.",
     "RegisterSucess": "Sėkmingai užsiregistruota.",
     "Sucess": "Sekmė"
+  },
+  "Enums": {
+    "Case": {
+      "Urgency": {
+        "Urgent": "Skubus",
+        "Normal": "Įprastas"
+      },
+      "Type": {
+        "Temporary": "Laikinas",
+        "Preliminary": "Preliminarus",
+        "Final": "Galūtinis"
+      }
+    }
   }
 }

@@ -22,6 +22,7 @@ interface Jwt {
     exp: number;
     iss: string;
     aud: string;
+    userId: number;
 }
 
 export const isJwtExpired = () => {
@@ -93,6 +94,13 @@ export const getUrgencyType = (id: number) => {
     return 'Urgent';
 };
 
+export const StatusValues = [
+    { value: 0, key: 'Filled' },
+    { value: 1, key: 'Ongoing' },
+    { value: 2, key: 'Completed' },
+    { value: 3, key: 'Closed' },
+];
+
 export const getStatusType = (id: number) => {
     const type = id;
     if (type === 0) {
@@ -106,6 +114,11 @@ export const getStatusType = (id: number) => {
     return 'Closed';
 };
 
+export const AnimalValues = [
+    { value: 0, key: 'Dog' },
+    { value: 1, key: 'Cat' },
+];
+
 export const getAnimalType = (id: number) => {
     const type = id;
     if (type === 0) {
@@ -114,6 +127,13 @@ export const getAnimalType = (id: number) => {
 
     return 'Cat';
 };
+
+export const ClassificationValues = [
+    { value: 0, key: 'Veterinarian' },
+    { value: 1, key: 'On-Duty Veterinarian' },
+    { value: 2, key: 'Customer' },
+    { value: 3, key: 'Administrator' },
+];
 
 export const getClassificationType = (id: number) => {
     const type = id;
@@ -127,6 +147,11 @@ export const getClassificationType = (id: number) => {
 
     return 'Administrator';
 };
+
+export const RoleValues = [
+    { value: 0, key: 'User' },
+    { value: 1, key: 'Admin' },
+];
 
 export const getRoleType = (id: number) => {
     const type = id;

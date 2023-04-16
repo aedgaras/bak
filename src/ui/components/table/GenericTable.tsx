@@ -218,6 +218,46 @@ export function GenericTable<Data extends object>({
                                     </Td>
                                 </>
                             ) : null}
+                            {entity === 'animal' ? (
+                                <>
+                                    <Td key={row.id + '_create'}>
+                                        <Link
+                                            to={
+                                                'createHealthRecord/' +
+                                                row
+                                                    .getVisibleCells()[0]
+                                                    .getValue()
+                                            }
+                                        >
+                                            <Button>
+                                                {t(
+                                                    'Table.Buttons.CreateHealthRecord'
+                                                )}
+                                            </Button>
+                                        </Link>
+                                    </Td>
+                                </>
+                            ) : null}
+                            {entity === 'case' ? (
+                                <>
+                                    <Td key={row.id + '_create'}>
+                                        <Link
+                                            to={
+                                                'createDiagnosis/' +
+                                                row
+                                                    .getVisibleCells()[0]
+                                                    .getValue()
+                                            }
+                                        >
+                                            <Button>
+                                                {t(
+                                                    'Table.Buttons.CreateDiagnosis'
+                                                )}
+                                            </Button>
+                                        </Link>
+                                    </Td>
+                                </>
+                            ) : null}
                             {state.role === 'Admin' ? (
                                 <>
                                     <Td key={row.id + '_details'}>

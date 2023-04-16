@@ -1,8 +1,7 @@
-import { Button, Skeleton } from '@chakra-ui/react';
+import { Skeleton } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
 import { HealthRecordService } from '../../../services';
 import { HealthRecordDto } from '../../../utils/dto';
 import { GenericTableWithSearchAndCreate } from '../../components/table/GenericTable';
@@ -43,11 +42,6 @@ export const HealthRecordsPage = () => {
                     data={healthRecords}
                     columns={healthRecordTableColumns()}
                     refreshData={setRefreshFlag}
-                    createButton={
-                        <Link to="create">
-                            <Button color="teal">Create Case</Button>
-                        </Link>
-                    }
                 />
             </Skeleton>
         </AppWrapper>

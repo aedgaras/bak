@@ -14,11 +14,11 @@ import { Formik } from 'formik';
 
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useUserContext } from '../../../context/UserContext';
-import { HealthRecordService } from '../../../services';
-import { UserRegisterDto } from '../../../utils/dto';
-import { CaseValues, UrgencyValues } from '../../../utils/utils';
+import { CasesService, HealthRecordService } from '../../../services';
+import { CreateCaseDto } from '../../../utils/dto';
+import { CaseValues, getAnimalType, UrgencyValues } from '../../../utils/utils';
 import { SubmitButton } from '../../components/form';
 import { AppWrapper } from '../../components/wrappers/AppWrapper';
 import { BoxWithShadow } from '../../components/wrappers/BoxWithShadow';
@@ -27,12 +27,34 @@ import { DataDisplay } from '../../components/wrappers/DataDisplay';
 export const CaseCreatePage = () => {
     const toast = useToast();
     const { t } = useTranslation();
-    const service = new HealthRecordService();
     const params = useParams<{ healthRecordId: string }>();
 
-    const { isLoading, isFetching, error, data } = useQuery({
+    const healthRecord = useQuery({
+        queryKey: ['healthRecord' + params.healthRecordId],
         queryFn: async () => {
+            const service = new HealthRecordService();
+
             return await service.getHealthRecord(params.healthRecordId!);
+        },
+    });
+
+    const user = useQuery({
+        queryKey: ['userHealthRecord' + params.healthRecordId],
+        queryFn: async () => {
+            const service = new HealthRecordService();
+
+            return await service.getHealthRecordsContactInfo(
+                params.healthRecordId!
+            );
+        },
+    });
+
+    const animal = useQuery({
+        queryKey: ['userAnimalHealthRecord' + params.healthRecordId],
+        queryFn: async () => {
+            const service = new HealthRecordService();
+
+            return await service.getHealthRecordAnimal(params.healthRecordId!);
         },
     });
 
@@ -55,7 +77,7 @@ export const CaseCreatePage = () => {
                                         <Input
                                             type="text"
                                             disabled
-                                            value={data?.heartRate}
+                                            value={healthRecord.data?.heartRate}
                                         ></Input>
                                     </FormControl>
                                     <FormControl pb={2}>
@@ -65,31 +87,54 @@ export const CaseCreatePage = () => {
                                         <Textarea
                                             resize={'none'}
                                             disabled
+                                            value={
+                                                healthRecord.data?.description
+                                            }
                                         ></Textarea>
                                     </FormControl>
                                     <FormControl pb={2}>
                                         <FormLabel>
                                             {t('Form.Case.AnimalType')}
                                         </FormLabel>
-                                        <Input type="text" disabled></Input>
+                                        <Input
+                                            type="text"
+                                            disabled
+                                            value={getAnimalType(
+                                                animal.data?.type!
+                                            )}
+                                        ></Input>
                                     </FormControl>
                                     <FormControl pb={2}>
                                         <FormLabel>
                                             {t('Form.Case.HealthRecordDate')}
                                         </FormLabel>
-                                        <Input type="text" disabled></Input>
+                                        <Input
+                                            type="text"
+                                            disabled
+                                            value={
+                                                healthRecord.data?.entryDate!
+                                            }
+                                        ></Input>
                                     </FormControl>
                                     <FormControl pb={2}>
                                         <FormLabel>
                                             {t('Form.Diangosis.Phonenumber')}
                                         </FormLabel>
-                                        <Input type="text" disabled></Input>
+                                        <Input
+                                            type="text"
+                                            disabled
+                                            value={user.data?.phoneNumber}
+                                        ></Input>
                                     </FormControl>
                                     <FormControl pb={2}>
                                         <FormLabel>
                                             {t('Form.Case.Email')}
                                         </FormLabel>
-                                        <Input type="text" disabled></Input>
+                                        <Input
+                                            type="text"
+                                            disabled
+                                            value={user.data?.email}
+                                        ></Input>
                                     </FormControl>
                                 </Box>
                             </VStack>
@@ -111,14 +156,25 @@ export const CaseCreatePage = () => {
 
 const CaseCreationForm = () => {
     const { state } = useUserContext();
-    const priority = ['Case', 'Diagnosis', 'Result'];
     const { t } = useTranslation();
+    const params = useParams<{ healthRecordId: string }>();
+    const navigate = useNavigate();
 
     return (
         <Formik
-            initialValues={{} as UserRegisterDto}
+            initialValues={{} as CreateCaseDto}
             onSubmit={async (values, actions) => {
+                const service = new CasesService();
                 actions.setSubmitting(true);
+
+                values = {
+                    ...values,
+                    healthRecordId: parseInt(params.healthRecordId!),
+                };
+
+                service.addCase(values).then(() => {
+                    navigate(-1);
+                });
             }}
         >
             {({ handleSubmit, errors, touched, isSubmitting }) => (
