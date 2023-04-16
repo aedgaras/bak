@@ -11,7 +11,9 @@ import {
 import {
     Box,
     Button,
+    Center,
     chakra,
+    Heading,
     HStack,
     Input,
     Select,
@@ -22,7 +24,6 @@ import {
     Tbody,
     Td,
     Text,
-    Tfoot,
     Th,
     Thead,
     Tr,
@@ -38,17 +39,33 @@ import {
     SortingState,
     useReactTable,
 } from '@tanstack/react-table';
-import React, { Dispatch } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { useUserContext } from '../../../context/UserContext';
 import { DeleteDialog } from '../dialogs';
 import { BoxWithShadowMax } from '../wrappers/BoxWithShadow';
 
+type DataTableProps<Data extends object> = {
+    data: Data[];
+    columns: ColumnDef<Data, any>[];
+    refreshData: Dispatch<unknown>;
+    createButton?: JSX.Element;
+    entity:
+        | 'user'
+        | 'animal'
+        | 'case'
+        | 'diagnosis'
+        | 'result'
+        | 'healthrecord'
+        | 'recipe';
+};
+
 export interface GenericTableWithSearchAndCreateProps<T extends object>
     extends DataTableProps<T> {
     isLoaded: boolean;
-    filter: React.Dispatch<React.SetStateAction<string>>;
+    filter: Dispatch<SetStateAction<string>>;
+    title: string;
 }
 
 export const GenericTableWithSearchAndCreate = <T extends object>({
@@ -58,29 +75,35 @@ export const GenericTableWithSearchAndCreate = <T extends object>({
     columns,
     refreshData,
     createButton,
+    title,
+    entity,
 }: GenericTableWithSearchAndCreateProps<T>) => {
     const { state } = useUserContext();
     const { t } = useTranslation();
+
     return (
         <BoxWithShadowMax>
+            <Center p={2}>
+                <Heading as="h4">{title}</Heading>
+            </Center>
+            <HStack p={2}>
+                <Input
+                    placeholder={t('Table.Search').toString()}
+                    w={'auto'}
+                    p={2}
+                    onChange={(e) => filter(e.target.value)}
+                />
+                <Spacer />
+                {state.role === 'Admin' ? createButton : null}
+            </HStack>
             <Skeleton isLoaded={isLoaded}>
-                <HStack p={2}>
-                    <Input
-                        placeholder={t('Table.Search').toString()}
-                        w={'auto'}
-                        p={2}
-                        onChange={(e) => filter(e.target.value)}
-                    />
-                    <Spacer />
-                    {state.role === 'Admin' ? createButton : null}
-                </HStack>
-
                 <Box padding={2}>
                     <Box borderWidth="1px" borderRadius="lg" padding={2}>
                         <GenericTable
                             data={data}
                             columns={columns}
                             refreshData={refreshData}
+                            entity={entity}
                         />
                     </Box>
                 </Box>
@@ -89,17 +112,11 @@ export const GenericTableWithSearchAndCreate = <T extends object>({
     );
 };
 
-export type DataTableProps<Data extends object> = {
-    data: Data[];
-    columns: ColumnDef<Data, any>[];
-    refreshData: Dispatch<unknown>;
-    createButton?: JSX.Element;
-};
-
 export function GenericTable<Data extends object>({
     data,
     columns,
     refreshData,
+    entity,
 }: DataTableProps<Data>) {
     // Use the state and functions returned from useTable to build your UI
     const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -186,6 +203,21 @@ export function GenericTable<Data extends object>({
                                     </Td>
                                 );
                             })}
+                            {entity === 'healthrecord' ? (
+                                <>
+                                    <Td key={row.id + '_details'}>
+                                        <Link
+                                            to={`rate/${row
+                                                .getVisibleCells()[0]
+                                                .getValue()}`}
+                                        >
+                                            <Button>
+                                                {t('Table.Buttons.Rate')}
+                                            </Button>
+                                        </Link>
+                                    </Td>
+                                </>
+                            ) : null}
                             {state.role === 'Admin' ? (
                                 <>
                                     <Td key={row.id + '_details'}>
@@ -194,7 +226,9 @@ export function GenericTable<Data extends object>({
                                                 .getVisibleCells()[0]
                                                 .getValue()}`}
                                         >
-                                            <Button>Details</Button>
+                                            <Button>
+                                                {t('Table.Buttons.Details')}
+                                            </Button>
                                         </Link>
                                     </Td>
                                     <Td key={row.id + '_delete'}>
@@ -221,13 +255,15 @@ export function GenericTable<Data extends object>({
                         </Tr>
                     ))}
                 </Tbody>
+
                 <DeleteDialog
                     isOpen={isOpen}
                     cancelRef={cancelRef}
                     onClose={onClose}
                     refreshData={refreshData}
+                    entity={entity}
+                    id={toDeleteId[0]}
                 />
-                <Tfoot></Tfoot>
             </Table>
             <HStack pt={2} spacing={2}>
                 <Button

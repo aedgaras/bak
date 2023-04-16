@@ -1,5 +1,7 @@
+import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { useUserContext } from '../context/UserContext';
+import { AuthService } from '../services';
 import { PageNotFound, Unauthorized } from '../ui/components/errors';
 import { LoginPage } from '../ui/pages/authentication/LoginPage';
 import { RegisterPage } from '../ui/pages/authentication/RegisterPage';
@@ -13,16 +15,19 @@ import { ProfilePage } from '../ui/pages/details/ProfilePage';
 import { UserDetailsPage } from '../ui/pages/details/UserDetailsPage';
 import { HomePage } from '../ui/pages/HomePage';
 import { AnimalsPage } from '../ui/pages/lists/AnimalsPage';
+import { CasePage } from '../ui/pages/lists/CasesPage';
 import { DiagnosesResultsPage } from '../ui/pages/lists/DiagnoseResults';
 import { DiagnosesPage } from '../ui/pages/lists/DiagnosesPage';
 import { HealthRecordsPage } from '../ui/pages/lists/HealthRecordsPage';
 import { RecipesPage } from '../ui/pages/lists/RecipesPage';
 import { UsersPage } from '../ui/pages/lists/UsersPage';
 import { Role } from '../utils/Models';
+import { isJwtExpired } from '../utils/utils';
 
 export const authRoutePath = '/auth';
 export const usersRoutePath = '/users';
 export const healthRecordsRoutePath = '/healthrecords';
+export const casesRoutePath = '/cases';
 export const animalsRoutePath = '/animals';
 export const diagnosesRoutePath = '/diagnoses';
 export const diagnosesResultsRoutePath = '/diagnosesResults';
@@ -30,7 +35,13 @@ export const recipesRoutePath = '/recipes';
 
 export const AppRouter = () => {
     const { state } = useUserContext();
-    console.log(state.loggedIn);
+
+    useEffect(() => {
+        if (isJwtExpired()) {
+            const api = new AuthService();
+            api.refreshToken();
+        }
+    }, []);
 
     return (
         <Routes>
@@ -109,7 +120,14 @@ export const AppRouter = () => {
                     element={<HealthRecordsPage />}
                 />
                 <Route
-                    path={healthRecordsRoutePath + '/create'}
+                    path={healthRecordsRoutePath + '/rate/:healthRecordId'}
+                    element={<CaseCreatePage />}
+                />
+            </Route>
+            <Route path={casesRoutePath}>
+                <Route path={casesRoutePath} element={<CasePage />} />
+                <Route
+                    path={casesRoutePath + '/create'}
                     element={<CaseCreatePage />}
                 />
             </Route>

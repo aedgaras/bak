@@ -1,6 +1,7 @@
 import { Button, Skeleton } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { AnimalService } from '../../../services';
 import { AnimalDto } from '../../../utils/dto';
@@ -15,6 +16,7 @@ export const AnimalsPage = () => {
     const [animals, setAnimals] = useState<AnimalDto[]>([]);
     const [queryFilter, setQueryFilter] = useState<string>('');
     const [refreshFlag, setRefreshFlag] = useState<unknown>({});
+    const { t } = useTranslation();
 
     const { isLoading, isFetching, error, data } = useQuery({
         queryKey: ['animalsList'],
@@ -34,6 +36,8 @@ export const AnimalsPage = () => {
         <AppWrapper>
             <Skeleton isLoaded={!isLoading}>
                 <GenericTableWithSearchAndCreate
+                    title={t('Table.Title.Animals')}
+                    entity={'animal'}
                     isLoaded={!isLoading}
                     filter={setQueryFilter}
                     data={animals}

@@ -11,7 +11,8 @@
     "HealthRecords": "Sveikatos įrašai",
     "Diagnoses": "Diagnozės",
     "Recipes": "Vaistų receptai",
-    "Results": "Rezultatai"
+    "Results": "Rezultatai",
+    "Cases": "Padietys"
   },
   "Authentication": {
     "Register": "Registracija",
@@ -57,7 +58,9 @@
         "Description": "Aprašymas"
       },
       "Description": "Aprašymas",
-      "Diangosis": "Diagnozė"
+      "Diangosis": "Diagnozė",
+      "Case": "Padietis",
+      "HealthRecord": "Padietis"
     },
     "DiagnosisCreate": "Kurti Diagnozę",
     "MedicineRecipe": {
@@ -85,7 +88,8 @@
       "Status": "Statusas",
       "Pulse": "Širdies Ritmas",
       "HealthRecordDate": "Sveikatos įrašo data",
-      "HealthRecord": "Sveikatos įrašas"
+      "HealthRecord": "Sveikatos įrašas",
+      "Case": "Padietis"
     },
     "DiagnosisResult": {
       "Create": "Kurti Diagnozės Rezultatą"
@@ -141,7 +145,24 @@
       "Details": "Detalės",
       "PrescribeMedicine": "Išrašyti receptą"
     },
-    "Search": "Ieškoti"
+    "Search": "Ieškoti",
+    "Title": {
+      "Animals": "Gyvūnai",
+      "Cases": "Padietys",
+      "Recipe": "Vaistų receptai",
+      "Users": "Naudotojai",
+      "Results": "Diagnozės Rezultatai",
+      "HealthRecords": "Sveikatos įrašai",
+      "Diagnoses": "Diagnozės"
+    },
+    "NoData": "Nėra naujų duomenų",
+    "Diagnoses": {
+      "FormResult": "Pateikti rezultatą"
+    },
+    "Buttons": {
+      "Details": "Detalės",
+      "Rate": "Įvertinti"
+    }
   },
   "Page": {
     "Exception": {

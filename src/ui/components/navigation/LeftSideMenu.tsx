@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import {
     animalsRoutePath,
+    casesRoutePath,
     diagnosesResultsRoutePath,
     diagnosesRoutePath,
     healthRecordsRoutePath,
@@ -36,6 +37,9 @@ export const LeftSideMenu = () => {
                             {t('Navigation.Cases')}
                         </MenuButton>
                         <MenuList>
+                            <Link to={casesRoutePath}>
+                                <MenuItem>{t('Navigation.Cases')}</MenuItem>
+                            </Link>
                             <Link to={diagnosesRoutePath}>
                                 <MenuItem>{t('Navigation.Diagnoses')}</MenuItem>
                             </Link>

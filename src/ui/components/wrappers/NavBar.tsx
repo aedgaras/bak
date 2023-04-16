@@ -18,6 +18,7 @@ import { Link } from 'react-router-dom';
 import { useUserContext } from '../../../context/UserContext';
 import {
     animalsRoutePath,
+    casesRoutePath,
     diagnosesResultsRoutePath,
     diagnosesRoutePath,
     healthRecordsRoutePath,
@@ -35,7 +36,7 @@ export const NavBar = ({ children }: any) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const cancelRef = useRef(null);
     const [display, changeDisplay] = useState('none');
-    console.log(state.loggedIn);
+
     return (
         <Box p={2}>
             <Box
@@ -175,6 +176,16 @@ export const NavBar = ({ children }: any) => {
                                                     }
                                                 >
                                                     {t('Navigation.Animals')}
+                                                </Button>
+                                            </Link>
+                                            <Divider />
+                                            <Link to={casesRoutePath}>
+                                                <Button
+                                                    onClick={() =>
+                                                        changeDisplay('none')
+                                                    }
+                                                >
+                                                    {t('Navigation.Cases')}
                                                 </Button>
                                             </Link>
                                             <Divider />

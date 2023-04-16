@@ -61,3 +61,78 @@ export const isRefreshTokenExpired = () => {
 
     return false;
 };
+
+export const CaseValues = [
+    { value: 0, key: 'Temporary' },
+    { value: 1, key: 'Preliminary' },
+    { value: 2, key: 'Final' },
+];
+
+export const getCaseType = (id: number) => {
+    const type = id;
+    if (type === 0) {
+        return 'Temporary';
+    } else if (type === 1) {
+        return 'Preliminary';
+    }
+
+    return 'Final';
+};
+
+export const UrgencyValues = [
+    { value: 0, key: 'Normal' },
+    { value: 1, key: 'Urgent' },
+];
+
+export const getUrgencyType = (id: number) => {
+    const type = id;
+    if (type === 0) {
+        return 'Normal';
+    }
+
+    return 'Urgent';
+};
+
+export const getStatusType = (id: number) => {
+    const type = id;
+    if (type === 0) {
+        return 'Filled';
+    } else if (type === 1) {
+        return 'Ongoing';
+    } else if (type === 2) {
+        return 'Completed';
+    }
+
+    return 'Closed';
+};
+
+export const getAnimalType = (id: number) => {
+    const type = id;
+    if (type === 0) {
+        return 'Dog';
+    }
+
+    return 'Cat';
+};
+
+export const getClassificationType = (id: number) => {
+    const type = id;
+    if (type === 0) {
+        return 'Veterinarian';
+    } else if (type === 1) {
+        return 'On-Duty Veterinarian';
+    } else if (type === 2) {
+        return 'Customer';
+    }
+
+    return 'Administrator';
+};
+
+export const getRoleType = (id: number) => {
+    const type = id;
+    if (type === 0) {
+        return 'User';
+    }
+
+    return 'Admin';
+};

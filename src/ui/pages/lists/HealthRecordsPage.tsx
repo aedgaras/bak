@@ -1,6 +1,7 @@
 import { Button, Skeleton } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { HealthRecordService } from '../../../services';
 import { HealthRecordDto } from '../../../utils/dto';
@@ -15,6 +16,7 @@ export const HealthRecordsPage = () => {
     const [healthRecords, setHealthRecords] = useState<HealthRecordDto[]>([]);
     const [queryFilter, setQueryFilter] = useState<string>('');
     const [refreshFlag, setRefreshFlag] = useState<unknown>({});
+    const { t } = useTranslation();
 
     const { isLoading, isFetching, error, data } = useQuery({
         queryKey: ['healthRecordList'],
@@ -34,6 +36,8 @@ export const HealthRecordsPage = () => {
         <AppWrapper>
             <Skeleton isLoaded={!isLoading}>
                 <GenericTableWithSearchAndCreate<HealthRecordDto>
+                    title={t('Table.Title.HealthRecords')}
+                    entity={'healthrecord'}
                     isLoaded={!isLoading}
                     filter={setQueryFilter}
                     data={healthRecords}

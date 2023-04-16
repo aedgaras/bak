@@ -1,43 +1,47 @@
 import { Button, Skeleton } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { UserService } from '../../../services';
-import { UserDto } from '../../../utils/dto';
+import { DiagnosisService } from '../../../services';
+import { DiagnosisDto } from '../../../utils/dto';
 import { GenericTableWithSearchAndCreate } from '../../components/table/GenericTable';
 import {
-    filterUserTable,
-    userTableColumns,
+    diagnosisTableColumns,
+    filterDiagnosisTable,
 } from '../../components/table/Helpers';
 import { AppWrapper } from '../../components/wrappers/AppWrapper';
 
 export const DiagnosesPage = () => {
-    const [usersToDisplay, setUsersToDisplay] = useState<UserDto[]>([]);
+    const [diagnoses, setDiagnoses] = useState<DiagnosisDto[]>([]);
     const [queryFilter, setQueryFilter] = useState<string>('');
     const [refreshFlag, setRefreshFlag] = useState<unknown>({});
+    const { t } = useTranslation();
 
     const { isLoading, isFetching, error, data } = useQuery({
-        queryKey: ['usersList'],
+        queryKey: ['diagnosesList'],
         queryFn: async () => {
-            const userService = new UserService();
-            return await userService.getUsersList();
+            const diagnosisService = new DiagnosisService();
+            return await diagnosisService.getDiagnosisList();
         },
     });
 
     useEffect(() => {
         if (data) {
-            filterUserTable(data, queryFilter, setUsersToDisplay);
+            filterDiagnosisTable(data, queryFilter, setDiagnoses);
         }
     }, [queryFilter, data, refreshFlag]);
 
     return (
         <AppWrapper>
             <Skeleton isLoaded={!isLoading}>
-                <GenericTableWithSearchAndCreate<UserDto>
+                <GenericTableWithSearchAndCreate
+                    title={t('Table.Title.Diagnoses')}
+                    entity={'diagnosis'}
                     isLoaded={!isLoading}
                     filter={setQueryFilter}
-                    data={usersToDisplay}
-                    columns={userTableColumns()}
+                    data={diagnoses}
+                    columns={diagnosisTableColumns()}
                     refreshData={setRefreshFlag}
                     createButton={
                         <Link to="create">

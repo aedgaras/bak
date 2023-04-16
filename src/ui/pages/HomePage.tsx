@@ -6,6 +6,7 @@ import {
     Divider,
     Heading,
     SimpleGrid,
+    Skeleton,
     Table,
     TableContainer,
     Tbody,
@@ -19,7 +20,12 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { useUserContext } from '../../context/UserContext';
 import { healthRecordsRoutePath } from '../../router/AppRouter';
-import { HealthRecordService } from '../../services';
+import {
+    DiagnosisService,
+    HealthRecordService,
+    RecipeService,
+} from '../../services';
+import { getCaseType } from '../../utils/utils';
 import { AppWrapper } from '../components/wrappers/AppWrapper';
 import {
     BoxWithBorderMax,
@@ -54,13 +60,31 @@ export const HomePage = () => {
     );
 };
 
+const PhoneTooltip = ({ id }: { id: string }) => {
+    const healthRecordService = new HealthRecordService();
+
+    const { isLoading, isFetching, error, data } = useQuery({
+        queryFn: async () => {
+            return await healthRecordService.getHealthRecordsContactInfo(id);
+        },
+    });
+
+    return (
+        <Skeleton isLoaded={!isLoading}>
+            <Tooltip hasArrow label={data?.phoneNumber}>
+                <PhoneIcon />
+            </Tooltip>
+        </Skeleton>
+    );
+};
+
 const HealthRecordTable = () => {
     const { t } = useTranslation();
+    const healthRecordService = new HealthRecordService();
 
     const { isLoading, isFetching, error, data } = useQuery({
         queryKey: ['newestHealthRecords'],
         queryFn: async () => {
-            const healthRecordService = new HealthRecordService();
             return await healthRecordService.getHealthRecordsList();
         },
     });
@@ -81,16 +105,10 @@ const HealthRecordTable = () => {
                                 {data.map((x) => {
                                     return (
                                         <Tr>
-                                            <Td>inches</Td>
-                                            <Td>millimetres (mm)</Td>
-                                            <Td isNumeric>25.4</Td>
+                                            <Td>{x.id}</Td>
+                                            <Td>{x.heartRate}</Td>
                                             <Td>
-                                                <Tooltip
-                                                    hasArrow
-                                                    label={'number'}
-                                                >
-                                                    <PhoneIcon />
-                                                </Tooltip>
+                                                <PhoneTooltip id={x.id} />
                                             </Td>
                                             <Td>
                                                 <Link
@@ -140,10 +158,10 @@ const DiagnosesTable = () => {
     const { t } = useTranslation();
 
     const { isLoading, isFetching, error, data } = useQuery({
-        queryKey: ['newestHealthRecords'],
+        queryKey: ['diagnoses'],
         queryFn: async () => {
-            const healthRecordService = new HealthRecordService();
-            return await healthRecordService.getHealthRecordsList();
+            const service = new DiagnosisService();
+            return await service.getDiagnosisList();
         },
     });
 
@@ -161,17 +179,8 @@ const DiagnosesTable = () => {
                                 {data.map((x) => {
                                     return (
                                         <Tr>
-                                            <Td>inches</Td>
-                                            <Td>millimetres (mm)</Td>
-                                            <Td isNumeric>25.4</Td>
-                                            <Td>
-                                                <Tooltip
-                                                    hasArrow
-                                                    label={'number'}
-                                                >
-                                                    <PhoneIcon />
-                                                </Tooltip>
-                                            </Td>
+                                            <Td>{x.id}</Td>
+                                            <Td>{getCaseType(x.caseType)}</Td>
                                             <Td>
                                                 <Link
                                                     to={healthRecordsRoutePath}
@@ -220,10 +229,10 @@ const MedicineRecipesTable = () => {
     const { t } = useTranslation();
 
     const { isLoading, isFetching, error, data } = useQuery({
-        queryKey: ['newestHealthRecords'],
+        queryKey: ['recipes'],
         queryFn: async () => {
-            const healthRecordService = new HealthRecordService();
-            return await healthRecordService.getHealthRecordsList();
+            const service = new RecipeService();
+            return await service.getRecipesList();
         },
     });
 
@@ -243,9 +252,8 @@ const MedicineRecipesTable = () => {
                                 {data.map((x) => {
                                     return (
                                         <Tr>
-                                            <Td>inches</Td>
-                                            <Td>millimetres (mm)</Td>
-                                            <Td isNumeric>25.4</Td>
+                                            <Td>{x.id}</Td>
+                                            <Td>{x.title}</Td>
                                             <Td>
                                                 <Tooltip
                                                     hasArrow
@@ -291,10 +299,10 @@ const DiagnosesResultsTable = () => {
     const { t } = useTranslation();
 
     const { isLoading, isFetching, error, data } = useQuery({
-        queryKey: ['newestHealthRecords'],
+        queryKey: ['diagnoses'],
         queryFn: async () => {
-            const healthRecordService = new HealthRecordService();
-            return await healthRecordService.getHealthRecordsList();
+            const service = new DiagnosisService();
+            return await service.getDiagnosisList();
         },
     });
 
@@ -314,9 +322,8 @@ const DiagnosesResultsTable = () => {
                                 {data.map((x) => {
                                     return (
                                         <Tr>
-                                            <Td>inches</Td>
-                                            <Td>millimetres (mm)</Td>
-                                            <Td isNumeric>25.4</Td>
+                                            <Td>{x.id}</Td>
+                                            <Td>{getCaseType(x.caseType)}</Td>
                                             <Td>
                                                 <Tooltip
                                                     hasArrow

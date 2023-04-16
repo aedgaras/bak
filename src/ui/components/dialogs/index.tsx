@@ -89,6 +89,8 @@ export const DeleteDialog = ({
     onClose,
     cancelRef,
     refreshData,
+    entity,
+    id,
 }: DeleteDialogProps) =>
     BaseDialog({
         isOpen: isOpen,
@@ -106,6 +108,9 @@ export const DeleteDialog = ({
                 <Button
                     colorScheme="red"
                     onClick={async (e) => {
+                        if (entity === 'user') {
+                        }
+
                         refreshData(true);
                         onClose();
                     }}
@@ -116,6 +121,7 @@ export const DeleteDialog = ({
             </>
         ),
     });
+
 export const LogoutDialog = ({
     isOpen,
     cancelRef,

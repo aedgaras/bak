@@ -12,9 +12,13 @@ import {
 } from '@chakra-ui/react';
 import { Formik } from 'formik';
 
+import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 import { useUserContext } from '../../../context/UserContext';
+import { HealthRecordService } from '../../../services';
 import { UserRegisterDto } from '../../../utils/dto';
+import { CaseValues, UrgencyValues } from '../../../utils/utils';
 import { SubmitButton } from '../../components/form';
 import { AppWrapper } from '../../components/wrappers/AppWrapper';
 import { BoxWithShadow } from '../../components/wrappers/BoxWithShadow';
@@ -23,7 +27,14 @@ import { DataDisplay } from '../../components/wrappers/DataDisplay';
 export const CaseCreatePage = () => {
     const toast = useToast();
     const { t } = useTranslation();
-    const healthRecords = ['healthRecord'];
+    const service = new HealthRecordService();
+    const params = useParams<{ healthRecordId: string }>();
+
+    const { isLoading, isFetching, error, data } = useQuery({
+        queryFn: async () => {
+            return await service.getHealthRecord(params.healthRecordId!);
+        },
+    });
 
     return (
         <AppWrapper>
@@ -41,7 +52,11 @@ export const CaseCreatePage = () => {
                                         <FormLabel>
                                             {t('Form.Case.Pulse')}
                                         </FormLabel>
-                                        <Input type="text" disabled></Input>
+                                        <Input
+                                            type="text"
+                                            disabled
+                                            value={data?.heartRate}
+                                        ></Input>
                                     </FormControl>
                                     <FormControl pb={2}>
                                         <FormLabel>
@@ -96,7 +111,6 @@ export const CaseCreatePage = () => {
 
 const CaseCreationForm = () => {
     const { state } = useUserContext();
-    const status = ['a', 'b'];
     const priority = ['Case', 'Diagnosis', 'Result'];
     const { t } = useTranslation();
 
@@ -112,9 +126,11 @@ const CaseCreationForm = () => {
                     <FormControl p={2}>
                         <FormLabel>{t('Form.Case.Status')}</FormLabel>
                         <Select>
-                            {status.map((key) => {
+                            {CaseValues.map((x) => {
                                 return (
-                                    <option value={key}>{t(`${key}`)}</option>
+                                    <option value={x.value}>
+                                        {t(`Enums.Case.Type.${x.key}`)}
+                                    </option>
                                 );
                             })}
                         </Select>
@@ -122,9 +138,11 @@ const CaseCreationForm = () => {
                     <FormControl p={2}>
                         <FormLabel>{t('Form.Case.Priority')}</FormLabel>
                         <Select>
-                            {priority.map((key) => {
+                            {UrgencyValues.map((x) => {
                                 return (
-                                    <option value={key}>{t(`${key}`)}</option>
+                                    <option value={x.value}>
+                                        {t(`Enums.Case.Urgency.${x.key}`)}
+                                    </option>
                                 );
                             })}
                         </Select>

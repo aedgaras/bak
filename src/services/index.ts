@@ -4,11 +4,23 @@ import {
     API_URL,
     AUTH_URL,
     axiosAuthHeaders,
+    CASES_URL,
+    DIAGNOSIS_URL,
     HEALTH_RECORDS_URL,
+    RECIPES_URL,
     REFRESH_TOKEN_NAME,
+    RESULTS_URL,
     USERS_URL,
 } from '../utils/constants';
-import { AnimalDto, HealthRecordDto, UserDto } from '../utils/dto';
+import {
+    AnimalDto,
+    CaseDto,
+    DiagnosisDto,
+    HealthRecordDto,
+    MedicineRecipeDto,
+    ResultDto,
+    UserDto,
+} from '../utils/dto';
 import {
     getJwtFromStorage,
     getRefreshTokenFromStorage,
@@ -165,9 +177,6 @@ export class AnimalService extends Service {
 }
 
 export class HealthRecordService extends Service {
-    /**
-     *
-     */
     constructor() {
         super();
     }
@@ -178,6 +187,85 @@ export class HealthRecordService extends Service {
             .then((r: AxiosResponse<HealthRecordDto[]>) => {
                 return r.data;
             });
+        return response;
+    };
+
+    getHealthRecord = async (id: string) => {
+        const response = await this.api
+            .getRequest<HealthRecordDto>(HEALTH_RECORDS_URL + '/' + id)
+            .then((r: AxiosResponse<HealthRecordDto>) => {
+                return r.data;
+            });
+        return response;
+    };
+
+    getHealthRecordsContactInfo = async (id: string) => {
+        const response = await this.api
+            .getRequest<UserDto>(HEALTH_RECORDS_URL + '/contact/' + id)
+            .then((r: AxiosResponse<UserDto>) => {
+                return r.data;
+            });
+        return response;
+    };
+}
+
+export class CasesService extends Service {
+    constructor() {
+        super();
+    }
+
+    getCaseList = async () => {
+        const response = await this.api
+            .getRequest<CaseDto[]>(CASES_URL)
+            .then((r: AxiosResponse<CaseDto[]>) => {
+                return r.data;
+            });
+        return response;
+    };
+}
+
+export class DiagnosisService extends Service {
+    constructor() {
+        super();
+    }
+
+    getDiagnosisList = async () => {
+        const response = await this.api
+            .getRequest<DiagnosisDto[]>(DIAGNOSIS_URL)
+            .then((r: AxiosResponse<DiagnosisDto[]>) => {
+                return r.data;
+            });
+        return response;
+    };
+}
+
+export class ResultsService extends Service {
+    constructor() {
+        super();
+    }
+
+    getResultsList = async () => {
+        const response = await this.api
+            .getRequest<ResultDto[]>(RESULTS_URL)
+            .then((r: AxiosResponse<ResultDto[]>) => {
+                return r.data;
+            });
+        return response;
+    };
+}
+
+export class RecipeService extends Service {
+    constructor() {
+        super();
+    }
+
+    getRecipesList = async () => {
+        const response = await this.api
+            .getRequest<MedicineRecipeDto[]>(RECIPES_URL)
+            .then((r: AxiosResponse<MedicineRecipeDto[]>) => {
+                return r.data;
+            });
+
         return response;
     };
 }

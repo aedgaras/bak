@@ -1,4 +1,4 @@
-import { Classification, Role } from '../Models';
+import { Role } from '../Models';
 
 export interface OrganizationDto {
     id: string;
@@ -20,14 +20,16 @@ export interface UserDto {
     id: string;
     username: string;
     password: string;
-    role: Role;
-    classification: Classification;
+    phoneNumber: string;
+    email: string;
+    role: number;
+    classification: number;
 }
 
 export interface AnimalDto {
     id: string;
     name: string;
-    type: 'Dog' | 'Cat';
+    type: number;
 }
 
 export interface HealthRecordDto {
@@ -37,5 +39,39 @@ export interface HealthRecordDto {
 
 export interface CaseDto {
     id: string;
-    status: string;
+    status: number;
+    urgency: number;
+    entryDate: string;
+    HealthRecordId: string;
+}
+
+export interface DiagnosisDto {
+    id: number;
+    userId: number;
+    caseId: number;
+    caseType: number;
+    diagnosis: string;
+    description: string;
+}
+
+export interface ResultDto {
+    id: number;
+    userId: number;
+    caseId: number;
+    caseType: number;
+    result: string;
+    description: string;
+    entryDate: string;
+    closeDate: string;
+}
+
+export interface MedicineRecipeDto {
+    id: number;
+    userId: number;
+    caseId: number;
+    title: string;
+    count: number;
+    description: string;
+    expiryTime: string;
+    entryDate: string;
 }

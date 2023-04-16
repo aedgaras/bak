@@ -1,53 +1,47 @@
-import { Button, Skeleton } from '@chakra-ui/react';
+import { Skeleton } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import { UserService } from '../../../services';
-import { UserDto } from '../../../utils/dto';
+import { CasesService } from '../../../services';
+import { CaseDto } from '../../../utils/dto';
 import { GenericTableWithSearchAndCreate } from '../../components/table/GenericTable';
 import {
-    filterUserTable,
-    userTableColumns,
+    caseTableColumns,
+    filterCasesTable,
 } from '../../components/table/Helpers';
 import { AppWrapper } from '../../components/wrappers/AppWrapper';
 
-export const UsersPage = () => {
-    const [usersToDisplay, setUsersToDisplay] = useState<UserDto[]>([]);
+export const CasePage = () => {
+    const [cases, setCases] = useState<CaseDto[]>([]);
     const [queryFilter, setQueryFilter] = useState<string>('');
     const [refreshFlag, setRefreshFlag] = useState<unknown>({});
     const { t } = useTranslation();
 
     const { isLoading, isFetching, error, data } = useQuery({
-        queryKey: ['usersList'],
+        queryKey: ['casesList'],
         queryFn: async () => {
-            const userService = new UserService();
-            return await userService.getUsersList();
+            const caseService = new CasesService();
+            return await caseService.getCaseList();
         },
     });
 
     useEffect(() => {
         if (data) {
-            filterUserTable(data, queryFilter, setUsersToDisplay);
+            filterCasesTable(data, queryFilter, setCases);
         }
     }, [queryFilter, data, refreshFlag]);
 
     return (
         <AppWrapper>
             <Skeleton isLoaded={!isLoading}>
-                <GenericTableWithSearchAndCreate<UserDto>
-                    title={t('Table.Title.Users')}
-                    entity={'user'}
+                <GenericTableWithSearchAndCreate<CaseDto>
+                    title={t('Table.Title.Cases')}
+                    entity={'case'}
                     isLoaded={!isLoading}
                     filter={setQueryFilter}
-                    data={usersToDisplay}
-                    columns={userTableColumns()}
+                    data={cases}
+                    columns={caseTableColumns()}
                     refreshData={setRefreshFlag}
-                    createButton={
-                        <Link to="create">
-                            <Button color="teal">Create User</Button>
-                        </Link>
-                    }
                 ></GenericTableWithSearchAndCreate>
             </Skeleton>
         </AppWrapper>
