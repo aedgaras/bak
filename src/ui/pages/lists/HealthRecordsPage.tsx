@@ -21,7 +21,7 @@ export const HealthRecordsPage = () => {
         queryKey: ['healthRecordList'],
         queryFn: async () => {
             const healthRecordService = new HealthRecordService();
-            return await healthRecordService.getHealthRecordsList();
+            return await healthRecordService.list();
         },
     });
 

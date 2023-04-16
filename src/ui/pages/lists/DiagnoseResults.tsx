@@ -22,7 +22,7 @@ export const DiagnosesResultsPage = () => {
         queryKey: ['resultsList'],
         queryFn: async () => {
             const resultServie = new ResultsService();
-            return await resultServie.getResultsList();
+            return await resultServie.list();
         },
     });
 

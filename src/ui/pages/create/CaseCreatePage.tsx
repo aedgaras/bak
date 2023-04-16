@@ -34,7 +34,7 @@ export const CaseCreatePage = () => {
         queryFn: async () => {
             const service = new HealthRecordService();
 
-            return await service.getHealthRecord(params.healthRecordId!);
+            return await service.get(params.healthRecordId!);
         },
     });
 
@@ -172,7 +172,7 @@ const CaseCreationForm = () => {
                     healthRecordId: parseInt(params.healthRecordId!),
                 };
 
-                service.addCase(values).then(() => {
+                service.add(values).then(() => {
                     navigate(-1);
                 });
             }}

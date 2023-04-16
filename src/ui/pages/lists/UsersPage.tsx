@@ -22,7 +22,7 @@ export const UsersPage = () => {
         queryKey: ['usersList'],
         queryFn: async () => {
             const userService = new UserService();
-            return await userService.getUsersList();
+            return await userService.list();
         },
     });
 

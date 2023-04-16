@@ -85,10 +85,7 @@ const HealthRecordTable = () => {
     const { isLoading, isFetching, error, data } = useQuery({
         queryKey: ['newestHealthRecords'],
         queryFn: async () => {
-            return (await healthRecordService.getHealthRecordsList()).slice(
-                0,
-                3
-            );
+            return (await healthRecordService.list()).slice(0, 3);
         },
     });
 
@@ -168,7 +165,7 @@ const DiagnosesTable = () => {
         queryKey: ['diagnoses'],
         queryFn: async () => {
             const service = new DiagnosisService();
-            return (await service.getDiagnosisList()).slice(0, 3);
+            return (await service.list()).slice(0, 3);
         },
     });
 
@@ -239,7 +236,7 @@ const MedicineRecipesTable = () => {
         queryKey: ['recipes'],
         queryFn: async () => {
             const service = new RecipeService();
-            return (await service.getRecipesList()).slice(0, 3);
+            return (await service.list()).slice(0, 3);
         },
     });
 
@@ -301,7 +298,7 @@ const DiagnosesResultsTable = () => {
         queryKey: ['diagnoses'],
         queryFn: async () => {
             const service = new DiagnosisService();
-            return (await service.getDiagnosisList()).slice(0, 3);
+            return (await service.list()).slice(0, 3);
         },
     });
 

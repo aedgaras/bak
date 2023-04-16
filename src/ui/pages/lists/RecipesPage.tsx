@@ -22,7 +22,7 @@ export const RecipesPage = () => {
         queryKey: ['recipesList'],
         queryFn: async () => {
             const recipeService = new RecipeService();
-            return await recipeService.getRecipesList();
+            return await recipeService.list();
         },
     });
 

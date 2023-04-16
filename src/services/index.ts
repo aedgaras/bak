@@ -152,10 +152,20 @@ export class UserService extends Service {
             });
         return response;
     };
-    getUsersList = async () => {
+
+    list = async () => {
         const response = await this.api
             .getRequest<UserDto[]>(USERS_URL)
             .then((r: AxiosResponse<UserDto[]>) => {
+                return r.data;
+            });
+        return response;
+    };
+
+    delete = async (id: number) => {
+        const response = await this.api
+            .deleteRequest(USERS_URL + '/' + id)
+            .then((r: AxiosResponse) => {
                 return r.data;
             });
         return response;
@@ -170,7 +180,7 @@ export class AnimalService extends Service {
         super();
     }
 
-    getAnimalsList = async () => {
+    list = async () => {
         const response = await this.api
             .getRequest<AnimalDto[]>(ANIMALS_URL)
             .then((r: AxiosResponse<AnimalDto[]>) => {
@@ -179,7 +189,17 @@ export class AnimalService extends Service {
         return response;
     };
 
-    addAnimal = async (animalDto: CreateAnimalDto) => {
+    get = async (id: string) => {
+        const response = await this.api
+            .getRequest<AnimalDto>(ANIMALS_URL + '/' + id)
+            .then((r: AxiosResponse<AnimalDto>) => {
+                return r.data;
+            });
+
+        return response;
+    };
+
+    add = async (animalDto: CreateAnimalDto) => {
         const response = await this.api
             .postRequest<AnimalDto>(ANIMALS_URL, animalDto)
             .then((r: AxiosResponse) => {
@@ -188,7 +208,7 @@ export class AnimalService extends Service {
         return response;
     };
 
-    deleteAnimal = async (id: number) => {
+    delete = async (id: number) => {
         const response = await this.api
             .deleteRequest(ANIMALS_URL + '/' + id)
             .then((r: AxiosResponse) => {
@@ -203,7 +223,7 @@ export class HealthRecordService extends Service {
         super();
     }
 
-    getHealthRecordsList = async () => {
+    list = async () => {
         const response = await this.api
             .getRequest<HealthRecordDto[]>(HEALTH_RECORDS_URL)
             .then((r: AxiosResponse<HealthRecordDto[]>) => {
@@ -212,7 +232,7 @@ export class HealthRecordService extends Service {
         return response;
     };
 
-    getHealthRecord = async (id: string) => {
+    get = async (id: string) => {
         const response = await this.api
             .getRequest<HealthRecordDto>(HEALTH_RECORDS_URL + '/' + id)
             .then((r: AxiosResponse<HealthRecordDto>) => {
@@ -221,7 +241,7 @@ export class HealthRecordService extends Service {
         return response;
     };
 
-    addHealthRecord = async (data: CreateHealthRecordDto) => {
+    add = async (data: CreateHealthRecordDto) => {
         const response = await this.api
             .postRequest(HEALTH_RECORDS_URL, data)
             .then((r: AxiosResponse) => {
@@ -247,6 +267,15 @@ export class HealthRecordService extends Service {
             });
         return response;
     };
+
+    delete = async (id: number) => {
+        const response = await this.api
+            .deleteRequest(HEALTH_RECORDS_URL + '/' + id)
+            .then((r: AxiosResponse) => {
+                return r.data;
+            });
+        return response;
+    };
 }
 
 export class CasesService extends Service {
@@ -254,7 +283,7 @@ export class CasesService extends Service {
         super();
     }
 
-    getCaseList = async () => {
+    list = async () => {
         const response = await this.api
             .getRequest<CaseDto[]>(CASES_URL)
             .then((r: AxiosResponse<CaseDto[]>) => {
@@ -263,7 +292,7 @@ export class CasesService extends Service {
         return response;
     };
 
-    getCase = async (id: string) => {
+    get = async (id: string) => {
         const response = await this.api
             .getRequest<CaseDto>(CASES_URL + '/' + id)
             .then((r: AxiosResponse<CaseDto>) => {
@@ -283,9 +312,18 @@ export class CasesService extends Service {
         return response;
     };
 
-    addCase = async (data: CreateCaseDto) => {
+    add = async (data: CreateCaseDto) => {
         const response = await this.api
             .postRequest(CASES_URL, data)
+            .then((r: AxiosResponse) => {
+                return r.data;
+            });
+        return response;
+    };
+
+    delete = async (id: number) => {
+        const response = await this.api
+            .deleteRequest(CASES_URL + '/' + id)
             .then((r: AxiosResponse) => {
                 return r.data;
             });
@@ -298,7 +336,7 @@ export class DiagnosisService extends Service {
         super();
     }
 
-    getDiagnosisList = async () => {
+    list = async () => {
         const response = await this.api
             .getRequest<DiagnosisDto[]>(DIAGNOSIS_URL)
             .then((r: AxiosResponse<DiagnosisDto[]>) => {
@@ -306,9 +344,29 @@ export class DiagnosisService extends Service {
             });
         return response;
     };
-    addDiagnosis = async (data: CreateDiagnosisDto) => {
+
+    get = async (id: string) => {
+        const response = await this.api
+            .getRequest<DiagnosisDto>(DIAGNOSIS_URL + '/' + id)
+            .then((r: AxiosResponse<DiagnosisDto>) => {
+                return r.data;
+            });
+
+        return response;
+    };
+
+    add = async (data: CreateDiagnosisDto) => {
         const response = await this.api
             .postRequest(DIAGNOSIS_URL, data)
+            .then((r: AxiosResponse) => {
+                return r.data;
+            });
+        return response;
+    };
+
+    delete = async (id: number) => {
+        const response = await this.api
+            .deleteRequest(DIAGNOSIS_URL + '/' + id)
             .then((r: AxiosResponse) => {
                 return r.data;
             });
@@ -321,10 +379,29 @@ export class ResultsService extends Service {
         super();
     }
 
-    getResultsList = async () => {
+    list = async () => {
         const response = await this.api
             .getRequest<ResultDto[]>(RESULTS_URL)
             .then((r: AxiosResponse<ResultDto[]>) => {
+                return r.data;
+            });
+        return response;
+    };
+
+    get = async (id: string) => {
+        const response = await this.api
+            .getRequest<ResultDto>(RECIPES_URL + '/' + id)
+            .then((r: AxiosResponse<ResultDto>) => {
+                return r.data;
+            });
+
+        return response;
+    };
+
+    delete = async (id: number) => {
+        const response = await this.api
+            .deleteRequest(RESULTS_URL + '/' + id)
+            .then((r: AxiosResponse) => {
                 return r.data;
             });
         return response;
@@ -336,13 +413,32 @@ export class RecipeService extends Service {
         super();
     }
 
-    getRecipesList = async () => {
+    list = async () => {
         const response = await this.api
             .getRequest<MedicineRecipeDto[]>(RECIPES_URL)
             .then((r: AxiosResponse<MedicineRecipeDto[]>) => {
                 return r.data;
             });
 
+        return response;
+    };
+
+    get = async (id: string) => {
+        const response = await this.api
+            .getRequest<MedicineRecipeDto>(RECIPES_URL + '/' + id)
+            .then((r: AxiosResponse<MedicineRecipeDto>) => {
+                return r.data;
+            });
+
+        return response;
+    };
+
+    delete = async (id: number) => {
+        const response = await this.api
+            .deleteRequest(RECIPES_URL + '/' + id)
+            .then((r: AxiosResponse) => {
+                return r.data;
+            });
         return response;
     };
 }

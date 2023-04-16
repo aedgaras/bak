@@ -39,7 +39,7 @@ export const DiagnosisCreatePage = () => {
         queryKey: ['diagnosisCreate1' + params.caseId!],
         queryFn: async () => {
             const recipeService = new CasesService();
-            return await recipeService.getCase(params.caseId!);
+            return await recipeService.get(params.caseId!);
         },
     });
 
@@ -172,7 +172,7 @@ const DiangosisCreationForm = ({ id, data }: { id: string; data: CaseDto }) => {
                     caseId: parseInt(id),
                 };
 
-                service.addDiagnosis(values).then(() => {
+                service.add(values).then(() => {
                     navigate(-1);
                 });
             }}

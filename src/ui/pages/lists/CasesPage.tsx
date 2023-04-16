@@ -21,7 +21,7 @@ export const CasePage = () => {
         queryKey: ['casesList'],
         queryFn: async () => {
             const caseService = new CasesService();
-            return await caseService.getCaseList();
+            return await caseService.list();
         },
     });
 

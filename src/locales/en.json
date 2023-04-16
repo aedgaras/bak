@@ -93,7 +93,9 @@
       "Rate": "Rate",
       "Details": "Details",
       "CreateHealthRecord": "Health Record",
-      "CreateDiagnosis": "Create Diagnosis"
+      "CreateDiagnosis": "Create Diagnosis",
+      "Delete": "Delete",
+      "Cancel": "Cancel"
     },
     "NoData": "There's no new data"
   },

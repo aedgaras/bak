@@ -8,7 +8,17 @@ import {
     Button,
     Text,
 } from '@chakra-ui/react';
-import { AnimalService, AuthService } from '../../../services';
+import { useTranslation } from 'react-i18next';
+import {
+    AnimalService,
+    AuthService,
+    CasesService,
+    DiagnosisService,
+    HealthRecordService,
+    RecipeService,
+    ResultsService,
+    UserService,
+} from '../../../services';
 import { ClosableObject, DeleteDialogProps } from '../interfaces';
 
 const BaseDialog = ({
@@ -91,28 +101,52 @@ export const DeleteDialog = ({
     refreshData,
     entity,
     id,
-}: DeleteDialogProps) =>
-    BaseDialog({
+}: DeleteDialogProps) => {
+    const { t } = useTranslation();
+
+    return BaseDialog({
         isOpen: isOpen,
         onClose: onClose,
         cancelRef: cancelRef,
-        header: <Text>Delete</Text>,
+        header: <Text>{t('Table.Buttons.Delete')}</Text>,
         body: (
             <Text> Are you sure? You can't undo this action afterwards.</Text>
         ),
         footer: (
             <>
                 <Button ref={cancelRef} onClick={onClose}>
-                    Cancel
+                    {t('Table.Buttons.Cancel')}
                 </Button>
                 <Button
                     colorScheme="red"
                     onClick={async (e) => {
                         if (entity === 'user') {
-                        }
-                        if (entity === 'animal') {
+                            const service = new UserService();
+                            await service.delete(parseInt(id));
+                            refreshData({});
+                        } else if (entity === 'animal') {
                             const service = new AnimalService();
-                            await service.deleteAnimal(parseInt(id));
+                            await service.delete(parseInt(id));
+                            refreshData({});
+                        } else if (entity === 'case') {
+                            const service = new CasesService();
+                            await service.delete(parseInt(id));
+                            refreshData({});
+                        } else if (entity === 'diagnosis') {
+                            const service = new DiagnosisService();
+                            await service.delete(parseInt(id));
+                            refreshData({});
+                        } else if (entity === 'healthrecord') {
+                            const service = new HealthRecordService();
+                            await service.delete(parseInt(id));
+                            refreshData({});
+                        } else if (entity === 'recipe') {
+                            const service = new RecipeService();
+                            await service.delete(parseInt(id));
+                            refreshData({});
+                        } else if (entity === 'result') {
+                            const service = new ResultsService();
+                            await service.delete(parseInt(id));
                             refreshData({});
                         }
 
@@ -121,11 +155,12 @@ export const DeleteDialog = ({
                     }}
                     ml={3}
                 >
-                    Delete
+                    {t('Table.Buttons.Delete')}
                 </Button>
             </>
         ),
     });
+};
 
 export const LogoutDialog = ({
     isOpen,

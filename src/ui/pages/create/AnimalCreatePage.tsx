@@ -54,7 +54,7 @@ const AnimalCreationForm = () => {
         queryKey: ['animalCreation'],
         queryFn: async () => {
             const userService = new UserService();
-            return await userService.getUsersList();
+            return await userService.list();
         },
     });
 
@@ -65,7 +65,7 @@ const AnimalCreationForm = () => {
                 actions.setSubmitting(true);
                 const service = new AnimalService();
 
-                service.addAnimal(values).then(() => {
+                service.add(values).then(() => {
                     navigate(-1);
                 });
             }}

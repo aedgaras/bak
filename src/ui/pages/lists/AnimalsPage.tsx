@@ -22,7 +22,7 @@ export const AnimalsPage = () => {
         queryKey: ['animalsList'],
         queryFn: async () => {
             const animalService = new AnimalService();
-            return await animalService.getAnimalsList();
+            return await animalService.list();
         },
     });
 

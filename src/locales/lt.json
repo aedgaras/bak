@@ -169,7 +169,8 @@
       "Details": "Detalės",
       "Rate": "Įvertinti",
       "CreateHealthRecord": "Sveikatos įrašas",
-      "CreateDiagnosis": "Pateikti Diagnozė"
+      "CreateDiagnosis": "Pateikti Diagnozė",
+      "Delete": "Ištrinti"
     }
   },
   "Page": {
