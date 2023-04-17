@@ -58,6 +58,7 @@ export interface DiagnosisDto {
     id: number;
     userId: number;
     caseId: number;
+    case?: CaseDto;
     caseType: number;
     diagnosis: string;
     description: string;
@@ -66,8 +67,9 @@ export interface DiagnosisDto {
 export interface ResultDto {
     id: number;
     userId: number;
-    caseId: number;
+    caseDiagnosisId: number;
     caseType: number;
+    caseDiagnosis?: DiagnosisDto;
     result: string;
     description: string;
     entryDate: string;
@@ -109,4 +111,38 @@ export interface CreateDiagnosisDto {
     caseType: number;
     diagnosis: string;
     description: string;
+}
+
+export interface CreateResultDto {
+    userId: number;
+    caseDiagnosisId: number;
+    caseType: number;
+    result: string;
+    description: string;
+}
+
+export interface CreateRecipeDto {
+    userId: number;
+    caseId: number;
+    title: string;
+    count: number;
+    description: string;
+    expiryTime: string;
+    entryDate: string;
+}
+
+export interface UpdateAnimalDto {
+    name: string;
+    type: number;
+}
+
+export interface UpdateHealthRecordDto {
+    heartRate: number;
+    picture: string;
+    description: string;
+}
+
+export interface UpdateCaseDto {
+    status: number;
+    urgency: number;
 }

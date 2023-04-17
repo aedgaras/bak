@@ -12,6 +12,9 @@ import { DiagnosisCreatePage } from '../ui/pages/create/DiagnosisCreatePage';
 import { DiagnosisResultsCreatePage } from '../ui/pages/create/DiagnosisResultCreatePage';
 import { RecipeCreatePage } from '../ui/pages/create/RecipeCreatePage';
 import { UserCreatePage } from '../ui/pages/create/UserCreatePage';
+import { AnimalDetailsPage } from '../ui/pages/details/AnimalDetailsPage';
+import { CaseDetailsPage } from '../ui/pages/details/CaseDetailsPage';
+import { HealthRecordDetailsPage } from '../ui/pages/details/HealthRecordDetailsPage';
 import { ProfilePage } from '../ui/pages/details/ProfilePage';
 import { UserDetailsPage } from '../ui/pages/details/UserDetailsPage';
 import { HomePage } from '../ui/pages/HomePage';
@@ -121,6 +124,10 @@ export const AppRouter = () => {
                     element={<HealthRecordsPage />}
                 />
                 <Route
+                    path={healthRecordsRoutePath + '/:id'}
+                    element={<HealthRecordDetailsPage />}
+                />
+                <Route
                     path={healthRecordsRoutePath + '/rate/:healthRecordId'}
                     element={<CaseCreatePage />}
                 />
@@ -132,12 +139,20 @@ export const AppRouter = () => {
                     element={<CaseCreatePage />}
                 />
                 <Route
+                    path={casesRoutePath + '/:id'}
+                    element={<CaseDetailsPage />}
+                />
+                <Route
                     path={casesRoutePath + '/createDiagnosis/:caseId'}
                     element={<DiagnosisCreatePage />}
                 />
             </Route>
             <Route path={animalsRoutePath}>
                 <Route path={animalsRoutePath} element={<AnimalsPage />} />
+                <Route
+                    path={animalsRoutePath + '/:id'}
+                    element={<AnimalDetailsPage />}
+                />
                 <Route
                     path={animalsRoutePath + '/create'}
                     element={<AnimalCreatePage />}
@@ -153,6 +168,10 @@ export const AppRouter = () => {
                     path={diagnosesRoutePath + '/create'}
                     element={<DiagnosisCreatePage />}
                 />
+                <Route
+                    path={diagnosesRoutePath + '/createResult/:diagnosisId'}
+                    element={<DiagnosisResultsCreatePage />}
+                />
             </Route>
             <Route path={diagnosesResultsRoutePath}>
                 <Route
@@ -160,8 +179,8 @@ export const AppRouter = () => {
                     element={<DiagnosesResultsPage />}
                 />
                 <Route
-                    path={diagnosesResultsRoutePath + '/create'}
-                    element={<DiagnosisResultsCreatePage />}
+                    path={diagnosesResultsRoutePath + '/createRecipe/:resultId'}
+                    element={<RecipeCreatePage />}
                 />
             </Route>
             <Route path={recipesRoutePath}>

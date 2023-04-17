@@ -90,7 +90,10 @@ export function filterHeartRatesTable(
                     .toString()
                     .toLowerCase()
                     .includes(query.toLowerCase()) ||
-                dataEntry.heartRate.toLowerCase().includes(query.toLowerCase())
+                dataEntry.heartRate
+                    .toString()
+                    .toLowerCase()
+                    .includes(query.toLowerCase())
             ) {
                 filteredEntries.push(dataEntry);
             }
@@ -148,6 +151,7 @@ export function filterDiagnosisTable(
                     .toLowerCase()
                     .includes(query.toLowerCase()) ||
                 dataEntry.diagnosis
+                    .toString()
                     .toLowerCase()
                     .includes(query.toLowerCase()) ||
                 dataEntry.caseType.toString().includes(query.toLowerCase())
@@ -175,7 +179,10 @@ export function filterResultsTable(
                     .toString()
                     .toLowerCase()
                     .includes(query.toLowerCase()) ||
-                dataEntry.result.toLowerCase().includes(query.toLowerCase()) ||
+                dataEntry.result
+                    .toString()
+                    .toLowerCase()
+                    .includes(query.toLowerCase()) ||
                 dataEntry.caseType.toString().includes(query.toLowerCase())
             ) {
                 filteredEntries.push(dataEntry);

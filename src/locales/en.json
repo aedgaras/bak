@@ -95,7 +95,9 @@
       "CreateHealthRecord": "Health Record",
       "CreateDiagnosis": "Create Diagnosis",
       "Delete": "Delete",
-      "Cancel": "Cancel"
+      "Cancel": "Cancel",
+      "CreateResult": "Create Result",
+      "CreateRecipe": "Create Recipe"
     },
     "NoData": "There's no new data"
   },
@@ -200,7 +202,10 @@
     "HealthRecord": {
       "HeartRate": "Heart Rate",
       "Description": "Description"
-    }
+    },
+    "AnimalDetails": "Animal Details",
+    "HealthRecordUpdate": "Update Health Record",
+    "CaseDetails": "Case Details"
   },
   "MenuDropdown": {
     "Profile": "Profile",

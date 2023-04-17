@@ -19,10 +19,15 @@ import {
     CreateCaseDto,
     CreateDiagnosisDto,
     CreateHealthRecordDto,
+    CreateRecipeDto,
+    CreateResultDto,
     DiagnosisDto,
     HealthRecordDto,
     MedicineRecipeDto,
     ResultDto,
+    UpdateAnimalDto,
+    UpdateCaseDto,
+    UpdateHealthRecordDto,
     UserDto,
 } from '../utils/dto';
 import {
@@ -208,6 +213,15 @@ export class AnimalService extends Service {
         return response;
     };
 
+    update = async (id: string, animalDto: UpdateAnimalDto) => {
+        const response = await this.api
+            .postRequest<AnimalDto>(ANIMALS_URL + '/' + id, animalDto)
+            .then((r: AxiosResponse) => {
+                return r.data;
+            });
+        return response;
+    };
+
     delete = async (id: number) => {
         const response = await this.api
             .deleteRequest(ANIMALS_URL + '/' + id)
@@ -244,6 +258,18 @@ export class HealthRecordService extends Service {
     add = async (data: CreateHealthRecordDto) => {
         const response = await this.api
             .postRequest(HEALTH_RECORDS_URL, data)
+            .then((r: AxiosResponse) => {
+                return r.data;
+            });
+        return response;
+    };
+
+    update = async (id: string, healthRecordDto: UpdateHealthRecordDto) => {
+        const response = await this.api
+            .postRequest<UpdateHealthRecordDto>(
+                HEALTH_RECORDS_URL + '/' + id,
+                healthRecordDto
+            )
             .then((r: AxiosResponse) => {
                 return r.data;
             });
@@ -321,6 +347,15 @@ export class CasesService extends Service {
         return response;
     };
 
+    update = async (id: string, data: UpdateCaseDto) => {
+        const response = await this.api
+            .postRequest(CASES_URL + '/' + id, data)
+            .then((r: AxiosResponse) => {
+                return r.data;
+            });
+        return response;
+    };
+
     delete = async (id: number) => {
         const response = await this.api
             .deleteRequest(CASES_URL + '/' + id)
@@ -390,11 +425,40 @@ export class ResultsService extends Service {
 
     get = async (id: string) => {
         const response = await this.api
-            .getRequest<ResultDto>(RECIPES_URL + '/' + id)
+            .getRequest<ResultDto>(RESULTS_URL + '/' + id)
             .then((r: AxiosResponse<ResultDto>) => {
                 return r.data;
             });
 
+        return response;
+    };
+
+    getAnimal = async (id: string) => {
+        const response = await this.api
+            .getRequest<AnimalDto>(RESULTS_URL + '/animal/' + id)
+            .then((r: AxiosResponse<AnimalDto>) => {
+                return r.data;
+            });
+
+        return response;
+    };
+
+    getCase = async (id: string) => {
+        const response = await this.api
+            .getRequest<CaseDto>(RESULTS_URL + '/case/' + id)
+            .then((r: AxiosResponse<CaseDto>) => {
+                return r.data;
+            });
+
+        return response;
+    };
+
+    add = async (data: CreateResultDto) => {
+        const response = await this.api
+            .postRequest(RESULTS_URL, data)
+            .then((r: AxiosResponse) => {
+                return r.data;
+            });
         return response;
     };
 
@@ -430,6 +494,15 @@ export class RecipeService extends Service {
                 return r.data;
             });
 
+        return response;
+    };
+
+    add = async (data: CreateRecipeDto) => {
+        const response = await this.api
+            .postRequest(RECIPES_URL, data)
+            .then((r: AxiosResponse) => {
+                return r.data;
+            });
         return response;
     };
 

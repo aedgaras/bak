@@ -36,3 +36,25 @@ export function validateEmail(value: string) {
 
     return error;
 }
+
+export function validateRecipe(value: string) {
+    let error: string = '';
+
+    if (!value) {
+        error = 'Recipe name is required!';
+        return error;
+    }
+
+    return error;
+}
+
+export function validateRecipeDescriptiom(value: string) {
+    let error: string = '';
+
+    if (!value) {
+        error = 'Recipe description is required!';
+        return error;
+    }
+
+    return error;
+}

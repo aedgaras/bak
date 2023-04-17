@@ -64,6 +64,10 @@ const AnimalCreationForm = () => {
             onSubmit={async (values, actions) => {
                 actions.setSubmitting(true);
                 const service = new AnimalService();
+                values = {
+                    ...values,
+                    userId: parseInt(state?.userId!.toString()),
+                };
 
                 service.add(values).then(() => {
                     navigate(-1);
@@ -90,7 +94,6 @@ const AnimalCreationForm = () => {
                             </FormErrorMessage>
                         </FormControl>
                     ) : null}
-
                     <GenericInput
                         fieldTitle={t('Form.Animal.Name')}
                         fieldName={'Name'}
@@ -101,7 +104,10 @@ const AnimalCreationForm = () => {
                         validation={validateUsername}
                     />
 
-                    <FormControl p={2}>
+                    <FormControl
+                        p={2}
+                        isInvalid={!!errors.type && touched.type}
+                    >
                         <FormLabel>{t('Form.Animal.Type')}</FormLabel>
                         <Field as={Select} name="type" required>
                             {AnimalValues.map((key) => {

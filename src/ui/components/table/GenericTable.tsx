@@ -36,6 +36,7 @@ import {
     getFilteredRowModel,
     getPaginationRowModel,
     getSortedRowModel,
+    Row,
     SortingState,
     useReactTable,
 } from '@tanstack/react-table';
@@ -46,19 +47,21 @@ import { useUserContext } from '../../../context/UserContext';
 import { DeleteDialog } from '../dialogs';
 import { BoxWithShadowMax } from '../wrappers/BoxWithShadow';
 
+type Entity =
+    | 'user'
+    | 'animal'
+    | 'case'
+    | 'diagnosis'
+    | 'result'
+    | 'healthrecord'
+    | 'recipe';
+
 type DataTableProps<Data extends object> = {
     data: Data[];
     columns: ColumnDef<Data, any>[];
     refreshData: Dispatch<unknown>;
     createButton?: JSX.Element;
-    entity:
-        | 'user'
-        | 'animal'
-        | 'case'
-        | 'diagnosis'
-        | 'result'
-        | 'healthrecord'
-        | 'recipe';
+    entity: Entity;
 };
 
 export interface GenericTableWithSearchAndCreateProps<T extends object>
@@ -111,6 +114,93 @@ export const GenericTableWithSearchAndCreate = <T extends object>({
         </BoxWithShadowMax>
     );
 };
+
+export function GenericCreate<Data extends object>({
+    entity,
+    row,
+}: {
+    entity: Entity;
+    row: Row<Data>;
+}) {
+    const { t } = useTranslation();
+
+    return (
+        <>
+            {entity === 'healthrecord' ? (
+                <>
+                    <Td key={row.id + '_details'}>
+                        <Link
+                            to={`rate/${row.getVisibleCells()[0].getValue()}`}
+                        >
+                            <Button>{t('Table.Buttons.Rate')}</Button>
+                        </Link>
+                    </Td>
+                </>
+            ) : null}
+            {entity === 'animal' ? (
+                <>
+                    <Td key={row.id + '_create'}>
+                        <Link
+                            to={
+                                'createHealthRecord/' +
+                                row.getVisibleCells()[0].getValue()
+                            }
+                        >
+                            <Button>
+                                {t('Table.Buttons.CreateHealthRecord')}
+                            </Button>
+                        </Link>
+                    </Td>
+                </>
+            ) : null}
+            {entity === 'case' ? (
+                <>
+                    <Td key={row.id + '_create'}>
+                        <Link
+                            to={
+                                'createDiagnosis/' +
+                                row.getVisibleCells()[0].getValue()
+                            }
+                        >
+                            <Button>
+                                {t('Table.Buttons.CreateDiagnosis')}
+                            </Button>
+                        </Link>
+                    </Td>
+                </>
+            ) : null}
+            {entity === 'diagnosis' ? (
+                <>
+                    <Td key={row.id + '_create'}>
+                        <Link
+                            to={
+                                'createResult/' +
+                                row.getVisibleCells()[0].getValue()
+                            }
+                        >
+                            <Button>{t('Table.Buttons.CreateResult')}</Button>
+                        </Link>
+                    </Td>
+                </>
+            ) : null}
+
+            {entity === 'result' ? (
+                <>
+                    <Td key={row.id + '_create'}>
+                        <Link
+                            to={
+                                'createRecipe/' +
+                                row.getVisibleCells()[0].getValue()
+                            }
+                        >
+                            <Button>{t('Table.Buttons.CreateRecipe')}</Button>
+                        </Link>
+                    </Td>
+                </>
+            ) : null}
+        </>
+    );
+}
 
 export function GenericTable<Data extends object>({
     data,
@@ -203,61 +293,7 @@ export function GenericTable<Data extends object>({
                                     </Td>
                                 );
                             })}
-                            {entity === 'healthrecord' ? (
-                                <>
-                                    <Td key={row.id + '_details'}>
-                                        <Link
-                                            to={`rate/${row
-                                                .getVisibleCells()[0]
-                                                .getValue()}`}
-                                        >
-                                            <Button>
-                                                {t('Table.Buttons.Rate')}
-                                            </Button>
-                                        </Link>
-                                    </Td>
-                                </>
-                            ) : null}
-                            {entity === 'animal' ? (
-                                <>
-                                    <Td key={row.id + '_create'}>
-                                        <Link
-                                            to={
-                                                'createHealthRecord/' +
-                                                row
-                                                    .getVisibleCells()[0]
-                                                    .getValue()
-                                            }
-                                        >
-                                            <Button>
-                                                {t(
-                                                    'Table.Buttons.CreateHealthRecord'
-                                                )}
-                                            </Button>
-                                        </Link>
-                                    </Td>
-                                </>
-                            ) : null}
-                            {entity === 'case' ? (
-                                <>
-                                    <Td key={row.id + '_create'}>
-                                        <Link
-                                            to={
-                                                'createDiagnosis/' +
-                                                row
-                                                    .getVisibleCells()[0]
-                                                    .getValue()
-                                            }
-                                        >
-                                            <Button>
-                                                {t(
-                                                    'Table.Buttons.CreateDiagnosis'
-                                                )}
-                                            </Button>
-                                        </Link>
-                                    </Td>
-                                </>
-                            ) : null}
+                            <GenericCreate entity={entity} row={row} />
                             {state.role === 'Admin' ? (
                                 <>
                                     <Td key={row.id + '_details'}>

@@ -47,7 +47,7 @@ const HealthRecordCreationForm = () => {
                 values = { ...values, animalId: parseInt(params.animalId!) };
                 const service = new HealthRecordService();
 
-                service.addHealthRecord(values).then(() => {
+                service.add(values).then(() => {
                     navigate(-1);
                 });
             }}

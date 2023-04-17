@@ -4,17 +4,26 @@ import {
     FormControl,
     FormLabel,
     Heading,
+    Input,
     Select,
     SimpleGrid,
     useToast,
     VStack,
 } from '@chakra-ui/react';
-import { Formik } from 'formik';
+import { useQuery } from '@tanstack/react-query';
+import { Field, Formik } from 'formik';
 import { t } from 'i18next';
 import { useTranslation } from 'react-i18next';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useUserContext } from '../../../context/UserContext';
-import { UserRegisterDto } from '../../../utils/dto';
-import { Classification } from '../../../utils/Models';
+import {
+    CasesService,
+    DiagnosisService,
+    ResultsService,
+    UserService,
+} from '../../../services';
+import { CreateResultDto } from '../../../utils/dto';
+import { CaseValues } from '../../../utils/utils';
 import { GenericInput, SubmitButton } from '../../components/form';
 import {
     validatePassword,
@@ -49,70 +58,124 @@ export const DiagnosisResultsCreatePage = () => {
 
 const DiagnosisResultsCreationForm = () => {
     const { state } = useUserContext();
-    const specification: Classification[] = ['Veterinarian', 'Specialist'];
-    const users = ['user'];
-    const userAnimals = ['animal'];
-    const diagnosis = ['diagnosis'];
-    const resultType = ['resultType'];
+    const params = useParams<{ diagnosisId: string }>();
+    const navigate = useNavigate();
+
+    const diagnosis = useQuery({
+        queryKey: ['diagnosis' + params.diagnosisId!],
+        queryFn: async () => {
+            const diagnosisService = new DiagnosisService();
+            return await diagnosisService.get(params.diagnosisId!);
+        },
+    });
+
+    const user = useQuery({
+        queryKey: ['diagnosisUser' + params.diagnosisId!],
+        queryFn: async () => {
+            const userService = new UserService();
+
+            if (diagnosis.data) {
+                return await userService.getUserById(
+                    diagnosis?.data.userId.toString()
+                );
+            }
+        },
+        enabled: !!diagnosis,
+    });
+
+    const animal = useQuery({
+        queryKey: ['diagnosisAnimal' + params.diagnosisId!],
+        queryFn: async () => {
+            const service = new CasesService();
+
+            if (diagnosis.data) {
+                return await service.getAnimalByCase(
+                    diagnosis?.data.caseId.toString()
+                );
+            }
+        },
+        enabled: !!diagnosis,
+    });
 
     return (
         <Formik
-            initialValues={{} as UserRegisterDto}
+            initialValues={
+                {
+                    caseDiagnosisId: diagnosis.data?.caseId!,
+                    userId: parseInt(state.userId?.toString()!),
+                } as CreateResultDto
+            }
             onSubmit={async (values, actions) => {
                 actions.setSubmitting(true);
+                const service = new ResultsService();
+                values = {
+                    ...values,
+                    caseDiagnosisId: diagnosis.data?.caseId!,
+                    userId: parseInt(state.userId!.toString()),
+                    caseType: !values.caseType
+                        ? 0
+                        : parseInt(values.caseType.toString()),
+                };
+
+                service.add(values).then(() => {
+                    actions.setSubmitting(false);
+                    navigate(-1);
+                });
             }}
         >
             {({ handleSubmit, errors, touched, isSubmitting }) => (
                 <form onSubmit={handleSubmit}>
                     <SimpleGrid columns={[1, null, null, 2]}>
                         <Box>
-                            <FormControl p={2} isRequired>
+                            <FormControl p={2} isRequired isDisabled>
                                 <FormLabel>
                                     {t('Form.Diagnosis.Result.User')}
                                 </FormLabel>
-                                <Select>
-                                    {users.map((key) => {
-                                        return (
-                                            <option value={key}>{key}</option>
-                                        );
-                                    })}
-                                </Select>
+                                <Field
+                                    as={Input}
+                                    disabled
+                                    value={user.data?.username}
+                                ></Field>
                             </FormControl>
                             <FormControl p={2}>
                                 <FormLabel>
                                     {t('Form.Diagnosis.Result.Animal')}
                                 </FormLabel>
-                                <Select>
-                                    {userAnimals.map((key) => {
-                                        return (
-                                            <option value={key}>{key}</option>
-                                        );
-                                    })}
-                                </Select>
+                                <Field
+                                    as={Input}
+                                    disabled
+                                    value={animal.data?.name}
+                                ></Field>
                             </FormControl>
                             <FormControl p={2}>
                                 <FormLabel>
                                     {t('Form.Diagnosis.Result.Diangosis')}
                                 </FormLabel>
-                                <Select>
-                                    {diagnosis.map((key) => {
-                                        return (
-                                            <option value={key}>{key}</option>
-                                        );
-                                    })}
-                                </Select>
+                                <Field
+                                    as={Input}
+                                    disabled
+                                    value={diagnosis?.data?.diagnosis}
+                                ></Field>
                             </FormControl>
-                            <FormControl p={2}>
+                            <FormControl
+                                p={2}
+                                isInvalid={
+                                    !!errors.caseType && touched.caseType
+                                }
+                                isRequired
+                            >
                                 <FormLabel>
                                     {t('Form.Diagnosis.Result.ResultType')}
                                 </FormLabel>
-                                <Select>
-                                    {resultType.map((key) => {
+                                <Field as={Select} name="caseType" required>
+                                    {CaseValues.map((key) => {
                                         return (
-                                            <option value={key}>{key}</option>
+                                            <option value={key.value}>
+                                                {key.key}
+                                            </option>
                                         );
                                     })}
-                                </Select>
+                                </Field>
                             </FormControl>
                         </Box>
                         <Box>
@@ -121,8 +184,8 @@ const DiagnosisResultsCreationForm = () => {
                                 fieldName={'Result'}
                                 fieldType={'textarea'}
                                 isRequired={true}
-                                errorField={errors.username}
-                                touchedField={touched.username}
+                                errorField={errors.result}
+                                touchedField={touched.result}
                                 validation={validateUsername}
                             />
                             <GenericInput
@@ -132,8 +195,8 @@ const DiagnosisResultsCreationForm = () => {
                                 fieldName={'Description'}
                                 fieldType={'string'}
                                 isRequired={true}
-                                errorField={errors.password}
-                                touchedField={touched.password}
+                                errorField={errors.description}
+                                touchedField={touched.description}
                                 validation={validatePassword}
                             />
                         </Box>

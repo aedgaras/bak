@@ -101,7 +101,10 @@
     "HealthRecord": {
       "HeartRate": "Širdies ritmas",
       "Description": "Aprašymas"
-    }
+    },
+    "CaseDetails": "Padietės Detalės",
+    "HealthRecordUpdate": "Keisti Sveikatos Įrašą",
+    "AnimalDetails": "Gyvūno Detalės"
   },
   "Table": {
     "User": "Paskyra",
@@ -170,7 +173,10 @@
       "Rate": "Įvertinti",
       "CreateHealthRecord": "Sveikatos įrašas",
       "CreateDiagnosis": "Pateikti Diagnozė",
-      "Delete": "Ištrinti"
+      "Delete": "Ištrinti",
+      "CreateResult": "Kurti Rezultatą",
+      "Cancel": "Atšaukti",
+      "CreateRecipe": "Kūrti Receptą"
     }
   },
   "Page": {

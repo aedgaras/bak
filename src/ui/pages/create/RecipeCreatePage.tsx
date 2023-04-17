@@ -4,20 +4,25 @@ import {
     FormControl,
     FormLabel,
     Heading,
+    Input,
     Select,
     SimpleGrid,
     useToast,
     VStack,
 } from '@chakra-ui/react';
-import { Formik } from 'formik';
+import { useQuery } from '@tanstack/react-query';
+import { Field, Formik } from 'formik';
 import { t } from 'i18next';
 import { useTranslation } from 'react-i18next';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useUserContext } from '../../../context/UserContext';
-import { UserRegisterDto } from '../../../utils/dto';
+import { RecipeService, ResultsService } from '../../../services';
+import { CreateRecipeDto } from '../../../utils/dto';
 import { GenericInput, SubmitButton } from '../../components/form';
 import {
     validatePassword,
-    validateUsername,
+    validateRecipe,
+    validateRecipeDescriptiom,
 } from '../../components/form/validation/validation';
 import { AppWrapper } from '../../components/wrappers/AppWrapper';
 import { BoxWithShadow } from '../../components/wrappers/BoxWithShadow';
@@ -48,17 +53,54 @@ export const RecipeCreatePage = () => {
 
 const RecipeCreationForm = () => {
     const { state } = useUserContext();
-    const users = ['user'];
-    const userAnimals = ['animal'];
-    const diagnosis = ['diagnosis'];
-    const result = ['result'];
     const count = [1, 2, 3, 4];
+
+    const params = useParams<{ resultId: string }>();
+    const navigate = useNavigate();
+
+    const result = useQuery({
+        queryKey: ['resultRecipe' + params.resultId!],
+        queryFn: async () => {
+            const service = new ResultsService();
+            return await service.get(params.resultId!);
+        },
+    });
+
+    const animal = useQuery({
+        queryKey: ['animalRecipe' + params.resultId!],
+        queryFn: async () => {
+            const service = new ResultsService();
+            return await service.getAnimal(params.resultId!);
+        },
+    });
+
+    const caseObj = useQuery({
+        queryKey: ['caseRecipe' + params.resultId!],
+        queryFn: async () => {
+            const service = new ResultsService();
+            return await service.getCase(params.resultId!);
+        },
+    });
 
     return (
         <Formik
-            initialValues={{} as UserRegisterDto}
+            initialValues={{} as CreateRecipeDto}
             onSubmit={async (values, actions) => {
                 actions.setSubmitting(true);
+
+                const service = new RecipeService();
+                values = {
+                    ...values,
+                    count: !values.count
+                        ? 1
+                        : parseInt(values.count.toString()),
+                    caseId: parseInt(caseObj.data?.id!),
+                    userId: parseInt(state.userId!.toString()),
+                };
+
+                await service.add(values).then(() => {
+                    navigate(-1);
+                });
             }}
         >
             {({ handleSubmit, errors, touched, isSubmitting }) => (
@@ -69,82 +111,76 @@ const RecipeCreationForm = () => {
                                 <FormLabel>
                                     {t('Form.MedicineRecipe.User')}
                                 </FormLabel>
-                                <Select>
-                                    {users.map((key) => {
-                                        return (
-                                            <option value={key}>{key}</option>
-                                        );
-                                    })}
-                                </Select>
+                                <Field
+                                    as={Input}
+                                    disabled
+                                    value={result.data?.userId}
+                                ></Field>
                             </FormControl>
                             <FormControl p={2}>
                                 <FormLabel>
                                     {t('Form.MedicineRecipe.Animal')}
                                 </FormLabel>
-                                <Select>
-                                    {userAnimals.map((key) => {
-                                        return (
-                                            <option value={key}>{key}</option>
-                                        );
-                                    })}
-                                </Select>
+                                <Field
+                                    as={Input}
+                                    disabled
+                                    value={animal.data?.name}
+                                ></Field>
                             </FormControl>
                             <FormControl p={2}>
                                 <FormLabel>
                                     {t('Form.MedicineRecipe.Diagnosis')}
                                 </FormLabel>
-                                <Select>
-                                    {diagnosis.map((key) => {
-                                        return (
-                                            <option value={key}>{key}</option>
-                                        );
-                                    })}
-                                </Select>
+                                <Field
+                                    as={Input}
+                                    disabled
+                                    value={
+                                        result.data?.caseDiagnosis?.diagnosis
+                                    }
+                                ></Field>
                             </FormControl>
                             <FormControl p={2}>
                                 <FormLabel>
                                     {t('Form.MedicineRecipe.DiagnosisResults')}
                                 </FormLabel>
-                                <Select>
-                                    {result.map((key) => {
-                                        return (
-                                            <option value={key}>{key}</option>
-                                        );
-                                    })}
-                                </Select>
+                                <Field
+                                    as={Input}
+                                    disabled
+                                    value={result.data?.result}
+                                ></Field>
                             </FormControl>
                         </Box>
                         <Box>
                             <GenericInput
                                 fieldTitle={t('Form.MedicineRecipe.Name')}
-                                fieldName={'RecipeName'}
+                                fieldName={'Title'}
                                 fieldType={'string'}
                                 isRequired={true}
-                                errorField={errors.username}
-                                touchedField={touched.username}
-                                validation={validateUsername}
+                                errorField={errors.title}
+                                touchedField={touched.title}
+                                validation={validateRecipe}
                             />
                             <GenericInput
                                 fieldTitle={t(
                                     'Form.MedicineRecipe.Description'
                                 )}
-                                fieldName={'Password'}
+                                fieldName={'Description'}
                                 fieldType={'string'}
                                 isRequired={true}
-                                errorField={errors.password}
-                                touchedField={touched.password}
-                                validation={validatePassword}
+                                errorField={errors.description}
+                                touchedField={touched.description}
+                                validation={validateRecipeDescriptiom}
                             />
                         </Box>
 
                         <Box>
                             <GenericInput
                                 fieldTitle={t('Form.MedicineRecipe.DateDue')}
-                                fieldName={'DateDue'}
+                                fieldName={'ExpiryTime'}
                                 fieldType={'date'}
                                 isRequired={true}
-                                errorField={errors.password}
-                                touchedField={touched.password}
+                                errorField={errors.expiryTime?.toString()}
+                                touchedField={touched.expiryTime}
                                 validation={validatePassword}
                             />
 
@@ -152,13 +188,13 @@ const RecipeCreationForm = () => {
                                 <FormLabel>
                                     {t('Form.MedicineRecipe.Count')}
                                 </FormLabel>
-                                <Select>
+                                <Field as={Select} name="count">
                                     {count.map((key) => {
                                         return (
                                             <option value={key}>{key}</option>
                                         );
                                     })}
-                                </Select>
+                                </Field>
                             </FormControl>
                         </Box>
                     </SimpleGrid>
