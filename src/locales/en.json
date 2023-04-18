@@ -205,7 +205,10 @@
     },
     "AnimalDetails": "Animal Details",
     "HealthRecordUpdate": "Update Health Record",
-    "CaseDetails": "Case Details"
+    "CaseDetails": "Case Details",
+    "RecipeDetails": "Recipe Details",
+    "DiagnosesResultsDetails": "Diagnoses Results Details",
+    "DiagnosesDetails": "Diagnoses Details"
   },
   "MenuDropdown": {
     "Profile": "Profile",

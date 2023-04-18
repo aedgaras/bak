@@ -19,7 +19,12 @@ import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { useUserContext } from '../../context/UserContext';
-import { healthRecordsRoutePath } from '../../router/AppRouter';
+import {
+    diagnosesResultsRoutePath,
+    diagnosesRoutePath,
+    healthRecordsRoutePath,
+    recipesRoutePath,
+} from '../../router/AppRouter';
 import {
     DiagnosisService,
     HealthRecordService,
@@ -85,7 +90,7 @@ const HealthRecordTable = () => {
     const { isLoading, isFetching, error, data } = useQuery({
         queryKey: ['newestHealthRecords'],
         queryFn: async () => {
-            return (await healthRecordService.list()).slice(0, 3);
+            return (await healthRecordService.list()).slice(0, 3).reverse();
         },
     });
 
@@ -100,7 +105,7 @@ const HealthRecordTable = () => {
                 <Divider />
                 {data && data.length > 0 ? (
                     <TableContainer>
-                        <Table variant="simple">
+                        <Table variant="simple" size="md">
                             <Tbody>
                                 {data.map((x) => {
                                     return (
@@ -127,7 +132,11 @@ const HealthRecordTable = () => {
                                             </Td>
                                             <Td>
                                                 <Link
-                                                    to={healthRecordsRoutePath}
+                                                    to={
+                                                        healthRecordsRoutePath +
+                                                        '/' +
+                                                        x.id
+                                                    }
                                                 >
                                                     <Button>
                                                         {t(
@@ -165,7 +174,7 @@ const DiagnosesTable = () => {
         queryKey: ['diagnoses'],
         queryFn: async () => {
             const service = new DiagnosisService();
-            return (await service.list()).slice(0, 3);
+            return (await service.list()).slice(0, 3).reverse();
         },
     });
 
@@ -198,7 +207,11 @@ const DiagnosesTable = () => {
                                             </Td>
                                             <Td>
                                                 <Link
-                                                    to={healthRecordsRoutePath}
+                                                    to={
+                                                        diagnosesRoutePath +
+                                                        '/' +
+                                                        x.id
+                                                    }
                                                 >
                                                     <Button>
                                                         {t(
@@ -236,7 +249,7 @@ const MedicineRecipesTable = () => {
         queryKey: ['recipes'],
         queryFn: async () => {
             const service = new RecipeService();
-            return (await service.list()).slice(0, 3);
+            return (await service.list()).slice(0, 3).reverse();
         },
     });
 
@@ -260,7 +273,11 @@ const MedicineRecipesTable = () => {
                                             <Td>{x.title}</Td>
                                             <Td>
                                                 <Link
-                                                    to={healthRecordsRoutePath}
+                                                    to={
+                                                        recipesRoutePath +
+                                                        '/' +
+                                                        x.id
+                                                    }
                                                 >
                                                     <Button>
                                                         {t(
@@ -298,7 +315,7 @@ const DiagnosesResultsTable = () => {
         queryKey: ['diagnoses'],
         queryFn: async () => {
             const service = new DiagnosisService();
-            return (await service.list()).slice(0, 3);
+            return (await service.list()).slice(0, 3).reverse();
         },
     });
 
@@ -333,7 +350,11 @@ const DiagnosesResultsTable = () => {
                                             </Td>
                                             <Td>
                                                 <Link
-                                                    to={healthRecordsRoutePath}
+                                                    to={
+                                                        diagnosesResultsRoutePath +
+                                                        '/' +
+                                                        x.id
+                                                    }
                                                 >
                                                     <Button>
                                                         {t(

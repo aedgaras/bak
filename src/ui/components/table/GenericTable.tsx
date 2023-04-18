@@ -5,6 +5,7 @@ import {
     ChevronRightIcon,
     DeleteIcon,
     MinusIcon,
+    PhoneIcon,
     TriangleDownIcon,
     TriangleUpIcon,
 } from '@chakra-ui/icons';
@@ -26,9 +27,11 @@ import {
     Text,
     Th,
     Thead,
+    Tooltip,
     Tr,
     useDisclosure,
 } from '@chakra-ui/react';
+import { useQuery } from '@tanstack/react-query';
 import {
     ColumnDef,
     flexRender,
@@ -44,6 +47,7 @@ import React, { Dispatch, SetStateAction } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { useUserContext } from '../../../context/UserContext';
+import { HealthRecordService } from '../../../services';
 import { DeleteDialog } from '../dialogs';
 import { BoxWithShadowMax } from '../wrappers/BoxWithShadow';
 
@@ -202,6 +206,24 @@ export function GenericCreate<Data extends object>({
     );
 }
 
+const PhoneTooltip = ({ id }: { id: string }) => {
+    const healthRecordService = new HealthRecordService();
+
+    const { isLoading, isFetching, error, data } = useQuery({
+        queryFn: async () => {
+            return await healthRecordService.getHealthRecordsContactInfo(id);
+        },
+    });
+
+    return (
+        <Skeleton isLoaded={!isLoading}>
+            <Tooltip hasArrow label={data?.phoneNumber}>
+                <PhoneIcon />
+            </Tooltip>
+        </Skeleton>
+    );
+};
+
 export function GenericTable<Data extends object>({
     data,
     columns,
@@ -294,6 +316,17 @@ export function GenericTable<Data extends object>({
                                 );
                             })}
                             <GenericCreate entity={entity} row={row} />
+                            {entity === 'healthrecord' ? (
+                                <Td>
+                                    <PhoneTooltip
+                                        id={
+                                            row
+                                                .getVisibleCells()[0]
+                                                .getValue() as string
+                                        }
+                                    />
+                                </Td>
+                            ) : null}
                             {state.role === 'Admin' ? (
                                 <>
                                     <Td key={row.id + '_details'}>

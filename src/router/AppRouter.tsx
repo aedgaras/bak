@@ -14,8 +14,11 @@ import { RecipeCreatePage } from '../ui/pages/create/RecipeCreatePage';
 import { UserCreatePage } from '../ui/pages/create/UserCreatePage';
 import { AnimalDetailsPage } from '../ui/pages/details/AnimalDetailsPage';
 import { CaseDetailsPage } from '../ui/pages/details/CaseDetailsPage';
+import { DiagnosesDetailsPage } from '../ui/pages/details/DiagnosesDetailsPage';
+import { DiagnosesResultsDetailsPage } from '../ui/pages/details/DiagnosesResultsDetailsPage';
 import { HealthRecordDetailsPage } from '../ui/pages/details/HealthRecordDetailsPage';
 import { ProfilePage } from '../ui/pages/details/ProfilePage';
+import { RecipesDetailsPage } from '../ui/pages/details/RecipesDetailsPage';
 import { UserDetailsPage } from '../ui/pages/details/UserDetailsPage';
 import { HomePage } from '../ui/pages/HomePage';
 import { AnimalsPage } from '../ui/pages/lists/AnimalsPage';
@@ -172,6 +175,10 @@ export const AppRouter = () => {
                     path={diagnosesRoutePath + '/createResult/:diagnosisId'}
                     element={<DiagnosisResultsCreatePage />}
                 />
+                <Route
+                    path={diagnosesRoutePath + '/:id'}
+                    element={<DiagnosesDetailsPage />}
+                />
             </Route>
             <Route path={diagnosesResultsRoutePath}>
                 <Route
@@ -182,12 +189,20 @@ export const AppRouter = () => {
                     path={diagnosesResultsRoutePath + '/createRecipe/:resultId'}
                     element={<RecipeCreatePage />}
                 />
+                <Route
+                    path={diagnosesResultsRoutePath + '/:id'}
+                    element={<DiagnosesResultsDetailsPage />}
+                />
             </Route>
             <Route path={recipesRoutePath}>
                 <Route path={recipesRoutePath} element={<RecipesPage />} />
                 <Route
                     path={recipesRoutePath + '/create'}
                     element={<RecipeCreatePage />}
+                />
+                <Route
+                    path={recipesRoutePath + '/:id'}
+                    element={<RecipesDetailsPage />}
                 />
             </Route>
             <Route path="*" element={<PageNotFound />} />
