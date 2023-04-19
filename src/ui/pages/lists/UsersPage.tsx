@@ -10,7 +10,6 @@ import {
     filterUserTable,
     userTableColumns,
 } from '../../components/table/Helpers';
-import { AppWrapper } from '../../components/wrappers/AppWrapper';
 
 export const UsersPage = () => {
     const [usersToDisplay, setUsersToDisplay] = useState<UserDto[]>([]);
@@ -27,29 +26,28 @@ export const UsersPage = () => {
     });
 
     useEffect(() => {
+        document.title = t('Pages.UsersPage');
         if (data) {
             filterUserTable(data, queryFilter, setUsersToDisplay);
         }
     }, [queryFilter, data, refreshFlag]);
 
     return (
-        <AppWrapper>
-            <Skeleton isLoaded={!isLoading}>
-                <GenericTableWithSearchAndCreate<UserDto>
-                    title={t('Table.Title.Users')}
-                    entity={'user'}
-                    isLoaded={!isLoading}
-                    filter={setQueryFilter}
-                    data={usersToDisplay}
-                    columns={userTableColumns()}
-                    refreshData={setRefreshFlag}
-                    createButton={
-                        <Link to="create">
-                            <Button color="teal">Create User</Button>
-                        </Link>
-                    }
-                ></GenericTableWithSearchAndCreate>
-            </Skeleton>
-        </AppWrapper>
+        <Skeleton isLoaded={!isLoading}>
+            <GenericTableWithSearchAndCreate<UserDto>
+                title={t('Table.Title.Users')}
+                entity={'user'}
+                isLoaded={!isLoading}
+                filter={setQueryFilter}
+                data={usersToDisplay}
+                columns={userTableColumns()}
+                refreshData={setRefreshFlag}
+                createButton={
+                    <Link to="create">
+                        <Button color="teal">Create User</Button>
+                    </Link>
+                }
+            ></GenericTableWithSearchAndCreate>
+        </Skeleton>
     );
 };

@@ -7,6 +7,7 @@ import {
     Input,
     Select,
     SimpleGrid,
+    Skeleton,
     useToast,
     VStack,
 } from '@chakra-ui/react';
@@ -29,7 +30,6 @@ import {
     validatePassword,
     validateUsername,
 } from '../../components/form/validation/validation';
-import { AppWrapper } from '../../components/wrappers/AppWrapper';
 import { BoxWithShadow } from '../../components/wrappers/BoxWithShadow';
 import { DataDisplay } from '../../components/wrappers/DataDisplay';
 
@@ -38,21 +38,19 @@ export const DiagnosisResultsCreatePage = () => {
     const { t } = useTranslation();
 
     return (
-        <AppWrapper>
-            <DataDisplay
-                isLoaded={true}
-                element={
-                    <BoxWithShadow>
-                        <VStack>
-                            <Heading size={'lg'} sx={{ p: 2 }}>
-                                {t('Form.DiagnosisResult.Create')}
-                            </Heading>
-                            <DiagnosisResultsCreationForm />
-                        </VStack>
-                    </BoxWithShadow>
-                }
-            />
-        </AppWrapper>
+        <DataDisplay
+            isLoaded={true}
+            element={
+                <BoxWithShadow>
+                    <VStack>
+                        <Heading size={'lg'} sx={{ p: 2 }}>
+                            {t('Form.DiagnosisResult.Create')}
+                        </Heading>
+                        <DiagnosisResultsCreationForm />
+                    </VStack>
+                </BoxWithShadow>
+            }
+        />
     );
 };
 
@@ -125,59 +123,65 @@ const DiagnosisResultsCreationForm = () => {
         >
             {({ handleSubmit, errors, touched, isSubmitting }) => (
                 <form onSubmit={handleSubmit}>
-                    <SimpleGrid columns={[1, null, null, 2]}>
-                        <Box>
-                            <FormControl p={2} isRequired isDisabled>
-                                <FormLabel>
-                                    {t('Form.Diagnosis.Result.User')}
-                                </FormLabel>
-                                <Field
-                                    as={Input}
-                                    disabled
-                                    value={user.data?.username}
-                                ></Field>
-                            </FormControl>
-                            <FormControl p={2}>
-                                <FormLabel>
-                                    {t('Form.Diagnosis.Result.Animal')}
-                                </FormLabel>
-                                <Field
-                                    as={Input}
-                                    disabled
-                                    value={animal.data?.name}
-                                ></Field>
-                            </FormControl>
-                            <FormControl p={2}>
-                                <FormLabel>
-                                    {t('Form.Diagnosis.Result.Diangosis')}
-                                </FormLabel>
-                                <Field
-                                    as={Input}
-                                    disabled
-                                    value={diagnosis?.data?.diagnosis}
-                                ></Field>
-                            </FormControl>
-                            <FormControl
-                                p={2}
-                                isInvalid={
-                                    !!errors.caseType && touched.caseType
-                                }
-                                isRequired
-                            >
-                                <FormLabel>
-                                    {t('Form.Diagnosis.Result.ResultType')}
-                                </FormLabel>
-                                <Field as={Select} name="caseType" required>
-                                    {CaseValues.map((key) => {
-                                        return (
-                                            <option value={key.value}>
-                                                {key.key}
-                                            </option>
-                                        );
-                                    })}
-                                </Field>
-                            </FormControl>
-                        </Box>
+                    <SimpleGrid columns={[1, 2, 2, 2]}>
+                        {!diagnosis.isLoading &&
+                        !user.isLoading &&
+                        !animal.isLoading ? (
+                            <Box>
+                                <FormControl p={2} isRequired isDisabled>
+                                    <FormLabel>
+                                        {t('Form.Diagnosis.Result.User')}
+                                    </FormLabel>
+                                    <Field
+                                        as={Input}
+                                        disabled
+                                        value={user.data?.username}
+                                    ></Field>
+                                </FormControl>
+                                <FormControl p={2}>
+                                    <FormLabel>
+                                        {t('Form.Diagnosis.Result.Animal')}
+                                    </FormLabel>
+                                    <Field
+                                        as={Input}
+                                        disabled
+                                        value={animal.data?.name}
+                                    ></Field>
+                                </FormControl>
+                                <FormControl p={2}>
+                                    <FormLabel>
+                                        {t('Form.Diagnosis.Result.Diangosis')}
+                                    </FormLabel>
+                                    <Field
+                                        as={Input}
+                                        disabled
+                                        value={diagnosis?.data?.diagnosis}
+                                    ></Field>
+                                </FormControl>
+                                <FormControl
+                                    p={2}
+                                    isInvalid={
+                                        !!errors.caseType && touched.caseType
+                                    }
+                                    isRequired
+                                >
+                                    <FormLabel>
+                                        {t('Form.Diagnosis.Result.ResultType')}
+                                    </FormLabel>
+                                    <Field as={Select} name="caseType" required>
+                                        {CaseValues.map((key) => {
+                                            return (
+                                                <option value={key.value}>
+                                                    {key.key}
+                                                </option>
+                                            );
+                                        })}
+                                    </Field>
+                                </FormControl>
+                            </Box>
+                        ) : (
+                            <Skeleton />
+                        )}
                         <Box>
                             <GenericInput
                                 fieldTitle={t('Form.Diagnosis.Result.Name')}
@@ -202,7 +206,14 @@ const DiagnosisResultsCreationForm = () => {
                         </Box>
                     </SimpleGrid>
                     <Flex justifyContent={'center'}>
-                        <SubmitButton isSubmitting={isSubmitting} />
+                        <SubmitButton
+                            isSubmitting={
+                                isSubmitting ||
+                                (diagnosis.isLoading &&
+                                    user.isLoading &&
+                                    animal.isLoading)
+                            }
+                        />
                     </Flex>
                 </form>
             )}

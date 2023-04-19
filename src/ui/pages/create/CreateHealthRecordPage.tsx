@@ -7,7 +7,6 @@ import { useUserContext } from '../../../context/UserContext';
 import { HealthRecordService } from '../../../services';
 import { CreateHealthRecordDto } from '../../../utils/dto';
 import { GenericInput, SubmitButton } from '../../components/form';
-import { AppWrapper } from '../../components/wrappers/AppWrapper';
 import { BoxWithBorder } from '../../components/wrappers/BoxWithShadow';
 import { DataDisplay } from '../../components/wrappers/DataDisplay';
 
@@ -16,21 +15,19 @@ export const CreateHealthRecordPage = () => {
     const { t } = useTranslation();
 
     return (
-        <AppWrapper>
-            <DataDisplay
-                isLoaded={true}
-                element={
-                    <BoxWithBorder>
-                        <VStack>
-                            <Heading size={'lg'} sx={{ p: 2 }}>
-                                {t('Form.HealthRecordCreate')}
-                            </Heading>
-                            <HealthRecordCreationForm />
-                        </VStack>
-                    </BoxWithBorder>
-                }
-            />
-        </AppWrapper>
+        <DataDisplay
+            isLoaded={true}
+            element={
+                <BoxWithBorder>
+                    <VStack>
+                        <Heading size={'lg'} sx={{ p: 2 }}>
+                            {t('Form.HealthRecordCreate')}
+                        </Heading>
+                        <HealthRecordCreationForm />
+                    </VStack>
+                </BoxWithBorder>
+            }
+        />
     );
 };
 

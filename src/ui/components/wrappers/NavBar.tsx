@@ -47,6 +47,7 @@ export const NavBar = ({ children }: any) => {
                     base: 'none',
                     sm: useColorModeValue('md', 'md-dark'),
                 }}
+                background={'white'}
             >
                 <Flex>
                     <Flex width={'100%'}>
@@ -62,7 +63,10 @@ export const NavBar = ({ children }: any) => {
                         <Spacer />
                         <HStack display={['flex', 'flex', 'flex', 'none']}>
                             {state.loggedIn === true ? (
-                                <Text>{`Hello, ${state.name}`}</Text>
+                                <>
+                                    <Text>{t('Navigation.Greetings')}</Text>
+                                    <Text>{`${state.name}`}</Text>
+                                </>
                             ) : null}
                             <LanguageSwitcher />
                             <IconButton
@@ -92,7 +96,10 @@ export const NavBar = ({ children }: any) => {
                         <BoxWithShadow>
                             <HStack justify="flex-end">
                                 {state.loggedIn === true ? (
-                                    <Text>{`Hello, ${state.name}`}</Text>
+                                    <>
+                                        <Text>{t('Navigation.Greetings')}</Text>
+                                        <Text>{`${state.name}`}</Text>
+                                    </>
                                 ) : null}
                                 <LanguageSwitcher />
                                 <IconButton

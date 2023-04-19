@@ -1,4 +1,4 @@
-import { Heading, useToast, VStack } from '@chakra-ui/react';
+import { Heading, useToast } from '@chakra-ui/react';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { authenticateUserHook } from '../../../hooks/customHooks';
@@ -8,8 +8,7 @@ import {
     validatePassword,
     validateUsername,
 } from '../../components/form/validation/validation';
-import { AppWrapper } from '../../components/wrappers/AppWrapper';
-import { BoxWithShadow } from '../../components/wrappers/BoxWithShadow';
+import { FormWrapper } from '../../components/wrappers/BoxWithShadow';
 
 export const RegisterPage = () => {
     const toast = useToast();
@@ -17,14 +16,10 @@ export const RegisterPage = () => {
     document.title = 'Register';
 
     return (
-        <AppWrapper>
-            <BoxWithShadow>
-                <VStack>
-                    <Heading>{t('Authentication.Register')}</Heading>
-                    {RegisterForm()}
-                </VStack>
-            </BoxWithShadow>
-        </AppWrapper>
+        <FormWrapper>
+            <Heading>{t('Authentication.Register')}</Heading>
+            {RegisterForm()}
+        </FormWrapper>
     );
 
     function RegisterForm() {

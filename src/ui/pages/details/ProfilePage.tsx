@@ -15,7 +15,6 @@ import { UserService } from '../../../services';
 import { UserDto } from '../../../utils/dto';
 import { GenericInput, SubmitButton } from '../../components/form';
 import { validateUsername } from '../../components/form/validation/validation';
-import { AppWrapper } from '../../components/wrappers/AppWrapper';
 import { BoxWithShadowMax } from '../../components/wrappers/BoxWithShadow';
 
 export const ProfilePage = () => {
@@ -73,56 +72,49 @@ const ProfileSection = ({
     const { t } = useTranslation();
 
     return (
-        <AppWrapper>
-            <Skeleton isLoaded={isLoaded}>
-                <BoxWithShadowMax>
-                    <VStack>
-                        <Avatar name={state.name} src={''} size={'2xl'} />
-                        <Formik
-                            initialValues={user ?? ({} as UserDto)}
-                            onSubmit={async (values, actions) => {
-                                actions.setSubmitting(true);
-                                const services = new UserService();
+        <Skeleton isLoaded={isLoaded}>
+            <BoxWithShadowMax>
+                <VStack>
+                    <Avatar name={state.name} src={''} size={'2xl'} />
+                    <Formik
+                        initialValues={user ?? ({} as UserDto)}
+                        onSubmit={async (values, actions) => {
+                            actions.setSubmitting(true);
+                            const services = new UserService();
 
-                                await services.api
-                                    .putRequest('/users/' + user?.id, {
-                                        username: values.username,
-                                    })
-                                    .then((r) => {
-                                        actions.setSubmitting(false);
-                                    });
-                            }}
-                        >
-                            {({
-                                handleSubmit,
-                                errors,
-                                touched,
-                                isSubmitting,
-                            }) => (
-                                <form onSubmit={handleSubmit}>
-                                    <GenericInput
-                                        fieldName={'Username'}
-                                        fieldType={'text'}
-                                        isRequired={true}
-                                        errorField={errors.username}
-                                        touchedField={touched.username}
-                                        validation={validateUsername}
-                                        placeholder={state.name}
-                                        fieldTitle={t('Form.Username')}
-                                    />
-                                    <HStack w={'100%'}>
-                                        {edit ? (
-                                            <SubmitButton
-                                                isSubmitting={isSubmitting}
-                                            />
-                                        ) : null}
-                                    </HStack>
-                                </form>
-                            )}
-                        </Formik>
-                    </VStack>
-                </BoxWithShadowMax>
-            </Skeleton>
-        </AppWrapper>
+                            await services.api
+                                .putRequest('/users/' + user?.id, {
+                                    username: values.username,
+                                })
+                                .then((r) => {
+                                    actions.setSubmitting(false);
+                                });
+                        }}
+                    >
+                        {({ handleSubmit, errors, touched, isSubmitting }) => (
+                            <form onSubmit={handleSubmit}>
+                                <GenericInput
+                                    fieldName={'Username'}
+                                    fieldType={'text'}
+                                    isRequired={true}
+                                    errorField={errors.username}
+                                    touchedField={touched.username}
+                                    validation={validateUsername}
+                                    placeholder={state.name}
+                                    fieldTitle={t('Form.Username')}
+                                />
+                                <HStack w={'100%'}>
+                                    {edit ? (
+                                        <SubmitButton
+                                            isSubmitting={isSubmitting}
+                                        />
+                                    ) : null}
+                                </HStack>
+                            </form>
+                        )}
+                    </Formik>
+                </VStack>
+            </BoxWithShadowMax>
+        </Skeleton>
     );
 };

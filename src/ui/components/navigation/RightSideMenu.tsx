@@ -7,11 +7,15 @@ import { MenuDropdown } from './MenuDropdown';
 export const RightSideMenu = () => {
     const { state } = useUserContext();
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const { t, i18n } = useTranslation();
     const cancelRef = useRef(null);
     return (
         <>
             {state.loggedIn === true ? (
-                <Text>{`Hello, ${state.name}`}</Text>
+                <>
+                    <Text>{t('Navigation.Greetings')}</Text>
+                    <Text>{`${state.name}`}</Text>
+                </>
             ) : null}
             <LanguageSwitcher />
             <MenuDropdown

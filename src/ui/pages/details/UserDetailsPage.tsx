@@ -4,6 +4,7 @@ import {
     FormLabel,
     HStack,
     Select,
+    Skeleton,
 } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { Formik } from 'formik';
@@ -14,7 +15,6 @@ import { UserService } from '../../../services';
 import { UserDto } from '../../../utils/dto';
 import { GenericInput, SubmitButton } from '../../components/form';
 import { validateUsername } from '../../components/form/validation/validation';
-import { AppWrapper } from '../../components/wrappers/AppWrapper';
 import { DataDisplay } from '../../components/wrappers/DataDisplay';
 
 export const UserDetailsPage = () => {
@@ -38,53 +38,47 @@ export const UserDetailsPage = () => {
         }
     }, [state.name]);
 
+    if (isLoading) {
+        return <Skeleton />;
+    }
+
     return (
-        <AppWrapper>
-            <DataDisplay
-                isLoaded={!isLoading && !error && !isFetching}
-                element={
-                    <>
-                        {isNotCreating ? (
-                            <Avatar
-                                name={data?.username}
-                                src={''}
-                                size={'2xl'}
-                            />
-                        ) : null}
-                        <Formik
-                            initialValues={data ?? ({} as UserDto)}
-                            onSubmit={async (values, actions) => {
-                                actions.setSubmitting(true);
-                                if (!isNotCreating) {
-                                    await userService.api
-                                        .postRequest('/users/', {
-                                            username: values.username,
-                                            password: values.password,
-                                        })
-                                        .then((r) => {
-                                            actions.setSubmitting(false);
-                                            navigate(-1);
-                                        });
-                                } else {
-                                    await userService.api
-                                        .putRequest('/users/' + values.id, {
-                                            username: values.username,
-                                        })
-                                        .then((r) => {
-                                            actions.setSubmitting(false);
-                                            navigate(-1);
-                                        });
-                                }
-                            }}
-                        >
-                            {({
-                                handleSubmit,
-                                errors,
-                                touched,
-                                isSubmitting,
-                            }) => (
-                                <form onSubmit={handleSubmit}>
-                                    {/* <Field
+        <DataDisplay
+            isLoaded={!isLoading && !error && !isFetching}
+            element={
+                <>
+                    {isNotCreating ? (
+                        <Avatar name={data?.username} src={''} size={'2xl'} />
+                    ) : null}
+                    <Formik
+                        initialValues={data ?? ({} as UserDto)}
+                        onSubmit={async (values, actions) => {
+                            actions.setSubmitting(true);
+                            if (!isNotCreating) {
+                                await userService.api
+                                    .postRequest('/users/', {
+                                        username: values.username,
+                                        password: values.password,
+                                    })
+                                    .then((r) => {
+                                        actions.setSubmitting(false);
+                                        navigate(-1);
+                                    });
+                            } else {
+                                await userService.api
+                                    .putRequest('/users/' + values.id, {
+                                        username: values.username,
+                                    })
+                                    .then((r) => {
+                                        actions.setSubmitting(false);
+                                        navigate(-1);
+                                    });
+                            }
+                        }}
+                    >
+                        {({ handleSubmit, errors, touched, isSubmitting }) => (
+                            <form onSubmit={handleSubmit}>
+                                {/* <Field
                                         as={Input}
                                         type="file"
                                         name="avatar"
@@ -93,41 +87,34 @@ export const UserDetailsPage = () => {
                                             e: ChangeEvent<HTMLInputElement>
                                         ) => handleChange(e)}
                                     /> */}
-                                    <GenericInput
-                                        fieldTitle="Username"
-                                        fieldName={'Username'}
-                                        fieldType={'text'}
-                                        isRequired={true}
-                                        errorField={errors.username}
-                                        touchedField={touched.username}
-                                        validation={validateUsername}
-                                    />
-                                    <FormControl p={2}>
-                                        <FormLabel>Role</FormLabel>
-                                        <Select
-                                            placeholder={
-                                                data?.role == 'Admin'
-                                                    ? 'Admin'
-                                                    : 'User'
-                                            }
-                                        >
-                                            <option value={'Admin'}>
-                                                Admin
-                                            </option>
-                                            <option value={'User'}>User</option>
-                                        </Select>
-                                    </FormControl>
-                                    <HStack w={'100%'}>
-                                        <SubmitButton
-                                            isSubmitting={isSubmitting}
-                                        />
-                                    </HStack>
-                                </form>
-                            )}
-                        </Formik>
-                    </>
-                }
-            />
-        </AppWrapper>
+                                <GenericInput
+                                    fieldTitle="Username"
+                                    fieldName={'Username'}
+                                    fieldType={'text'}
+                                    isRequired={true}
+                                    errorField={errors.username}
+                                    touchedField={touched.username}
+                                    validation={validateUsername}
+                                />
+                                <FormControl p={2}>
+                                    <FormLabel>Role</FormLabel>
+                                    <Select
+                                        placeholder={
+                                            data?.role === 1 ? 'Admin' : 'User'
+                                        }
+                                    >
+                                        <option value={'Admin'}>Admin</option>
+                                        <option value={'User'}>User</option>
+                                    </Select>
+                                </FormControl>
+                                <HStack w={'100%'}>
+                                    <SubmitButton isSubmitting={isSubmitting} />
+                                </HStack>
+                            </form>
+                        )}
+                    </Formik>
+                </>
+            }
+        />
     );
 };

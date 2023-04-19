@@ -21,7 +21,6 @@ import {
     validatePassword,
     validateUsername,
 } from '../../components/form/validation/validation';
-import { AppWrapper } from '../../components/wrappers/AppWrapper';
 import { BoxWithShadow } from '../../components/wrappers/BoxWithShadow';
 import { DataDisplay } from '../../components/wrappers/DataDisplay';
 
@@ -30,21 +29,19 @@ export const UserCreatePage = () => {
     const { t } = useTranslation();
 
     return (
-        <AppWrapper>
-            <DataDisplay
-                isLoaded={true}
-                element={
-                    <BoxWithShadow>
-                        <VStack>
-                            <Heading size={'lg'} sx={{ p: 2 }}>
-                                {t('Form.UserCreate')}
-                            </Heading>
-                            <UserCreationForm />
-                        </VStack>
-                    </BoxWithShadow>
-                }
-            />
-        </AppWrapper>
+        <DataDisplay
+            isLoaded={true}
+            element={
+                <BoxWithShadow>
+                    <VStack>
+                        <Heading size={'lg'} sx={{ p: 2 }}>
+                            {t('Form.UserCreate')}
+                        </Heading>
+                        <UserCreationForm />
+                    </VStack>
+                </BoxWithShadow>
+            }
+        />
     );
 };
 

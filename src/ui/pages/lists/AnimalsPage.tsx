@@ -10,7 +10,6 @@ import {
     animalTableColumns,
     filterAnimalsTable,
 } from '../../components/table/Helpers';
-import { AppWrapper } from '../../components/wrappers/AppWrapper';
 
 export const AnimalsPage = () => {
     const [animals, setAnimals] = useState<AnimalDto[]>([]);
@@ -27,29 +26,28 @@ export const AnimalsPage = () => {
     });
 
     useEffect(() => {
+        document.title = t('Pages.AnimalsPage');
         if (data) {
             filterAnimalsTable(data, queryFilter, setAnimals);
         }
     }, [queryFilter, data, refreshFlag]);
 
     return (
-        <AppWrapper>
-            <Skeleton isLoaded={!isLoading}>
-                <GenericTableWithSearchAndCreate
-                    title={t('Table.Title.Animals')}
-                    entity={'animal'}
-                    isLoaded={!isLoading}
-                    filter={setQueryFilter}
-                    data={animals}
-                    columns={animalTableColumns()}
-                    refreshData={setRefreshFlag}
-                    createButton={
-                        <Link to="create">
-                            <Button color="teal">Create Animal</Button>
-                        </Link>
-                    }
-                />
-            </Skeleton>
-        </AppWrapper>
+        <Skeleton isLoaded={!isLoading}>
+            <GenericTableWithSearchAndCreate
+                title={t('Table.Title.Animals')}
+                entity={'animal'}
+                isLoaded={!isLoading}
+                filter={setQueryFilter}
+                data={animals}
+                columns={animalTableColumns()}
+                refreshData={setRefreshFlag}
+                createButton={
+                    <Link to="create">
+                        <Button color="teal">Create Animal</Button>
+                    </Link>
+                }
+            />
+        </Skeleton>
     );
 };

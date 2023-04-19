@@ -161,3 +161,13 @@ export const getRoleType = (id: number) => {
 
     return 'Admin';
 };
+
+export const formatedDate = (dateString: string) => {
+    return (
+        new Date(dateString).toLocaleDateString() +
+        ' ' +
+        new Date(dateString).getHours() +
+        ':' +
+        new Date(dateString).getMinutes()
+    );
+};

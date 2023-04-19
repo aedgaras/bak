@@ -9,7 +9,6 @@ import {
     caseTableColumns,
     filterCasesTable,
 } from '../../components/table/Helpers';
-import { AppWrapper } from '../../components/wrappers/AppWrapper';
 
 export const CasePage = () => {
     const [cases, setCases] = useState<CaseDto[]>([]);
@@ -26,24 +25,23 @@ export const CasePage = () => {
     });
 
     useEffect(() => {
+        document.title = t('Pages.CasesPage');
         if (data) {
             filterCasesTable(data, queryFilter, setCases);
         }
     }, [queryFilter, data, refreshFlag]);
 
     return (
-        <AppWrapper>
-            <Skeleton isLoaded={!isLoading}>
-                <GenericTableWithSearchAndCreate<CaseDto>
-                    title={t('Table.Title.Cases')}
-                    entity={'case'}
-                    isLoaded={!isLoading}
-                    filter={setQueryFilter}
-                    data={cases}
-                    columns={caseTableColumns()}
-                    refreshData={setRefreshFlag}
-                ></GenericTableWithSearchAndCreate>
-            </Skeleton>
-        </AppWrapper>
+        <Skeleton isLoaded={!isLoading}>
+            <GenericTableWithSearchAndCreate<CaseDto>
+                title={t('Table.Title.Cases')}
+                entity={'case'}
+                isLoaded={!isLoading}
+                filter={setQueryFilter}
+                data={cases}
+                columns={caseTableColumns()}
+                refreshData={setRefreshFlag}
+            ></GenericTableWithSearchAndCreate>
+        </Skeleton>
     );
 };

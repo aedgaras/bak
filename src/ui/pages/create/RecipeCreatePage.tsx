@@ -7,6 +7,7 @@ import {
     Input,
     Select,
     SimpleGrid,
+    Skeleton,
     useToast,
     VStack,
 } from '@chakra-ui/react';
@@ -24,7 +25,6 @@ import {
     validateRecipe,
     validateRecipeDescriptiom,
 } from '../../components/form/validation/validation';
-import { AppWrapper } from '../../components/wrappers/AppWrapper';
 import { BoxWithShadow } from '../../components/wrappers/BoxWithShadow';
 import { DataDisplay } from '../../components/wrappers/DataDisplay';
 
@@ -33,21 +33,19 @@ export const RecipeCreatePage = () => {
     const { t } = useTranslation();
 
     return (
-        <AppWrapper>
-            <DataDisplay
-                isLoaded={true}
-                element={
-                    <BoxWithShadow>
-                        <VStack>
-                            <Heading size={'lg'} sx={{ p: 2 }}>
-                                {t('Form.MedicineRecipe.Create')}
-                            </Heading>
-                            <RecipeCreationForm />
-                        </VStack>
-                    </BoxWithShadow>
-                }
-            />
-        </AppWrapper>
+        <DataDisplay
+            isLoaded={true}
+            element={
+                <BoxWithShadow>
+                    <VStack>
+                        <Heading size={'lg'} sx={{ p: 2 }}>
+                            {t('Form.MedicineRecipe.Create')}
+                        </Heading>
+                        <RecipeCreationForm />
+                    </VStack>
+                </BoxWithShadow>
+            }
+        />
     );
 };
 
@@ -105,51 +103,60 @@ const RecipeCreationForm = () => {
         >
             {({ handleSubmit, errors, touched, isSubmitting }) => (
                 <form onSubmit={handleSubmit}>
-                    <SimpleGrid columns={[1, null, null, 3]}>
-                        <Box>
-                            <FormControl p={2} isRequired>
-                                <FormLabel>
-                                    {t('Form.MedicineRecipe.User')}
-                                </FormLabel>
-                                <Field
-                                    as={Input}
-                                    disabled
-                                    value={result.data?.userId}
-                                ></Field>
-                            </FormControl>
-                            <FormControl p={2}>
-                                <FormLabel>
-                                    {t('Form.MedicineRecipe.Animal')}
-                                </FormLabel>
-                                <Field
-                                    as={Input}
-                                    disabled
-                                    value={animal.data?.name}
-                                ></Field>
-                            </FormControl>
-                            <FormControl p={2}>
-                                <FormLabel>
-                                    {t('Form.MedicineRecipe.Diagnosis')}
-                                </FormLabel>
-                                <Field
-                                    as={Input}
-                                    disabled
-                                    value={
-                                        result.data?.caseDiagnosis?.diagnosis
-                                    }
-                                ></Field>
-                            </FormControl>
-                            <FormControl p={2}>
-                                <FormLabel>
-                                    {t('Form.MedicineRecipe.DiagnosisResults')}
-                                </FormLabel>
-                                <Field
-                                    as={Input}
-                                    disabled
-                                    value={result.data?.result}
-                                ></Field>
-                            </FormControl>
-                        </Box>
+                    <SimpleGrid columns={[1, 2, 3, 3]}>
+                        {!result.isLoading &&
+                        !caseObj.isLoading &&
+                        !animal.isLoading ? (
+                            <Box>
+                                <FormControl p={2} isRequired>
+                                    <FormLabel>
+                                        {t('Form.MedicineRecipe.User')}
+                                    </FormLabel>
+                                    <Field
+                                        as={Input}
+                                        disabled
+                                        value={result.data?.userId}
+                                    ></Field>
+                                </FormControl>
+                                <FormControl p={2}>
+                                    <FormLabel>
+                                        {t('Form.MedicineRecipe.Animal')}
+                                    </FormLabel>
+                                    <Field
+                                        as={Input}
+                                        disabled
+                                        value={animal.data?.name}
+                                    ></Field>
+                                </FormControl>
+                                <FormControl p={2}>
+                                    <FormLabel>
+                                        {t('Form.MedicineRecipe.Diagnosis')}
+                                    </FormLabel>
+                                    <Field
+                                        as={Input}
+                                        disabled
+                                        value={
+                                            result.data?.caseDiagnosis
+                                                ?.diagnosis
+                                        }
+                                    ></Field>
+                                </FormControl>
+                                <FormControl p={2}>
+                                    <FormLabel>
+                                        {t(
+                                            'Form.MedicineRecipe.DiagnosisResults'
+                                        )}
+                                    </FormLabel>
+                                    <Field
+                                        as={Input}
+                                        disabled
+                                        value={result.data?.result}
+                                    ></Field>
+                                </FormControl>
+                            </Box>
+                        ) : (
+                            <Skeleton></Skeleton>
+                        )}
                         <Box>
                             <GenericInput
                                 fieldTitle={t('Form.MedicineRecipe.Name')}
@@ -199,7 +206,14 @@ const RecipeCreationForm = () => {
                         </Box>
                     </SimpleGrid>
                     <Flex justifyContent={'center'}>
-                        <SubmitButton isSubmitting={isSubmitting} />
+                        <SubmitButton
+                            isSubmitting={
+                                isSubmitting ||
+                                (result.isLoading &&
+                                    caseObj.isLoading &&
+                                    animal.isLoading)
+                            }
+                        />
                     </Flex>
                 </form>
             )}

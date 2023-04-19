@@ -11,6 +11,7 @@ import {
     UserDto,
 } from '../../../utils/dto';
 import {
+    formatedDate,
     getAnimalType,
     getCaseType,
     getClassificationType,
@@ -278,6 +279,10 @@ export const healthRecordTableColumns = () => {
             cell: (info) => info.getValue(),
             header: t('Table.Headers.HeartRate.HeartRate').toString(),
         }),
+        healthRecordColumnHelper.accessor('entryDate', {
+            cell: (info) => formatedDate(info.getValue()),
+            header: t('Form.Diangosis.CaseDate').toString(),
+        }),
     ];
 };
 
@@ -299,7 +304,7 @@ export const caseTableColumns = () => {
             header: 'Urgency',
         }),
         casesColumnHelper.accessor('entryDate', {
-            cell: (info) => info.getValue(),
+            cell: (info) => formatedDate(info.getValue()),
             header: 'Date',
         }),
     ];
@@ -359,7 +364,7 @@ export const recipeTableColumns = () => {
             header: 'Title',
         }),
         recipeColumnHelper.accessor('entryDate', {
-            cell: (info) => info.getValue(),
+            cell: (info) => formatedDate(info.getValue()),
             header: 'Entry Date',
         }),
     ];

@@ -6,6 +6,7 @@ import {
     Input,
     Select,
     SimpleGrid,
+    Skeleton,
     Textarea,
     useToast,
     VStack,
@@ -18,9 +19,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useUserContext } from '../../../context/UserContext';
 import { CasesService, HealthRecordService } from '../../../services';
 import { CreateCaseDto } from '../../../utils/dto';
-import { CaseValues, getAnimalType, UrgencyValues } from '../../../utils/utils';
+import {
+    CaseValues,
+    formatedDate,
+    getAnimalType,
+    UrgencyValues,
+} from '../../../utils/utils';
 import { SubmitButton } from '../../components/form';
-import { AppWrapper } from '../../components/wrappers/AppWrapper';
 import { BoxWithShadow } from '../../components/wrappers/BoxWithShadow';
 import { DataDisplay } from '../../components/wrappers/DataDisplay';
 
@@ -59,11 +64,13 @@ export const CaseCreatePage = () => {
     });
 
     return (
-        <AppWrapper>
-            <DataDisplay
-                isLoaded={true}
-                element={
-                    <SimpleGrid columns={[1, null, null, 2]} gap={4}>
+        <DataDisplay
+            isLoaded={true}
+            element={
+                <SimpleGrid columns={[1, 2, 2, 2]} gap={4}>
+                    {!healthRecord.isLoading &&
+                    !user.isLoading &&
+                    !animal.isLoading ? (
                         <BoxWithShadow>
                             <VStack>
                                 <Heading size={'lg'} sx={{ p: 2 }}>
@@ -111,9 +118,9 @@ export const CaseCreatePage = () => {
                                         <Input
                                             type="text"
                                             disabled
-                                            value={
+                                            value={formatedDate(
                                                 healthRecord.data?.entryDate!
-                                            }
+                                            )}
                                         ></Input>
                                     </FormControl>
                                     <FormControl pb={2}>
@@ -139,22 +146,30 @@ export const CaseCreatePage = () => {
                                 </Box>
                             </VStack>
                         </BoxWithShadow>
-                        <BoxWithShadow>
-                            <VStack>
-                                <Heading size={'lg'} sx={{ p: 2 }}>
-                                    {t('Form.Case.Case')}
-                                </Heading>
-                                <CaseCreationForm />
-                            </VStack>
-                        </BoxWithShadow>
-                    </SimpleGrid>
-                }
-            />
-        </AppWrapper>
+                    ) : (
+                        <Skeleton />
+                    )}
+                    <BoxWithShadow>
+                        <VStack>
+                            <Heading size={'lg'} sx={{ p: 2 }}>
+                                {t('Form.Case.Case')}
+                            </Heading>
+                            <CaseCreationForm
+                                isLoading={
+                                    healthRecord.isLoading &&
+                                    user.isLoading &&
+                                    animal.isLoading
+                                }
+                            />
+                        </VStack>
+                    </BoxWithShadow>
+                </SimpleGrid>
+            }
+        />
     );
 };
 
-const CaseCreationForm = () => {
+const CaseCreationForm = ({ isLoading }: { isLoading: boolean }) => {
     const { state } = useUserContext();
     const { t } = useTranslation();
     const params = useParams<{ healthRecordId: string }>();
@@ -203,7 +218,7 @@ const CaseCreationForm = () => {
                             })}
                         </Select>
                     </FormControl>
-                    <SubmitButton isSubmitting={isSubmitting} />
+                    <SubmitButton isSubmitting={isSubmitting || isLoading} />
                 </form>
             )}
         </Formik>

@@ -90,31 +90,33 @@ export const GenericTableWithSearchAndCreate = <T extends object>({
 
     return (
         <BoxWithShadowMax>
-            <Center p={2}>
+            <Center p={4}>
                 <Heading as="h4">{title}</Heading>
             </Center>
-            <HStack p={2}>
-                <Input
-                    placeholder={t('Table.Search').toString()}
-                    w={'auto'}
-                    p={2}
-                    onChange={(e) => filter(e.target.value)}
-                />
-                <Spacer />
-                {state.role === 'Admin' ? createButton : null}
-            </HStack>
-            <Skeleton isLoaded={isLoaded}>
-                <Box padding={2}>
-                    <Box borderWidth="1px" borderRadius="lg" padding={2}>
-                        <GenericTable
-                            data={data}
-                            columns={columns}
-                            refreshData={refreshData}
-                            entity={entity}
-                        />
+            <BoxWithShadowMax>
+                <HStack p={2}>
+                    <Input
+                        placeholder={t('Table.Search').toString()}
+                        w={'auto'}
+                        p={2}
+                        onChange={(e) => filter(e.target.value)}
+                    />
+                    <Spacer />
+                    {state.role === 'Admin' ? createButton : null}
+                </HStack>
+                <Skeleton isLoaded={isLoaded}>
+                    <Box padding={2}>
+                        <Box borderWidth="1px" borderRadius="lg" padding={2}>
+                            <GenericTable
+                                data={data}
+                                columns={columns}
+                                refreshData={refreshData}
+                                entity={entity}
+                            />
+                        </Box>
                     </Box>
-                </Box>
-            </Skeleton>
+                </Skeleton>
+            </BoxWithShadowMax>
         </BoxWithShadowMax>
     );
 };

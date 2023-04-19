@@ -1,13 +1,14 @@
-import { Box, useColorModeValue } from '@chakra-ui/react';
-import { PropsWithChildren } from 'react';
+import { Box, VStack } from '@chakra-ui/react';
+import React, { PropsWithChildren } from 'react';
 
 export const BoxWithShadow: React.FC<PropsWithChildren> = (props) => {
     return (
         <Box
             borderWidth="1px"
             borderRadius="lg"
-            boxShadow={{ base: 'none', sm: useColorModeValue('md', 'md-dark') }}
+            boxShadow={'md'}
             padding={2}
+            background={'white'}
         >
             {props.children}
         </Box>
@@ -19,10 +20,11 @@ export const BoxWithShadowMax: React.FC<PropsWithChildren> = (props) => {
         <Box
             borderWidth="1px"
             borderRadius="lg"
-            boxShadow={{ base: 'none', sm: useColorModeValue('md', 'md-dark') }}
+            boxShadow={'md'}
             padding={2}
             w={'100%'}
             h={'100%'}
+            background={'white'}
         >
             {props.children}
         </Box>
@@ -31,7 +33,12 @@ export const BoxWithShadowMax: React.FC<PropsWithChildren> = (props) => {
 
 export const BoxWithBorder: React.FC<PropsWithChildren> = (props) => {
     return (
-        <Box borderWidth="1px" borderRadius="lg" padding={2}>
+        <Box
+            borderWidth="1px"
+            borderRadius="lg"
+            padding={2}
+            background={'white'}
+        >
             {props.children}
         </Box>
     );
@@ -45,8 +52,21 @@ export const BoxWithBorderMax: React.FC<PropsWithChildren> = (props) => {
             padding={2}
             w={'100%'}
             h={'100%'}
+            background={'white'}
         >
             {props.children}
         </Box>
+    );
+};
+
+export const FormWrapper: React.FC<PropsWithChildren> = (props) => {
+    return (
+        <BoxWithShadow>
+            <VStack p={2}>
+                <BoxWithShadow>
+                    <Box p={6}>{props.children}</Box>
+                </BoxWithShadow>
+            </VStack>
+        </BoxWithShadow>
     );
 };

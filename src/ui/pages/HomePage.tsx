@@ -12,10 +12,13 @@ import {
     Tbody,
     Td,
     Text,
+    Th,
+    Thead,
     Tooltip,
     Tr,
 } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { useUserContext } from '../../context/UserContext';
@@ -30,38 +33,37 @@ import {
     HealthRecordService,
     RecipeService,
 } from '../../services';
-import { getCaseType } from '../../utils/utils';
-import { AppWrapper } from '../components/wrappers/AppWrapper';
-import {
-    BoxWithBorderMax,
-    BoxWithShadowMax,
-} from '../components/wrappers/BoxWithShadow';
+import { formatedDate } from '../../utils/utils';
+import { CaseTypeTag } from '../components/table';
+import { BoxWithShadowMax } from '../components/wrappers/BoxWithShadow';
 
 export const HomePage = () => {
     const { state } = useUserContext();
     const { t } = useTranslation();
 
+    useEffect(() => {
+        document.title = t('Pages.HomePage');
+    }, [state.name]);
+
     return (
-        <AppWrapper>
-            <BoxWithShadowMax>
-                <Heading
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        pt: 1,
-                        pb: 3,
-                    }}
-                >
-                    {t('Page.HomePage.Title')}
-                </Heading>
-                <SimpleGrid columns={[1, null, null, 2]} gap={4}>
-                    <HealthRecordTable />
-                    <DiagnosesTable />
-                    <MedicineRecipesTable />
-                    <DiagnosesResultsTable />
-                </SimpleGrid>
-            </BoxWithShadowMax>
-        </AppWrapper>
+        <BoxWithShadowMax>
+            <Heading
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    pt: 1,
+                    pb: 6,
+                }}
+            >
+                {t('Page.HomePage.Title')}
+            </Heading>
+            <SimpleGrid columns={[1, null, null, 2]} gap={4}>
+                <HealthRecordTable />
+                <DiagnosesTable />
+                <MedicineRecipesTable />
+                <DiagnosesResultsTable />
+            </SimpleGrid>
+        </BoxWithShadowMax>
     );
 };
 
@@ -75,11 +77,13 @@ const PhoneTooltip = ({ id }: { id: string }) => {
     });
 
     return (
-        <Skeleton isLoaded={!isLoading}>
-            <Tooltip hasArrow label={data?.phoneNumber}>
-                <PhoneIcon />
-            </Tooltip>
-        </Skeleton>
+        <Box display={'flex'} justifyContent={'center'}>
+            <Skeleton isLoaded={!isLoading}>
+                <Tooltip hasArrow label={data?.phoneNumber}>
+                    <PhoneIcon />
+                </Tooltip>
+            </Skeleton>
+        </Box>
     );
 };
 
@@ -95,7 +99,7 @@ const HealthRecordTable = () => {
     });
 
     return (
-        <BoxWithBorderMax>
+        <BoxWithShadowMax>
             <Box>
                 <Box sx={{ display: 'flex', justifyContent: 'center', pb: 2 }}>
                     <Text as={'b'}>
@@ -106,46 +110,64 @@ const HealthRecordTable = () => {
                 {data && data.length > 0 ? (
                     <TableContainer>
                         <Table variant="simple" size="md">
+                            <Thead>
+                                <Tr>
+                                    <Th>{t('Table.Headers.No')}</Th>
+                                    <Th>
+                                        {t('Table.Headers.HeartRate.HeartRate')}
+                                    </Th>
+                                    <Th>{t('Form.Diangosis.CaseDate')}</Th>
+                                    <Th> {t('Form.PhoneNumber')}</Th>
+                                    <Th />
+                                    <Th />
+                                </Tr>
+                            </Thead>
+                            <Divider />
                             <Tbody>
-                                {data.map((x) => {
+                                {data.map((x, i) => {
                                     return (
-                                        <Tr>
-                                            <Td>{x.id}</Td>
-                                            <Td>{x.heartRate}</Td>
-                                            <Td>
-                                                <PhoneTooltip id={x.id} />
-                                            </Td>
-                                            <Td>
-                                                <Link
-                                                    to={
-                                                        healthRecordsRoutePath +
-                                                        '/rate/' +
-                                                        x.id
-                                                    }
-                                                >
-                                                    <Button>
-                                                        {t(
-                                                            'Table.HealthRecors.Action.Rate'
-                                                        )}
-                                                    </Button>
-                                                </Link>
-                                            </Td>
-                                            <Td>
-                                                <Link
-                                                    to={
-                                                        healthRecordsRoutePath +
-                                                        '/' +
-                                                        x.id
-                                                    }
-                                                >
-                                                    <Button>
-                                                        {t(
-                                                            'Table.HealthRecors.Action.Details'
-                                                        )}
-                                                    </Button>
-                                                </Link>
-                                            </Td>
-                                        </Tr>
+                                        <>
+                                            <Tr>
+                                                <Td>{x.id}</Td>
+                                                <Td>{x.heartRate}</Td>
+                                                <Td>
+                                                    {formatedDate(x.entryDate)}
+                                                </Td>
+                                                <Td>
+                                                    <PhoneTooltip id={x.id} />
+                                                </Td>
+                                                <Td>
+                                                    <Link
+                                                        to={
+                                                            healthRecordsRoutePath +
+                                                            '/rate/' +
+                                                            x.id
+                                                        }
+                                                    >
+                                                        <Button>
+                                                            {t(
+                                                                'Table.HealthRecors.Action.Rate'
+                                                            )}
+                                                        </Button>
+                                                    </Link>
+                                                </Td>
+                                                <Td>
+                                                    <Link
+                                                        to={
+                                                            healthRecordsRoutePath +
+                                                            '/' +
+                                                            x.id
+                                                        }
+                                                    >
+                                                        <Button>
+                                                            {t(
+                                                                'Table.HealthRecors.Action.Details'
+                                                            )}
+                                                        </Button>
+                                                    </Link>
+                                                </Td>
+                                            </Tr>
+                                        </>
                                     );
                                 })}
                             </Tbody>
@@ -163,7 +185,7 @@ const HealthRecordTable = () => {
                     </Container>
                 )}
             </Box>
-        </BoxWithBorderMax>
+        </BoxWithShadowMax>
     );
 };
 
@@ -179,7 +201,7 @@ const DiagnosesTable = () => {
     });
 
     return (
-        <BoxWithBorderMax>
+        <BoxWithShadowMax>
             <Box>
                 <Box sx={{ display: 'flex', justifyContent: 'center', pb: 2 }}>
                     <Text as={'b'}>{t('Table.Headers.Diagnoses.Header')}</Text>
@@ -187,40 +209,57 @@ const DiagnosesTable = () => {
                 <Divider />
                 {data && data.length > 0 ? (
                     <TableContainer>
-                        <Table variant="simple">
+                        <Table variant="simple" size="md">
+                            <Thead>
+                                <Tr>
+                                    <Th>{t('Table.Headers.No')}</Th>
+                                    <Th>{t('Form.Diagnosis.Type')}</Th>
+                                    <Th />
+                                    <Th />
+                                </Tr>
+                            </Thead>
                             <Tbody>
-                                {data.map((x) => {
+                                {data.map((x, i) => {
                                     return (
-                                        <Tr>
-                                            <Td>{x.id}</Td>
-                                            <Td>{getCaseType(x.caseType)}</Td>
-                                            <Td>
-                                                <Link
-                                                    to={healthRecordsRoutePath}
-                                                >
-                                                    <Button>
-                                                        {t(
-                                                            'Table.Diagnoses.FormResult'
-                                                        )}
-                                                    </Button>
-                                                </Link>
-                                            </Td>
-                                            <Td>
-                                                <Link
-                                                    to={
-                                                        diagnosesRoutePath +
-                                                        '/' +
-                                                        x.id
-                                                    }
-                                                >
-                                                    <Button>
-                                                        {t(
-                                                            'Table.HealthRecors.Details'
-                                                        )}
-                                                    </Button>
-                                                </Link>
-                                            </Td>
-                                        </Tr>
+                                        <>
+                                            <Tr>
+                                                <Td>{x.id}</Td>
+                                                <Td>
+                                                    <CaseTypeTag
+                                                        label={x.caseType}
+                                                    />
+                                                </Td>
+
+                                                <Td>
+                                                    <Link
+                                                        to={
+                                                            healthRecordsRoutePath
+                                                        }
+                                                    >
+                                                        <Button>
+                                                            {t(
+                                                                'Table.Diagnoses.FormResult'
+                                                            )}
+                                                        </Button>
+                                                    </Link>
+                                                </Td>
+                                                <Td>
+                                                    <Link
+                                                        to={
+                                                            diagnosesRoutePath +
+                                                            '/' +
+                                                            x.id
+                                                        }
+                                                    >
+                                                        <Button>
+                                                            {t(
+                                                                'Table.HealthRecors.Details'
+                                                            )}
+                                                        </Button>
+                                                    </Link>
+                                                </Td>
+                                            </Tr>
+                                        </>
                                     );
                                 })}
                             </Tbody>
@@ -238,7 +277,7 @@ const DiagnosesTable = () => {
                     </Container>
                 )}
             </Box>
-        </BoxWithBorderMax>
+        </BoxWithShadowMax>
     );
 };
 
@@ -254,7 +293,7 @@ const MedicineRecipesTable = () => {
     });
 
     return (
-        <BoxWithBorderMax>
+        <BoxWithShadowMax>
             <Box>
                 <Box sx={{ display: 'flex', justifyContent: 'center', pb: 2 }}>
                     <Text as={'b'}>
@@ -264,29 +303,38 @@ const MedicineRecipesTable = () => {
                 <Divider />
                 {data && data.length > 0 ? (
                     <TableContainer>
-                        <Table variant="simple">
+                        <Table variant="simple" size="md">
+                            <Thead>
+                                <Tr>
+                                    <Th>{t('Table.Headers.No')}</Th>
+                                    <Th>{t('Form.MedicineRecipe.Name')}</Th>
+                                    <Th />
+                                </Tr>
+                            </Thead>
                             <Tbody>
-                                {data.map((x) => {
+                                {data.map((x, i) => {
                                     return (
-                                        <Tr>
-                                            <Td>{x.id}</Td>
-                                            <Td>{x.title}</Td>
-                                            <Td>
-                                                <Link
-                                                    to={
-                                                        recipesRoutePath +
-                                                        '/' +
-                                                        x.id
-                                                    }
-                                                >
-                                                    <Button>
-                                                        {t(
-                                                            'Table.MedicineRecipes.Details'
-                                                        )}
-                                                    </Button>
-                                                </Link>
-                                            </Td>
-                                        </Tr>
+                                        <>
+                                            <Tr>
+                                                <Td>{x.id}</Td>
+                                                <Td>{x.title}</Td>
+                                                <Td>
+                                                    <Link
+                                                        to={
+                                                            recipesRoutePath +
+                                                            '/' +
+                                                            x.id
+                                                        }
+                                                    >
+                                                        <Button>
+                                                            {t(
+                                                                'Table.MedicineRecipes.Details'
+                                                            )}
+                                                        </Button>
+                                                    </Link>
+                                                </Td>
+                                            </Tr>
+                                        </>
                                     );
                                 })}
                             </Tbody>
@@ -304,7 +352,7 @@ const MedicineRecipesTable = () => {
                     </Container>
                 )}
             </Box>
-        </BoxWithBorderMax>
+        </BoxWithShadowMax>
     );
 };
 
@@ -320,7 +368,7 @@ const DiagnosesResultsTable = () => {
     });
 
     return (
-        <BoxWithBorderMax>
+        <BoxWithShadowMax>
             <Box>
                 <Box sx={{ display: 'flex', justifyContent: 'center', pb: 2 }}>
                     <Text as={'b'}>
@@ -330,40 +378,58 @@ const DiagnosesResultsTable = () => {
                 <Divider />
                 {data && data.length > 0 ? (
                     <TableContainer>
-                        <Table variant="simple">
+                        <Table variant="simple" size="md">
+                            <Thead>
+                                <Tr>
+                                    <Th>{t('Table.Headers.No')}</Th>
+                                    <Th>
+                                        {t('Form.Diagnosis.Result.ResultType')}
+                                    </Th>
+                                    <Th />
+                                    <Th />
+                                </Tr>
+                            </Thead>
                             <Tbody>
-                                {data.map((x) => {
+                                {data.map((x, i) => {
                                     return (
-                                        <Tr>
-                                            <Td>{x.id}</Td>
-                                            <Td>{getCaseType(x.caseType)}</Td>
-                                            <Td>
-                                                <Link
-                                                    to={healthRecordsRoutePath}
-                                                >
-                                                    <Button>
-                                                        {t(
-                                                            'Table.DiagnosesResults.PrescribeMedicine'
-                                                        )}
-                                                    </Button>
-                                                </Link>
-                                            </Td>
-                                            <Td>
-                                                <Link
-                                                    to={
-                                                        diagnosesResultsRoutePath +
-                                                        '/' +
-                                                        x.id
-                                                    }
-                                                >
-                                                    <Button>
-                                                        {t(
-                                                            'Table.DiagnosesResults.Details'
-                                                        )}
-                                                    </Button>
-                                                </Link>
-                                            </Td>
-                                        </Tr>
+                                        <>
+                                            <Tr>
+                                                <Td>{x.id}</Td>
+                                                <Td>
+                                                    <CaseTypeTag
+                                                        label={x.caseType}
+                                                    />
+                                                </Td>
+                                                <Td>
+                                                    <Link
+                                                        to={
+                                                            healthRecordsRoutePath
+                                                        }
+                                                    >
+                                                        <Button>
+                                                            {t(
+                                                                'Table.DiagnosesResults.PrescribeMedicine'
+                                                            )}
+                                                        </Button>
+                                                    </Link>
+                                                </Td>
+                                                <Td>
+                                                    <Link
+                                                        to={
+                                                            diagnosesResultsRoutePath +
+                                                            '/' +
+                                                            x.id
+                                                        }
+                                                    >
+                                                        <Button>
+                                                            {t(
+                                                                'Table.DiagnosesResults.Details'
+                                                            )}
+                                                        </Button>
+                                                    </Link>
+                                                </Td>
+                                            </Tr>
+                                        </>
                                     );
                                 })}
                             </Tbody>
@@ -381,6 +447,6 @@ const DiagnosesResultsTable = () => {
                     </Container>
                 )}
             </Box>
-        </BoxWithBorderMax>
+        </BoxWithShadowMax>
     );
 };

@@ -1,4 +1,11 @@
-import { ChakraProvider, ColorModeScript, theme } from '@chakra-ui/react';
+import {
+    Box,
+    ChakraProvider,
+    ColorModeScript,
+    Grid,
+    GridItem,
+    theme,
+} from '@chakra-ui/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
 import * as React from 'react';
@@ -31,10 +38,27 @@ root.render(
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.4 }}
                         >
-                            <BrowserRouter>
-                                <NavBar />
-                                <AppRouter />
-                            </BrowserRouter>
+                            <Box
+                                sx={{
+                                    backgroundImage:
+                                        'linear-gradient(45deg, #93a5cf 0%, #e4efe9 100%)',
+                                    filter: 'alpha(opacity=50)',
+                                }}
+                                height={'100vh'}
+                            >
+                                <Box>
+                                    <BrowserRouter>
+                                        <Grid>
+                                            <GridItem rowSpan={2}>
+                                                <NavBar />
+                                            </GridItem>
+                                            <GridItem rowSpan={10}>
+                                                <AppRouter />
+                                            </GridItem>
+                                        </Grid>
+                                    </BrowserRouter>
+                                </Box>
+                            </Box>
                         </motion.div>
                     </UserContextProvider>
                 </QueryClientProvider>

@@ -1,6 +1,7 @@
 import { Box } from '@chakra-ui/layout';
 import { motion } from 'framer-motion';
 import React, { PropsWithChildren } from 'react';
+import { BoxWithShadowMax } from './BoxWithShadow';
 
 export const AppWrapper: React.FC<PropsWithChildren> = (props) => {
     return (
@@ -11,7 +12,7 @@ export const AppWrapper: React.FC<PropsWithChildren> = (props) => {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.4 }}
             >
-                <Box>{props.children}</Box>
+                <BoxWithShadowMax>{props.children}</BoxWithShadowMax>
             </motion.div>
         </Box>
     );

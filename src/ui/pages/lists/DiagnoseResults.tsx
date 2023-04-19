@@ -9,7 +9,6 @@ import {
     filterResultsTable,
     resultTableColumns,
 } from '../../components/table/Helpers';
-import { AppWrapper } from '../../components/wrappers/AppWrapper';
 
 export const DiagnosesResultsPage = () => {
     const [results, setResults] = useState<ResultDto[]>([]);
@@ -26,24 +25,23 @@ export const DiagnosesResultsPage = () => {
     });
 
     useEffect(() => {
+        document.title = t('Pages.ResultsPage');
         if (data) {
             filterResultsTable(data, queryFilter, setResults);
         }
     }, [queryFilter, data, refreshFlag]);
 
     return (
-        <AppWrapper>
-            <Skeleton isLoaded={!isLoading}>
-                <GenericTableWithSearchAndCreate
-                    title={t('Table.Title.Results')}
-                    entity={'result'}
-                    isLoaded={!isLoading}
-                    filter={setQueryFilter}
-                    data={results}
-                    columns={resultTableColumns()}
-                    refreshData={setRefreshFlag}
-                ></GenericTableWithSearchAndCreate>
-            </Skeleton>
-        </AppWrapper>
+        <Skeleton isLoaded={!isLoading}>
+            <GenericTableWithSearchAndCreate
+                title={t('Table.Title.Results')}
+                entity={'result'}
+                isLoaded={!isLoading}
+                filter={setQueryFilter}
+                data={results}
+                columns={resultTableColumns()}
+                refreshData={setRefreshFlag}
+            ></GenericTableWithSearchAndCreate>
+        </Skeleton>
     );
 };

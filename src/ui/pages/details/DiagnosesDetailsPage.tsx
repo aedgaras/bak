@@ -1,4 +1,4 @@
-import { Heading, Skeleton, useToast, VStack } from '@chakra-ui/react';
+import { CircularProgress, Heading, useToast, VStack } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
@@ -7,7 +7,6 @@ import { useUserContext } from '../../../context/UserContext';
 import { DiagnosisService } from '../../../services';
 import { DiagnosisDto } from '../../../utils/dto';
 import { SubmitButton } from '../../components/form';
-import { AppWrapper } from '../../components/wrappers/AppWrapper';
 import { BoxWithBorder } from '../../components/wrappers/BoxWithShadow';
 import { DataDisplay } from '../../components/wrappers/DataDisplay';
 
@@ -16,21 +15,19 @@ export const DiagnosesDetailsPage = () => {
     const { t } = useTranslation();
 
     return (
-        <AppWrapper>
-            <DataDisplay
-                isLoaded={true}
-                element={
-                    <BoxWithBorder>
-                        <VStack>
-                            <Heading size={'lg'} sx={{ p: 2 }}>
-                                {t('Form.DiagnosesDetails')}
-                            </Heading>
-                            <AnimalUpdateForm />
-                        </VStack>
-                    </BoxWithBorder>
-                }
-            />
-        </AppWrapper>
+        <DataDisplay
+            isLoaded={true}
+            element={
+                <BoxWithBorder>
+                    <VStack>
+                        <Heading size={'lg'} sx={{ p: 2 }}>
+                            {t('Form.DiagnosesDetails')}
+                        </Heading>
+                        <AnimalUpdateForm />
+                    </VStack>
+                </BoxWithBorder>
+            }
+        />
     );
 };
 
@@ -46,28 +43,30 @@ const AnimalUpdateForm = () => {
         },
     });
 
-    return (
-        <Skeleton isLoaded={!recipe.isLoading}>
-            <Formik
-                initialValues={recipe.data as DiagnosisDto}
-                onSubmit={async (values, actions) => {
-                    actions.setSubmitting(true);
-                    // const dto: UpdateAnimalDto = {
-                    //     type: parseInt(values.type.toString()),
-                    //     name: values.name,
-                    // };
+    if (recipe.isLoading) {
+        return <CircularProgress isIndeterminate />;
+    }
 
-                    // service.update(recipe.data?.id!, dto).then(() => {
-                    //     navigate(-1);
-                    // });
-                }}
-            >
-                {({ handleSubmit, errors, touched, isSubmitting }) => (
-                    <form onSubmit={handleSubmit}>
-                        <SubmitButton isSubmitting={isSubmitting} />
-                    </form>
-                )}
-            </Formik>
-        </Skeleton>
+    return (
+        <Formik
+            initialValues={recipe.data as DiagnosisDto}
+            onSubmit={async (values, actions) => {
+                actions.setSubmitting(true);
+                // const dto: UpdateAnimalDto = {
+                //     type: parseInt(values.type.toString()),
+                //     name: values.name,
+                // };
+
+                // service.update(recipe.data?.id!, dto).then(() => {
+                //     navigate(-1);
+                // });
+            }}
+        >
+            {({ handleSubmit, errors, touched, isSubmitting }) => (
+                <form onSubmit={handleSubmit}>
+                    <SubmitButton isSubmitting={isSubmitting} />
+                </form>
+            )}
+        </Formik>
     );
 };

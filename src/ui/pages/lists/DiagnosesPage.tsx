@@ -9,7 +9,6 @@ import {
     diagnosisTableColumns,
     filterDiagnosisTable,
 } from '../../components/table/Helpers';
-import { AppWrapper } from '../../components/wrappers/AppWrapper';
 
 export const DiagnosesPage = () => {
     const [diagnoses, setDiagnoses] = useState<DiagnosisDto[]>([]);
@@ -26,24 +25,23 @@ export const DiagnosesPage = () => {
     });
 
     useEffect(() => {
+        document.title = t('Pages.DiagnosesPage');
         if (data) {
             filterDiagnosisTable(data, queryFilter, setDiagnoses);
         }
     }, [queryFilter, data, refreshFlag]);
 
     return (
-        <AppWrapper>
-            <Skeleton isLoaded={!isLoading}>
-                <GenericTableWithSearchAndCreate
-                    title={t('Table.Title.Diagnoses')}
-                    entity={'diagnosis'}
-                    isLoaded={!isLoading}
-                    filter={setQueryFilter}
-                    data={diagnoses}
-                    columns={diagnosisTableColumns()}
-                    refreshData={setRefreshFlag}
-                ></GenericTableWithSearchAndCreate>
-            </Skeleton>
-        </AppWrapper>
+        <Skeleton isLoaded={!isLoading}>
+            <GenericTableWithSearchAndCreate
+                title={t('Table.Title.Diagnoses')}
+                entity={'diagnosis'}
+                isLoaded={!isLoading}
+                filter={setQueryFilter}
+                data={diagnoses}
+                columns={diagnosisTableColumns()}
+                refreshData={setRefreshFlag}
+            ></GenericTableWithSearchAndCreate>
+        </Skeleton>
     );
 };

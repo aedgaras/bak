@@ -5,6 +5,7 @@ import {
     FormLabel,
     Heading,
     Select,
+    Skeleton,
     useToast,
     VStack,
 } from '@chakra-ui/react';
@@ -19,7 +20,6 @@ import { CreateAnimalDto } from '../../../utils/dto';
 import { AnimalValues } from '../../../utils/utils';
 import { GenericInput, SubmitButton } from '../../components/form';
 import { validateUsername } from '../../components/form/validation/validation';
-import { AppWrapper } from '../../components/wrappers/AppWrapper';
 import { BoxWithBorder } from '../../components/wrappers/BoxWithShadow';
 import { DataDisplay } from '../../components/wrappers/DataDisplay';
 
@@ -28,21 +28,19 @@ export const AnimalCreatePage = () => {
     const { t } = useTranslation();
 
     return (
-        <AppWrapper>
-            <DataDisplay
-                isLoaded={true}
-                element={
-                    <BoxWithBorder>
-                        <VStack>
-                            <Heading size={'lg'} sx={{ p: 2 }}>
-                                {t('Form.AnimalCreate')}
-                            </Heading>
-                            <AnimalCreationForm />
-                        </VStack>
-                    </BoxWithBorder>
-                }
-            />
-        </AppWrapper>
+        <DataDisplay
+            isLoaded={true}
+            element={
+                <BoxWithBorder>
+                    <VStack>
+                        <Heading size={'lg'} sx={{ p: 2 }}>
+                            {t('Form.AnimalCreate')}
+                        </Heading>
+                        <AnimalCreationForm />
+                    </VStack>
+                </BoxWithBorder>
+            }
+        />
     );
 };
 
@@ -50,7 +48,7 @@ const AnimalCreationForm = () => {
     const { state } = useUserContext();
     const navigate = useNavigate();
 
-    const { data } = useQuery({
+    const user = useQuery({
         queryKey: ['animalCreation'],
         queryFn: async () => {
             const userService = new UserService();
@@ -76,24 +74,32 @@ const AnimalCreationForm = () => {
         >
             {({ handleSubmit, errors, touched, isSubmitting }) => (
                 <form onSubmit={handleSubmit}>
-                    {state.role === 'Admin' ? (
-                        <FormControl p={2}>
-                            <FormLabel>{t('Form.Animal.User')}</FormLabel>
-                            <Field as={Select} name="userId" required>
-                                {data?.map((key) => {
-                                    return (
-                                        <option value={key.id}>
-                                            {key.username}
-                                        </option>
-                                    );
-                                })}
-                            </Field>
-                            <FormErrorMessage>
-                                <FormErrorIcon />
-                                {errors.userId}
-                            </FormErrorMessage>
-                        </FormControl>
-                    ) : null}
+                    {!user.isLoading ? (
+                        <>
+                            {state.role === 'Admin' ? (
+                                <FormControl p={2}>
+                                    <FormLabel>
+                                        {t('Form.Animal.User')}
+                                    </FormLabel>
+                                    <Field as={Select} name="userId" required>
+                                        {user.data?.map((key) => {
+                                            return (
+                                                <option value={key.id}>
+                                                    {key.username}
+                                                </option>
+                                            );
+                                        })}
+                                    </Field>
+                                    <FormErrorMessage>
+                                        <FormErrorIcon />
+                                        {errors.userId}
+                                    </FormErrorMessage>
+                                </FormControl>
+                            ) : null}
+                        </>
+                    ) : (
+                        <Skeleton />
+                    )}
                     <GenericInput
                         fieldTitle={t('Form.Animal.Name')}
                         fieldName={'Name'}
@@ -123,7 +129,9 @@ const AnimalCreationForm = () => {
                             {errors.type}
                         </FormErrorMessage>
                     </FormControl>
-                    <SubmitButton isSubmitting={isSubmitting} />
+                    <SubmitButton
+                        isSubmitting={isSubmitting || user.isLoading}
+                    />
                 </form>
             )}
         </Formik>

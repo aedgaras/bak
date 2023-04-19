@@ -9,7 +9,6 @@ import {
     filterHeartRatesTable,
     healthRecordTableColumns,
 } from '../../components/table/Helpers';
-import { AppWrapper } from '../../components/wrappers/AppWrapper';
 
 export const HealthRecordsPage = () => {
     const [healthRecords, setHealthRecords] = useState<HealthRecordDto[]>([]);
@@ -26,24 +25,23 @@ export const HealthRecordsPage = () => {
     });
 
     useEffect(() => {
+        document.title = t('Pages.HealthRecordsPage');
         if (data) {
             filterHeartRatesTable(data, queryFilter, setHealthRecords);
         }
     }, [queryFilter, data, refreshFlag]);
 
     return (
-        <AppWrapper>
-            <Skeleton isLoaded={!isLoading}>
-                <GenericTableWithSearchAndCreate<HealthRecordDto>
-                    title={t('Table.Title.HealthRecords')}
-                    entity={'healthrecord'}
-                    isLoaded={!isLoading}
-                    filter={setQueryFilter}
-                    data={healthRecords}
-                    columns={healthRecordTableColumns()}
-                    refreshData={setRefreshFlag}
-                />
-            </Skeleton>
-        </AppWrapper>
+        <Skeleton isLoaded={!isLoading}>
+            <GenericTableWithSearchAndCreate<HealthRecordDto>
+                title={t('Table.Title.HealthRecords')}
+                entity={'healthrecord'}
+                isLoaded={!isLoading}
+                filter={setQueryFilter}
+                data={healthRecords}
+                columns={healthRecordTableColumns()}
+                refreshData={setRefreshFlag}
+            />
+        </Skeleton>
     );
 };

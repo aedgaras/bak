@@ -1,7 +1,7 @@
 import { AxiosRequestHeaders } from 'axios';
 import { getJwtFromStorage } from './utils';
 
-export const API_URL = 'http://localhost:80';
+export const API_URL = 'http://192.168.0.18:80';
 export const ORGANIZATIONS_URL = '/organizations';
 export const USERS_URL = '/Users';
 export const ANIMALS_URL = '/Animals';

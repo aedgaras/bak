@@ -6,6 +6,7 @@ import {
     Input,
     Select,
     SimpleGrid,
+    Skeleton,
     Textarea,
     useToast,
     VStack,
@@ -20,12 +21,12 @@ import { CasesService, DiagnosisService } from '../../../services';
 import { CaseDto, CreateDiagnosisDto } from '../../../utils/dto';
 import {
     CaseValues,
+    formatedDate,
     getAnimalType,
     getStatusType,
     getUrgencyType,
 } from '../../../utils/utils';
 import { GenericInput, SubmitButton } from '../../components/form';
-import { AppWrapper } from '../../components/wrappers/AppWrapper';
 import { BoxWithShadow } from '../../components/wrappers/BoxWithShadow';
 import { DataDisplay } from '../../components/wrappers/DataDisplay';
 
@@ -35,7 +36,7 @@ export const DiagnosisCreatePage = () => {
 
     const params = useParams<{ caseId: string }>();
 
-    const { isLoading, isFetching, error, data } = useQuery({
+    const caseObj = useQuery({
         queryKey: ['diagnosisCreate1' + params.caseId!],
         queryFn: async () => {
             const recipeService = new CasesService();
@@ -52,11 +53,11 @@ export const DiagnosisCreatePage = () => {
     });
 
     return (
-        <AppWrapper>
-            <DataDisplay
-                isLoaded={true}
-                element={
-                    <SimpleGrid columns={[1, null, null, 2]} gap={4}>
+        <DataDisplay
+            isLoaded={true}
+            element={
+                <SimpleGrid columns={[1, 2, 2, 2]} gap={4}>
+                    {!caseObj.isLoading && !animalByCase.isLoading ? (
                         <BoxWithShadow>
                             <VStack>
                                 <Heading size={'lg'} sx={{ p: 2 }}>
@@ -71,7 +72,8 @@ export const DiagnosisCreatePage = () => {
                                             type="text"
                                             disabled
                                             value={
-                                                data?.healthRecord?.heartRate
+                                                caseObj.data?.healthRecord
+                                                    ?.heartRate
                                             }
                                         ></Input>
                                     </FormControl>
@@ -83,7 +85,8 @@ export const DiagnosisCreatePage = () => {
                                             resize={'none'}
                                             disabled
                                             value={
-                                                data?.healthRecord?.description
+                                                caseObj.data?.healthRecord
+                                                    ?.description
                                             }
                                         ></Textarea>
                                     </FormControl>
@@ -106,9 +109,10 @@ export const DiagnosisCreatePage = () => {
                                         <Input
                                             type="text"
                                             disabled
-                                            value={
-                                                data?.healthRecord?.entryDate
-                                            }
+                                            value={formatedDate(
+                                                caseObj.data?.healthRecord
+                                                    ?.entryDate!
+                                            )}
                                         ></Input>
                                     </FormControl>
                                     <FormControl pb={2}>
@@ -118,7 +122,9 @@ export const DiagnosisCreatePage = () => {
                                         <Input
                                             type="text"
                                             disabled
-                                            value={getStatusType(data?.status!)}
+                                            value={getStatusType(
+                                                caseObj.data?.status!
+                                            )}
                                         ></Input>
                                     </FormControl>
                                     <FormControl pb={2}>
@@ -129,32 +135,45 @@ export const DiagnosisCreatePage = () => {
                                             type="text"
                                             disabled
                                             value={getUrgencyType(
-                                                data?.urgency!
+                                                caseObj.data?.urgency!
                                             )}
                                         ></Input>
                                     </FormControl>
                                 </Box>
                             </VStack>
                         </BoxWithShadow>
-                        <BoxWithShadow>
-                            <VStack>
-                                <Heading size={'lg'} sx={{ p: 2 }}>
-                                    {t('Form.Diagnosis.Diangosis')}
-                                </Heading>
-                                <DiangosisCreationForm
-                                    id={params.caseId!}
-                                    data={data!}
-                                />
-                            </VStack>
-                        </BoxWithShadow>
-                    </SimpleGrid>
-                }
-            />
-        </AppWrapper>
+                    ) : (
+                        <Skeleton />
+                    )}
+                    <BoxWithShadow>
+                        <VStack>
+                            <Heading size={'lg'} sx={{ p: 2 }}>
+                                {t('Form.Diagnosis.Diangosis')}
+                            </Heading>
+                            <DiangosisCreationForm
+                                id={params.caseId!}
+                                data={caseObj.data!}
+                                isLoading={
+                                    caseObj.isLoading && animalByCase.isLoading
+                                }
+                            />
+                        </VStack>
+                    </BoxWithShadow>
+                </SimpleGrid>
+            }
+        />
     );
 };
 
-const DiangosisCreationForm = ({ id, data }: { id: string; data: CaseDto }) => {
+const DiangosisCreationForm = ({
+    id,
+    data,
+    isLoading,
+}: {
+    id: string;
+    data: CaseDto;
+    isLoading: boolean;
+}) => {
     const { state } = useUserContext();
     const { t } = useTranslation();
     const navigate = useNavigate();
@@ -209,7 +228,7 @@ const DiangosisCreationForm = ({ id, data }: { id: string; data: CaseDto }) => {
                         touchedField={touched.description}
                         validation={() => ''}
                     />
-                    <SubmitButton isSubmitting={isSubmitting} />
+                    <SubmitButton isSubmitting={isSubmitting || isLoading} />
                 </form>
             )}
         </Formik>
