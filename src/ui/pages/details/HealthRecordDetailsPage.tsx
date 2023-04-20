@@ -1,4 +1,6 @@
 import {
+    Button,
+    Center,
     CircularProgress,
     FormControl,
     FormErrorIcon,
@@ -13,10 +15,9 @@ import { Field, Formik } from 'formik';
 import { t } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useUserContext } from '../../../context/UserContext';
+import { isUser, useUserContext } from '../../../context/UserContext';
 import { HealthRecordService } from '../../../services';
 import { HealthRecordDto, UpdateHealthRecordDto } from '../../../utils/dto';
-import { GenericInput, SubmitButton } from '../../components/form';
 import { FormWrapper } from '../../components/wrappers/BoxWithShadow';
 import { DataDisplay } from '../../components/wrappers/DataDisplay';
 
@@ -81,6 +82,7 @@ const HealthRecordUpdateForm = () => {
                         isInvalid={!!errors.heartRate && touched.heartRate}
                         p={2}
                         isRequired
+                        isDisabled={isUser()}
                     >
                         <FormLabel>
                             {t('Form.HealthRecord.HeartRate')}
@@ -97,17 +99,38 @@ const HealthRecordUpdateForm = () => {
                             {errors.heartRate}
                         </FormErrorMessage>
                     </FormControl>
+                    <FormControl
+                        isInvalid={!!errors.description && touched.description}
+                        p={2}
+                        isRequired
+                        isDisabled={isUser()}
+                    >
+                        <FormLabel>
+                            {t('Form.HealthRecord.Description')}
+                        </FormLabel>
+                        <Field
+                            as={Input}
+                            type="text"
+                            name="description"
+                            placeholder={health.data?.description}
+                        />
 
-                    <GenericInput
-                        fieldTitle={t('Form.HealthRecord.Description')}
-                        fieldName={'Description'}
-                        fieldType={'string'}
-                        isRequired={true}
-                        errorField={errors.description}
-                        touchedField={touched.description}
-                        validation={() => ''}
-                    />
-                    <SubmitButton isSubmitting={isSubmitting} />
+                        <FormErrorMessage>
+                            <FormErrorIcon />
+                            {errors.description}
+                        </FormErrorMessage>
+                    </FormControl>
+
+                    <Center p={2}>
+                        <Button
+                            type="submit"
+                            isLoading={isSubmitting}
+                            isDisabled={isUser()}
+                            color="teal"
+                        >
+                            {t('Form.Submit')}
+                        </Button>
+                    </Center>
                 </form>
             )}
         </Formik>

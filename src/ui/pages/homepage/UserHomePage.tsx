@@ -52,7 +52,6 @@ export const UserHomePage = () => {
                     pb: 8,
                 }}
             >
-                USER
                 {t('Page.HomePage.Title')}
             </Heading>
             <SimpleGrid columns={[1, null, null, 2]} gap={4}>
