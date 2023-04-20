@@ -36,7 +36,7 @@ export const DiagnosesPage = () => {
             <GenericTableWithSearchAndCreate
                 title={t('Table.Title.Diagnoses')}
                 entity={'diagnosis'}
-                isLoaded={!isLoading}
+                canDelete={true}
                 filter={setQueryFilter}
                 data={diagnoses}
                 columns={diagnosisTableColumns()}

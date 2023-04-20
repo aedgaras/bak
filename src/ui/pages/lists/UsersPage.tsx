@@ -37,7 +37,7 @@ export const UsersPage = () => {
             <GenericTableWithSearchAndCreate<UserDto>
                 title={t('Table.Title.Users')}
                 entity={'user'}
-                isLoaded={!isLoading}
+                canDelete={true}
                 filter={setQueryFilter}
                 data={usersToDisplay}
                 columns={userTableColumns()}

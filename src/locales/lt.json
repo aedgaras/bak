@@ -185,7 +185,8 @@
             "CreateResult": "Kurti Rezultatą",
             "Cancel": "Atšaukti",
             "CreateRecipe": "Kūrti Receptą"
-        }
+        },
+        "CreateAnimal": "Kūrti Gyvūną"
     },
     "Page": {
         "Exception": {
@@ -222,6 +223,19 @@
         "HomePage": "Pagrindinis Puslapis",
         "UsersPage": "Naudotojų Puslapis",
         "RecipesPage": "Vaistų Receptų Puslapis",
-        "HealthRecordsPage": "Sveikatos Įrašų Puslapis"
+        "HealthRecordsPage": "Sveikatos Įrašų Puslapis",
+        "AnimalsPage": "Gyvūnų Puslapis",
+        "CasesPage": "Padietės Puslapis",
+        "DiagnosesPage": "Diagnozės Puslapis",
+        "ResultsPage": "Diagnozės Rezultatų Puslapis"
+    },
+    "Dialog": {
+        "CantUndo": "Ar esate tikri? Pokyčiai nėra pakeičiami."
+    },
+    "Logout": {
+        "Cancel": "Atšaukti",
+        "Button": "Atsijungti",
+        "AreYouSure": "Ar tikrai norite atsijungti?",
+        "Logout": "Atsijungti"
     }
 }

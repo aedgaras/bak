@@ -104,7 +104,8 @@
             "CreateResult": "Create Result",
             "CreateRecipe": "Create Recipe"
         },
-        "NoData": "There's no new data"
+        "NoData": "There's no new data",
+        "CreateAnimal": "Create Animal"
     },
     "Authentication": {
         "DontHaveAccount": "Don't have an account? Register",
@@ -228,5 +229,14 @@
         "ResultsPage": "Diagnoses Results Page",
         "CasesPage": "Cases Page",
         "AnimalsPage": "Animals Page"
+    },
+    "Logout": {
+        "AreYouSure": "Are you sure you want to logout?",
+        "Button": "Logout",
+        "Cancel": "Cancel",
+        "Logout": "Logout"
+    },
+    "Dialog": {
+        "CantUndo": "Are you sure? You can't undo this action afterwards."
     }
 }

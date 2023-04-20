@@ -1,11 +1,13 @@
 import { CloseIcon, HamburgerIcon } from '@chakra-ui/icons';
 import {
+    Avatar,
     Box,
     Button,
     Divider,
     Flex,
     HStack,
     IconButton,
+    Image,
     Spacer,
     Text,
     useColorModeValue,
@@ -15,7 +17,7 @@ import {
 import { t } from 'i18next';
 import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useUserContext } from '../../../context/UserContext';
+import { isUser, useUserContext } from '../../../context/UserContext';
 import {
     animalsRoutePath,
     casesRoutePath,
@@ -56,6 +58,13 @@ export const NavBar = ({ children }: any) => {
                             display={['none', 'none', 'none', 'flex']}
                             width={'100%'}
                         >
+                            <Box pr={6}>
+                                <Image
+                                    boxSize={'50px'}
+                                    src="https://cdn3d.iconscout.com/3d/premium/thumb/pet-medicine-6379719-5272758.png?f=avif"
+                                ></Image>
+                            </Box>
+
                             <LeftSideMenu />
                             <Spacer />
                             <RightSideMenu />
@@ -66,6 +75,11 @@ export const NavBar = ({ children }: any) => {
                                 <>
                                     <Text>{t('Navigation.Greetings')}</Text>
                                     <Text>{`${state.name}`}</Text>
+                                    <Avatar
+                                        name={state?.name}
+                                        src={''}
+                                        size={'sm'}
+                                    />
                                 </>
                             ) : null}
                             <LanguageSwitcher />
@@ -82,7 +96,11 @@ export const NavBar = ({ children }: any) => {
                     <Flex
                         w="100vw"
                         display={display}
-                        bgColor="white"
+                        sx={{
+                            backgroundImage:
+                                'linear-gradient(45deg, #93a5cf 0%, #e4efe9 100%)',
+                            filter: 'alpha(opacity=50)',
+                        }}
                         zIndex={20}
                         h="100vh"
                         pos="fixed"
@@ -99,6 +117,11 @@ export const NavBar = ({ children }: any) => {
                                     <>
                                         <Text>{t('Navigation.Greetings')}</Text>
                                         <Text>{`${state.name}`}</Text>
+                                        <Avatar
+                                            name={state?.name}
+                                            src={''}
+                                            size={'sm'}
+                                        />
                                     </>
                                 ) : null}
                                 <LanguageSwitcher />
@@ -152,17 +175,24 @@ export const NavBar = ({ children }: any) => {
                                                 </Button>
                                             </Link>
                                             <Divider />
-                                            <Link to={usersRoutePath}>
-                                                <Button
-                                                    onClick={() =>
-                                                        changeDisplay('none')
-                                                    }
-                                                >
-                                                    {t('Navigation.Users')}
-                                                </Button>
-                                            </Link>
-                                            <Divider />
-
+                                            {!isUser() ? (
+                                                <>
+                                                    <Link to={usersRoutePath}>
+                                                        <Button
+                                                            onClick={() =>
+                                                                changeDisplay(
+                                                                    'none'
+                                                                )
+                                                            }
+                                                        >
+                                                            {t(
+                                                                'Navigation.Users'
+                                                            )}
+                                                        </Button>
+                                                    </Link>
+                                                    <Divider />
+                                                </>
+                                            ) : null}
                                             <Link to={healthRecordsRoutePath}>
                                                 <Button
                                                     onClick={() =>
@@ -175,7 +205,6 @@ export const NavBar = ({ children }: any) => {
                                                 </Button>
                                             </Link>
                                             <Divider />
-
                                             <Link to={animalsRoutePath}>
                                                 <Button
                                                     onClick={() =>
@@ -185,51 +214,72 @@ export const NavBar = ({ children }: any) => {
                                                     {t('Navigation.Animals')}
                                                 </Button>
                                             </Link>
-                                            <Divider />
-                                            <Link to={casesRoutePath}>
-                                                <Button
-                                                    onClick={() =>
-                                                        changeDisplay('none')
-                                                    }
-                                                >
-                                                    {t('Navigation.Cases')}
-                                                </Button>
-                                            </Link>
-                                            <Divider />
-
-                                            <Link to={diagnosesRoutePath}>
-                                                <Button
-                                                    onClick={() =>
-                                                        changeDisplay('none')
-                                                    }
-                                                >
-                                                    {t('Navigation.Diagnoses')}
-                                                </Button>
-                                            </Link>
-                                            <Divider />
-
-                                            <Link
-                                                to={diagnosesResultsRoutePath}
-                                            >
-                                                <Button
-                                                    onClick={() =>
-                                                        changeDisplay('none')
-                                                    }
-                                                >
-                                                    {t('Navigation.Results')}
-                                                </Button>
-                                            </Link>
-                                            <Divider />
-
-                                            <Link to={recipesRoutePath}>
-                                                <Button
-                                                    onClick={() =>
-                                                        changeDisplay('none')
-                                                    }
-                                                >
-                                                    {t('Navigation.Recipes')}
-                                                </Button>
-                                            </Link>
+                                            {!isUser() ? (
+                                                <>
+                                                    <Divider />
+                                                    <Link to={casesRoutePath}>
+                                                        <Button
+                                                            onClick={() =>
+                                                                changeDisplay(
+                                                                    'none'
+                                                                )
+                                                            }
+                                                        >
+                                                            {t(
+                                                                'Navigation.Cases'
+                                                            )}
+                                                        </Button>
+                                                    </Link>
+                                                    <Divider />
+                                                    <Link
+                                                        to={diagnosesRoutePath}
+                                                    >
+                                                        <Button
+                                                            onClick={() =>
+                                                                changeDisplay(
+                                                                    'none'
+                                                                )
+                                                            }
+                                                        >
+                                                            {t(
+                                                                'Navigation.Diagnoses'
+                                                            )}
+                                                        </Button>
+                                                    </Link>
+                                                    <Divider />
+                                                    <Link
+                                                        to={
+                                                            diagnosesResultsRoutePath
+                                                        }
+                                                    >
+                                                        <Button
+                                                            onClick={() =>
+                                                                changeDisplay(
+                                                                    'none'
+                                                                )
+                                                            }
+                                                        >
+                                                            {t(
+                                                                'Navigation.Results'
+                                                            )}
+                                                        </Button>
+                                                    </Link>
+                                                    <Divider />
+                                                    <Link to={recipesRoutePath}>
+                                                        <Button
+                                                            onClick={() =>
+                                                                changeDisplay(
+                                                                    'none'
+                                                                )
+                                                            }
+                                                        >
+                                                            {t(
+                                                                'Navigation.Recipes'
+                                                            )}
+                                                        </Button>
+                                                    </Link>
+                                                </>
+                                            ) : null}
                                             <Divider />
                                             <Button onClick={onOpen}>
                                                 <>
@@ -240,7 +290,7 @@ export const NavBar = ({ children }: any) => {
                                                         onClose={onClose}
                                                     />
                                                 </>
-                                            </Button>
+                                            </Button>{' '}
                                         </>
                                     }
                                 />

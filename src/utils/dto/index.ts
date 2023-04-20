@@ -1,5 +1,3 @@
-import { Role } from '../Models';
-
 export interface OrganizationDto {
     id: string;
     name: string;
@@ -13,7 +11,8 @@ export type UserLoginDto = {
 export type UserRegisterDto = {
     username: string;
     password: string;
-    role?: Role;
+    phoneNumber: string;
+    email: string;
 };
 
 export interface UserDto {

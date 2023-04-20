@@ -61,12 +61,12 @@ export const BoxWithBorderMax: React.FC<PropsWithChildren> = (props) => {
 
 export const FormWrapper: React.FC<PropsWithChildren> = (props) => {
     return (
-        <BoxWithShadow>
+        <Box>
             <VStack p={2}>
                 <BoxWithShadow>
                     <Box p={6}>{props.children}</Box>
                 </BoxWithShadow>
             </VStack>
-        </BoxWithShadow>
+        </Box>
     );
 };

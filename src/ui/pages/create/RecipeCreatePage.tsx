@@ -1,6 +1,5 @@
 import {
     Box,
-    Flex,
     FormControl,
     FormLabel,
     Heading,
@@ -21,7 +20,6 @@ import { RecipeService, ResultsService } from '../../../services';
 import { CreateRecipeDto } from '../../../utils/dto';
 import { GenericInput, SubmitButton } from '../../components/form';
 import {
-    validatePassword,
     validateRecipe,
     validateRecipeDescriptiom,
 } from '../../components/form/validation/validation';
@@ -52,7 +50,6 @@ export const RecipeCreatePage = () => {
 const RecipeCreationForm = () => {
     const { state } = useUserContext();
     const count = [1, 2, 3, 4];
-
     const params = useParams<{ resultId: string }>();
     const navigate = useNavigate();
 
@@ -70,6 +67,7 @@ const RecipeCreationForm = () => {
             const service = new ResultsService();
             return await service.getAnimal(params.resultId!);
         },
+        enabled: !!result.data,
     });
 
     const caseObj = useQuery({
@@ -78,6 +76,7 @@ const RecipeCreationForm = () => {
             const service = new ResultsService();
             return await service.getCase(params.resultId!);
         },
+        enabled: !!animal.data,
     });
 
     return (
@@ -188,7 +187,7 @@ const RecipeCreationForm = () => {
                                 isRequired={true}
                                 errorField={errors.expiryTime?.toString()}
                                 touchedField={touched.expiryTime}
-                                validation={validatePassword}
+                                validation={() => ''}
                             />
 
                             <FormControl p={2} isRequired>
@@ -205,16 +204,7 @@ const RecipeCreationForm = () => {
                             </FormControl>
                         </Box>
                     </SimpleGrid>
-                    <Flex justifyContent={'center'}>
-                        <SubmitButton
-                            isSubmitting={
-                                isSubmitting ||
-                                (result.isLoading &&
-                                    caseObj.isLoading &&
-                                    animal.isLoading)
-                            }
-                        />
-                    </Flex>
+                    <SubmitButton isSubmitting={isSubmitting} />
                 </form>
             )}
         </Formik>

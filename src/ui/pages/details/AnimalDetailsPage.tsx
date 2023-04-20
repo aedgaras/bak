@@ -7,7 +7,6 @@ import {
     Select,
     Skeleton,
     useToast,
-    VStack,
 } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { Field, Formik } from 'formik';
@@ -20,7 +19,7 @@ import { UpdateAnimalDto } from '../../../utils/dto';
 import { AnimalValues } from '../../../utils/utils';
 import { GenericInput, SubmitButton } from '../../components/form';
 import { validateUsername } from '../../components/form/validation/validation';
-import { BoxWithBorder } from '../../components/wrappers/BoxWithShadow';
+import { FormWrapper } from '../../components/wrappers/BoxWithShadow';
 import { DataDisplay } from '../../components/wrappers/DataDisplay';
 
 export const AnimalDetailsPage = () => {
@@ -31,14 +30,12 @@ export const AnimalDetailsPage = () => {
         <DataDisplay
             isLoaded={true}
             element={
-                <BoxWithBorder>
-                    <VStack>
-                        <Heading size={'lg'} sx={{ p: 2 }}>
-                            {t('Form.AnimalDetails')}
-                        </Heading>
-                        <AnimalUpdateForm />
-                    </VStack>
-                </BoxWithBorder>
+                <FormWrapper>
+                    <Heading size={'lg'} sx={{ p: 2 }}>
+                        {t('Form.AnimalDetails')}
+                    </Heading>
+                    <AnimalUpdateForm />
+                </FormWrapper>
             }
         />
     );

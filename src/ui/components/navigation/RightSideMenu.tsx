@@ -1,4 +1,4 @@
-import { Button, Text, useDisclosure } from '@chakra-ui/react';
+import { Avatar, Button, Text, useDisclosure } from '@chakra-ui/react';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useUserContext } from '../../../context/UserContext';
@@ -15,6 +15,7 @@ export const RightSideMenu = () => {
                 <>
                     <Text>{t('Navigation.Greetings')}</Text>
                     <Text>{`${state.name}`}</Text>
+                    <Avatar name={state?.name} src={''} size={'sm'} />
                 </>
             ) : null}
             <LanguageSwitcher />

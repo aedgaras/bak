@@ -1,4 +1,4 @@
-import { Heading, useToast, VStack } from '@chakra-ui/react';
+import { Heading, useToast } from '@chakra-ui/react';
 import { Formik } from 'formik';
 import { t } from 'i18next';
 import { useTranslation } from 'react-i18next';
@@ -7,7 +7,7 @@ import { useUserContext } from '../../../context/UserContext';
 import { HealthRecordService } from '../../../services';
 import { CreateHealthRecordDto } from '../../../utils/dto';
 import { GenericInput, SubmitButton } from '../../components/form';
-import { BoxWithBorder } from '../../components/wrappers/BoxWithShadow';
+import { FormWrapper } from '../../components/wrappers/BoxWithShadow';
 import { DataDisplay } from '../../components/wrappers/DataDisplay';
 
 export const CreateHealthRecordPage = () => {
@@ -18,14 +18,12 @@ export const CreateHealthRecordPage = () => {
         <DataDisplay
             isLoaded={true}
             element={
-                <BoxWithBorder>
-                    <VStack>
-                        <Heading size={'lg'} sx={{ p: 2 }}>
-                            {t('Form.HealthRecordCreate')}
-                        </Heading>
-                        <HealthRecordCreationForm />
-                    </VStack>
-                </BoxWithBorder>
+                <FormWrapper>
+                    <Heading size={'lg'} sx={{ p: 2 }}>
+                        {t('Form.HealthRecordCreate')}
+                    </Heading>
+                    <HealthRecordCreationForm />
+                </FormWrapper>
             }
         />
     );

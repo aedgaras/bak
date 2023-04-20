@@ -29,6 +29,7 @@ import {
     UpdateCaseDto,
     UpdateHealthRecordDto,
     UserDto,
+    UserRegisterDto,
 } from '../utils/dto';
 import {
     getJwtFromStorage,
@@ -73,6 +74,15 @@ export class AuthService extends Service {
         super();
     }
 
+    register = async (user: UserRegisterDto) => {
+        const response = await this.api
+            .postRequest<TokenPayload>(AUTH_URL + '/register', user)
+            .then((r: AxiosResponse<TokenPayload>) => {
+                return r.data;
+            });
+        return response;
+    };
+
     authenticate = async (endpoint: '/login' | '/register', payload: any) => {
         const response = await this.api.postRequest<TokenPayload>(
             AUTH_URL + endpoint,
@@ -110,22 +120,22 @@ export class AuthService extends Service {
     };
 
     logout = async () => {
-        await axios
-            .post(
-                API_URL + '/Token/revoke',
-                {
-                    AccessToken: getJwtFromStorage,
-                    RefreshToken: getRefreshTokenFromStorage,
-                },
-                {
-                    headers: {
-                        jwt: localStorage.getItem(REFRESH_TOKEN_NAME) ?? '',
-                    },
-                }
-            )
-            .then((r) => {
-                return r;
-            });
+        // await axios
+        //     .post(
+        //         API_URL + '/Token/revoke',
+        //         {
+        //             AccessToken: getJwtFromStorage,
+        //             RefreshToken: getRefreshTokenFromStorage,
+        //         },
+        //         {
+        //             headers: {
+        //                 jwt: localStorage.getItem(REFRESH_TOKEN_NAME) ?? '',
+        //             },
+        //         }
+        //     )
+        //     .then((r) => {
+        //         return r;
+        //     });
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         window.location.assign('/');
@@ -204,6 +214,16 @@ export class AnimalService extends Service {
         return response;
     };
 
+    getUserAnimals = async (id: string) => {
+        const response = await this.api
+            .getRequest<AnimalDto[]>(ANIMALS_URL + '/user/' + id)
+            .then((r: AxiosResponse<AnimalDto[]>) => {
+                return r.data;
+            });
+
+        return response;
+    };
+
     add = async (animalDto: CreateAnimalDto) => {
         const response = await this.api
             .postRequest<AnimalDto>(ANIMALS_URL, animalDto)
@@ -252,6 +272,15 @@ export class HealthRecordService extends Service {
             .then((r: AxiosResponse<HealthRecordDto>) => {
                 return r.data;
             });
+        return response;
+    };
+    getUserHealthRecords = async (id: string) => {
+        const response = await this.api
+            .getRequest<HealthRecordDto[]>(HEALTH_RECORDS_URL + '/user/' + id)
+            .then((r: AxiosResponse<HealthRecordDto[]>) => {
+                return r.data;
+            });
+
         return response;
     };
 
@@ -322,7 +351,6 @@ export class CasesService extends Service {
         const response = await this.api
             .getRequest<CaseDto>(CASES_URL + '/' + id)
             .then((r: AxiosResponse<CaseDto>) => {
-                console.log(r.data);
                 return r.data;
             });
         return response;
@@ -332,7 +360,6 @@ export class CasesService extends Service {
         const response = await this.api
             .getRequest<AnimalDto>(CASES_URL + '/animal/' + id)
             .then((r: AxiosResponse<AnimalDto>) => {
-                console.log(r.data);
                 return r.data;
             });
         return response;
@@ -390,6 +417,16 @@ export class DiagnosisService extends Service {
         return response;
     };
 
+    getUserDiagnoses = async (id: string) => {
+        const response = await this.api
+            .getRequest<DiagnosisDto[]>(DIAGNOSIS_URL + '/user/' + id)
+            .then((r: AxiosResponse<DiagnosisDto[]>) => {
+                return r.data;
+            });
+
+        return response;
+    };
+
     add = async (data: CreateDiagnosisDto) => {
         const response = await this.api
             .postRequest(DIAGNOSIS_URL, data)
@@ -427,6 +464,15 @@ export class ResultsService extends Service {
         const response = await this.api
             .getRequest<ResultDto>(RESULTS_URL + '/' + id)
             .then((r: AxiosResponse<ResultDto>) => {
+                return r.data;
+            });
+
+        return response;
+    };
+    getUserResults = async (id: string) => {
+        const response = await this.api
+            .getRequest<ResultDto[]>(RESULTS_URL + '/user/' + id)
+            .then((r: AxiosResponse<ResultDto[]>) => {
                 return r.data;
             });
 
@@ -491,6 +537,15 @@ export class RecipeService extends Service {
         const response = await this.api
             .getRequest<MedicineRecipeDto>(RECIPES_URL + '/' + id)
             .then((r: AxiosResponse<MedicineRecipeDto>) => {
+                return r.data;
+            });
+
+        return response;
+    };
+    getUserRecipes = async (id: string) => {
+        const response = await this.api
+            .getRequest<MedicineRecipeDto[]>(RECIPES_URL + '/user/' + id)
+            .then((r: AxiosResponse<MedicineRecipeDto[]>) => {
                 return r.data;
             });
 

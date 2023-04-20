@@ -35,7 +35,7 @@ export const RecipesPage = () => {
         <Skeleton isLoaded={!isLoading}>
             <GenericTableWithSearchAndCreate
                 title={t('Table.Title.Recipe')}
-                isLoaded={!isLoading}
+                canDelete={true}
                 filter={setQueryFilter}
                 data={recipes}
                 columns={recipeTableColumns()}

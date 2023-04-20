@@ -50,7 +50,7 @@ const UserContext = ctx;
 interface User {
     sub: string;
     role: Role;
-    classifaction: Classification;
+    classification: Classification;
     userId: number;
 }
 
@@ -88,7 +88,7 @@ export function userContextValues(): UserContextInterface {
               name: currentUser.sub,
               loggedIn: currentUser !== null,
               role: currentUser.role,
-              classification: currentUser.classifaction,
+              classification: currentUser.classification,
               userId: currentUser.userId,
           }
         : {};
@@ -96,4 +96,9 @@ export function userContextValues(): UserContextInterface {
 
 export const useUserContext = () => {
     return React.useContext(UserContext);
+};
+
+export const isUser = () => {
+    const { state } = useUserContext();
+    return state.classification === 'Customer' && state.role === 'User';
 };

@@ -5,7 +5,6 @@ import {
     Heading,
     Select,
     useToast,
-    VStack,
 } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { Field, Formik } from 'formik';
@@ -17,7 +16,7 @@ import { CasesService } from '../../../services';
 import { UpdateCaseDto } from '../../../utils/dto';
 import { CaseValues, UrgencyValues } from '../../../utils/utils';
 import { SubmitButton } from '../../components/form';
-import { BoxWithBorder } from '../../components/wrappers/BoxWithShadow';
+import { FormWrapper } from '../../components/wrappers/BoxWithShadow';
 import { DataDisplay } from '../../components/wrappers/DataDisplay';
 
 export const CaseDetailsPage = () => {
@@ -28,14 +27,12 @@ export const CaseDetailsPage = () => {
         <DataDisplay
             isLoaded={true}
             element={
-                <BoxWithBorder>
-                    <VStack>
-                        <Heading size={'lg'} sx={{ p: 2 }}>
-                            {t('Form.CaseDetails')}
-                        </Heading>
-                        <CaseUpdateForm />
-                    </VStack>
-                </BoxWithBorder>
+                <FormWrapper>
+                    <Heading size={'lg'} sx={{ p: 2 }}>
+                        {t('Form.CaseDetails')}
+                    </Heading>
+                    <CaseUpdateForm />
+                </FormWrapper>
             }
         />
     );

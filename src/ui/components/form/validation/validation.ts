@@ -19,8 +19,8 @@ export function validatePassword(value: string) {
         error = 'Password is required!';
         return error;
     }
-    if (value.length < 4) {
-        error = 'Minimum length is 4.';
+    if (value.length < 12) {
+        error = 'Minimum length is 12.';
         return error;
     }
 

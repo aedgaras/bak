@@ -7,7 +7,6 @@ import {
     Heading,
     Input,
     useToast,
-    VStack,
 } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { Field, Formik } from 'formik';
@@ -18,7 +17,7 @@ import { useUserContext } from '../../../context/UserContext';
 import { HealthRecordService } from '../../../services';
 import { HealthRecordDto, UpdateHealthRecordDto } from '../../../utils/dto';
 import { GenericInput, SubmitButton } from '../../components/form';
-import { BoxWithBorder } from '../../components/wrappers/BoxWithShadow';
+import { FormWrapper } from '../../components/wrappers/BoxWithShadow';
 import { DataDisplay } from '../../components/wrappers/DataDisplay';
 
 export const HealthRecordDetailsPage = () => {
@@ -29,14 +28,12 @@ export const HealthRecordDetailsPage = () => {
         <DataDisplay
             isLoaded={true}
             element={
-                <BoxWithBorder>
-                    <VStack>
-                        <Heading size={'lg'} sx={{ p: 2 }}>
-                            {t('Form.HealthRecordUpdate')}
-                        </Heading>
-                        <HealthRecordUpdateForm />
-                    </VStack>
-                </BoxWithBorder>
+                <FormWrapper>
+                    <Heading size={'lg'} sx={{ p: 2 }}>
+                        {t('Form.HealthRecordUpdate')}
+                    </Heading>
+                    <HealthRecordUpdateForm />
+                </FormWrapper>
             }
         />
     );

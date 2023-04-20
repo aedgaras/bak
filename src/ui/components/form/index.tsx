@@ -1,6 +1,6 @@
 import {
-    Box,
     Button,
+    Center,
     FormControl,
     FormErrorIcon,
     FormErrorMessage,
@@ -115,10 +115,10 @@ export const SubmitButton = ({ isSubmitting }: { isSubmitting: boolean }) => {
     const { t } = useTranslation();
 
     return (
-        <Box p={2}>
+        <Center p={2}>
             <Button type="submit" isLoading={isSubmitting} color="teal">
                 {t('Form.Submit')}
             </Button>
-        </Box>
+        </Center>
     );
 };

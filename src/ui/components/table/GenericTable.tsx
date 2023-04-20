@@ -46,7 +46,7 @@ import {
 import React, { Dispatch, SetStateAction } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { useUserContext } from '../../../context/UserContext';
+import { isUser, useUserContext } from '../../../context/UserContext';
 import { HealthRecordService } from '../../../services';
 import { DeleteDialog } from '../dialogs';
 import { BoxWithShadowMax } from '../wrappers/BoxWithShadow';
@@ -66,17 +66,16 @@ type DataTableProps<Data extends object> = {
     refreshData: Dispatch<unknown>;
     createButton?: JSX.Element;
     entity: Entity;
+    canDelete: boolean;
 };
 
 export interface GenericTableWithSearchAndCreateProps<T extends object>
     extends DataTableProps<T> {
-    isLoaded: boolean;
     filter: Dispatch<SetStateAction<string>>;
     title: string;
 }
 
 export const GenericTableWithSearchAndCreate = <T extends object>({
-    isLoaded,
     filter,
     data,
     columns,
@@ -84,13 +83,14 @@ export const GenericTableWithSearchAndCreate = <T extends object>({
     createButton,
     title,
     entity,
+    canDelete,
 }: GenericTableWithSearchAndCreateProps<T>) => {
     const { state } = useUserContext();
     const { t } = useTranslation();
 
     return (
         <BoxWithShadowMax>
-            <Center p={4}>
+            <Center p={4} pb="8">
                 <Heading as="h4">{title}</Heading>
             </Center>
             <BoxWithShadowMax>
@@ -102,20 +102,19 @@ export const GenericTableWithSearchAndCreate = <T extends object>({
                         onChange={(e) => filter(e.target.value)}
                     />
                     <Spacer />
-                    {state.role === 'Admin' ? createButton : null}
+                    {createButton}
                 </HStack>
-                <Skeleton isLoaded={isLoaded}>
-                    <Box padding={2}>
-                        <Box borderWidth="1px" borderRadius="lg" padding={2}>
-                            <GenericTable
-                                data={data}
-                                columns={columns}
-                                refreshData={refreshData}
-                                entity={entity}
-                            />
-                        </Box>
+                <Box padding={2}>
+                    <Box borderWidth="1px" borderRadius="lg" padding={2}>
+                        <GenericTable
+                            data={data}
+                            columns={columns}
+                            refreshData={refreshData}
+                            entity={entity}
+                            canDelete={canDelete}
+                        />
                     </Box>
-                </Skeleton>
+                </Box>
             </BoxWithShadowMax>
         </BoxWithShadowMax>
     );
@@ -129,19 +128,24 @@ export function GenericCreate<Data extends object>({
     row: Row<Data>;
 }) {
     const { t } = useTranslation();
+    const { state } = useUserContext();
 
     return (
         <>
             {entity === 'healthrecord' ? (
-                <>
-                    <Td key={row.id + '_details'}>
-                        <Link
-                            to={`rate/${row.getVisibleCells()[0].getValue()}`}
-                        >
-                            <Button>{t('Table.Buttons.Rate')}</Button>
-                        </Link>
-                    </Td>
-                </>
+                !isUser() ? (
+                    <>
+                        <Td key={row.id + '_details'}>
+                            <Link
+                                to={`rate/${row
+                                    .getVisibleCells()[0]
+                                    .getValue()}`}
+                            >
+                                <Button>{t('Table.Buttons.Rate')}</Button>
+                            </Link>
+                        </Td>
+                    </>
+                ) : null
             ) : null}
             {entity === 'animal' ? (
                 <>
@@ -231,6 +235,7 @@ export function GenericTable<Data extends object>({
     columns,
     refreshData,
     entity,
+    canDelete,
 }: DataTableProps<Data>) {
     // Use the state and functions returned from useTable to build your UI
     const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -300,7 +305,6 @@ export function GenericTable<Data extends object>({
                                 backgroundColor: 'gray.400',
                             }}
                             onClick={(e) => {
-                                console.log(row);
                             }}
                         >
                             {row.getVisibleCells().map((cell) => {
@@ -329,19 +333,19 @@ export function GenericTable<Data extends object>({
                                     />
                                 </Td>
                             ) : null}
-                            {state.role === 'Admin' ? (
-                                <>
-                                    <Td key={row.id + '_details'}>
-                                        <Link
-                                            to={`${row
-                                                .getVisibleCells()[0]
-                                                .getValue()}`}
-                                        >
-                                            <Button>
-                                                {t('Table.Buttons.Details')}
-                                            </Button>
-                                        </Link>
-                                    </Td>
+                            <>
+                                <Td key={row.id + '_details'}>
+                                    <Link
+                                        to={`${row
+                                            .getVisibleCells()[0]
+                                            .getValue()}`}
+                                    >
+                                        <Button>
+                                            {t('Table.Buttons.Details')}
+                                        </Button>
+                                    </Link>
+                                </Td>
+                                {canDelete ? (
                                     <Td key={row.id + '_delete'}>
                                         <Button
                                             onClick={(e) => {
@@ -356,13 +360,8 @@ export function GenericTable<Data extends object>({
                                             <DeleteIcon color={'red'} />
                                         </Button>
                                     </Td>
-                                </>
-                            ) : (
-                                <>
-                                    <Td></Td>
-                                    <Td></Td>
-                                </>
-                            )}
+                                ) : null}
+                            </>
                         </Tr>
                     ))}
                 </Tbody>

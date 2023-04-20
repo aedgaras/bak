@@ -1,4 +1,4 @@
-import { CircularProgress, Heading, useToast, VStack } from '@chakra-ui/react';
+import { CircularProgress, Heading, useToast } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
@@ -7,7 +7,7 @@ import { useUserContext } from '../../../context/UserContext';
 import { ResultsService } from '../../../services';
 import { ResultDto } from '../../../utils/dto';
 import { SubmitButton } from '../../components/form';
-import { BoxWithBorder } from '../../components/wrappers/BoxWithShadow';
+import { FormWrapper } from '../../components/wrappers/BoxWithShadow';
 import { DataDisplay } from '../../components/wrappers/DataDisplay';
 
 export const DiagnosesResultsDetailsPage = () => {
@@ -18,14 +18,12 @@ export const DiagnosesResultsDetailsPage = () => {
         <DataDisplay
             isLoaded={true}
             element={
-                <BoxWithBorder>
-                    <VStack>
-                        <Heading size={'lg'} sx={{ p: 2 }}>
-                            {t('Form.DiagnosesResultsDetails')}
-                        </Heading>
-                        <AnimalUpdateForm />
-                    </VStack>
-                </BoxWithBorder>
+                <FormWrapper>
+                    <Heading size={'lg'} sx={{ p: 2 }}>
+                        {t('Form.DiagnosesResultsDetails')}
+                    </Heading>
+                    <AnimalUpdateForm />
+                </FormWrapper>
             }
         />
     );

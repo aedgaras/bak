@@ -36,7 +36,7 @@ export const CasePage = () => {
             <GenericTableWithSearchAndCreate<CaseDto>
                 title={t('Table.Title.Cases')}
                 entity={'case'}
-                isLoaded={!isLoading}
+                canDelete={true}
                 filter={setQueryFilter}
                 data={cases}
                 columns={caseTableColumns()}

@@ -1,10 +1,15 @@
 import { Heading, useToast } from '@chakra-ui/react';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { authenticateUserHook } from '../../../hooks/customHooks';
+import { AuthService } from '../../../services';
+import {
+    ACCESS_TOKEN_NAME,
+    REFRESH_TOKEN_NAME,
+} from '../../../utils/constants';
 import { UserRegisterDto } from '../../../utils/dto';
 import { GenericInput, SubmitButton } from '../../components/form';
 import {
+    validateEmail,
     validatePassword,
     validateUsername,
 } from '../../components/form/validation/validation';
@@ -25,12 +30,20 @@ export const RegisterPage = () => {
     function RegisterForm() {
         return (
             <Formik
-                initialValues={
-                    { username: '', password: '' } as UserRegisterDto
-                }
+                initialValues={{} as UserRegisterDto}
                 onSubmit={async (values, actions) => {
                     actions.setSubmitting(true);
-                    await authenticateUserHook(toast, 'register', values, t);
+                    const service = new AuthService();
+
+                    const tokens = await service.register(values);
+
+                    localStorage.setItem(ACCESS_TOKEN_NAME, tokens.accessToken);
+                    localStorage.setItem(
+                        REFRESH_TOKEN_NAME,
+                        tokens.refreshToken
+                    );
+
+                    window.location.assign('/');
                     actions.setSubmitting(false);
                 }}
             >
@@ -55,12 +68,21 @@ export const RegisterPage = () => {
                             validation={validatePassword}
                         />
                         <GenericInput
-                            fieldTitle={t('Form.Name')}
-                            fieldName={'name'}
-                            fieldType={'text'}
-                            isRequired={false}
-                            errorField={errors.username}
-                            touchedField={touched.username}
+                            fieldTitle={t('Form.Email')}
+                            fieldName={'email'}
+                            fieldType={'email'}
+                            isRequired={true}
+                            errorField={errors.email}
+                            touchedField={touched.email}
+                            validation={validateEmail}
+                        />
+                        <GenericInput
+                            fieldTitle={t('Form.PhoneNumber')}
+                            fieldName={'phoneNumber'}
+                            fieldType={'phone'}
+                            isRequired={true}
+                            errorField={errors.phoneNumber}
+                            touchedField={touched.phoneNumber}
                             validation={() => ''}
                         />
                         <SubmitButton isSubmitting={isSubmitting} />

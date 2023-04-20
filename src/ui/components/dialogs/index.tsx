@@ -57,6 +57,7 @@ export const AboutToLogoutDialog = ({
     cancelRef,
     onClose,
 }: ClosableObject) => {
+    const { t } = useTranslation();
     return (
         <AlertDialog
             isOpen={isOpen}
@@ -109,9 +110,7 @@ export const DeleteDialog = ({
         onClose: onClose,
         cancelRef: cancelRef,
         header: <Text>{t('Table.Buttons.Delete')}</Text>,
-        body: (
-            <Text> Are you sure? You can't undo this action afterwards.</Text>
-        ),
+        body: <Text>{t('Dialog.CantUndo')}</Text>,
         footer: (
             <>
                 <Button ref={cancelRef} onClick={onClose}>
@@ -167,23 +166,19 @@ export const LogoutDialog = ({
     cancelRef,
     onClose,
     optionalText,
-}: ClosableObject) =>
-    BaseDialog({
+}: ClosableObject) => {
+    const { t } = useTranslation();
+
+    return BaseDialog({
         isOpen: isOpen,
         cancelRef: cancelRef,
         onClose: onClose,
-        header: <Text>Logout</Text>,
-        body: (
-            <>
-                {optionalText
-                    ? optionalText
-                    : 'Are you sure you want to logout?'}
-            </>
-        ),
+        header: <Text>{t('Logout.Logout')}</Text>,
+        body: <>{optionalText ? optionalText : t('Logout.AreYouSure')}</>,
         footer: (
             <>
                 <Button ref={cancelRef} onClick={onClose}>
-                    Cancel
+                    {t('Logout.Cancel')}
                 </Button>
                 <Button
                     colorScheme="red"
@@ -194,8 +189,9 @@ export const LogoutDialog = ({
                     }}
                     ml={3}
                 >
-                    Logout
+                    {t('Logout.Button')}
                 </Button>
             </>
         ),
     });
+};

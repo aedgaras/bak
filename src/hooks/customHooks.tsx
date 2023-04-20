@@ -29,6 +29,7 @@ export const authenticateUserHook = async (
                 duration: 9000,
                 isClosable: true,
             });
+
             localStorage.setItem(ACCESS_TOKEN_NAME, r.data.accessToken);
             localStorage.setItem(REFRESH_TOKEN_NAME, r.data.refreshToken);
             window.location.assign('/');

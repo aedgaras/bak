@@ -1,11 +1,4 @@
-import {
-    Box,
-    ChakraProvider,
-    ColorModeScript,
-    Grid,
-    GridItem,
-    theme,
-} from '@chakra-ui/react';
+import { Box, ChakraProvider, ColorModeScript, theme } from '@chakra-ui/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
 import * as React from 'react';
@@ -48,14 +41,8 @@ root.render(
                             >
                                 <Box>
                                     <BrowserRouter>
-                                        <Grid>
-                                            <GridItem rowSpan={2}>
-                                                <NavBar />
-                                            </GridItem>
-                                            <GridItem rowSpan={10}>
-                                                <AppRouter />
-                                            </GridItem>
-                                        </Grid>
+                                        <NavBar />
+                                        <AppRouter />
                                     </BrowserRouter>
                                 </Box>
                             </Box>

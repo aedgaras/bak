@@ -10,6 +10,7 @@ import { Formik } from 'formik';
 import { t } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { useUserContext } from '../../../context/UserContext';
+import { UserService } from '../../../services';
 import { UserRegisterDto } from '../../../utils/dto';
 import { Classification, Role } from '../../../utils/Models';
 import {
@@ -55,6 +56,7 @@ const UserCreationForm = () => {
             initialValues={{} as UserRegisterDto}
             onSubmit={async (values, actions) => {
                 actions.setSubmitting(true);
+                const service = new UserService();
             }}
         >
             {({ handleSubmit, errors, touched, isSubmitting }) => (
