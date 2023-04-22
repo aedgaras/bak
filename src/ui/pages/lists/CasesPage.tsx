@@ -13,7 +13,6 @@ import {
 export const CasePage = () => {
     const [cases, setCases] = useState<CaseDto[]>([]);
     const [queryFilter, setQueryFilter] = useState<string>('');
-    const [refreshFlag, setRefreshFlag] = useState<unknown>({});
     const { t } = useTranslation();
 
     const { isLoading, isFetching, error, data } = useQuery({
@@ -29,7 +28,7 @@ export const CasePage = () => {
         if (data) {
             filterCasesTable(data, queryFilter, setCases);
         }
-    }, [queryFilter, data, refreshFlag]);
+    }, [queryFilter, data]);
 
     return (
         <Skeleton isLoaded={!isLoading}>
@@ -40,7 +39,6 @@ export const CasePage = () => {
                 filter={setQueryFilter}
                 data={cases}
                 columns={caseTableColumns()}
-                refreshData={setRefreshFlag}
             ></GenericTableWithSearchAndCreate>
         </Skeleton>
     );

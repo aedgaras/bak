@@ -197,7 +197,7 @@ const DiagnosisResultsCreationForm = () => {
                                     'Form.Diagnosis.Result.Description'
                                 )}
                                 fieldName={'Description'}
-                                fieldType={'string'}
+                                fieldType={'textarea'}
                                 isRequired={true}
                                 errorField={errors.description}
                                 touchedField={touched.description}

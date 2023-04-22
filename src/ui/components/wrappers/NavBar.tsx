@@ -57,6 +57,7 @@ export const NavBar = ({ children }: any) => {
                         <HStack
                             display={['none', 'none', 'none', 'flex']}
                             width={'100%'}
+                            px="2"
                         >
                             <Box pr={6}>
                                 <Image

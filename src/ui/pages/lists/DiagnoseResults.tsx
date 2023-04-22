@@ -13,7 +13,7 @@ import {
 export const DiagnosesResultsPage = () => {
     const [results, setResults] = useState<ResultDto[]>([]);
     const [queryFilter, setQueryFilter] = useState<string>('');
-    const [refreshFlag, setRefreshFlag] = useState<unknown>({});
+
     const { t } = useTranslation();
 
     const { isLoading, isFetching, error, data } = useQuery({
@@ -29,7 +29,7 @@ export const DiagnosesResultsPage = () => {
         if (data) {
             filterResultsTable(data, queryFilter, setResults);
         }
-    }, [queryFilter, data, refreshFlag]);
+    }, [queryFilter, data]);
 
     return (
         <Skeleton isLoaded={!isLoading}>
@@ -40,7 +40,6 @@ export const DiagnosesResultsPage = () => {
                 filter={setQueryFilter}
                 data={results}
                 columns={resultTableColumns()}
-                refreshData={setRefreshFlag}
             ></GenericTableWithSearchAndCreate>
         </Skeleton>
     );

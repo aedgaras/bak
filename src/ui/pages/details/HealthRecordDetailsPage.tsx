@@ -8,6 +8,7 @@ import {
     FormLabel,
     Heading,
     Input,
+    Textarea,
     useToast,
 } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
@@ -15,6 +16,7 @@ import { Field, Formik } from 'formik';
 import { t } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
+import { queryClient } from '../../..';
 import { isUser, useUserContext } from '../../../context/UserContext';
 import { HealthRecordService } from '../../../services';
 import { HealthRecordDto, UpdateHealthRecordDto } from '../../../utils/dto';
@@ -51,6 +53,7 @@ const HealthRecordUpdateForm = () => {
             const service = new HealthRecordService();
             return await service.get(params.id!);
         },
+        cacheTime: 0,
     });
 
     if (health.isLoading) {
@@ -72,6 +75,7 @@ const HealthRecordUpdateForm = () => {
                 service
                     .update(params.id!, dto as UpdateHealthRecordDto)
                     .then(() => {
+                        queryClient.invalidateQueries();
                         navigate(-1);
                     });
             }}
@@ -109,7 +113,7 @@ const HealthRecordUpdateForm = () => {
                             {t('Form.HealthRecord.Description')}
                         </FormLabel>
                         <Field
-                            as={Input}
+                            as={Textarea}
                             type="text"
                             name="description"
                             placeholder={health.data?.description}

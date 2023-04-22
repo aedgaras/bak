@@ -13,7 +13,6 @@ import {
 export const RecipesPage = () => {
     const [recipes, setRecipes] = useState<MedicineRecipeDto[]>([]);
     const [queryFilter, setQueryFilter] = useState<string>('');
-    const [refreshFlag, setRefreshFlag] = useState<unknown>({});
     const { t } = useTranslation();
 
     const { isLoading, isFetching, error, data } = useQuery({
@@ -29,7 +28,7 @@ export const RecipesPage = () => {
         if (data) {
             filterRecipessTable(data, queryFilter, setRecipes);
         }
-    }, [queryFilter, data, refreshFlag]);
+    }, [queryFilter, data]);
 
     return (
         <Skeleton isLoaded={!isLoading}>
@@ -39,7 +38,6 @@ export const RecipesPage = () => {
                 filter={setQueryFilter}
                 data={recipes}
                 columns={recipeTableColumns()}
-                refreshData={setRefreshFlag}
                 entity={'recipe'}
             ></GenericTableWithSearchAndCreate>
         </Skeleton>

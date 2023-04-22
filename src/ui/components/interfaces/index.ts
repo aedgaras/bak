@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Dispatch } from 'react';
 import { EntityTypes } from '../../../utils/constants';
 
 export interface ClosableObject {
@@ -10,7 +9,6 @@ export interface ClosableObject {
 }
 
 export interface DeleteDialogProps extends ClosableObject {
-    refreshData: Dispatch<unknown>;
     entity: EntityTypes;
     id: string;
 }

@@ -16,7 +16,6 @@ export const AnimalsPage = () => {
     const { state } = useUserContext();
     const [animals, setAnimals] = useState<AnimalDto[]>([]);
     const [queryFilter, setQueryFilter] = useState<string>('');
-    const [refreshFlag, setRefreshFlag] = useState<unknown>({});
     const { t } = useTranslation();
 
     const admin = useQuery({
@@ -47,7 +46,7 @@ export const AnimalsPage = () => {
         if (user.data) {
             filterAnimalsTable(user.data!, queryFilter, setAnimals);
         }
-    }, [queryFilter, admin.data!, user.data!, refreshFlag]);
+    }, [queryFilter, admin.data!, user.data!]);
 
     return (
         <GenericTableWithSearchAndCreate
@@ -57,7 +56,6 @@ export const AnimalsPage = () => {
             data={animals}
             canDelete={true}
             columns={animalTableColumns()}
-            refreshData={setRefreshFlag}
             createButton={
                 <Link to="create">
                     <Button color="teal">{t('Table.CreateAnimal')}</Button>

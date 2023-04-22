@@ -8,6 +8,7 @@ import {
     FormLabel,
     Heading,
     Input,
+    Textarea,
     useToast,
 } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
@@ -104,7 +105,7 @@ const AnimalUpdateForm = () => {
                             {t('Form.HealthRecord.Description')}
                         </FormLabel>
                         <Field
-                            as={Input}
+                            as={Textarea}
                             type="text"
                             name="description"
                             placeholder={new Date(recipe.data?.description!)}

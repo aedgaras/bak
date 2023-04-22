@@ -97,6 +97,7 @@ const HealthRecordTable = () => {
         queryFn: async () => {
             return (await healthRecordService.list()).reverse();
         },
+        cacheTime: 0,
     });
 
     return (

@@ -9,6 +9,7 @@ import {
     Text,
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
+import { queryClient } from '../../..';
 import {
     AnimalService,
     AuthService,
@@ -99,7 +100,6 @@ export const DeleteDialog = ({
     isOpen,
     onClose,
     cancelRef,
-    refreshData,
     entity,
     id,
 }: DeleteDialogProps) => {
@@ -122,34 +122,28 @@ export const DeleteDialog = ({
                         if (entity === 'user') {
                             const service = new UserService();
                             await service.delete(parseInt(id));
-                            refreshData({});
                         } else if (entity === 'animal') {
                             const service = new AnimalService();
                             await service.delete(parseInt(id));
-                            refreshData({});
                         } else if (entity === 'case') {
                             const service = new CasesService();
                             await service.delete(parseInt(id));
-                            refreshData({});
                         } else if (entity === 'diagnosis') {
                             const service = new DiagnosisService();
                             await service.delete(parseInt(id));
-                            refreshData({});
                         } else if (entity === 'healthrecord') {
                             const service = new HealthRecordService();
                             await service.delete(parseInt(id));
-                            refreshData({});
                         } else if (entity === 'recipe') {
                             const service = new RecipeService();
                             await service.delete(parseInt(id));
-                            refreshData({});
                         } else if (entity === 'result') {
                             const service = new ResultsService();
                             await service.delete(parseInt(id));
-                            refreshData({});
                         }
 
-                        refreshData({});
+                        queryClient.invalidateQueries();
+
                         onClose();
                     }}
                     ml={3}

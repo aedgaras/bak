@@ -36,6 +36,7 @@ export interface HealthRecordDto {
     heartRate: string;
     description: string;
     entryDate: string;
+    animal?: AnimalDto;
 }
 
 export interface CaseDto {

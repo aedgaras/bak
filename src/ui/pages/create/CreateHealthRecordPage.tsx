@@ -1,5 +1,13 @@
-import { Heading, useToast } from '@chakra-ui/react';
-import { Formik } from 'formik';
+import {
+    FormControl,
+    FormErrorIcon,
+    FormErrorMessage,
+    FormLabel,
+    Heading,
+    Textarea,
+    useToast,
+} from '@chakra-ui/react';
+import { Field, Formik } from 'formik';
 import { t } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -59,15 +67,21 @@ const HealthRecordCreationForm = () => {
                         validation={() => ''}
                     />
 
-                    <GenericInput
-                        fieldTitle={t('Form.HealthRecord.Description')}
-                        fieldName={'Description'}
-                        fieldType={'string'}
-                        isRequired={true}
-                        errorField={errors.description}
-                        touchedField={touched.description}
-                        validation={() => ''}
-                    />
+                    <FormControl
+                        isInvalid={!!errors.description && touched.description}
+                        p={2}
+                        isRequired
+                    >
+                        <FormLabel>
+                            {t('Form.HealthRecord.Description')}
+                        </FormLabel>
+                        <Field as={Textarea} type="text" name="description" />
+
+                        <FormErrorMessage>
+                            <FormErrorIcon />
+                            {errors.description}
+                        </FormErrorMessage>
+                    </FormControl>
                     <SubmitButton isSubmitting={isSubmitting} />
                 </form>
             )}

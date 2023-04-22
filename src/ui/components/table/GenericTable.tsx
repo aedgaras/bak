@@ -63,7 +63,6 @@ type Entity =
 type DataTableProps<Data extends object> = {
     data: Data[];
     columns: ColumnDef<Data, any>[];
-    refreshData: Dispatch<unknown>;
     createButton?: JSX.Element;
     entity: Entity;
     canDelete: boolean;
@@ -79,7 +78,7 @@ export const GenericTableWithSearchAndCreate = <T extends object>({
     filter,
     data,
     columns,
-    refreshData,
+
     createButton,
     title,
     entity,
@@ -109,7 +108,6 @@ export const GenericTableWithSearchAndCreate = <T extends object>({
                         <GenericTable
                             data={data}
                             columns={columns}
-                            refreshData={refreshData}
                             entity={entity}
                             canDelete={canDelete}
                         />
@@ -233,7 +231,6 @@ const PhoneTooltip = ({ id }: { id: string }) => {
 export function GenericTable<Data extends object>({
     data,
     columns,
-    refreshData,
     entity,
     canDelete,
 }: DataTableProps<Data>) {
@@ -304,8 +301,7 @@ export function GenericTable<Data extends object>({
                             _hover={{
                                 backgroundColor: 'gray.400',
                             }}
-                            onClick={(e) => {
-                            }}
+                            onClick={(e) => {}}
                         >
                             {row.getVisibleCells().map((cell) => {
                                 const meta: any = cell.column.columnDef.meta;
@@ -370,7 +366,6 @@ export function GenericTable<Data extends object>({
                     isOpen={isOpen}
                     cancelRef={cancelRef}
                     onClose={onClose}
-                    refreshData={refreshData}
                     entity={entity}
                     id={toDeleteId[0]}
                 />

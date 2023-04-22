@@ -14,7 +14,6 @@ import {
 export const UsersPage = () => {
     const [usersToDisplay, setUsersToDisplay] = useState<UserDto[]>([]);
     const [queryFilter, setQueryFilter] = useState<string>('');
-    const [refreshFlag, setRefreshFlag] = useState<unknown>({});
     const { t } = useTranslation();
 
     const { isLoading, isFetching, error, data } = useQuery({
@@ -30,7 +29,7 @@ export const UsersPage = () => {
         if (data) {
             filterUserTable(data, queryFilter, setUsersToDisplay);
         }
-    }, [queryFilter, data, refreshFlag]);
+    }, [queryFilter, data]);
 
     return (
         <Skeleton isLoaded={!isLoading}>
@@ -41,7 +40,6 @@ export const UsersPage = () => {
                 filter={setQueryFilter}
                 data={usersToDisplay}
                 columns={userTableColumns()}
-                refreshData={setRefreshFlag}
                 createButton={
                     <Link to="create">
                         <Button color="teal">Create User</Button>

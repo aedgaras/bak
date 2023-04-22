@@ -13,6 +13,7 @@ import { Field, Formik } from 'formik';
 import { t } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
+import { queryClient } from '../../..';
 import { useUserContext } from '../../../context/UserContext';
 import { AnimalService } from '../../../services';
 import { UpdateAnimalDto } from '../../../utils/dto';
@@ -66,6 +67,7 @@ const AnimalUpdateForm = () => {
                 };
 
                 service.update(animal.data?.id!, dto).then(() => {
+                    queryClient.invalidateQueries();
                     navigate(-1);
                 });
             }}

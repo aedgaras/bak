@@ -13,7 +13,6 @@ import {
 export const HealthRecordsPage = () => {
     const [healthRecords, setHealthRecords] = useState<HealthRecordDto[]>([]);
     const [queryFilter, setQueryFilter] = useState<string>('');
-    const [refreshFlag, setRefreshFlag] = useState<unknown>({});
     const { t } = useTranslation();
     const { state } = useUserContext();
 
@@ -47,7 +46,7 @@ export const HealthRecordsPage = () => {
         if (userHr.data) {
             filterHeartRatesTable(userHr.data!, queryFilter, setHealthRecords);
         }
-    }, [queryFilter, adminHr.data!, userHr.data!, refreshFlag]);
+    }, [queryFilter, adminHr.data!, userHr.data!]);
 
     return (
         <GenericTableWithSearchAndCreate<HealthRecordDto>
@@ -56,7 +55,6 @@ export const HealthRecordsPage = () => {
             filter={setQueryFilter}
             data={healthRecords}
             columns={healthRecordTableColumns()}
-            refreshData={setRefreshFlag}
             canDelete={!isUser()}
         />
     );

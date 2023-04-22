@@ -10,6 +10,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Formik } from 'formik';
 import { useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { queryClient } from '../../..';
 import { useUserContext } from '../../../context/UserContext';
 import { UserService } from '../../../services';
 import { UserDto } from '../../../utils/dto';
@@ -62,6 +63,7 @@ export const UserDetailsPage = () => {
                                     })
                                     .then((r) => {
                                         actions.setSubmitting(false);
+                                        queryClient.invalidateQueries();
                                         navigate(-1);
                                     });
                             } else {
@@ -71,6 +73,7 @@ export const UserDetailsPage = () => {
                                     })
                                     .then((r) => {
                                         actions.setSubmitting(false);
+                                        queryClient.invalidateQueries();
                                         navigate(-1);
                                     });
                             }
