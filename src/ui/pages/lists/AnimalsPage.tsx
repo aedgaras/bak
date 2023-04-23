@@ -14,19 +14,15 @@ import {
 
 export const AnimalsPage = () => {
     const { state } = useUserContext();
+
+    return isUser() ? userAnimalTable() : adminAnimalTable();
+};
+
+const userAnimalTable = () => {
     const [animals, setAnimals] = useState<AnimalDto[]>([]);
     const [queryFilter, setQueryFilter] = useState<string>('');
     const { t } = useTranslation();
-
-    const admin = useQuery({
-        queryKey: ['animalsList'],
-        queryFn: async () => {
-            const service = new AnimalService();
-
-            return await service.list();
-        },
-        enabled: isUser() === false,
-    });
+    const { state } = useUserContext();
 
     const user = useQuery({
         queryKey: ['useranimalsList'],
@@ -40,13 +36,48 @@ export const AnimalsPage = () => {
 
     useEffect(() => {
         document.title = t('Pages.AnimalsPage');
-        if (admin.data) {
-            filterAnimalsTable(admin.data!, queryFilter, setAnimals);
-        }
         if (user.data) {
             filterAnimalsTable(user.data!, queryFilter, setAnimals);
         }
-    }, [queryFilter, admin.data!, user.data!]);
+    }, [queryFilter, user.data!]);
+
+    return (
+        <GenericTableWithSearchAndCreate
+            title={t('Table.Title.Animals')}
+            entity={'animal'}
+            filter={setQueryFilter}
+            data={animals}
+            canDelete={true}
+            columns={animalTableColumns()}
+            createButton={
+                <Link to="create">
+                    <Button color="teal">{t('Table.CreateAnimal')}</Button>
+                </Link>
+            }
+        />
+    );
+};
+
+const adminAnimalTable = () => {
+    const [animals, setAnimals] = useState<AnimalDto[]>([]);
+    const [queryFilter, setQueryFilter] = useState<string>('');
+    const { t } = useTranslation();
+
+    const admin = useQuery({
+        queryKey: ['animalsList'],
+        queryFn: async () => {
+            const service = new AnimalService();
+
+            return await service.list();
+        },
+    });
+
+    useEffect(() => {
+        document.title = t('Pages.AnimalsPage');
+        if (admin.data) {
+            filterAnimalsTable(admin.data!, queryFilter, setAnimals);
+        }
+    }, [queryFilter, admin.data!]);
 
     return (
         <GenericTableWithSearchAndCreate
