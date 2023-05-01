@@ -30,6 +30,7 @@ import {
     UpdateHealthRecordDto,
     UserDto,
     UserRegisterDto,
+    ViewHistoryDto,
 } from '../utils/dto';
 import {
     getJwtFromStorage,
@@ -44,7 +45,7 @@ class API {
 
     postRequest = async <T>(
         url: string,
-        data: any
+        data?: any
     ): Promise<AxiosResponse<T, any>> => {
         return await axios.post<T>(API_URL + url, data, axiosAuthHeaders);
     };
@@ -120,22 +121,22 @@ export class AuthService extends Service {
     };
 
     logout = async () => {
-        // await axios
-        //     .post(
-        //         API_URL + '/Token/revoke',
-        //         {
-        //             AccessToken: getJwtFromStorage,
-        //             RefreshToken: getRefreshTokenFromStorage,
-        //         },
-        //         {
-        //             headers: {
-        //                 jwt: localStorage.getItem(REFRESH_TOKEN_NAME) ?? '',
-        //             },
-        //         }
-        //     )
-        //     .then((r) => {
-        //         return r;
-        //     });
+        await axios
+            .post(
+                API_URL + '/Token/revoke',
+                {
+                    AccessToken: getJwtFromStorage,
+                    RefreshToken: getRefreshTokenFromStorage,
+                },
+                {
+                    headers: {
+                        jwt: localStorage.getItem(REFRESH_TOKEN_NAME) ?? '',
+                    },
+                }
+            )
+            .then((r) => {
+                return r;
+            });
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         window.location.assign('/');
@@ -567,6 +568,56 @@ export class RecipeService extends Service {
             .then((r: AxiosResponse) => {
                 return r.data;
             });
+        return response;
+    };
+}
+
+export class HistoryService extends Service {
+    constructor() {
+        super();
+    }
+
+    HISTORY_URL = '/ViewHistory';
+
+    listRequestedHisories = async () => {
+        const response = await this.api
+            .getRequest<ViewHistoryDto[]>(this.HISTORY_URL)
+            .then((r: AxiosResponse<ViewHistoryDto[]>) => {
+                return r.data;
+            });
+
+        return response;
+    };
+
+    requestHisory = async () => {
+        const response = await this.api
+            .postRequest<ViewHistoryDto[]>(this.HISTORY_URL + '/requestHistory')
+            .then((r: AxiosResponse<ViewHistoryDto[]>) => {
+                return r.data;
+            });
+
+        return response;
+    };
+
+    permissionToViewHisory = async (id: string) => {
+        const response = await this.api
+            .postRequest<ViewHistoryDto[]>(
+                this.HISTORY_URL + '/permissionToViewHistory/' + id
+            )
+            .then((r: AxiosResponse<ViewHistoryDto[]>) => {
+                return r.data;
+            });
+
+        return response;
+    };
+
+    viewHisory = async () => {
+        const response = await this.api
+            .getRequest<ViewHistoryDto[]>(this.HISTORY_URL + '/myHistory')
+            .then((r: AxiosResponse<ViewHistoryDto[]>) => {
+                return r.data;
+            });
+
         return response;
     };
 }

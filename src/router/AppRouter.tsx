@@ -47,7 +47,7 @@ export const AppRouter = () => {
     useEffect(() => {
         if (isJwtExpired()) {
             const api = new AuthService();
-            api.refreshToken();
+            api.logout();
         }
     }, []);
 

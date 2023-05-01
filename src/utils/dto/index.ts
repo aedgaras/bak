@@ -146,3 +146,10 @@ export interface UpdateCaseDto {
     status: number;
     urgency: number;
 }
+
+export interface ViewHistoryDto {
+    id: number;
+    userId: number;
+    actions: string[];
+    entryDate: string;
+}
