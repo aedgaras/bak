@@ -161,7 +161,9 @@ export function GenericCreate<Data extends object>({
                     </Td>
                 </>
             ) : null}
-            {entity === 'case' ? (
+            {entity === 'case' &&
+            (state.classification === 'Veterinarian' ||
+                state.role === 'Admin') ? (
                 <>
                     <Td key={row.id + '_create'}>
                         <Link
@@ -192,7 +194,9 @@ export function GenericCreate<Data extends object>({
                 </>
             ) : null}
 
-            {entity === 'result' ? (
+            {entity === 'result' &&
+            (state.classification === 'Veterinarian' ||
+                state.role === 'Admin') ? (
                 <>
                     <Td key={row.id + '_create'}>
                         <Link
@@ -489,7 +493,7 @@ export function GenericHomePageTable<Data extends object>({
                                     </Th>
                                 );
                             })}
-                            <Th />
+                            {canDelete ? <Th /> : null}
                         </Tr>
                     ))}
                 </Thead>
@@ -506,7 +510,7 @@ export function GenericHomePageTable<Data extends object>({
                                 const meta: any = cell.column.columnDef.meta;
                                 return (
                                     <Td
-                                        key={cell.id}
+                                        key={cell.id + cell.row}
                                         isNumeric={meta?.isNumeric}
                                     >
                                         {flexRender(
@@ -516,24 +520,23 @@ export function GenericHomePageTable<Data extends object>({
                                     </Td>
                                 );
                             })}
-                            <>
-                                {canDelete ? (
-                                    <Td key={row.id + '_delete'}>
-                                        <Button
-                                            onClick={(e) => {
-                                                setToDeleteId([
-                                                    row
-                                                        .getVisibleCells()[0]
-                                                        .getValue() as string,
-                                                ]);
-                                                onOpen();
-                                            }}
-                                        >
-                                            <DeleteIcon color={'red'} />
-                                        </Button>
-                                    </Td>
-                                ) : null}
-                            </>
+
+                            {canDelete ? (
+                                <Td key={row.id + '_delete'}>
+                                    <Button
+                                        onClick={(e) => {
+                                            setToDeleteId([
+                                                row
+                                                    .getVisibleCells()[0]
+                                                    .getValue() as string,
+                                            ]);
+                                            onOpen();
+                                        }}
+                                    >
+                                        <DeleteIcon color={'red'} />
+                                    </Button>
+                                </Td>
+                            ) : null}
                         </Tr>
                     ))}
                 </Tbody>
@@ -546,7 +549,7 @@ export function GenericHomePageTable<Data extends object>({
                     id={toDeleteId[0]}
                 />
             </Table>
-            <HStack pt={2} spacing={2}>
+            <HStack pt={2} spacing={2} px={2}>
                 <Button
                     onClick={() => setPageIndex(0)}
                     disabled={!table.getCanPreviousPage()}

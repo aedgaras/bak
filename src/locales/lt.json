@@ -1,242 +1,244 @@
 {
-  "Greetings": {
-    "Hello": "Labas"
-  },
-  "Navigation": {
-    "Home": "Namai",
-    "Users": "Naudotojai",
-    "Organizations": "Organizacijos",
-    "SwitchLanguage": "Pakeisti kalba i anglu k.",
-    "Animals": "Gyvūnai",
-    "HealthRecords": "Sveikatos įrašai",
-    "Diagnoses": "Diagnozės",
-    "Recipes": "Vaistų receptai",
-    "Results": "Rezultatai",
-    "Cases": "Padietys",
-    "Greetings": "Sveiki, "
-  },
-  "Authentication": {
-    "Register": "Registracija",
-    "Username": "Slapyvardis",
-    "Password": "Slaptažodis",
-    "Login": "Prisijungti",
-    "Name": "Vardas",
-    "DontHaveAccount": "Neturite paskyros? Registruokites"
-  },
-  "Form": {
-    "Name": "Vardas",
-    "Password": "Slaptažodis",
-    "Select": {
-      "Classification": {
-        "Veterinarian": "Veterinaras",
-        "Specialist": "Budintis veterinaras"
-      }
+    "Greetings": {
+        "Hello": "Labas"
     },
-    "Specification": "Specifikacija",
-    "Username": "Slapyvardis",
-    "Submit": "Patvirtinti",
-    "Classification": "Klasifikacija",
-    "UserCreate": "Kurti Naudotoją",
-    "Diangosis": {
-      "Priority": "Prioritetas",
-      "Status": "Statusas",
-      "AnimalType": "Gyvūno Tipas",
-      "CaseDate": "Įrašo Data",
-      "HealthRecord": "Sveikatos Įrašas",
-      "Phonenumber": "Tel. Numeris",
-      "Pulse": "Širdies ritmas",
-      "Description": "Aprašymas"
+    "Navigation": {
+        "Home": "Namai",
+        "Users": "Naudotojai",
+        "Organizations": "Organizacijos",
+        "SwitchLanguage": "Pakeisti kalba i anglu k.",
+        "Animals": "Gyvūnai",
+        "HealthRecords": "Sveikatos įrašai",
+        "Diagnoses": "Diagnozės",
+        "Recipes": "Vaistų receptai",
+        "Results": "Rezultatai",
+        "Cases": "Padietys",
+        "Greetings": "Sveiki, "
     },
-    "Diagnosis": {
-      "Type": "Diagnozės Tipas",
-      "Name": "Pavadinimas",
-      "Result": {
-        "User": "Naudotojas",
-        "ResultType": "Rezultato Tipas",
-        "Animal": "Gyvūnas",
-        "Diangosis": "Diagnozė",
-        "Name": "Rezultatas",
-        "Description": "Aprašymas"
-      },
-      "Description": "Aprašymas",
-      "Diangosis": "Diagnozė",
-      "Case": "Padietis",
-      "HealthRecord": "Padietis",
-      "Diagnosis": "Diagnozė"
+    "Authentication": {
+        "Register": "Registracija",
+        "Username": "Slapyvardis",
+        "Password": "Slaptažodis",
+        "Login": "Prisijungti",
+        "Name": "Vardas",
+        "DontHaveAccount": "Neturite paskyros? Registruokites"
     },
-    "DiagnosisCreate": "Kurti Diagnozę",
-    "MedicineRecipe": {
-      "Animal": "Gyvūnas",
-      "User": "Naudotojas",
-      "Name": "Recepto Pavadinimas",
-      "DiagnosisResults": "Diagnozės Rezultatas",
-      "Diagnosis": "Diagnozė",
-      "Description": "Aprašymas",
-      "DateDue": "Pabaigos Data",
-      "Create": "Kurti Vaistų Receptą",
-      "Count": "Išrašytų vaistų skaičius"
+    "Form": {
+        "Name": "Vardas",
+        "Password": "Slaptažodis",
+        "Select": {
+            "Classification": {
+                "Veterinarian": "Veterinaras",
+                "Specialist": "Budintis veterinaras"
+            }
+        },
+        "Specification": "Specifikacija",
+        "Username": "Slapyvardis",
+        "Submit": "Patvirtinti",
+        "Classification": "Klasifikacija",
+        "UserCreate": "Kurti Naudotoją",
+        "Diangosis": {
+            "Priority": "Prioritetas",
+            "Status": "Statusas",
+            "AnimalType": "Gyvūno Tipas",
+            "CaseDate": "Įrašo Data",
+            "HealthRecord": "Sveikatos Įrašas",
+            "Phonenumber": "Tel. Numeris",
+            "Pulse": "Širdies ritmas",
+            "Description": "Aprašymas"
+        },
+        "Diagnosis": {
+            "Type": "Diagnozės Tipas",
+            "Name": "Pavadinimas",
+            "Result": {
+                "User": "Naudotojas",
+                "ResultType": "Rezultato Tipas",
+                "Animal": "Gyvūnas",
+                "Diangosis": "Diagnozė",
+                "Name": "Rezultatas",
+                "Description": "Aprašymas"
+            },
+            "Description": "Aprašymas",
+            "Diangosis": "Diagnozė",
+            "Case": "Padietis",
+            "HealthRecord": "Padietis",
+            "Diagnosis": "Diagnozė"
+        },
+        "DiagnosisCreate": "Kurti Diagnozę",
+        "MedicineRecipe": {
+            "Animal": "Gyvūnas",
+            "User": "Naudotojas",
+            "Name": "Recepto Pavadinimas",
+            "DiagnosisResults": "Diagnozės Rezultatas",
+            "Diagnosis": "Diagnozė",
+            "Description": "Aprašymas",
+            "DateDue": "Pabaigos Data",
+            "Create": "Kurti Vaistų Receptą",
+            "Count": "Išrašytų vaistų skaičius"
+        },
+        "MedicineRecipeCreate": "Kurti Vaistų Receptą",
+        "Animal": {
+            "Type": "Gyvūno Tipas",
+            "Name": "Gyvūno Vardas",
+            "User": "Naudotojas"
+        },
+        "AnimalCreate": "Kurti Gyvūną",
+        "Case": {
+            "Email": "E. Paštas",
+            "AnimalType": "Gyvūno Tipas",
+            "Priority": "Prioritetas",
+            "Status": "Statusas",
+            "Pulse": "Širdies Ritmas",
+            "HealthRecordDate": "Sveikatos įrašo data",
+            "HealthRecord": "Sveikatos įrašas",
+            "Case": "Padietis"
+        },
+        "DiagnosisResult": {
+            "Create": "Kurti Diagnozės Rezultatą"
+        },
+        "PhoneNumber": "Tel. Numeris",
+        "Email": "E-Paštas",
+        "HealthRecordCreate": "Kūrti sveikatos įrašą",
+        "HealthRecord": {
+            "HeartRate": "Širdies ritmas",
+            "Description": "Aprašymas",
+            "Rate": "Įvertinimas",
+            "Contact": "Kontaktai"
+        },
+        "CaseDetails": "Padietės Detalės",
+        "HealthRecordUpdate": "Keisti Sveikatos Įrašą",
+        "AnimalDetails": "Gyvūno Detalės",
+        "RecipeDetails": "Vaistų Recepto detalės",
+        "DiagnosesDetails": "Diagnozės Detalės",
+        "DiagnosesResultsDetails": "Diagnozės Rezultato Detalės",
+        "Date": "Data"
     },
-    "MedicineRecipeCreate": "Kurti Vaistų Receptą",
-    "Animal": {
-      "Type": "Gyvūno Tipas",
-      "Name": "Gyvūno Vardas",
-      "User": "Naudotojas"
+    "Table": {
+        "Case": {
+            "Temporary": "Laikinas"
+        },
+        "User": "Paskyra",
+        "Show": "Rodyti",
+        "Page": "Puslapis",
+        "Create": "Sukurti",
+        "Headers": {
+            "User": {
+                "Classification": "Clasifikacija",
+                "Role": "Rolė",
+                "Username": "Slapyvardis"
+            },
+            "Animal": {
+                "Type": "Tipas",
+                "Name": "Vardas"
+            },
+            "Diagnoses": {
+                "Header": "Diagnozės"
+            },
+            "DiagnosesResults": {
+                "Header": "Diagnozių Rezultatai"
+            },
+            "HealthRecors": {
+                "Header": "Sveikatos Įrašai"
+            },
+            "MedicineRecipes": {
+                "Header": "Vaistų Receptai"
+            },
+            "HeartRate": {
+                "HeartRate": "Širdies Ritmas"
+            },
+            "No": "Id"
+        },
+        "MedicineRecipes": {
+            "Details": "Detalės"
+        },
+        "Info": {
+            "NoNewData": "Nėra naujų duomenų"
+        },
+        "HealthRecors": {
+            "Details": "Detalės",
+            "Action": {
+                "Rate": "Įvertinti",
+                "Details": "Detalės"
+            }
+        },
+        "DiagnosesResults": {
+            "Details": "Detalės",
+            "PrescribeMedicine": "Išrašyti receptą"
+        },
+        "Search": "Ieškoti",
+        "Title": {
+            "Animals": "Gyvūnai",
+            "Cases": "Padietys",
+            "Recipe": "Vaistų receptai",
+            "Users": "Naudotojai",
+            "Results": "Diagnozės Rezultatai",
+            "HealthRecords": "Sveikatos įrašai",
+            "Diagnoses": "Diagnozės"
+        },
+        "NoData": "Nėra naujų duomenų",
+        "Diagnoses": {
+            "FormResult": "Pateikti rezultatą"
+        },
+        "Buttons": {
+            "Details": "Detalės",
+            "Rate": "Įvertinti",
+            "CreateHealthRecord": "Sveikatos įrašas",
+            "CreateDiagnosis": "Pateikti Diagnozė",
+            "Delete": "Ištrinti",
+            "CreateResult": "Kurti Rezultatą",
+            "Cancel": "Atšaukti",
+            "CreateRecipe": "Kūrti Receptą"
+        },
+        "CreateAnimal": "Kūrti Gyvūną"
     },
-    "AnimalCreate": "Kurti Gyvūną",
-    "Case": {
-      "Email": "E. Paštas",
-      "AnimalType": "Gyvūno Tipas",
-      "Priority": "Prioritetas",
-      "Status": "Statusas",
-      "Pulse": "Širdies Ritmas",
-      "HealthRecordDate": "Sveikatos įrašo data",
-      "HealthRecord": "Sveikatos įrašas",
-      "Case": "Padietis"
+    "Page": {
+        "Exception": {
+            "NotFound": "Puslapis nerastas",
+            "Unauthorized": "Ne autorizuota"
+        },
+        "HomePage": {
+            "Title": "Pagrindinis puslapis"
+        }
     },
-    "DiagnosisResult": {
-      "Create": "Kurti Diagnozės Rezultatą"
+    "MenuDropdown": {
+        "Profile": "Profilis",
+        "Logout": "Atsijungti"
     },
-    "PhoneNumber": "Tel. Numeris",
-    "Email": "E-Paštas",
-    "HealthRecordCreate": "Kūrti sveikatos įrašą",
-    "HealthRecord": {
-      "HeartRate": "Širdies ritmas",
-      "Description": "Aprašymas"
+    "Toast": {
+        "LoginSucess": "Sėkmingai prisijungta.",
+        "RegisterSucess": "Sėkmingai užsiregistruota.",
+        "Sucess": "Sekmė"
     },
-    "CaseDetails": "Padietės Detalės",
-    "HealthRecordUpdate": "Keisti Sveikatos Įrašą",
-    "AnimalDetails": "Gyvūno Detalės",
-    "RecipeDetails": "Vaistų Recepto detalės",
-    "DiagnosesDetails": "Diagnozės Detalės",
-    "DiagnosesResultsDetails": "Diagnozės Rezultato Detalės",
-    "Date": "Data"
-  },
-  "Table": {
-    "Case": {
-      "Temporary": "Laikinas"
+    "Enums": {
+        "Case": {
+            "Urgency": {
+                "Urgent": "Skubus",
+                "Normal": "Įprastas"
+            },
+            "Type": {
+                "Temporary": "Laikinas",
+                "Preliminary": "Preliminarus",
+                "Final": "Galūtinis"
+            }
+        }
     },
-    "User": "Paskyra",
-    "Show": "Rodyti",
-    "Page": "Puslapis",
-    "Create": "Sukurti",
-    "Headers": {
-      "User": {
-        "Classification": "Clasifikacija",
-        "Role": "Rolė",
-        "Username": "Slapyvardis"
-      },
-      "Animal": {
-        "Type": "Tipas",
-        "Name": "Vardas"
-      },
-      "Diagnoses": {
-        "Header": "Diagnozės"
-      },
-      "DiagnosesResults": {
-        "Header": "Diagnozių Rezultatai"
-      },
-      "HealthRecors": {
-        "Header": "Sveikatos Įrašai"
-      },
-      "MedicineRecipes": {
-        "Header": "Vaistų Receptai"
-      },
-      "HeartRate": {
-        "HeartRate": "Širdies Ritmas"
-      },
-      "No": "Id"
+    "Pages": {
+        "HomePage": "Pagrindinis Puslapis",
+        "UsersPage": "Naudotojų Puslapis",
+        "RecipesPage": "Vaistų Receptų Puslapis",
+        "HealthRecordsPage": "Sveikatos Įrašų Puslapis",
+        "AnimalsPage": "Gyvūnų Puslapis",
+        "CasesPage": "Padietės Puslapis",
+        "DiagnosesPage": "Diagnozės Puslapis",
+        "ResultsPage": "Diagnozės Rezultatų Puslapis"
     },
-    "MedicineRecipes": {
-      "Details": "Detalės"
+    "Dialog": {
+        "CantUndo": "Ar esate tikri? Pokyčiai nėra pakeičiami."
     },
-    "Info": {
-      "NoNewData": "Nėra naujų duomenų"
-    },
-    "HealthRecors": {
-      "Details": "Detalės",
-      "Action": {
-        "Rate": "Įvertinti",
-        "Details": "Detalės"
-      }
-    },
-    "DiagnosesResults": {
-      "Details": "Detalės",
-      "PrescribeMedicine": "Išrašyti receptą"
-    },
-    "Search": "Ieškoti",
-    "Title": {
-      "Animals": "Gyvūnai",
-      "Cases": "Padietys",
-      "Recipe": "Vaistų receptai",
-      "Users": "Naudotojai",
-      "Results": "Diagnozės Rezultatai",
-      "HealthRecords": "Sveikatos įrašai",
-      "Diagnoses": "Diagnozės"
-    },
-    "NoData": "Nėra naujų duomenų",
-    "Diagnoses": {
-      "FormResult": "Pateikti rezultatą"
-    },
-    "Buttons": {
-      "Details": "Detalės",
-      "Rate": "Įvertinti",
-      "CreateHealthRecord": "Sveikatos įrašas",
-      "CreateDiagnosis": "Pateikti Diagnozė",
-      "Delete": "Ištrinti",
-      "CreateResult": "Kurti Rezultatą",
-      "Cancel": "Atšaukti",
-      "CreateRecipe": "Kūrti Receptą"
-    },
-    "CreateAnimal": "Kūrti Gyvūną"
-  },
-  "Page": {
-    "Exception": {
-      "NotFound": "Puslapis nerastas",
-      "Unauthorized": "Ne autorizuota"
-    },
-    "HomePage": {
-      "Title": "Pagrindinis puslapis"
+    "Logout": {
+        "Cancel": "Atšaukti",
+        "Button": "Atsijungti",
+        "AreYouSure": "Ar tikrai norite atsijungti?",
+        "Logout": "Atsijungti"
     }
-  },
-  "MenuDropdown": {
-    "Profile": "Profilis",
-    "Logout": "Atsijungti"
-  },
-  "Toast": {
-    "LoginSucess": "Sėkmingai prisijungta.",
-    "RegisterSucess": "Sėkmingai užsiregistruota.",
-    "Sucess": "Sekmė"
-  },
-  "Enums": {
-    "Case": {
-      "Urgency": {
-        "Urgent": "Skubus",
-        "Normal": "Įprastas"
-      },
-      "Type": {
-        "Temporary": "Laikinas",
-        "Preliminary": "Preliminarus",
-        "Final": "Galūtinis"
-      }
-    }
-  },
-  "Pages": {
-    "HomePage": "Pagrindinis Puslapis",
-    "UsersPage": "Naudotojų Puslapis",
-    "RecipesPage": "Vaistų Receptų Puslapis",
-    "HealthRecordsPage": "Sveikatos Įrašų Puslapis",
-    "AnimalsPage": "Gyvūnų Puslapis",
-    "CasesPage": "Padietės Puslapis",
-    "DiagnosesPage": "Diagnozės Puslapis",
-    "ResultsPage": "Diagnozės Rezultatų Puslapis"
-  },
-  "Dialog": {
-    "CantUndo": "Ar esate tikri? Pokyčiai nėra pakeičiami."
-  },
-  "Logout": {
-    "Cancel": "Atšaukti",
-    "Button": "Atsijungti",
-    "AreYouSure": "Ar tikrai norite atsijungti?",
-    "Logout": "Atsijungti"
-  }
 }

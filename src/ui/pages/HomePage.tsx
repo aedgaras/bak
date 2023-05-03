@@ -1,7 +1,13 @@
-import { isUser } from '../../context/UserContext';
+import { useUserContext } from '../../context/UserContext';
 import { AdminHomePage } from './homepage/AdminHomePage';
 import { UserHomePage } from './homepage/UserHomePage';
 
 export const HomePage = () => {
-    return isUser() ? <UserHomePage /> : <AdminHomePage />;
+    const { state } = useUserContext();
+
+    return state.role === 'User' && state.classification === 'Customer' ? (
+        <UserHomePage />
+    ) : (
+        <AdminHomePage />
+    );
 };

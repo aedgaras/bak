@@ -40,6 +40,7 @@ export const animalsRoutePath = '/animals';
 export const diagnosesRoutePath = '/diagnoses';
 export const diagnosesResultsRoutePath = '/diagnosesResults';
 export const recipesRoutePath = '/recipes';
+export const historiesRoutePath = '/histories';
 
 export const AppRouter = () => {
     const { state } = useUserContext();
@@ -193,6 +194,7 @@ export const AppRouter = () => {
                         path={diagnosesResultsRoutePath}
                         element={<DiagnosesResultsPage />}
                     />
+
                     <Route
                         path={
                             diagnosesResultsRoutePath +
@@ -207,15 +209,20 @@ export const AppRouter = () => {
                 </Route>
                 <Route path={recipesRoutePath}>
                     <Route path={recipesRoutePath} element={<RecipesPage />} />
-                    <Route
-                        path={recipesRoutePath + '/create'}
-                        element={<RecipeCreatePage />}
-                    />
+                    {state.role === 'Admin' ||
+                    state.classification === 'Veterinarian' ? (
+                        <Route
+                            path={recipesRoutePath + '/create'}
+                            element={<RecipeCreatePage />}
+                        />
+                    ) : null}
+
                     <Route
                         path={recipesRoutePath + '/:id'}
                         element={<RecipesDetailsPage />}
                     />
                 </Route>
+                <Route></Route>
                 <Route path="*" element={<PageNotFound />} />
             </Routes>
         </AppWrapper>

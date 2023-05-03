@@ -202,6 +202,7 @@ const DiagnosisResultsCreationForm = () => {
                                 errorField={errors.description}
                                 touchedField={touched.description}
                                 validation={validatePassword}
+                                textArea={true}
                             />
                         </Box>
                     </SimpleGrid>
@@ -209,9 +210,9 @@ const DiagnosisResultsCreationForm = () => {
                         <SubmitButton
                             isSubmitting={
                                 isSubmitting ||
-                                (diagnosis.isLoading &&
-                                    user.isLoading &&
-                                    animal.isLoading)
+                                diagnosis.isLoading ||
+                                user.isLoading ||
+                                animal.isLoading
                             }
                         />
                     </Flex>

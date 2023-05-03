@@ -50,9 +50,13 @@ const userAnimalTable = () => {
             canDelete={true}
             columns={animalTableColumns()}
             createButton={
-                <Link to="create">
-                    <Button color="teal">{t('Table.CreateAnimal')}</Button>
-                </Link>
+                state.classification === 'Customer' ? (
+                    <Link to="create">
+                        <Button color="teal">{t('Table.CreateAnimal')}</Button>
+                    </Link>
+                ) : (
+                    <></>
+                )
             }
         />
     );
@@ -61,6 +65,7 @@ const userAnimalTable = () => {
 const adminAnimalTable = () => {
     const [animals, setAnimals] = useState<AnimalDto[]>([]);
     const [queryFilter, setQueryFilter] = useState<string>('');
+    const { state } = useUserContext();
     const { t } = useTranslation();
 
     const admin = useQuery({
@@ -88,9 +93,13 @@ const adminAnimalTable = () => {
             canDelete={true}
             columns={animalTableColumns()}
             createButton={
-                <Link to="create">
-                    <Button color="teal">{t('Table.CreateAnimal')}</Button>
-                </Link>
+                state.classification === 'Customer' ? (
+                    <Link to="create">
+                        <Button color="teal">{t('Table.CreateAnimal')}</Button>
+                    </Link>
+                ) : (
+                    <></>
+                )
             }
         />
     );

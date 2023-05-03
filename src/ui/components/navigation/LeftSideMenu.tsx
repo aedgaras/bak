@@ -2,7 +2,7 @@ import { ChevronDownIcon } from '@chakra-ui/icons';
 import { Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { isUser } from '../../../context/UserContext';
+import { isUser, useUserContext } from '../../../context/UserContext';
 import {
     animalsRoutePath,
     casesRoutePath,
@@ -16,6 +16,7 @@ import { IsLoggedInElement } from '../wrappers/HelperWrappers';
 
 export const LeftSideMenu = () => {
     const { t } = useTranslation();
+    const { state } = useUserContext();
 
     return (
         <IsLoggedInElement
@@ -24,7 +25,7 @@ export const LeftSideMenu = () => {
                     <Link to={'/'}>
                         <Button>{t('Navigation.Home')}</Button>
                     </Link>
-                    {!isUser() ? (
+                    {state.role === 'Admin' ? (
                         <Link to={usersRoutePath}>
                             <Button>{t('Navigation.Users')}</Button>
                         </Link>
@@ -47,21 +48,27 @@ export const LeftSideMenu = () => {
                                 <Link to={casesRoutePath}>
                                     <MenuItem>{t('Navigation.Cases')}</MenuItem>
                                 </Link>
-                                <Link to={diagnosesRoutePath}>
-                                    <MenuItem>
-                                        {t('Navigation.Diagnoses')}
-                                    </MenuItem>
-                                </Link>
-                                <Link to={diagnosesResultsRoutePath}>
-                                    <MenuItem>
-                                        {t('Navigation.Results')}
-                                    </MenuItem>
-                                </Link>
-                                <Link to={recipesRoutePath}>
-                                    <MenuItem>
-                                        {t('Navigation.Recipes')}
-                                    </MenuItem>
-                                </Link>
+                                {state.role === 'Admin' ||
+                                state.classification === 'Veterinarian' ? (
+                                    <>
+                                        <Link to={diagnosesRoutePath}>
+                                            <MenuItem>
+                                                {t('Navigation.Diagnoses')}
+                                            </MenuItem>
+                                        </Link>
+                                        <Link to={diagnosesResultsRoutePath}>
+                                            <MenuItem>
+                                                {t('Navigation.Results')}
+                                            </MenuItem>
+                                        </Link>
+
+                                        <Link to={recipesRoutePath}>
+                                            <MenuItem>
+                                                {t('Navigation.Recipes')}
+                                            </MenuItem>
+                                        </Link>
+                                    </>
+                                ) : null}
                             </MenuList>
                         </Menu>
                     ) : null}

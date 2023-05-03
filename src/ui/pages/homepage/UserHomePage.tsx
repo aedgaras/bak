@@ -2,19 +2,14 @@ import {
     Box,
     Button,
     Container,
-    Divider,
     Heading,
     SimpleGrid,
-    Table,
-    TableContainer,
-    Tbody,
+    Skeleton,
     Td,
     Text,
-    Th,
-    Thead,
-    Tr,
 } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
+import { createColumnHelper } from '@tanstack/react-table';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
@@ -29,9 +24,16 @@ import {
     DiagnosisService,
     HealthRecordService,
     RecipeService,
+    ResultsService,
 } from '../../../services';
-import { formatedDate } from '../../../utils/utils';
-import { CaseTypeTag } from '../../components/table';
+import {
+    DiagnosisDto,
+    HealthRecordDto,
+    MedicineRecipeDto,
+    ResultDto,
+} from '../../../utils/dto';
+import { formatedDate, getAnimalType } from '../../../utils/utils';
+import { CaseTypeTag, GenericHomePageTable } from '../../components/table';
 import { BoxWithShadowMax } from '../../components/wrappers/BoxWithShadow';
 
 export const UserHomePage = () => {
@@ -57,8 +59,8 @@ export const UserHomePage = () => {
             <SimpleGrid columns={[1, null, null, 2]} gap={4}>
                 <HealthRecordTable />
                 <DiagnosesTable />
-                <MedicineRecipesTable />
                 <DiagnosesResultsTable />
+                <MedicineRecipesTable />
             </SimpleGrid>
         </BoxWithShadowMax>
     );
@@ -79,74 +81,65 @@ const HealthRecordTable = () => {
             ).reverse();
         },
     });
+    const healthRecordColumnHelper = createColumnHelper<HealthRecordDto>();
+    const healthRecordTableColumns = () => {
+        return [
+            healthRecordColumnHelper.accessor('heartRate', {
+                cell: (info) => info.getValue(),
+                header: t('Table.Headers.HeartRate.HeartRate').toString(),
+            }),
+            healthRecordColumnHelper.accessor('animal.type', {
+                cell: (info) => getAnimalType(info.getValue()),
+                header: t('Form.Animal.Type').toString(),
+            }),
+            healthRecordColumnHelper.accessor('entryDate', {
+                cell: (info) => formatedDate(info.getValue()),
+                header: t('Form.Date').toString(),
+            }),
+            healthRecordColumnHelper.accessor('id', {
+                cell: (info) => (
+                    <Link
+                        to={healthRecordsRoutePath + '/' + `${info.getValue()}`}
+                    >
+                        <Button>{t('Table.Buttons.Details')}</Button>
+                    </Link>
+                ),
+                header: t('Table.MedicineRecipes.Details').toString(),
+            }),
+        ];
+    };
+
+    if (isLoading) {
+        return <Skeleton isLoaded={false}></Skeleton>;
+    }
 
     return (
         <BoxWithShadowMax>
-            <Box>
-                <Box sx={{ display: 'flex', justifyContent: 'center', pb: 2 }}>
-                    <Text as={'b'}>
-                        {t('Table.Headers.HealthRecors.Header')}
-                    </Text>
-                </Box>
-                <Divider />
-                {data && data.length > 0 ? (
-                    <TableContainer>
-                        <Table variant="simple" size="md">
-                            <Thead>
-                                <Tr>
-                                    <Th>{t('Table.Headers.No')}</Th>
-                                    <Th>
-                                        {t('Table.Headers.HeartRate.HeartRate')}
-                                    </Th>
-                                    <Th>{t('Form.Diangosis.CaseDate')}</Th>
-                                    <Th />
-                                </Tr>
-                            </Thead>
-                            <Divider />
-                            <Tbody>
-                                {data.map((x, i) => {
-                                    return (
-                                        <>
-                                            <Tr>
-                                                <Td>{x.id}</Td>
-                                                <Td>{x.heartRate}</Td>
-                                                <Td>
-                                                    {formatedDate(x.entryDate)}
-                                                </Td>
-                                                <Td>
-                                                    <Link
-                                                        to={
-                                                            healthRecordsRoutePath +
-                                                            '/' +
-                                                            x.id
-                                                        }
-                                                    >
-                                                        <Button>
-                                                            {t(
-                                                                'Table.HealthRecors.Action.Details'
-                                                            )}
-                                                        </Button>
-                                                    </Link>
-                                                </Td>
-                                            </Tr>
-                                        </>
-                                    );
-                                })}
-                            </Tbody>
-                        </Table>
-                    </TableContainer>
-                ) : (
-                    <Container
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            py: 5,
-                        }}
-                    >
-                        {t('Table.Info.NoNewData')}
-                    </Container>
-                )}
+            <Box sx={{ display: 'flex', justifyContent: 'center', pb: 2 }}>
+                <Text as={'b'}>{t('Table.Headers.HealthRecors.Header')}</Text>
             </Box>
+            {data && data.length > 0 ? (
+                <Box padding={2}>
+                    <Box borderWidth="1px" borderRadius="lg" padding={2}>
+                        <GenericHomePageTable
+                            entity={'healthrecord'}
+                            data={data}
+                            columns={healthRecordTableColumns()}
+                            canDelete={false}
+                        />
+                    </Box>
+                </Box>
+            ) : (
+                <Container
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        py: 5,
+                    }}
+                >
+                    {t('Table.Info.NoNewData')}
+                </Container>
+            )}
         </BoxWithShadowMax>
     );
 };
@@ -165,68 +158,67 @@ const DiagnosesTable = () => {
         },
     });
 
+    const columnHelper = createColumnHelper<DiagnosisDto>();
+    const columns = () => {
+        return [
+            columnHelper.accessor('caseType', {
+                cell: (info) => (
+                    <Td>
+                        <CaseTypeTag label={info.cell.getValue()} />
+                    </Td>
+                ),
+                header: t('Form.Diangosis.Status').toString(),
+            }),
+            columnHelper.accessor('diagnosis', {
+                cell: (info) => info.getValue(),
+                header: t('Form.Diagnosis.Diangosis').toString(),
+            }),
+            columnHelper.accessor('id', {
+                cell: (info) => (
+                    <Td key={info.getValue() + '_details'}>
+                        <Link
+                            to={diagnosesRoutePath + '/' + `${info.getValue()}`}
+                        >
+                            <Button>{t('Table.Buttons.Details')}</Button>
+                        </Link>
+                    </Td>
+                ),
+                header: t('Table.MedicineRecipes.Details').toString(),
+            }),
+        ];
+    };
+
+    if (isLoading) {
+        return <Skeleton isLoaded={false}></Skeleton>;
+    }
+
     return (
         <BoxWithShadowMax>
-            <Box>
-                <Box sx={{ display: 'flex', justifyContent: 'center', pb: 2 }}>
-                    <Text as={'b'}>{t('Table.Headers.Diagnoses.Header')}</Text>
-                </Box>
-                <Divider />
-                {data && data.length > 0 ? (
-                    <TableContainer>
-                        <Table variant="simple" size="md">
-                            <Thead>
-                                <Tr>
-                                    <Th>{t('Table.Headers.No')}</Th>
-                                    <Th>{t('Form.Diagnosis.Type')}</Th>
-                                    <Th />
-                                </Tr>
-                            </Thead>
-                            <Tbody>
-                                {data.map((x, i) => {
-                                    return (
-                                        <>
-                                            <Tr>
-                                                <Td>{x.id}</Td>
-                                                <Td>
-                                                    <CaseTypeTag
-                                                        label={x.caseType}
-                                                    />
-                                                </Td>
-                                                <Td>
-                                                    <Link
-                                                        to={
-                                                            diagnosesRoutePath +
-                                                            '/' +
-                                                            x.id
-                                                        }
-                                                    >
-                                                        <Button>
-                                                            {t(
-                                                                'Table.HealthRecors.Details'
-                                                            )}
-                                                        </Button>
-                                                    </Link>
-                                                </Td>
-                                            </Tr>
-                                        </>
-                                    );
-                                })}
-                            </Tbody>
-                        </Table>
-                    </TableContainer>
-                ) : (
-                    <Container
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            py: 5,
-                        }}
-                    >
-                        {t('Table.Info.NoNewData')}
-                    </Container>
-                )}
+            <Box sx={{ display: 'flex', justifyContent: 'center', pb: 2 }}>
+                <Text as={'b'}>{t('Table.Headers.Diagnoses.Header')}</Text>
             </Box>
+            {data && data.length > 0 ? (
+                <Box padding={2}>
+                    <Box borderWidth="1px" borderRadius="lg" padding={2}>
+                        <GenericHomePageTable
+                            entity={'healthrecord'}
+                            data={data}
+                            columns={columns()}
+                            canDelete={false}
+                        />
+                    </Box>
+                </Box>
+            ) : (
+                <Container
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        py: 5,
+                    }}
+                >
+                    {t('Table.Info.NoNewData')}
+                </Container>
+            )}
         </BoxWithShadowMax>
     );
 };
@@ -245,66 +237,65 @@ const MedicineRecipesTable = () => {
         },
     });
 
+    const columnHelper = createColumnHelper<MedicineRecipeDto>();
+    const columns = () => {
+        return [
+            columnHelper.accessor('title', {
+                cell: (info) => info.getValue(),
+                header: t('Form.MedicineRecipe.Name').toString(),
+            }),
+            columnHelper.accessor('entryDate', {
+                cell: (info) => formatedDate(info.getValue()),
+                header: t('Form.Date').toString(),
+            }),
+            columnHelper.accessor('id', {
+                cell: (info) => (
+                    <Td>
+                        <Link to={recipesRoutePath + '/' + info.getValue()}>
+                            <Button>
+                                {t('Table.MedicineRecipes.Details')}
+                            </Button>
+                        </Link>
+                    </Td>
+                ),
+                header: t('Table.MedicineRecipes.Details').toString(),
+            }),
+        ];
+    };
+
+    if (isLoading) {
+        return <Skeleton isLoaded={false}></Skeleton>;
+    }
+
     return (
         <BoxWithShadowMax>
-            <Box>
-                <Box sx={{ display: 'flex', justifyContent: 'center', pb: 2 }}>
-                    <Text as={'b'}>
-                        {t('Table.Headers.MedicineRecipes.Header')}
-                    </Text>
-                </Box>
-                <Divider />
-                {data && data.length > 0 ? (
-                    <TableContainer>
-                        <Table variant="simple" size="md">
-                            <Thead>
-                                <Tr>
-                                    <Th>{t('Table.Headers.No')}</Th>
-                                    <Th>{t('Form.MedicineRecipe.Name')}</Th>
-                                    <Th />
-                                </Tr>
-                            </Thead>
-                            <Tbody>
-                                {data.map((x, i) => {
-                                    return (
-                                        <>
-                                            <Tr>
-                                                <Td>{x.id}</Td>
-                                                <Td>{x.title}</Td>
-                                                <Td>
-                                                    <Link
-                                                        to={
-                                                            recipesRoutePath +
-                                                            '/' +
-                                                            x.id
-                                                        }
-                                                    >
-                                                        <Button>
-                                                            {t(
-                                                                'Table.MedicineRecipes.Details'
-                                                            )}
-                                                        </Button>
-                                                    </Link>
-                                                </Td>
-                                            </Tr>
-                                        </>
-                                    );
-                                })}
-                            </Tbody>
-                        </Table>
-                    </TableContainer>
-                ) : (
-                    <Container
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            py: 5,
-                        }}
-                    >
-                        {t('Table.Info.NoNewData')}
-                    </Container>
-                )}
+            <Box sx={{ display: 'flex', justifyContent: 'center', pb: 2 }}>
+                <Text as={'b'}>
+                    {t('Table.Headers.MedicineRecipes.Header')}
+                </Text>
             </Box>
+            {data && data.length > 0 ? (
+                <Box padding={2}>
+                    <Box borderWidth="1px" borderRadius="lg" padding={2}>
+                        <GenericHomePageTable
+                            entity={'recipe'}
+                            data={data}
+                            columns={columns()}
+                            canDelete={false}
+                        />
+                    </Box>
+                </Box>
+            ) : (
+                <Container
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        py: 5,
+                    }}
+                >
+                    {t('Table.Info.NoNewData')}
+                </Container>
+            )}
         </BoxWithShadowMax>
     );
 };
@@ -313,12 +304,49 @@ const DiagnosesResultsTable = () => {
     const { t } = useTranslation();
 
     const { isLoading, isFetching, error, data } = useQuery({
-        queryKey: ['diagnoses'],
+        queryKey: ['results'],
         queryFn: async () => {
-            const service = new DiagnosisService();
+            const service = new ResultsService();
             return (await service.list()).reverse();
         },
     });
+    const columnHelper = createColumnHelper<ResultDto>();
+    const columns = () => {
+        return [
+            columnHelper.accessor('caseType', {
+                cell: (info) => (
+                    <CaseTypeTag label={info.getValue()}></CaseTypeTag>
+                ),
+                header: t('Form.Diagnosis.Result.ResultType').toString(),
+            }),
+            columnHelper.accessor('entryDate', {
+                cell: (info) => formatedDate(info.getValue()),
+                header: t('Form.Date').toString(),
+            }),
+            columnHelper.accessor('id', {
+                cell: (info) => (
+                    <Td>
+                        <Link
+                            to={
+                                diagnosesResultsRoutePath +
+                                '/' +
+                                info.getValue()
+                            }
+                        >
+                            <Button>
+                                {t('Table.MedicineRecipes.Details')}
+                            </Button>
+                        </Link>
+                    </Td>
+                ),
+                header: t('Table.MedicineRecipes.Details').toString(),
+            }),
+        ];
+    };
+
+    if (isLoading) {
+        return <Skeleton isLoaded={false}></Skeleton>;
+    }
 
     return (
         <BoxWithShadowMax>
@@ -328,52 +356,17 @@ const DiagnosesResultsTable = () => {
                         {t('Table.Headers.DiagnosesResults.Header')}
                     </Text>
                 </Box>
-                <Divider />
                 {data && data.length > 0 ? (
-                    <TableContainer>
-                        <Table variant="simple" size="md">
-                            <Thead>
-                                <Tr>
-                                    <Th>{t('Table.Headers.No')}</Th>
-                                    <Th>
-                                        {t('Form.Diagnosis.Result.ResultType')}
-                                    </Th>
-                                    <Th />
-                                </Tr>
-                            </Thead>
-                            <Tbody>
-                                {data.map((x, i) => {
-                                    return (
-                                        <>
-                                            <Tr>
-                                                <Td>{x.id}</Td>
-                                                <Td>
-                                                    <CaseTypeTag
-                                                        label={x.caseType}
-                                                    />
-                                                </Td>
-                                                <Td>
-                                                    <Link
-                                                        to={
-                                                            diagnosesResultsRoutePath +
-                                                            '/' +
-                                                            x.id
-                                                        }
-                                                    >
-                                                        <Button>
-                                                            {t(
-                                                                'Table.DiagnosesResults.Details'
-                                                            )}
-                                                        </Button>
-                                                    </Link>
-                                                </Td>
-                                            </Tr>
-                                        </>
-                                    );
-                                })}
-                            </Tbody>
-                        </Table>
-                    </TableContainer>
+                    <Box padding={2}>
+                        <Box borderWidth="1px" borderRadius="lg" padding={2}>
+                            <GenericHomePageTable
+                                entity={'recipe'}
+                                data={data}
+                                columns={columns()}
+                                canDelete={false}
+                            />
+                        </Box>
+                    </Box>
                 ) : (
                     <Container
                         sx={{

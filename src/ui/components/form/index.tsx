@@ -9,6 +9,7 @@ import {
     Input,
     Select,
     SimpleGrid,
+    Textarea,
     VStack,
 } from '@chakra-ui/react';
 import { Field } from 'formik';
@@ -24,6 +25,7 @@ type InputType = {
     touchedField?: boolean;
     validation: (value: string) => string;
     placeholder?: string;
+    textArea?: boolean;
 };
 
 export const GenericInput = ({
@@ -35,6 +37,7 @@ export const GenericInput = ({
     touchedField,
     validation,
     placeholder,
+    textArea,
 }: InputType) => {
     const { t } = useTranslation();
 
@@ -46,7 +49,7 @@ export const GenericInput = ({
         >
             <FormLabel>{t(`${fieldTitle}`)}</FormLabel>
             <Field
-                as={Input}
+                as={textArea ? Textarea : Input}
                 type={fieldType}
                 name={fieldName.toLowerCase()}
                 validate={(value: string) => validation(value)}

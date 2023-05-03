@@ -176,6 +176,7 @@ const RecipeCreationForm = () => {
                                 errorField={errors.description}
                                 touchedField={touched.description}
                                 validation={validateRecipeDescriptiom}
+                                textArea={true}
                             />
                         </Box>
 
@@ -204,7 +205,14 @@ const RecipeCreationForm = () => {
                             </FormControl>
                         </Box>
                     </SimpleGrid>
-                    <SubmitButton isSubmitting={isSubmitting} />
+                    <SubmitButton
+                        isSubmitting={
+                            isSubmitting ||
+                            result.isLoading ||
+                            caseObj.isLoading ||
+                            animal.isLoading
+                        }
+                    />
                 </form>
             )}
         </Formik>

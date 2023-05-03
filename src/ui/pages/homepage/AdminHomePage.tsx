@@ -3,7 +3,6 @@ import {
     Box,
     Button,
     Container,
-    Divider,
     Heading,
     SimpleGrid,
     Skeleton,
@@ -62,8 +61,8 @@ export const AdminHomePage = () => {
             <SimpleGrid columns={[1, null, null, 2]} gap={4}>
                 <HealthRecordTable />
                 <DiagnosesTable />
-                <MedicineRecipesTable />
                 <DiagnosesResultsTable />
+                <MedicineRecipesTable />
             </SimpleGrid>
         </BoxWithShadowMax>
     );
@@ -73,6 +72,7 @@ const PhoneTooltip = ({ id }: { id: string }) => {
     const healthRecordService = new HealthRecordService();
 
     const { isLoading, isFetching, error, data } = useQuery({
+        queryKey: ['phone' + id],
         queryFn: async () => {
             return await healthRecordService.getHealthRecordsContactInfo(id);
         },
@@ -104,10 +104,6 @@ const HealthRecordTable = () => {
     const healthRecordColumnHelper = createColumnHelper<HealthRecordDto>();
     const healthRecordTableColumns = () => {
         return [
-            healthRecordColumnHelper.accessor('id', {
-                cell: (info) => info.getValue(),
-                header: 'Id',
-            }),
             healthRecordColumnHelper.accessor('heartRate', {
                 cell: (info) => info.getValue(),
                 header: t('Table.Headers.HeartRate.HeartRate').toString(),
@@ -118,7 +114,11 @@ const HealthRecordTable = () => {
             }),
             healthRecordColumnHelper.accessor('entryDate', {
                 cell: (info) => formatedDate(info.getValue()),
-                header: t('Form.Diangosis.CaseDate').toString(),
+                header: t('Form.Date').toString(),
+            }),
+            healthRecordColumnHelper.accessor('id', {
+                cell: (info) => <PhoneTooltip id={info.cell.getValue()} />,
+                header: t('Form.HealthRecord.Contact').toString(),
             }),
             healthRecordColumnHelper.accessor('id', {
                 cell: (info) => (
@@ -133,23 +133,17 @@ const HealthRecordTable = () => {
                         </Link>
                     </Td>
                 ),
-                header: 'Ivertinimas',
+                header: t('Form.HealthRecord.Rate').toString(),
             }),
             healthRecordColumnHelper.accessor('id', {
                 cell: (info) => (
-                    <Td key={info.getValue() + '_details'}>
-                        <Link
-                            to={
-                                healthRecordsRoutePath +
-                                '/' +
-                                `${info.getValue()}`
-                            }
-                        >
-                            <Button>{t('Table.Buttons.Details')}</Button>
-                        </Link>
-                    </Td>
+                    <Link
+                        to={healthRecordsRoutePath + '/' + `${info.getValue()}`}
+                    >
+                        <Button>{t('Table.Buttons.Details')}</Button>
+                    </Link>
                 ),
-                header: 'Details',
+                header: t('Table.MedicineRecipes.Details').toString(),
             }),
         ];
     };
@@ -170,7 +164,7 @@ const HealthRecordTable = () => {
                             entity={'healthrecord'}
                             data={adminHr.data}
                             columns={healthRecordTableColumns()}
-                            canDelete={true}
+                            canDelete={false}
                         />
                     </Box>
                 </Box>
@@ -204,21 +198,17 @@ const DiagnosesTable = () => {
     const columnHelper = createColumnHelper<DiagnosisDto>();
     const columns = () => {
         return [
-            columnHelper.accessor('id', {
-                cell: (info) => info.getValue(),
-                header: 'Id',
-            }),
             columnHelper.accessor('caseType', {
                 cell: (info) => (
                     <Td>
                         <CaseTypeTag label={info.cell.getValue()} />
                     </Td>
                 ),
-                header: 'casetype',
+                header: t('Form.Diangosis.Status').toString(),
             }),
             columnHelper.accessor('diagnosis', {
                 cell: (info) => info.getValue(),
-                header: t('Form.Diangosis.CaseDate').toString(),
+                header: t('Form.Diagnosis.Diangosis').toString(),
             }),
             columnHelper.accessor('id', {
                 cell: (info) => (
@@ -234,7 +224,7 @@ const DiagnosesTable = () => {
                         </Link>
                     </Td>
                 ),
-                header: 'Details',
+                header: t('Table.MedicineRecipes.Details').toString(),
             }),
             columnHelper.accessor('id', {
                 cell: (info) => (
@@ -246,7 +236,36 @@ const DiagnosesTable = () => {
                         </Link>
                     </Td>
                 ),
-                header: 'Details',
+                header: t('Table.MedicineRecipes.Details').toString(),
+            }),
+        ];
+    };
+
+    const columnsLower = () => {
+        return [
+            columnHelper.accessor('caseType', {
+                cell: (info) => (
+                    <Td>
+                        <CaseTypeTag label={info.cell.getValue()} />
+                    </Td>
+                ),
+                header: t('Form.Diangosis.Status').toString(),
+            }),
+            columnHelper.accessor('diagnosis', {
+                cell: (info) => info.getValue(),
+                header: t('Form.Diagnosis.Diangosis').toString(),
+            }),
+            columnHelper.accessor('id', {
+                cell: (info) => (
+                    <Td key={info.getValue() + '_details'}>
+                        <Link
+                            to={diagnosesRoutePath + '/' + `${info.getValue()}`}
+                        >
+                            <Button>{t('Table.Buttons.Details')}</Button>
+                        </Link>
+                    </Td>
+                ),
+                header: t('Table.MedicineRecipes.Details').toString(),
             }),
         ];
     };
@@ -266,8 +285,12 @@ const DiagnosesTable = () => {
                         <GenericHomePageTable
                             entity={'healthrecord'}
                             data={diagnoses.data}
-                            columns={columns()}
-                            canDelete={true}
+                            columns={
+                                state.classification === 'Veterinarian'
+                                    ? columns()
+                                    : columnsLower()
+                            }
+                            canDelete={false}
                         />
                     </Box>
                 </Box>
@@ -300,13 +323,13 @@ const MedicineRecipesTable = () => {
     const columnHelper = createColumnHelper<MedicineRecipeDto>();
     const columns = () => {
         return [
-            columnHelper.accessor('id', {
-                cell: (info) => info.getValue(),
-                header: 'Id',
-            }),
             columnHelper.accessor('title', {
                 cell: (info) => info.getValue(),
                 header: t('Form.MedicineRecipe.Name').toString(),
+            }),
+            columnHelper.accessor('entryDate', {
+                cell: (info) => formatedDate(info.getValue()),
+                header: t('Form.Date').toString(),
             }),
             columnHelper.accessor('id', {
                 cell: (info) => (
@@ -341,7 +364,7 @@ const MedicineRecipesTable = () => {
                             entity={'recipe'}
                             data={recipes.data}
                             columns={columns()}
-                            canDelete={true}
+                            canDelete={false}
                         />
                     </Box>
                 </Box>
@@ -362,6 +385,7 @@ const MedicineRecipesTable = () => {
 
 const DiagnosesResultsTable = () => {
     const { t } = useTranslation();
+    const { state } = useUserContext();
 
     const results = useQuery({
         queryKey: ['results'],
@@ -371,17 +395,17 @@ const DiagnosesResultsTable = () => {
         },
     });
     const columnHelper = createColumnHelper<ResultDto>();
-    const columns = () => {
+    const columnsHigher = () => {
         return [
-            columnHelper.accessor('id', {
-                cell: (info) => info.getValue(),
-                header: 'Id',
-            }),
             columnHelper.accessor('caseType', {
                 cell: (info) => (
                     <CaseTypeTag label={info.getValue()}></CaseTypeTag>
                 ),
                 header: t('Form.Diagnosis.Result.ResultType').toString(),
+            }),
+            columnHelper.accessor('entryDate', {
+                cell: (info) => formatedDate(info.getValue()),
+                header: t('Form.Date').toString(),
             }),
             columnHelper.accessor('id', {
                 cell: (info) => (
@@ -397,7 +421,39 @@ const DiagnosesResultsTable = () => {
                         </Button>
                     </Link>
                 ),
-                header: 'Kurimas',
+                header: t('Form.MedicineRecipe.Create').toString(),
+            }),
+            columnHelper.accessor('id', {
+                cell: (info) => (
+                    <Td>
+                        <Link
+                            to={
+                                diagnosesResultsRoutePath +
+                                '/' +
+                                info.getValue()
+                            }
+                        >
+                            <Button>
+                                {t('Table.MedicineRecipes.Details')}
+                            </Button>
+                        </Link>
+                    </Td>
+                ),
+                header: t('Table.MedicineRecipes.Details').toString(),
+            }),
+        ];
+    };
+    const columnsLower = () => {
+        return [
+            columnHelper.accessor('caseType', {
+                cell: (info) => (
+                    <CaseTypeTag label={info.getValue()}></CaseTypeTag>
+                ),
+                header: t('Form.Diagnosis.Result.ResultType').toString(),
+            }),
+            columnHelper.accessor('entryDate', {
+                cell: (info) => formatedDate(info.getValue()),
+                header: t('Form.Date').toString(),
             }),
             columnHelper.accessor('id', {
                 cell: (info) => (
@@ -432,79 +488,23 @@ const DiagnosesResultsTable = () => {
                         {t('Table.Headers.DiagnosesResults.Header')}
                     </Text>
                 </Box>
-                <Divider />
                 {results.data.length > 0 ? (
                     <Box padding={2}>
                         <Box borderWidth="1px" borderRadius="lg" padding={2}>
                             <GenericHomePageTable
-                                entity={'recipe'}
+                                entity={'result'}
                                 data={results.data}
-                                columns={columns()}
-                                canDelete={true}
+                                columns={
+                                    state.classification === 'Veterinarian' ||
+                                    state.role === 'Admin'
+                                        ? columnsHigher()
+                                        : columnsLower()
+                                }
+                                canDelete={false}
                             />
                         </Box>
                     </Box>
                 ) : (
-                    // <TableContainer>
-                    //     <Table variant="simple" size="md">
-                    //         <Thead>
-                    //             <Tr>
-                    //                 <Th>{t('Table.Headers.No')}</Th>
-                    //                 <Th>
-                    //                     {t('Form.Diagnosis.Result.ResultType')}
-                    //                 </Th>
-                    //                 <Th />
-                    //                 <Th />
-                    //             </Tr>
-                    //         </Thead>
-                    //         <Tbody>
-                    //             {data.map((x, i) => {
-                    //                 return (
-                    //                     <>
-                    //                         <Tr>
-                    //                             <Td>{x.id}</Td>
-                    //                             <Td>
-                    //                                 <CaseTypeTag
-                    //                                     label={x.caseType}
-                    //                                 />
-                    //                             </Td>
-                    //                             <Td>
-                    //                                 <Link
-                    //                                     to={
-                    //                                         diagnosesResultsRoutePath +
-                    //                                         '/createRecipe/' +
-                    //                                         x.id
-                    //                                     }
-                    //                                 >
-                    //                                     <Button>
-                    //                                         {t(
-                    //                                             'Table.DiagnosesResults.PrescribeMedicine'
-                    //                                         )}
-                    //                                     </Button>
-                    //                                 </Link>
-                    //                             </Td>
-                    //                             <Td>
-                    //                                 <Link
-                    //                                     to={
-                    //                                         diagnosesResultsRoutePath +
-                    //                                         '/' +
-                    //                                         x.id
-                    //                                     }
-                    //                                 >
-                    //                                     <Button>
-                    //                                         {t(
-                    //                                             'Table.DiagnosesResults.Details'
-                    //                                         )}
-                    //                                     </Button>
-                    //                                 </Link>
-                    //                             </Td>
-                    //                         </Tr>
-                    //                     </>
-                    //                 );
-                    //             })}
-                    //         </Tbody>
-                    //     </Table>
-                    // </TableContainer>
                     <Container
                         sx={{
                             display: 'flex',

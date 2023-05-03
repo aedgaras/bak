@@ -16,7 +16,7 @@ import { Field, Formik } from 'formik';
 import { t } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
-import { isUser, useUserContext } from '../../../context/UserContext';
+import { useUserContext } from '../../../context/UserContext';
 import { RecipeService } from '../../../services';
 import { MedicineRecipeDto } from '../../../utils/dto';
 import { FormWrapper } from '../../components/wrappers/BoxWithShadow';
@@ -79,7 +79,10 @@ const AnimalUpdateForm = () => {
                         isInvalid={!!errors.title && touched.title}
                         p={2}
                         isRequired
-                        isDisabled={isUser()}
+                        isDisabled={
+                            state.classification !== 'Veterinarian' &&
+                            state.role !== 'Admin'
+                        }
                     >
                         <FormLabel>{t('Form.Diagnosis.Diagnosis')}</FormLabel>
                         <Field
@@ -98,7 +101,10 @@ const AnimalUpdateForm = () => {
                         isInvalid={!!errors.description && touched.description}
                         p={2}
                         isRequired
-                        isDisabled={isUser()}
+                        isDisabled={
+                            state.classification !== 'Veterinarian' &&
+                            state.role !== 'Admin'
+                        }
                     >
                         <FormLabel>
                             {t('Form.HealthRecord.Description')}
@@ -120,7 +126,10 @@ const AnimalUpdateForm = () => {
                         <Button
                             type="submit"
                             isLoading={isSubmitting}
-                            isDisabled={isUser()}
+                            isDisabled={
+                                state.classification !== 'Veterinarian' &&
+                                state.role !== 'Admin'
+                            }
                             color="teal"
                         >
                             {t('Form.Submit')}

@@ -28,6 +28,7 @@ import {
     UpdateAnimalDto,
     UpdateCaseDto,
     UpdateHealthRecordDto,
+    UserCreateDto,
     UserDto,
     UserRegisterDto,
     ViewHistoryDto,
@@ -173,6 +174,15 @@ export class UserService extends Service {
         const response = await this.api
             .getRequest<UserDto[]>(USERS_URL)
             .then((r: AxiosResponse<UserDto[]>) => {
+                return r.data;
+            });
+        return response;
+    };
+
+    add = async (user: UserCreateDto) => {
+        const response = await this.api
+            .postRequest<UserCreateDto>(USERS_URL, user)
+            .then((r: AxiosResponse<UserCreateDto>) => {
                 return r.data;
             });
         return response;

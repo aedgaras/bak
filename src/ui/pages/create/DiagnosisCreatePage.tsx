@@ -227,6 +227,7 @@ const DiangosisCreationForm = ({
                         errorField={errors.description}
                         touchedField={touched.description}
                         validation={() => ''}
+                        textArea={true}
                     />
                     <SubmitButton isSubmitting={isSubmitting || isLoading} />
                 </form>
