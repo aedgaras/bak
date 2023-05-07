@@ -38,6 +38,7 @@ export interface AnimalDto {
     id: string;
     name: string;
     type: number;
+    userId?: number;
 }
 
 export interface HealthRecordDto {

@@ -16,7 +16,7 @@ import { t } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useUserContext } from '../../../context/UserContext';
-import { RecipeService, ResultsService } from '../../../services';
+import { RecipeService, ResultsService, UserService } from '../../../services';
 import { CreateRecipeDto } from '../../../utils/dto';
 import { GenericInput, SubmitButton } from '../../components/form';
 import {
@@ -79,6 +79,20 @@ const RecipeCreationForm = () => {
         enabled: !!animal.data,
     });
 
+    const user = useQuery({
+        queryKey: ['recipeUser' + params.resultId!],
+        queryFn: async () => {
+            const userService = new UserService();
+
+            if (animal.data) {
+                return await userService.getUserById(
+                    animal?.data?.userId?.toString()
+                );
+            }
+        },
+        enabled: !!animal.data,
+    });
+
     return (
         <Formik
             initialValues={{} as CreateRecipeDto}
@@ -105,7 +119,8 @@ const RecipeCreationForm = () => {
                     <SimpleGrid columns={[1, 2, 3, 3]}>
                         {!result.isLoading &&
                         !caseObj.isLoading &&
-                        !animal.isLoading ? (
+                        !animal.isLoading &&
+                        !user.isLoading ? (
                             <Box>
                                 <FormControl p={2} isRequired>
                                     <FormLabel>
@@ -114,7 +129,7 @@ const RecipeCreationForm = () => {
                                     <Field
                                         as={Input}
                                         disabled
-                                        value={result.data?.userId}
+                                        value={user.data?.username}
                                     ></Field>
                                 </FormControl>
                                 <FormControl p={2}>

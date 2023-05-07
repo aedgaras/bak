@@ -67,20 +67,6 @@ const DiagnosisResultsCreationForm = () => {
         },
     });
 
-    const user = useQuery({
-        queryKey: ['diagnosisUser' + params.diagnosisId!],
-        queryFn: async () => {
-            const userService = new UserService();
-
-            if (diagnosis.data) {
-                return await userService.getUserById(
-                    diagnosis?.data.userId.toString()
-                );
-            }
-        },
-        enabled: !!diagnosis,
-    });
-
     const animal = useQuery({
         queryKey: ['diagnosisAnimal' + params.diagnosisId!],
         queryFn: async () => {
@@ -93,6 +79,20 @@ const DiagnosisResultsCreationForm = () => {
             }
         },
         enabled: !!diagnosis,
+    });
+
+    const user = useQuery({
+        queryKey: ['diagnosisUser' + params.diagnosisId!],
+        queryFn: async () => {
+            const userService = new UserService();
+
+            if (animal.data) {
+                return await userService.getUserById(
+                    animal?.data?.userId?.toString()
+                );
+            }
+        },
+        enabled: !!animal,
     });
 
     return (
