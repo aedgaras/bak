@@ -1,5 +1,6 @@
 import {
     Box,
+    Center,
     FormControl,
     FormLabel,
     Heading,
@@ -8,6 +9,7 @@ import {
     SimpleGrid,
     Skeleton,
     Textarea,
+    Tooltip,
     useToast,
     VStack,
 } from '@chakra-ui/react';
@@ -20,9 +22,9 @@ import { useUserContext } from '../../../context/UserContext';
 import { CasesService, HealthRecordService } from '../../../services';
 import { CreateCaseDto } from '../../../utils/dto';
 import {
-    CaseValues,
     formatedDate,
     getAnimalType,
+    StatusValues,
     UrgencyValues,
 } from '../../../utils/utils';
 import { SubmitButton } from '../../components/form';
@@ -72,7 +74,7 @@ export const CaseCreatePage = () => {
                     !user.isLoading &&
                     !animal.isLoading ? (
                         <BoxWithShadow>
-                            <VStack>
+                            <VStack px={12}>
                                 <Heading size={'lg'} sx={{ p: 2 }}>
                                     {t('Form.Case.HealthRecord')}
                                 </Heading>
@@ -137,11 +139,16 @@ export const CaseCreatePage = () => {
                                         <FormLabel>
                                             {t('Form.Case.Email')}
                                         </FormLabel>
-                                        <Input
-                                            type="text"
-                                            disabled
-                                            value={user.data?.email}
-                                        ></Input>
+                                        <Tooltip
+                                            hasArrow
+                                            label={user.data?.email}
+                                        >
+                                            <Input
+                                                type="text"
+                                                disabled
+                                                value={user.data?.email}
+                                            ></Input>
+                                        </Tooltip>
                                     </FormControl>
                                 </Box>
                             </VStack>
@@ -150,18 +157,20 @@ export const CaseCreatePage = () => {
                         <Skeleton />
                     )}
                     <BoxWithShadow>
-                        <VStack>
-                            <Heading size={'lg'} sx={{ p: 2 }}>
-                                {t('Form.Case.Case')}
-                            </Heading>
-                            <CaseCreationForm
-                                isLoading={
-                                    healthRecord.isLoading &&
-                                    user.isLoading &&
-                                    animal.isLoading
-                                }
-                            />
-                        </VStack>
+                        <Center>
+                            <VStack px={12}>
+                                <Heading size={'lg'} sx={{ p: 2 }}>
+                                    {t('Form.Case.Case')}
+                                </Heading>
+                                <CaseCreationForm
+                                    isLoading={
+                                        healthRecord.isLoading &&
+                                        user.isLoading &&
+                                        animal.isLoading
+                                    }
+                                />
+                            </VStack>
+                        </Center>
                     </BoxWithShadow>
                 </SimpleGrid>
             }
@@ -197,10 +206,10 @@ const CaseCreationForm = ({ isLoading }: { isLoading: boolean }) => {
                     <FormControl p={2}>
                         <FormLabel>{t('Form.Case.Status')}</FormLabel>
                         <Select>
-                            {CaseValues.map((x) => {
+                            {StatusValues.map((x) => {
                                 return (
                                     <option value={x.value}>
-                                        {t(`Enums.Case.Type.${x.key}`)}
+                                        {t(`Enums.Case.Status.${x.key}`)}
                                     </option>
                                 );
                             })}

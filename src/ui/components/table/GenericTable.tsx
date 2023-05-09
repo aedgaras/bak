@@ -467,11 +467,11 @@ export function GenericTable<Data extends object>({
                     <ArrowRightIcon />
                 </Button>
                 <Spacer />
-                <Box>
+                <Box pr={1}>
                     <Text>
                         {`${t('Table.Page')}` + ' '}
-                        {table.getState().pagination.pageIndex + 1} of{' '}
-                        {table.getPageCount()}
+                        {table.getState().pagination.pageIndex + 1}{' '}
+                        {t('Table.Of')} {table.getPageCount()}
                     </Text>
                 </Box>
                 <Box>
@@ -615,7 +615,7 @@ export function GenericHomePageTable<Data extends object>({
                     id={toDeleteId[0]}
                 />
             </Table>
-            <HStack pt={2} spacing={2} px={2}>
+            <HStack pt={2} spacing={2} px={2} pb={1}>
                 <Button
                     onClick={() => setPageIndex(0)}
                     disabled={!table.getCanPreviousPage()}
@@ -632,8 +632,8 @@ export function GenericHomePageTable<Data extends object>({
                 <Box>
                     <Text>
                         {`${t('Table.Page')}` + ' '}
-                        {table.getState().pagination.pageIndex + 1} of{' '}
-                        {table.getPageCount()}
+                        {table.getState().pagination.pageIndex + 1}{' '}
+                        {t('Table.Of')} {table.getPageCount()}
                     </Text>
                 </Box>
             </HStack>

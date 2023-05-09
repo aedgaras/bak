@@ -60,8 +60,8 @@
       },
       "Description": "Aprašymas",
       "Diangosis": "Diagnozė",
-      "Case": "Padietis",
-      "HealthRecord": "Padietis",
+      "Case": "Padėtis",
+      "HealthRecord": "Padėtis",
       "Diagnosis": "Diagnozė"
     },
     "DiagnosisCreate": "Kurti Diagnozę",
@@ -78,7 +78,7 @@
     },
     "MedicineRecipeCreate": "Kurti Vaistų Receptą",
     "Animal": {
-      "Type": "Gyvūno Tipas",
+      "Type": "Gyvūno Rūšis",
       "Name": "Gyvūno Vardas",
       "User": "Naudotojas"
     },
@@ -91,14 +91,14 @@
       "Pulse": "Širdies Ritmas",
       "HealthRecordDate": "Sveikatos įrašo data",
       "HealthRecord": "Sveikatos įrašas",
-      "Case": "Padietis"
+      "Case": "Padėtis"
     },
     "DiagnosisResult": {
       "Create": "Kurti Diagnozės Rezultatą"
     },
     "PhoneNumber": "Tel. Numeris",
     "Email": "E-Paštas",
-    "HealthRecordCreate": "Kūrti sveikatos įrašą",
+    "HealthRecordCreate": "Kurti sveikatos įrašą",
     "HealthRecord": {
       "HeartRate": "Širdies ritmas",
       "Description": "Aprašymas",
@@ -148,7 +148,8 @@
       "HeartRate": {
         "HeartRate": "Širdies Ritmas"
       },
-      "No": "Id"
+      "No": "Id",
+      "DateCreated": "Kūrimo Data"
     },
     "MedicineRecipes": {
       "Details": "Detalės"
@@ -189,16 +190,17 @@
       "Delete": "Ištrinti",
       "CreateResult": "Kurti Rezultatą",
       "Cancel": "Atšaukti",
-      "CreateRecipe": "Kūrti Receptą"
+      "CreateRecipe": "Kurti Receptą"
     },
-    "CreateAnimal": "Kūrti Gyvūną",
+    "CreateAnimal": "Kurti Gyvūną",
     "CreateUser": "Kurti Naudotoją",
     "HeartRate": {
       "Bpm": {
         "Normal": "Širdies ritmas yra normos ribose",
         "Abnormal": "Širdies ritmas yra už normos ribų"
       }
-    }
+    },
+    "Of": "iš"
   },
   "Page": {
     "Exception": {
@@ -235,6 +237,17 @@
         "Completed": "Įvykdytas",
         "Filled": "Užpildytas",
         "Ongoing": "Vykdomas"
+      }
+    },
+    "User": {
+      "Role": {
+        "Admin": "Administratorius",
+        "User": "Naudotojas"
+      },
+      "Classification": {
+        "Customer": "Vartotojas",
+        "On-Duty Veterinarian": "Budintis Specialistas",
+        "Veterinarian": "Veterinaras"
       }
     }
   },

@@ -35,7 +35,7 @@ export const RecipeCreatePage = () => {
             isLoaded={true}
             element={
                 <BoxWithShadow>
-                    <VStack>
+                    <VStack px={12}>
                         <Heading size={'lg'} sx={{ p: 2 }}>
                             {t('Form.MedicineRecipe.Create')}
                         </Heading>

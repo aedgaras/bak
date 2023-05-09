@@ -1,3 +1,4 @@
+import { Tag } from '@chakra-ui/react';
 import { createColumnHelper } from '@tanstack/react-table';
 import { Dispatch, SetStateAction } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -13,13 +14,13 @@ import {
 import {
     formatedDate,
     getAnimalType,
-    getCaseType,
     getClassificationType,
     getRoleType,
     getStatusType,
     getUrgencyType,
 } from '../../../utils/utils';
 import { HealthRecordHeartRate, StatusTag, UrgencyTag } from './GenericTable';
+import { CaseTypeTag } from './TableElements';
 
 export function filterUserTable(
     data: UserDto[],
@@ -237,11 +238,26 @@ export const userTableColumns = () => {
             header: t('Table.Headers.User.Username').toString(),
         }),
         userColumnHelper.accessor('role', {
-            cell: (info) => getRoleType(info.cell.getValue()),
+            cell: (info) => (
+                <Tag size={'lg'}>
+                    {t(
+                        `Enums.User.Role.${getRoleType(info.cell.getValue())}`
+                    ).toString()}
+                </Tag>
+            ),
             header: t('Table.Headers.User.Role').toString(),
         }),
         userColumnHelper.accessor('classification', {
-            cell: (info) => getClassificationType(info.cell.getValue()),
+            cell: (info) => (
+                <Tag size={'lg'}>
+                    {t(
+                        `Enums.User.Classification.${getClassificationType(
+                            info.cell.getValue()
+                        )}`
+                    ).toString()}
+                </Tag>
+            ),
+
             header: t('Table.Headers.User.Classification').toString(),
         }),
     ];
@@ -325,12 +341,12 @@ export const diagnosisTableColumns = () => {
             header: 'Id',
         }),
         diagnosesColumnHelper.accessor('caseType', {
-            cell: (info) => getCaseType(info.cell.getValue()),
-            header: 'Type',
+            cell: (info) => <CaseTypeTag label={info.cell.getValue()} />,
+            header: t('Form.Diagnosis.Type').toString(),
         }),
         diagnosesColumnHelper.accessor('diagnosis', {
             cell: (info) => info.getValue(),
-            header: 'Diagnosis',
+            header: t('Form.Diagnosis.Diagnosis').toString(),
         }),
     ];
 };
@@ -345,12 +361,12 @@ export const resultTableColumns = () => {
             header: 'Id',
         }),
         resultColumnHelper.accessor('caseType', {
-            cell: (info) => getCaseType(info.cell.getValue()),
-            header: 'Type',
+            cell: (info) => <CaseTypeTag label={info.cell.getValue()} />,
+            header: t('Form.Diagnosis.Type').toString(),
         }),
         resultColumnHelper.accessor('result', {
             cell: (info) => info.getValue(),
-            header: 'Result',
+            header: t('Form.Diagnosis.Result.Name').toString(),
         }),
     ];
 };
@@ -366,11 +382,11 @@ export const recipeTableColumns = () => {
         }),
         recipeColumnHelper.accessor('title', {
             cell: (info) => info.getValue(),
-            header: 'Title',
+            header: t('Form.MedicineRecipe.Name').toString(),
         }),
         recipeColumnHelper.accessor('entryDate', {
             cell: (info) => formatedDate(info.getValue()),
-            header: 'Entry Date',
+            header: t('Table.Headers.DateCreated').toString(),
         }),
     ];
 };

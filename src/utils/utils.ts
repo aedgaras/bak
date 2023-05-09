@@ -132,7 +132,6 @@ export const ClassificationValues = [
     { value: 0, key: 'Veterinarian' },
     { value: 1, key: 'On-Duty Veterinarian' },
     { value: 2, key: 'Customer' },
-    { value: 3, key: 'Administrator' },
 ];
 
 export const getClassificationType = (id: number) => {
@@ -141,11 +140,8 @@ export const getClassificationType = (id: number) => {
         return 'Veterinarian';
     } else if (type === 1) {
         return 'On-Duty Veterinarian';
-    } else if (type === 2) {
-        return 'Customer';
     }
-
-    return 'Administrator';
+    return 'Customer';
 };
 
 export const RoleValues = [

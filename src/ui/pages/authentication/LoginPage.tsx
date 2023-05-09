@@ -42,7 +42,7 @@ export const LoginPage = () => {
                 {({ handleSubmit, errors, touched, isSubmitting }) => (
                     <form onSubmit={handleSubmit}>
                         <GenericInput
-                            fieldTitle={t('Authentication.Name')}
+                            fieldTitle={t('Authentication.Username')}
                             fieldName={'username'}
                             fieldType={'text'}
                             isRequired={true}

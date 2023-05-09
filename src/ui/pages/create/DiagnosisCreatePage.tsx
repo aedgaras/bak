@@ -27,6 +27,7 @@ import {
     getUrgencyType,
 } from '../../../utils/utils';
 import { GenericInput, SubmitButton } from '../../components/form';
+import { StatusTag, UrgencyTag } from '../../components/table';
 import { BoxWithShadow } from '../../components/wrappers/BoxWithShadow';
 import { DataDisplay } from '../../components/wrappers/DataDisplay';
 
@@ -59,7 +60,7 @@ export const DiagnosisCreatePage = () => {
                 <SimpleGrid columns={[1, 2, 2, 2]} gap={4}>
                     {!caseObj.isLoading && !animalByCase.isLoading ? (
                         <BoxWithShadow>
-                            <VStack>
+                            <VStack px={12}>
                                 <Heading size={'lg'} sx={{ p: 2 }}>
                                     {t('Form.Diagnosis.Case')}
                                 </Heading>
@@ -119,25 +120,21 @@ export const DiagnosisCreatePage = () => {
                                         <FormLabel>
                                             {t('Form.Diangosis.Status')}
                                         </FormLabel>
-                                        <Input
-                                            type="text"
-                                            disabled
-                                            value={getStatusType(
+                                        <StatusTag
+                                            status={getStatusType(
                                                 caseObj.data?.status!
                                             )}
-                                        ></Input>
+                                        />
                                     </FormControl>
                                     <FormControl pb={2}>
                                         <FormLabel>
                                             {t('Form.Diangosis.Priority')}
                                         </FormLabel>
-                                        <Input
-                                            type="text"
-                                            disabled
-                                            value={getUrgencyType(
+                                        <UrgencyTag
+                                            urgency={getUrgencyType(
                                                 caseObj.data?.urgency!
                                             )}
-                                        ></Input>
+                                        />
                                     </FormControl>
                                 </Box>
                             </VStack>
@@ -146,7 +143,7 @@ export const DiagnosisCreatePage = () => {
                         <Skeleton />
                     )}
                     <BoxWithShadow>
-                        <VStack>
+                        <VStack px={12}>
                             <Heading size={'lg'} sx={{ p: 2 }}>
                                 {t('Form.Diagnosis.Diangosis')}
                             </Heading>
@@ -204,7 +201,9 @@ const DiangosisCreationForm = ({
                             {CaseValues.map((key) => {
                                 return (
                                     <option value={key.value}>
-                                        {t(`${key.key}`)}
+                                        {t(
+                                            `Enums.Case.Type.${key.key}`
+                                        ).toString()}
                                     </option>
                                 );
                             })}

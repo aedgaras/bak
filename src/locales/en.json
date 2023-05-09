@@ -17,6 +17,17 @@
         "Completed": "Completed",
         "Closed": "Closed"
       }
+    },
+    "User": {
+      "Role": {
+        "User": "User",
+        "Admin": "Admin"
+      },
+      "Classification": {
+        "Veterinarian": "Veterinarian",
+        "On-Duty Veterinarian": "On-Duty Veterinarian",
+        "Customer": "Customer"
+      }
     }
   },
   "Greetings": {
@@ -71,7 +82,8 @@
       "DiagnosesResults": {
         "Header": "Diagnoses Results"
       },
-      "No": "Id"
+      "No": "Id",
+      "DateCreated": "Entry Date"
     },
     "Info": {
       "NoNewData": "No new data"
@@ -121,7 +133,8 @@
         "Normal": "Heart rate is in normal range",
         "Abnormal": "Heart rate is in abormal range"
       }
-    }
+    },
+    "Of": "of"
   },
   "Authentication": {
     "DontHaveAccount": "Don't have an account? Register",

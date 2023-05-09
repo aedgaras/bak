@@ -29,49 +29,64 @@ export const LeftSideMenu = () => {
                         <Link to={usersRoutePath}>
                             <Button>{t('Navigation.Users')}</Button>
                         </Link>
-                    ) : null}
-                    <Link to={healthRecordsRoutePath}>
-                        <Button>{t('Navigation.HealthRecords')}</Button>
-                    </Link>
-                    <Link to={animalsRoutePath}>
-                        <Button>{t('Navigation.Animals')}</Button>
-                    </Link>
-                    {!isUser() ? (
-                        <Menu>
-                            <MenuButton
-                                as={Button}
-                                rightIcon={<ChevronDownIcon />}
-                            >
-                                {t('Navigation.Cases')}
-                            </MenuButton>
-                            <MenuList>
-                                <Link to={casesRoutePath}>
-                                    <MenuItem>{t('Navigation.Cases')}</MenuItem>
-                                </Link>
-                                {state.role === 'Admin' ||
-                                state.classification === 'Veterinarian' ? (
-                                    <>
-                                        <Link to={diagnosesRoutePath}>
+                    ) : (
+                        <>
+                            <Link to={healthRecordsRoutePath}>
+                                <Button>{t('Navigation.HealthRecords')}</Button>
+                            </Link>
+                            <Link to={animalsRoutePath}>
+                                <Button>{t('Navigation.Animals')}</Button>
+                            </Link>
+                            {!isUser() ? (
+                                <Menu>
+                                    <MenuButton
+                                        as={Button}
+                                        rightIcon={<ChevronDownIcon />}
+                                    >
+                                        {t('Navigation.Cases')}
+                                    </MenuButton>
+                                    <MenuList>
+                                        <Link to={casesRoutePath}>
                                             <MenuItem>
-                                                {t('Navigation.Diagnoses')}
+                                                {t('Navigation.Cases')}
                                             </MenuItem>
                                         </Link>
-                                        <Link to={diagnosesResultsRoutePath}>
-                                            <MenuItem>
-                                                {t('Navigation.Results')}
-                                            </MenuItem>
-                                        </Link>
+                                        {state.classification ===
+                                        'Veterinarian' ? (
+                                            <>
+                                                <Link to={diagnosesRoutePath}>
+                                                    <MenuItem>
+                                                        {t(
+                                                            'Navigation.Diagnoses'
+                                                        )}
+                                                    </MenuItem>
+                                                </Link>
+                                                <Link
+                                                    to={
+                                                        diagnosesResultsRoutePath
+                                                    }
+                                                >
+                                                    <MenuItem>
+                                                        {t(
+                                                            'Navigation.Results'
+                                                        )}
+                                                    </MenuItem>
+                                                </Link>
 
-                                        <Link to={recipesRoutePath}>
-                                            <MenuItem>
-                                                {t('Navigation.Recipes')}
-                                            </MenuItem>
-                                        </Link>
-                                    </>
-                                ) : null}
-                            </MenuList>
-                        </Menu>
-                    ) : null}
+                                                <Link to={recipesRoutePath}>
+                                                    <MenuItem>
+                                                        {t(
+                                                            'Navigation.Recipes'
+                                                        )}
+                                                    </MenuItem>
+                                                </Link>
+                                            </>
+                                        ) : null}
+                                    </MenuList>
+                                </Menu>
+                            ) : null}
+                        </>
+                    )}
                 </>
             }
         />

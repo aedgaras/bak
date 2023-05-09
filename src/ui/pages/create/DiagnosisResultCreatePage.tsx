@@ -42,7 +42,7 @@ export const DiagnosisResultsCreatePage = () => {
             isLoaded={true}
             element={
                 <BoxWithShadow>
-                    <VStack>
+                    <VStack px={12}>
                         <Heading size={'lg'} sx={{ p: 2 }}>
                             {t('Form.DiagnosisResult.Create')}
                         </Heading>
@@ -158,31 +158,33 @@ const DiagnosisResultsCreationForm = () => {
                                         value={diagnosis?.data?.diagnosis}
                                     ></Field>
                                 </FormControl>
-                                <FormControl
-                                    p={2}
-                                    isInvalid={
-                                        !!errors.caseType && touched.caseType
-                                    }
-                                    isRequired
-                                >
-                                    <FormLabel>
-                                        {t('Form.Diagnosis.Result.ResultType')}
-                                    </FormLabel>
-                                    <Field as={Select} name="caseType" required>
-                                        {CaseValues.map((key) => {
-                                            return (
-                                                <option value={key.value}>
-                                                    {key.key}
-                                                </option>
-                                            );
-                                        })}
-                                    </Field>
-                                </FormControl>
                             </Box>
                         ) : (
                             <Skeleton />
                         )}
                         <Box>
+                            <FormControl
+                                p={2}
+                                isInvalid={
+                                    !!errors.caseType && touched.caseType
+                                }
+                                isRequired
+                            >
+                                <FormLabel>
+                                    {t('Form.Diagnosis.Result.ResultType')}
+                                </FormLabel>
+                                <Field as={Select} name="caseType" required>
+                                    {CaseValues.map((key) => {
+                                        return (
+                                            <option value={key.value}>
+                                                {t(
+                                                    `Enums.Case.Type.${key.key}`
+                                                ).toString()}
+                                            </option>
+                                        );
+                                    })}
+                                </Field>
+                            </FormControl>
                             <GenericInput
                                 fieldTitle={t('Form.Diagnosis.Result.Name')}
                                 fieldName={'Result'}

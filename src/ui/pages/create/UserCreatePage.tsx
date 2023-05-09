@@ -108,7 +108,9 @@ const UserCreationForm = () => {
                                 {ClassificationValues.map((x) => {
                                     return (
                                         <option value={x.value}>
-                                            {t(`${x.key}`)}
+                                            {t(
+                                                `Enums.User.Classification.${x.key}`
+                                            )}
                                         </option>
                                     );
                                 })}
@@ -120,7 +122,7 @@ const UserCreationForm = () => {
                                 {RoleValues.map((x) => {
                                     return (
                                         <option value={x.value}>
-                                            {t(`${x.key}`)}
+                                            {t(`Enums.User.Role.${x.key}`)}
                                         </option>
                                     );
                                 })}
