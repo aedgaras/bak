@@ -84,7 +84,7 @@ const AnimalUpdateForm = () => {
                             state.role !== 'Admin'
                         }
                     >
-                        <FormLabel>{t('Form.Diagnosis.Diagnosis')}</FormLabel>
+                        <FormLabel>{t('Form.MedicineRecipe.Name')}</FormLabel>
                         <Field
                             as={Input}
                             type="text"

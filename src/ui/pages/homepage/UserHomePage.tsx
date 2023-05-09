@@ -5,7 +5,6 @@ import {
     Heading,
     SimpleGrid,
     Skeleton,
-    Td,
     Text,
 } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
@@ -33,7 +32,7 @@ import {
     ResultDto,
 } from '../../../utils/dto';
 import { formatedDate, getAnimalType } from '../../../utils/utils';
-import { CaseTypeTag, GenericHomePageTable } from '../../components/table';
+import { CaseTypeTag, GenericHomePageTable, HealthRecordHeartRate } from '../../components/table';
 import { BoxWithShadowMax } from '../../components/wrappers/BoxWithShadow';
 
 export const UserHomePage = () => {
@@ -85,7 +84,7 @@ const HealthRecordTable = () => {
     const healthRecordTableColumns = () => {
         return [
             healthRecordColumnHelper.accessor('heartRate', {
-                cell: (info) => info.getValue(),
+                cell: (info) => <HealthRecordHeartRate bpm={info.getValue()}/>,
                 header: t('Table.Headers.HeartRate.HeartRate').toString(),
             }),
             healthRecordColumnHelper.accessor('animal.type', {
@@ -162,11 +161,7 @@ const DiagnosesTable = () => {
     const columns = () => {
         return [
             columnHelper.accessor('caseType', {
-                cell: (info) => (
-                    <Td>
-                        <CaseTypeTag label={info.cell.getValue()} />
-                    </Td>
-                ),
+                cell: (info) => <CaseTypeTag label={info.cell.getValue()} />,
                 header: t('Form.Diangosis.Status').toString(),
             }),
             columnHelper.accessor('diagnosis', {
@@ -175,13 +170,9 @@ const DiagnosesTable = () => {
             }),
             columnHelper.accessor('id', {
                 cell: (info) => (
-                    <Td key={info.getValue() + '_details'}>
-                        <Link
-                            to={diagnosesRoutePath + '/' + `${info.getValue()}`}
-                        >
-                            <Button>{t('Table.Buttons.Details')}</Button>
-                        </Link>
-                    </Td>
+                    <Link to={diagnosesRoutePath + '/' + `${info.getValue()}`}>
+                        <Button>{t('Table.Buttons.Details')}</Button>
+                    </Link>
                 ),
                 header: t('Table.MedicineRecipes.Details').toString(),
             }),
@@ -250,13 +241,9 @@ const MedicineRecipesTable = () => {
             }),
             columnHelper.accessor('id', {
                 cell: (info) => (
-                    <Td>
-                        <Link to={recipesRoutePath + '/' + info.getValue()}>
-                            <Button>
-                                {t('Table.MedicineRecipes.Details')}
-                            </Button>
-                        </Link>
-                    </Td>
+                    <Link to={recipesRoutePath + '/' + info.getValue()}>
+                        <Button>{t('Table.MedicineRecipes.Details')}</Button>
+                    </Link>
                 ),
                 header: t('Table.MedicineRecipes.Details').toString(),
             }),
@@ -325,19 +312,11 @@ const DiagnosesResultsTable = () => {
             }),
             columnHelper.accessor('id', {
                 cell: (info) => (
-                    <Td>
-                        <Link
-                            to={
-                                diagnosesResultsRoutePath +
-                                '/' +
-                                info.getValue()
-                            }
-                        >
-                            <Button>
-                                {t('Table.MedicineRecipes.Details')}
-                            </Button>
-                        </Link>
-                    </Td>
+                    <Link
+                        to={diagnosesResultsRoutePath + '/' + info.getValue()}
+                    >
+                        <Button>{t('Table.MedicineRecipes.Details')}</Button>
+                    </Link>
                 ),
                 header: t('Table.MedicineRecipes.Details').toString(),
             }),

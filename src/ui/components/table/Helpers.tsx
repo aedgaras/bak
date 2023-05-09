@@ -19,6 +19,7 @@ import {
     getStatusType,
     getUrgencyType,
 } from '../../../utils/utils';
+import { HealthRecordHeartRate, StatusTag, UrgencyTag } from './GenericTable';
 
 export function filterUserTable(
     data: UserDto[],
@@ -276,7 +277,7 @@ export const healthRecordTableColumns = () => {
             header: 'Id',
         }),
         healthRecordColumnHelper.accessor('heartRate', {
-            cell: (info) => info.getValue(),
+            cell: (info) => <HealthRecordHeartRate bpm={info.getValue()} />,
             header: t('Table.Headers.HeartRate.HeartRate').toString(),
         }),
         healthRecordColumnHelper.accessor('entryDate', {
@@ -296,16 +297,20 @@ export const caseTableColumns = () => {
             header: 'Id',
         }),
         casesColumnHelper.accessor('status', {
-            cell: (info) => getStatusType(info.cell.getValue()),
-            header: 'Status',
+            cell: (info) => (
+                <StatusTag status={getStatusType(info.cell.getValue())} />
+            ),
+            header: t('Form.Case.Status').toString(),
         }),
         casesColumnHelper.accessor('urgency', {
-            cell: (info) => getUrgencyType(info.cell.getValue()),
-            header: 'Urgency',
+            cell: (info) => (
+                <UrgencyTag urgency={getUrgencyType(info.cell.getValue())} />
+            ),
+            header: t('Form.Case.Priority').toString(),
         }),
         casesColumnHelper.accessor('entryDate', {
             cell: (info) => formatedDate(info.getValue()),
-            header: 'Date',
+            header: t('Form.Date').toString(),
         }),
     ];
 };

@@ -6,7 +6,6 @@ import {
     Heading,
     SimpleGrid,
     Skeleton,
-    Td,
     Text,
     Tooltip,
 } from '@chakra-ui/react';
@@ -35,7 +34,11 @@ import {
     ResultDto,
 } from '../../../utils/dto';
 import { formatedDate, getAnimalType } from '../../../utils/utils';
-import { CaseTypeTag, GenericHomePageTable } from '../../components/table';
+import {
+    CaseTypeTag,
+    GenericHomePageTable,
+    HealthRecordHeartRate,
+} from '../../components/table';
 import { BoxWithShadowMax } from '../../components/wrappers/BoxWithShadow';
 
 export const AdminHomePage = () => {
@@ -105,7 +108,7 @@ const HealthRecordTable = () => {
     const healthRecordTableColumns = () => {
         return [
             healthRecordColumnHelper.accessor('heartRate', {
-                cell: (info) => info.getValue(),
+                cell: (info) => <HealthRecordHeartRate bpm={info.getValue()} />,
                 header: t('Table.Headers.HeartRate.HeartRate').toString(),
             }),
             healthRecordColumnHelper.accessor('animal.type', {
@@ -122,16 +125,11 @@ const HealthRecordTable = () => {
             }),
             healthRecordColumnHelper.accessor('id', {
                 cell: (info) => (
-                    <Td key={info.getValue() + '_details'}>
-                        <Link
-                            to={
-                                healthRecordsRoutePath +
-                                `/rate/${info.getValue()}`
-                            }
-                        >
-                            <Button>{t('Table.Buttons.Rate')}</Button>
-                        </Link>
-                    </Td>
+                    <Link
+                        to={healthRecordsRoutePath + `/rate/${info.getValue()}`}
+                    >
+                        <Button>{t('Table.Buttons.Rate')}</Button>
+                    </Link>
                 ),
                 header: t('Form.HealthRecord.Rate').toString(),
             }),
@@ -199,11 +197,7 @@ const DiagnosesTable = () => {
     const columns = () => {
         return [
             columnHelper.accessor('caseType', {
-                cell: (info) => (
-                    <Td>
-                        <CaseTypeTag label={info.cell.getValue()} />
-                    </Td>
-                ),
+                cell: (info) => <CaseTypeTag label={info.cell.getValue()} />,
                 header: t('Form.Diangosis.Status').toString(),
             }),
             columnHelper.accessor('diagnosis', {
@@ -212,29 +206,23 @@ const DiagnosesTable = () => {
             }),
             columnHelper.accessor('id', {
                 cell: (info) => (
-                    <Td>
-                        <Link
-                            to={
-                                diagnosesRoutePath +
-                                '/createResult/' +
-                                info.getValue()
-                            }
-                        >
-                            <Button>{t('Table.Diagnoses.FormResult')}</Button>
-                        </Link>
-                    </Td>
+                    <Link
+                        to={
+                            diagnosesRoutePath +
+                            '/createResult/' +
+                            info.getValue()
+                        }
+                    >
+                        <Button>{t('Table.Diagnoses.FormResult')}</Button>
+                    </Link>
                 ),
                 header: t('Table.MedicineRecipes.Details').toString(),
             }),
             columnHelper.accessor('id', {
                 cell: (info) => (
-                    <Td key={info.getValue() + '_details'}>
-                        <Link
-                            to={diagnosesRoutePath + '/' + `${info.getValue()}`}
-                        >
-                            <Button>{t('Table.Buttons.Details')}</Button>
-                        </Link>
-                    </Td>
+                    <Link to={diagnosesRoutePath + '/' + `${info.getValue()}`}>
+                        <Button>{t('Table.Buttons.Details')}</Button>
+                    </Link>
                 ),
                 header: t('Table.MedicineRecipes.Details').toString(),
             }),
@@ -244,11 +232,7 @@ const DiagnosesTable = () => {
     const columnsLower = () => {
         return [
             columnHelper.accessor('caseType', {
-                cell: (info) => (
-                    <Td>
-                        <CaseTypeTag label={info.cell.getValue()} />
-                    </Td>
-                ),
+                cell: (info) => <CaseTypeTag label={info.cell.getValue()} />,
                 header: t('Form.Diangosis.Status').toString(),
             }),
             columnHelper.accessor('diagnosis', {
@@ -257,13 +241,9 @@ const DiagnosesTable = () => {
             }),
             columnHelper.accessor('id', {
                 cell: (info) => (
-                    <Td key={info.getValue() + '_details'}>
-                        <Link
-                            to={diagnosesRoutePath + '/' + `${info.getValue()}`}
-                        >
-                            <Button>{t('Table.Buttons.Details')}</Button>
-                        </Link>
-                    </Td>
+                    <Link to={diagnosesRoutePath + '/' + `${info.getValue()}`}>
+                        <Button>{t('Table.Buttons.Details')}</Button>
+                    </Link>
                 ),
                 header: t('Table.MedicineRecipes.Details').toString(),
             }),
@@ -333,13 +313,9 @@ const MedicineRecipesTable = () => {
             }),
             columnHelper.accessor('id', {
                 cell: (info) => (
-                    <Td>
-                        <Link to={recipesRoutePath + '/' + info.getValue()}>
-                            <Button>
-                                {t('Table.MedicineRecipes.Details')}
-                            </Button>
-                        </Link>
-                    </Td>
+                    <Link to={recipesRoutePath + '/' + info.getValue()}>
+                        <Button>{t('Table.MedicineRecipes.Details')}</Button>
+                    </Link>
                 ),
                 header: t('Table.MedicineRecipes.Details').toString(),
             }),
@@ -425,19 +401,11 @@ const DiagnosesResultsTable = () => {
             }),
             columnHelper.accessor('id', {
                 cell: (info) => (
-                    <Td>
-                        <Link
-                            to={
-                                diagnosesResultsRoutePath +
-                                '/' +
-                                info.getValue()
-                            }
-                        >
-                            <Button>
-                                {t('Table.MedicineRecipes.Details')}
-                            </Button>
-                        </Link>
-                    </Td>
+                    <Link
+                        to={diagnosesResultsRoutePath + '/' + info.getValue()}
+                    >
+                        <Button>{t('Table.MedicineRecipes.Details')}</Button>
+                    </Link>
                 ),
                 header: t('Table.MedicineRecipes.Details').toString(),
             }),
@@ -457,19 +425,11 @@ const DiagnosesResultsTable = () => {
             }),
             columnHelper.accessor('id', {
                 cell: (info) => (
-                    <Td>
-                        <Link
-                            to={
-                                diagnosesResultsRoutePath +
-                                '/' +
-                                info.getValue()
-                            }
-                        >
-                            <Button>
-                                {t('Table.MedicineRecipes.Details')}
-                            </Button>
-                        </Link>
-                    </Td>
+                    <Link
+                        to={diagnosesResultsRoutePath + '/' + info.getValue()}
+                    >
+                        <Button>{t('Table.MedicineRecipes.Details')}</Button>
+                    </Link>
                 ),
                 header: t('Table.MedicineRecipes.Details').toString(),
             }),

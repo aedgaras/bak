@@ -22,6 +22,7 @@ import {
     Spacer,
     Table,
     TableContainer,
+    Tag,
     Tbody,
     Td,
     Text,
@@ -229,6 +230,71 @@ const PhoneTooltip = ({ id }: { id: string }) => {
                 <PhoneIcon />
             </Tooltip>
         </Skeleton>
+    );
+};
+
+export const HealthRecordHeartRate = ({ bpm }: { bpm: string }) => {
+    const { t } = useTranslation();
+    const num = parseInt(bpm);
+
+    let color = 'teal';
+    let label = t('Table.HeartRate.Bpm.Normal');
+
+    if (num <= 40) {
+        label = t('Table.HeartRate.Bpm.Abnormal');
+        color = 'red';
+    } else if (num >= 100) {
+        label = t('Table.HeartRate.Bpm.Abnormal');
+        color = 'red';
+    } else {
+        label = t('Table.HeartRate.Bpm.Normal');
+        color = 'teal';
+    }
+
+    return (
+        <Tooltip label={label} hasArrow>
+            <Tag size={'lg'} colorScheme={color}>
+                {bpm}
+            </Tag>
+        </Tooltip>
+    );
+};
+
+export const UrgencyTag = ({ urgency }: { urgency: 'Normal' | 'Urgent' }) => {
+    let color = 'teal';
+    const { t } = useTranslation();
+
+    if (urgency === 'Urgent') {
+        color = 'red';
+    }
+
+    return (
+        <Tag size={'lg'} colorScheme={color}>
+            {t(`Enums.Case.Urgency.${urgency}`)}
+        </Tag>
+    );
+};
+
+export const StatusTag = ({
+    status,
+}: {
+    status: 'Closed' | 'Completed' | 'Ongoing' | 'Filled';
+}) => {
+    let color = 'red';
+    const { t } = useTranslation();
+
+    if (status === 'Filled') {
+        color = 'orange';
+    } else if (status === 'Ongoing') {
+        color = 'blue';
+    } else if (status === 'Completed') {
+        color = 'teal';
+    }
+
+    return (
+        <Tag size={'lg'} colorScheme={color}>
+            {t(`Enums.Case.Status.${status}`)}
+        </Tag>
     );
 };
 
