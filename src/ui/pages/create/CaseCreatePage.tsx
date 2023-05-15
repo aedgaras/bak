@@ -1,13 +1,13 @@
 import {
     Box,
     Center,
+    CircularProgress,
     FormControl,
     FormLabel,
     Heading,
     Input,
     Select,
     SimpleGrid,
-    Skeleton,
     Textarea,
     Tooltip,
     useToast,
@@ -75,14 +75,24 @@ export const CaseCreatePage = () => {
             isLoaded={true}
             element={
                 <SimpleGrid columns={[1, 2, 2, 2]} gap={4}>
-                    {!healthRecord.isLoading &&
-                    !user.isLoading &&
-                    !animal.isLoading ? (
-                        <BoxWithShadow>
-                            <VStack px={12}>
-                                <Heading size={'lg'} sx={{ p: 2 }}>
-                                    {t('Form.Case.HealthRecord')}
-                                </Heading>
+                    <BoxWithShadow>
+                        <VStack px={12}>
+                            <Heading size={'lg'} sx={{ p: 2 }}>
+                                {t('Form.Case.HealthRecord')}
+                            </Heading>
+                            {healthRecord.isLoading ||
+                            user.isLoading ||
+                            animal.isLoading ? (
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                    }}
+                                >
+                                    <CircularProgress isIndeterminate />
+                                </Box>
+                            ) : (
                                 <Box p={2}>
                                     <FormControl py={2}>
                                         <FormLabel>
@@ -156,11 +166,10 @@ export const CaseCreatePage = () => {
                                         </Tooltip>
                                     </FormControl>
                                 </Box>
-                            </VStack>
-                        </BoxWithShadow>
-                    ) : (
-                        <Skeleton />
-                    )}
+                            )}
+                        </VStack>
+                    </BoxWithShadow>
+
                     <BoxWithShadow>
                         <Center>
                             <VStack px={12}>

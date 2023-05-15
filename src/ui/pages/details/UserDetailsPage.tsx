@@ -1,10 +1,11 @@
 import {
     Avatar,
+    Box,
+    CircularProgress,
     FormControl,
     FormLabel,
     HStack,
     Select,
-    Skeleton,
 } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { Formik } from 'formik';
@@ -40,7 +41,17 @@ export const UserDetailsPage = () => {
     }, [state.name]);
 
     if (isLoading) {
-        return <Skeleton />;
+        return (
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}
+            >
+                <CircularProgress isIndeterminate />
+            </Box>
+        );
     }
 
     return (

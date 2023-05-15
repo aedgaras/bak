@@ -1,17 +1,19 @@
 import {
+    Box,
+    CircularProgress,
     FormControl,
     FormErrorIcon,
     FormErrorMessage,
     FormLabel,
     Heading,
     Select,
-    Skeleton,
     useToast,
     VStack,
 } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { Field, Formik } from 'formik';
 import { t } from 'i18next';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useUserContext } from '../../../context/UserContext';
@@ -22,15 +24,14 @@ import { GenericInput, SubmitButton } from '../../components/form';
 import { validateUsername } from '../../components/form/validation/validation';
 import { BoxWithBorder } from '../../components/wrappers/BoxWithShadow';
 import { DataDisplay } from '../../components/wrappers/DataDisplay';
-import { useEffect } from 'react';
 
 export const AnimalCreatePage = () => {
     const toast = useToast();
     const { t } = useTranslation();
 
     useEffect(() => {
-        document.title = t('Pages.AnimalCreate')
-    },[])
+        document.title = t('Pages.AnimalCreate');
+    }, []);
 
     return (
         <DataDisplay
@@ -103,7 +104,15 @@ const AnimalCreationForm = () => {
                             ) : null}
                         </>
                     ) : (
-                        <Skeleton />
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}
+                        >
+                            <CircularProgress isIndeterminate />
+                        </Box>
                     )}
                     <GenericInput
                         fieldTitle={t('Form.Animal.Name')}
@@ -124,7 +133,7 @@ const AnimalCreationForm = () => {
                             {AnimalValues.map((key) => {
                                 return (
                                     <option value={key.value}>
-                                        {t(`${key.key}`)}
+                                        {t(`Enums.Animal.${key.key}`)}
                                     </option>
                                 );
                             })}

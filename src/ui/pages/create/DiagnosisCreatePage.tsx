@@ -1,54 +1,54 @@
 import {
-Box,
-FormControl,
-FormLabel,
-Heading,
-Input,
-Select,
-SimpleGrid,
-Skeleton,
-Textarea,
-useToast,
-VStack,
+    Box,
+    CircularProgress,
+    FormControl,
+    FormLabel,
+    Heading,
+    Input,
+    Select,
+    SimpleGrid,
+    Textarea,
+    useToast,
+    VStack,
 } from '@chakra-ui/react';
 import { Formik } from 'formik';
 
 import { useQuery } from '@tanstack/react-query';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate,useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useUserContext } from '../../../context/UserContext';
-import { CasesService,DiagnosisService } from '../../../services';
-import { CaseDto,CreateDiagnosisDto } from '../../../utils/dto';
+import { CasesService, DiagnosisService } from '../../../services';
+import { CaseDto, CreateDiagnosisDto } from '../../../utils/dto';
 import {
-CaseValues,
-formatedDate,
-getAnimalType,
-getStatusType,
-getUrgencyType,
+    CaseValues,
+    formatedDate,
+    getAnimalType,
+    getStatusType,
+    getUrgencyType,
 } from '../../../utils/utils';
-import { GenericInput,SubmitButton } from '../../components/form';
-import { StatusTag,UrgencyTag } from '../../components/table';
+import { GenericInput, SubmitButton } from '../../components/form';
+import { StatusTag, UrgencyTag } from '../../components/table';
 import { BoxWithShadow } from '../../components/wrappers/BoxWithShadow';
 import { DataDisplay } from '../../components/wrappers/DataDisplay';
-import { useEffect } from 'react';
 
 export const DiagnosisCreatePage = () => {
     const toast = useToast();
     const { t } = useTranslation();
 
-        useEffect(() => {
-            document.title = t('Pages.DiagnosisCreate');
-        }, []);
+    useEffect(() => {
+        document.title = t('Pages.DiagnosisCreate');
+    }, []);
 
-        const params = useParams<{ caseId: string }>();
+    const params = useParams<{ caseId: string }>();
 
-        const caseObj = useQuery({
-            queryKey: ['diagnosisCreate1' + params.caseId!],
-            queryFn: async () => {
-                const recipeService = new CasesService();
-                return await recipeService.get(params.caseId!);
-            },
-        });
+    const caseObj = useQuery({
+        queryKey: ['diagnosisCreate1' + params.caseId!],
+        queryFn: async () => {
+            const recipeService = new CasesService();
+            return await recipeService.get(params.caseId!);
+        },
+    });
 
     const animalByCase = useQuery({
         queryKey: ['animalByCase' + params.caseId!],
@@ -103,9 +103,11 @@ export const DiagnosisCreatePage = () => {
                                         <Input
                                             type="text"
                                             disabled
-                                            value={getAnimalType(
-                                                animalByCase.data?.type!
-                                            )}
+                                            value={t(
+                                                `Enum.Animal.${getAnimalType(
+                                                    animalByCase.data?.type!
+                                                )}`
+                                            ).toString()}
                                         ></Input>
                                     </FormControl>
                                     <FormControl pb={2}>
@@ -145,7 +147,15 @@ export const DiagnosisCreatePage = () => {
                             </VStack>
                         </BoxWithShadow>
                     ) : (
-                        <Skeleton />
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}
+                        >
+                            <CircularProgress isIndeterminate />
+                        </Box>
                     )}
                     <BoxWithShadow>
                         <VStack px={12}>

@@ -15,6 +15,7 @@ import {
     Center,
     HStack,
     Heading,
+    Icon,
     Input,
     Select,
     Skeleton,
@@ -46,9 +47,11 @@ import {
 } from '@tanstack/react-table';
 import React, { Dispatch, SetStateAction } from 'react';
 import { useTranslation } from 'react-i18next';
+import { FaCat, FaDog } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { isUser, useUserContext } from '../../../context/UserContext';
 import { HealthRecordService } from '../../../services';
+import { getAnimalType } from '../../../utils/utils';
 import { DeleteDialog } from '../dialogs';
 import { BoxWithShadowMax } from '../wrappers/BoxWithShadow';
 
@@ -257,6 +260,24 @@ export const HealthRecordHeartRate = ({ bpm }: { bpm: string }) => {
                 {bpm}
             </Tag>
         </Tooltip>
+    );
+};
+
+export const AnimalTag = ({ animalType }: { animalType: number }) => {
+    const { t } = useTranslation();
+    const animalBreed = getAnimalType(animalType);
+
+    const icon =
+        animalBreed === 'Cat' ? (
+            <Icon size={'lg'} as={FaCat} />
+        ) : (
+            <Icon size={'lg'} as={FaDog} />
+        );
+
+    return (
+        <Box>
+            {t(`Enums.Animal.${animalBreed}`)} {icon}
+        </Box>
     );
 };
 

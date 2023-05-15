@@ -1,61 +1,61 @@
 import {
-Box,
-Flex,
-FormControl,
-FormLabel,
-Heading,
-Input,
-Select,
-SimpleGrid,
-Skeleton,
-useToast,
-VStack,
+    Box,
+    CircularProgress,
+    Flex,
+    FormControl,
+    FormLabel,
+    Heading,
+    Input,
+    Select,
+    SimpleGrid,
+    useToast,
+    VStack,
 } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
-import { Field,Formik } from 'formik';
+import { Field, Formik } from 'formik';
 import { t } from 'i18next';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate,useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useUserContext } from '../../../context/UserContext';
 import {
-CasesService,
-DiagnosisService,
-ResultsService,
-UserService,
+    CasesService,
+    DiagnosisService,
+    ResultsService,
+    UserService,
 } from '../../../services';
 import { CreateResultDto } from '../../../utils/dto';
 import { CaseValues } from '../../../utils/utils';
-import { GenericInput,SubmitButton } from '../../components/form';
+import { GenericInput, SubmitButton } from '../../components/form';
 import {
-validatePassword,
-validateUsername,
+    validatePassword,
+    validateUsername,
 } from '../../components/form/validation/validation';
 import { BoxWithShadow } from '../../components/wrappers/BoxWithShadow';
 import { DataDisplay } from '../../components/wrappers/DataDisplay';
-import { useEffect } from 'react';
 
 export const DiagnosisResultsCreatePage = () => {
     const toast = useToast();
     const { t } = useTranslation();
-        useEffect(() => {
-            document.title = t('Pages.ResultCreate');
-        }, []);
+    useEffect(() => {
+        document.title = t('Pages.ResultCreate');
+    }, []);
 
-        return (
-            <DataDisplay
-                isLoaded={true}
-                element={
-                    <BoxWithShadow>
-                        <VStack px={12}>
-                            <Heading size={'lg'} sx={{ p: 2 }}>
-                                {t('Form.DiagnosisResult.Create')}
-                            </Heading>
-                            <DiagnosisResultsCreationForm />
-                        </VStack>
-                    </BoxWithShadow>
-                }
-            />
-        );
+    return (
+        <DataDisplay
+            isLoaded={true}
+            element={
+                <BoxWithShadow>
+                    <VStack px={12}>
+                        <Heading size={'lg'} sx={{ p: 2 }}>
+                            {t('Form.DiagnosisResult.Create')}
+                        </Heading>
+                        <DiagnosisResultsCreationForm />
+                    </VStack>
+                </BoxWithShadow>
+            }
+        />
+    );
 };
 
 const DiagnosisResultsCreationForm = () => {
@@ -128,9 +128,12 @@ const DiagnosisResultsCreationForm = () => {
             {({ handleSubmit, errors, touched, isSubmitting }) => (
                 <form onSubmit={handleSubmit}>
                     <SimpleGrid columns={[1, 2, 2, 2]}>
-                        {!diagnosis.isLoading &&
-                        !user.isLoading &&
-                        !animal.isLoading ? (
+                        {(!diagnosis.isLoading ||
+                            !user.isLoading ||
+                            !animal.isLoading) &&
+                        animal.data &&
+                        user.data &&
+                        diagnosis.data ? (
                             <Box>
                                 <FormControl p={2} isRequired isDisabled>
                                     <FormLabel>
@@ -164,7 +167,15 @@ const DiagnosisResultsCreationForm = () => {
                                 </FormControl>
                             </Box>
                         ) : (
-                            <Skeleton />
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}
+                            >
+                                <CircularProgress isIndeterminate />
+                            </Box>
                         )}
                         <Box>
                             <FormControl

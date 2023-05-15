@@ -1,4 +1,5 @@
 import {
+    Box,
     Button,
     Center,
     CircularProgress,
@@ -57,7 +58,17 @@ const HealthRecordUpdateForm = () => {
     });
 
     if (health.isLoading) {
-        return <CircularProgress isIndeterminate />;
+        return (
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}
+            >
+                <CircularProgress isIndeterminate />
+            </Box>
+        );
     }
 
     return (

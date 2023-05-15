@@ -28,6 +28,10 @@
         "On-Duty Veterinarian": "On-Duty Veterinarian",
         "Customer": "Customer"
       }
+    },
+    "Animal": {
+      "Cat": "Cat",
+      "Dog": "Dog"
     }
   },
   "Greetings": {

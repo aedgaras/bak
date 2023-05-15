@@ -1,12 +1,12 @@
 import {
     Box,
+    CircularProgress,
     FormControl,
     FormLabel,
     Heading,
     Input,
     Select,
     SimpleGrid,
-    Skeleton,
     useToast,
     VStack,
 } from '@chakra-ui/react';
@@ -174,7 +174,15 @@ const RecipeCreationForm = () => {
                                 </FormControl>
                             </Box>
                         ) : (
-                            <Skeleton></Skeleton>
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}
+                            >
+                                <CircularProgress isIndeterminate />
+                            </Box>
                         )}
                         <Box>
                             <GenericInput

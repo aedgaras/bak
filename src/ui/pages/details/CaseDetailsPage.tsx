@@ -1,4 +1,5 @@
 import {
+    Box,
     CircularProgress,
     FormControl,
     FormLabel,
@@ -51,7 +52,17 @@ const CaseUpdateForm = () => {
     });
 
     if (caseObj.isLoading) {
-        return <CircularProgress isIndeterminate />;
+        return (
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}
+            >
+                <CircularProgress isIndeterminate />
+            </Box>
+        );
     }
 
     return (

@@ -1,4 +1,5 @@
 import {
+    Box,
     Button,
     Center,
     CircularProgress,
@@ -55,7 +56,17 @@ const AnimalUpdateForm = () => {
     });
 
     if (recipe.isLoading) {
-        return <CircularProgress isIndeterminate />;
+        return (
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}
+            >
+                <CircularProgress isIndeterminate />
+            </Box>
+        );
     }
 
     return (

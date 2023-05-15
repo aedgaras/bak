@@ -31,8 +31,9 @@ import {
     MedicineRecipeDto,
     ResultDto,
 } from '../../../utils/dto';
-import { formatedDate, getAnimalType } from '../../../utils/utils';
+import { formatedDate } from '../../../utils/utils';
 import {
+    AnimalTag,
     CaseTypeTag,
     GenericHomePageTable,
     HealthRecordHeartRate,
@@ -92,7 +93,7 @@ const HealthRecordTable = () => {
                 header: t('Table.Headers.HeartRate.HeartRate').toString(),
             }),
             healthRecordColumnHelper.accessor('animal.type', {
-                cell: (info) => getAnimalType(info.getValue()),
+                cell: (info) => <AnimalTag animalType={info.getValue()} />,
                 header: t('Form.Animal.Type').toString(),
             }),
             healthRecordColumnHelper.accessor('entryDate', {

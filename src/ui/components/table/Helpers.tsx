@@ -13,13 +13,17 @@ import {
 } from '../../../utils/dto';
 import {
     formatedDate,
-    getAnimalType,
     getClassificationType,
     getRoleType,
     getStatusType,
     getUrgencyType,
 } from '../../../utils/utils';
-import { HealthRecordHeartRate, StatusTag, UrgencyTag } from './GenericTable';
+import {
+    AnimalTag,
+    HealthRecordHeartRate,
+    StatusTag,
+    UrgencyTag,
+} from './GenericTable';
 import { CaseTypeTag } from './TableElements';
 
 export function filterUserTable(
@@ -277,7 +281,7 @@ export const animalTableColumns = () => {
             header: t('Table.Headers.Animal.Name').toString(),
         }),
         animalColumnHelper.accessor('type', {
-            cell: (info) => getAnimalType(info.cell.getValue()),
+            cell: (info) => <AnimalTag animalType={info.getValue()} />,
             header: t('Table.Headers.Animal.Type').toString(),
         }),
     ];

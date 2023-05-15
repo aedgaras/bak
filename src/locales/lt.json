@@ -250,6 +250,10 @@
         "On-Duty Veterinarian": "Budintis Specialistas",
         "Veterinarian": "Veterinaras"
       }
+    },
+    "Animal": {
+      "Dog": "Šuo",
+      "Cat": "Katė"
     }
   },
   "Pages": {

@@ -1,6 +1,7 @@
 import {
     Box,
     Button,
+    CircularProgress,
     Container,
     FormControl,
     FormErrorIcon,
@@ -73,6 +74,20 @@ const AnimalUpdateForm = () => {
         },
     });
 
+    if (animal.isLoading) {
+        return (
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}
+            >
+                <CircularProgress isIndeterminate />
+            </Box>
+        );
+    }
+
     return (
         <Formik
             initialValues={animal.data as UpdateAnimalDto}
@@ -93,7 +108,7 @@ const AnimalUpdateForm = () => {
         >
             {({ handleSubmit, errors, touched, isSubmitting }) => (
                 <form onSubmit={handleSubmit}>
-                    {!animal.isLoading ? (
+                    {animal.data ? (
                         <>
                             <GenericInput
                                 fieldTitle={t('Form.Animal.Name')}
@@ -114,7 +129,7 @@ const AnimalUpdateForm = () => {
                                     {AnimalValues.map((key) => {
                                         return (
                                             <option value={key.value}>
-                                                {t(`${key.key}`)}
+                                                {t(`Enums.Animal.${key.key}`)}
                                             </option>
                                         );
                                     })}
