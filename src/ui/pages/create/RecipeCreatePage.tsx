@@ -13,6 +13,7 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import { Field, Formik } from 'formik';
 import { t } from 'i18next';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useUserContext } from '../../../context/UserContext';
@@ -29,6 +30,10 @@ import { DataDisplay } from '../../components/wrappers/DataDisplay';
 export const RecipeCreatePage = () => {
     const toast = useToast();
     const { t } = useTranslation();
+
+    useEffect(() => {
+        document.title = t('Pages.RecipeCreate');
+    }, []);
 
     return (
         <DataDisplay

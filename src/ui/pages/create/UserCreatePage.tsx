@@ -117,7 +117,7 @@ const UserCreationForm = () => {
                             </Select>
                         </FormControl>
                         <FormControl p={2}>
-                            <FormLabel>{t(`Form.Specification`)}</FormLabel>
+                            <FormLabel>{t(`Form.Role`)}</FormLabel>
                             <Select name="role">
                                 {RoleValues.map((x) => {
                                     return (

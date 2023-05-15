@@ -1,8 +1,9 @@
 import jwtDecode from 'jwt-decode';
-import React, { useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { AuthService } from '../services';
-import { ACCESS_TOKEN_NAME } from '../utils/constants';
 import { Classification, Role } from '../utils/Models';
+import { ACCESS_TOKEN_NAME } from '../utils/constants';
+import { isJwtExpired } from '../utils/utils';
 
 interface UserContextInterface {
     name?: string;
@@ -38,7 +39,11 @@ export const [ctx, Provider] = createCtx<UserContextInterface>(
 export const UserContextProvider = ({ children }: any): JSX.Element => {
     const { update, state } = useUserContext();
 
-    useMemo(() => {
+    useEffect(() => {
+        if (isJwtExpired()) {
+            const api = new AuthService();
+            api.logout();
+        }
         update(userContextValues());
     }, []);
 

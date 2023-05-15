@@ -13,9 +13,8 @@ import {
     Box,
     Button,
     Center,
-    chakra,
-    Heading,
     HStack,
+    Heading,
     Input,
     Select,
     Skeleton,
@@ -30,18 +29,19 @@ import {
     Thead,
     Tooltip,
     Tr,
+    chakra,
     useDisclosure,
 } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import {
     ColumnDef,
+    Row,
+    SortingState,
     flexRender,
     getCoreRowModel,
     getFilteredRowModel,
     getPaginationRowModel,
     getSortedRowModel,
-    Row,
-    SortingState,
     useReactTable,
 } from '@tanstack/react-table';
 import React, { Dispatch, SetStateAction } from 'react';
@@ -361,6 +361,8 @@ export function GenericTable<Data extends object>({
                             })}
                             <Th></Th>
                             <Th></Th>
+                            <Th />
+                            {entity === 'healthrecord' ? <Th /> : null}
                         </Tr>
                     ))}
                 </Thead>

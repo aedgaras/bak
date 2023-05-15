@@ -111,7 +111,8 @@
     "RecipeDetails": "Vaistų Recepto Detalės",
     "DiagnosesDetails": "Diagnozės Detalės",
     "DiagnosesResultsDetails": "Diagnozės Rezultato Detalės",
-    "Date": "Data"
+    "Date": "Data",
+    "Role": "Rolė"
   },
   "Table": {
     "Case": {
@@ -259,7 +260,15 @@
     "AnimalsPage": "Gyvūnų Puslapis",
     "CasesPage": "Padietės Puslapis",
     "DiagnosesPage": "Diagnozės Puslapis",
-    "ResultsPage": "Diagnozės Rezultatų Puslapis"
+    "ResultsPage": "Diagnozės Rezultatų Puslapis",
+    "AnimalCreate": "Gyvūno Kūrimas",
+    "CaseCreate": "Padeties Kurimas",
+    "DiagnosisCreate": "Diangozės Kurimas",
+    "Login": "Prisijungimas",
+    "HealthRecordCreate": "Sveikatos Įrašo Kurimas",
+    "ResultCreate": "Rezultato Kurimas",
+    "Register": "Registracija",
+    "RecipeCreate": "Recepto Kurimas"
   },
   "Dialog": {
     "CantUndo": "Ar esate tikri? Pokyčiai nėra pakeičiami."

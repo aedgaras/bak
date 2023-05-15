@@ -17,10 +17,15 @@ import { CreateHealthRecordDto } from '../../../utils/dto';
 import { GenericInput, SubmitButton } from '../../components/form';
 import { FormWrapper } from '../../components/wrappers/BoxWithShadow';
 import { DataDisplay } from '../../components/wrappers/DataDisplay';
+import { useEffect } from 'react';
 
 export const CreateHealthRecordPage = () => {
     const toast = useToast();
     const { t } = useTranslation();
+
+    useEffect(() => {
+        document.title = t('Pages.HealthRecordCreate');
+    }, []);
 
     return (
         <DataDisplay

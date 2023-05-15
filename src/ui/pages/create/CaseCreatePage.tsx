@@ -16,6 +16,7 @@ import {
 import { Formik } from 'formik';
 
 import { useQuery } from '@tanstack/react-query';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useUserContext } from '../../../context/UserContext';
@@ -35,6 +36,10 @@ export const CaseCreatePage = () => {
     const toast = useToast();
     const { t } = useTranslation();
     const params = useParams<{ healthRecordId: string }>();
+
+    useEffect(() => {
+        document.title = t('Pages.CaseCreate');
+    }, []);
 
     const healthRecord = useQuery({
         queryKey: ['healthRecord' + params.healthRecordId],

@@ -1,5 +1,6 @@
-import { Heading, Link as ChakraLink, Text, useToast } from '@chakra-ui/react';
+import { Link as ChakraLink, Heading, Text, useToast } from '@chakra-ui/react';
 import { Formik } from 'formik';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { authenticateUserHook } from '../../../hooks/customHooks';
@@ -14,7 +15,10 @@ export const LoginPage = () => {
     const initialValue = { username: '', password: '' };
     const toast = useToast();
     const { t } = useTranslation();
-    document.title = 'Login';
+
+    useEffect(() => {
+        document.title = t('Pages.Login');
+    }, []);
 
     return (
         <FormWrapper>

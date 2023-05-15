@@ -4,6 +4,7 @@ import { useUserContext } from '../context/UserContext';
 import { AuthService } from '../services';
 import { PageNotFound, Unauthorized } from '../ui/components/errors';
 import { AppWrapper } from '../ui/components/wrappers/AppWrapper';
+import { HomePage } from '../ui/pages/HomePage';
 import { LoginPage } from '../ui/pages/authentication/LoginPage';
 import { RegisterPage } from '../ui/pages/authentication/RegisterPage';
 import { AnimalCreatePage } from '../ui/pages/create/AnimalCreatePage';
@@ -21,7 +22,6 @@ import { HealthRecordDetailsPage } from '../ui/pages/details/HealthRecordDetails
 import { ProfilePage } from '../ui/pages/details/ProfilePage';
 import { RecipesDetailsPage } from '../ui/pages/details/RecipesDetailsPage';
 import { UserDetailsPage } from '../ui/pages/details/UserDetailsPage';
-import { HomePage } from '../ui/pages/HomePage';
 import { AnimalsPage } from '../ui/pages/lists/AnimalsPage';
 import { CasePage } from '../ui/pages/lists/CasesPage';
 import { DiagnosesResultsPage } from '../ui/pages/lists/DiagnoseResults';
@@ -44,13 +44,6 @@ export const historiesRoutePath = '/histories';
 
 export const AppRouter = () => {
     const { state } = useUserContext();
-
-    useEffect(() => {
-        if (isJwtExpired()) {
-            const api = new AuthService();
-            api.logout();
-        }
-    }, []);
 
     return (
         <AppWrapper>

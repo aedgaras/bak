@@ -246,7 +246,8 @@
     "RecipeDetails": "Recipe Details",
     "DiagnosesResultsDetails": "Diagnoses Results Details",
     "DiagnosesDetails": "Diagnoses Details",
-    "Date": "Date"
+    "Date": "Date",
+    "Role": "Role"
   },
   "MenuDropdown": {
     "Profile": "Profile",
@@ -260,7 +261,15 @@
     "DiagnosesPage": "Diagnoses Page",
     "ResultsPage": "Diagnoses Results Page",
     "CasesPage": "Cases Page",
-    "AnimalsPage": "Animals Page"
+    "AnimalsPage": "Animals Page",
+    "Login": "Login",
+    "Register": "Register",
+    "AnimalCreate": "Animal Creation",
+    "CaseCreate": "Case Creation",
+    "HealthRecordCreate": "Health Record Creation",
+    "DiagnosisCreate": "Diagnosis Creation",
+    "ResultCreate": "Result Creation",
+    "RecipeCreate": "Recipe Creation"
   },
   "Logout": {
     "AreYouSure": "Are you sure you want to logout?",

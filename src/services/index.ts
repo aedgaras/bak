@@ -325,6 +325,16 @@ export class HealthRecordService extends Service {
         return response;
     };
 
+    getAnimalHealthRecords = async (id: string) => {
+        return await this.api
+            .getRequest<HealthRecordDto[]>(
+                HEALTH_RECORDS_URL + '/animal/all/' + id
+            )
+            .then((r) => {
+                return r.data;
+            });
+    };
+
     getHealthRecordsContactInfo = async (id: string) => {
         const response = await this.api
             .getRequest<UserDto>(HEALTH_RECORDS_URL + '/contact/' + id)

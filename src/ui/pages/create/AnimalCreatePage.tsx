@@ -22,10 +22,15 @@ import { GenericInput, SubmitButton } from '../../components/form';
 import { validateUsername } from '../../components/form/validation/validation';
 import { BoxWithBorder } from '../../components/wrappers/BoxWithShadow';
 import { DataDisplay } from '../../components/wrappers/DataDisplay';
+import { useEffect } from 'react';
 
 export const AnimalCreatePage = () => {
     const toast = useToast();
     const { t } = useTranslation();
+
+    useEffect(() => {
+        document.title = t('Pages.AnimalCreate')
+    },[])
 
     return (
         <DataDisplay

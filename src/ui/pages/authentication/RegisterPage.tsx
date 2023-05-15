@@ -1,5 +1,6 @@
 import { Heading, useToast } from '@chakra-ui/react';
 import { Formik } from 'formik';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AuthService } from '../../../services';
 import {
@@ -18,7 +19,10 @@ import { FormWrapper } from '../../components/wrappers/BoxWithShadow';
 export const RegisterPage = () => {
     const toast = useToast();
     const { t } = useTranslation();
-    document.title = 'Register';
+
+    useEffect(() => {
+        document.title = t('Pages.Register');
+    }, []);
 
     return (
         <FormWrapper>

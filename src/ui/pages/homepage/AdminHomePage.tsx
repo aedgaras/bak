@@ -146,37 +146,35 @@ const HealthRecordTable = () => {
         ];
     };
 
-    if (!adminHr.data) {
-        return <Skeleton isLoaded={false}></Skeleton>;
-    }
-
     return (
         <BoxWithShadowMax>
             <Box sx={{ display: 'flex', justifyContent: 'center', pb: 2 }}>
                 <Text as={'b'}>{t('Table.Headers.HealthRecors.Header')}</Text>
             </Box>
-            {adminHr.data.length > 0 ? (
-                <Box padding={2}>
-                    <Box borderWidth="1px" borderRadius="lg" padding={2}>
-                        <GenericHomePageTable
-                            entity={'healthrecord'}
-                            data={adminHr.data}
-                            columns={healthRecordTableColumns()}
-                            canDelete={false}
-                        />
+            <Skeleton isLoaded={!adminHr.isLoading}>
+                {adminHr.data && adminHr.data.length > 0 ? (
+                    <Box padding={2}>
+                        <Box borderWidth="1px" borderRadius="lg" padding={2}>
+                            <GenericHomePageTable
+                                entity={'healthrecord'}
+                                data={adminHr.data}
+                                columns={healthRecordTableColumns()}
+                                canDelete={false}
+                            />
+                        </Box>
                     </Box>
-                </Box>
-            ) : (
-                <Container
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        py: 5,
-                    }}
-                >
-                    {t('Table.Info.NoNewData')}
-                </Container>
-            )}
+                ) : (
+                    <Container
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            py: 5,
+                        }}
+                    >
+                        {t('Table.Info.NoNewData')}
+                    </Container>
+                )}
+            </Skeleton>
         </BoxWithShadowMax>
     );
 };
@@ -250,41 +248,39 @@ const DiagnosesTable = () => {
         ];
     };
 
-    if (!diagnoses.data) {
-        return <Skeleton isLoaded={false}></Skeleton>;
-    }
-
     return (
         <BoxWithShadowMax>
             <Box sx={{ display: 'flex', justifyContent: 'center', pb: 2 }}>
                 <Text as={'b'}>{t('Table.Headers.Diagnoses.Header')}</Text>
             </Box>
-            {diagnoses.data.length > 0 ? (
-                <Box padding={2}>
-                    <Box borderWidth="1px" borderRadius="lg" padding={2}>
-                        <GenericHomePageTable
-                            entity={'healthrecord'}
-                            data={diagnoses.data}
-                            columns={
-                                state.classification === 'Veterinarian'
-                                    ? columns()
-                                    : columnsLower()
-                            }
-                            canDelete={false}
-                        />
+            <Skeleton isLoaded={!diagnoses.isLoading}>
+                {diagnoses.data && diagnoses.data.length > 0 ? (
+                    <Box padding={2}>
+                        <Box borderWidth="1px" borderRadius="lg" padding={2}>
+                            <GenericHomePageTable
+                                entity={'healthrecord'}
+                                data={diagnoses.data}
+                                columns={
+                                    state.classification === 'Veterinarian'
+                                        ? columns()
+                                        : columnsLower()
+                                }
+                                canDelete={false}
+                            />
+                        </Box>
                     </Box>
-                </Box>
-            ) : (
-                <Container
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        py: 5,
-                    }}
-                >
-                    {t('Table.Info.NoNewData')}
-                </Container>
-            )}
+                ) : (
+                    <Container
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            py: 5,
+                        }}
+                    >
+                        {t('Table.Info.NoNewData')}
+                    </Container>
+                )}
+            </Skeleton>
         </BoxWithShadowMax>
     );
 };
@@ -322,10 +318,6 @@ const MedicineRecipesTable = () => {
         ];
     };
 
-    if (!recipes.data) {
-        return <Skeleton isLoaded={false}></Skeleton>;
-    }
-
     return (
         <BoxWithShadowMax>
             <Box sx={{ display: 'flex', justifyContent: 'center', pb: 2 }}>
@@ -333,28 +325,30 @@ const MedicineRecipesTable = () => {
                     {t('Table.Headers.MedicineRecipes.Header')}
                 </Text>
             </Box>
-            {recipes.data.length > 0 ? (
-                <Box padding={2}>
-                    <Box borderWidth="1px" borderRadius="lg" padding={2}>
-                        <GenericHomePageTable
-                            entity={'recipe'}
-                            data={recipes.data}
-                            columns={columns()}
-                            canDelete={false}
-                        />
+            <Skeleton isLoaded={!recipes.isLoading}>
+                {recipes.data && recipes.data.length > 0 ? (
+                    <Box padding={2}>
+                        <Box borderWidth="1px" borderRadius="lg" padding={2}>
+                            <GenericHomePageTable
+                                entity={'recipe'}
+                                data={recipes.data}
+                                columns={columns()}
+                                canDelete={false}
+                            />
+                        </Box>
                     </Box>
-                </Box>
-            ) : (
-                <Container
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        py: 5,
-                    }}
-                >
-                    {t('Table.Info.NoNewData')}
-                </Container>
-            )}
+                ) : (
+                    <Container
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            py: 5,
+                        }}
+                    >
+                        {t('Table.Info.NoNewData')}
+                    </Container>
+                )}
+            </Skeleton>
         </BoxWithShadowMax>
     );
 };
@@ -436,19 +430,15 @@ const DiagnosesResultsTable = () => {
         ];
     };
 
-    if (!results.data) {
-        return <Skeleton isLoaded={false}></Skeleton>;
-    }
-
     return (
         <BoxWithShadowMax>
-            <Box>
-                <Box sx={{ display: 'flex', justifyContent: 'center', pb: 2 }}>
-                    <Text as={'b'}>
-                        {t('Table.Headers.DiagnosesResults.Header')}
-                    </Text>
-                </Box>
-                {results.data.length > 0 ? (
+            <Box sx={{ display: 'flex', justifyContent: 'center', pb: 2 }}>
+                <Text as={'b'}>
+                    {t('Table.Headers.DiagnosesResults.Header')}
+                </Text>
+            </Box>
+            <Skeleton isLoaded={!results.isLoading}>
+                {results.data && results.data.length > 0 ? (
                     <Box padding={2}>
                         <Box borderWidth="1px" borderRadius="lg" padding={2}>
                             <GenericHomePageTable
@@ -475,7 +465,7 @@ const DiagnosesResultsTable = () => {
                         {t('Table.Info.NoNewData')}
                     </Container>
                 )}
-            </Box>
+            </Skeleton>
         </BoxWithShadowMax>
     );
 };

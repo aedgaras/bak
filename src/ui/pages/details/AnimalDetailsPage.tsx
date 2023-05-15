@@ -1,4 +1,7 @@
 import {
+    Box,
+    Button,
+    Container,
     FormControl,
     FormErrorIcon,
     FormErrorMessage,
@@ -6,21 +9,31 @@ import {
     Heading,
     Select,
     Skeleton,
+    Text,
     useToast,
 } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
+import { createColumnHelper } from '@tanstack/react-table';
 import { Field, Formik } from 'formik';
 import { t } from 'i18next';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { queryClient } from '../../..';
 import { useUserContext } from '../../../context/UserContext';
-import { AnimalService } from '../../../services';
-import { UpdateAnimalDto } from '../../../utils/dto';
-import { AnimalValues } from '../../../utils/utils';
+import { healthRecordsRoutePath } from '../../../router/AppRouter';
+import { AnimalService, HealthRecordService } from '../../../services';
+import { HealthRecordDto, UpdateAnimalDto } from '../../../utils/dto';
+import { AnimalValues, formatedDate } from '../../../utils/utils';
 import { GenericInput, SubmitButton } from '../../components/form';
 import { validateUsername } from '../../components/form/validation/validation';
-import { FormWrapper } from '../../components/wrappers/BoxWithShadow';
+import {
+    GenericHomePageTable,
+    HealthRecordHeartRate,
+} from '../../components/table';
+import {
+    BoxWithShadowMax,
+    FormWrapper,
+} from '../../components/wrappers/BoxWithShadow';
 import { DataDisplay } from '../../components/wrappers/DataDisplay';
 
 export const AnimalDetailsPage = () => {
@@ -28,17 +41,22 @@ export const AnimalDetailsPage = () => {
     const { t } = useTranslation();
 
     return (
-        <DataDisplay
-            isLoaded={true}
-            element={
-                <FormWrapper>
-                    <Heading size={'lg'} sx={{ p: 2 }}>
-                        {t('Form.AnimalDetails')}
-                    </Heading>
-                    <AnimalUpdateForm />
-                </FormWrapper>
-            }
-        />
+        <Box>
+            <DataDisplay
+                isLoaded={true}
+                element={
+                    <FormWrapper>
+                        <Heading size={'lg'} sx={{ p: 2 }}>
+                            {t('Form.AnimalDetails')}
+                        </Heading>
+                        <AnimalUpdateForm />
+                    </FormWrapper>
+                }
+            />
+            <Box pt={2}>
+                <HealthRecordTable />
+            </Box>
+        </Box>
     );
 };
 
@@ -48,6 +66,7 @@ const AnimalUpdateForm = () => {
     const params = useParams<{ id: string }>();
 
     const animal = useQuery({
+        queryKey: ['animal' + params.id!],
         queryFn: async () => {
             const service = new AnimalService();
             return await service.get(params.id!);
@@ -115,5 +134,80 @@ const AnimalUpdateForm = () => {
                 </form>
             )}
         </Formik>
+    );
+};
+
+const HealthRecordTable = () => {
+    const { t } = useTranslation();
+    const { state } = useUserContext();
+    const params = useParams<{ id: string }>();
+    const healthRecordService = new HealthRecordService();
+
+    const { isLoading, isFetching, error, data } = useQuery({
+        queryKey: ['animalHealthRecords' + params.id!],
+        queryFn: async () => {
+            const res = await healthRecordService.getAnimalHealthRecords(
+                params.id!
+            );
+
+            console.log(res);
+
+            return res;
+        },
+    });
+    const healthRecordColumnHelper = createColumnHelper<HealthRecordDto>();
+    const healthRecordTableColumns = () => {
+        return [
+            healthRecordColumnHelper.accessor('heartRate', {
+                cell: (info) => <HealthRecordHeartRate bpm={info.getValue()} />,
+                header: t('Table.Headers.HeartRate.HeartRate').toString(),
+            }),
+            healthRecordColumnHelper.accessor('entryDate', {
+                cell: (info) => formatedDate(info.getValue()),
+                header: t('Form.Date').toString(),
+            }),
+            healthRecordColumnHelper.accessor('id', {
+                cell: (info) => (
+                    <Link
+                        to={healthRecordsRoutePath + '/' + `${info.getValue()}`}
+                    >
+                        <Button>{t('Table.Buttons.Details')}</Button>
+                    </Link>
+                ),
+                header: t('Table.MedicineRecipes.Details').toString(),
+            }),
+        ];
+    };
+
+    return (
+        <BoxWithShadowMax>
+            <Box sx={{ display: 'flex', justifyContent: 'center', pb: 2 }}>
+                <Text as={'b'}>{t('Table.Headers.HealthRecors.Header')}</Text>
+            </Box>
+            <Skeleton isLoaded={!isLoading}>
+                {data && data.length > 0 ? (
+                    <Box padding={2}>
+                        <Box borderWidth="1px" borderRadius="lg" padding={2}>
+                            <GenericHomePageTable
+                                entity={'healthrecord'}
+                                data={data}
+                                columns={healthRecordTableColumns()}
+                                canDelete={false}
+                            />
+                        </Box>
+                    </Box>
+                ) : (
+                    <Container
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            py: 5,
+                        }}
+                    >
+                        {t('Table.Info.NoNewData')}
+                    </Container>
+                )}
+            </Skeleton>
+        </BoxWithShadowMax>
     );
 };

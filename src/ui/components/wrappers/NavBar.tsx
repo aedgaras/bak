@@ -10,9 +10,9 @@ import {
     Image,
     Spacer,
     Text,
+    VStack,
     useColorModeValue,
     useDisclosure,
-    VStack,
 } from '@chakra-ui/react';
 import { t } from 'i18next';
 import { useRef, useState } from 'react';
