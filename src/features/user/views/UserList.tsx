@@ -11,7 +11,7 @@ import {
 import { UserService } from '../../../services';
 import { UserDto } from '../../../utils/dto';
 
-export const UsersPage = () => {
+export const UserList = () => {
     const [usersToDisplay, setUsersToDisplay] = useState<UserDto[]>([]);
     const [queryFilter, setQueryFilter] = useState<string>('');
     const { t } = useTranslation();

@@ -17,7 +17,7 @@ import { useUserContext } from '../../../providers/UserProvider';
 import { UserService } from '../../../services';
 import { UserDto } from '../../../utils/dto';
 
-export const ProfilePage = () => {
+export const UserProfile = () => {
     const { state } = useUserContext();
     const { isLoading, data } = useQuery({
         queryKey: ['user', state.name],

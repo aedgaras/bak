@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
-import { NavBar } from './components/wrappers';
+import { AppWrapper, NavBar } from './components/wrappers';
 import './i18n';
 import { AppProvider } from './providers/AppProvider';
 import reportWebVitals from './reportWebVitals';
@@ -15,7 +15,9 @@ root.render(
     <React.StrictMode>
         <AppProvider>
             <NavBar />
-            <AppRouter />
+            <AppWrapper>
+                <AppRouter />
+            </AppWrapper>
         </AppProvider>
     </React.StrictMode>
 );

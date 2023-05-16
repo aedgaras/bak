@@ -7,12 +7,12 @@ import { isUser, useUserContext } from '../../providers/UserProvider';
 import {
     animalsRoutePath,
     casesRoutePath,
-    diagnosesResultsRoutePath,
     diagnosesRoutePath,
     healthRecordsRoutePath,
     recipesRoutePath,
+    resultsRoutePath,
     usersRoutePath,
-} from '../../router/AppRouter';
+} from '../../router';
 import { IsLoggedInElement } from '../wrappers/HelperWrappers';
 
 export const LeftSideMenu = () => {
@@ -62,11 +62,7 @@ export const LeftSideMenu = () => {
                                                         )}
                                                     </MenuItem>
                                                 </Link>
-                                                <Link
-                                                    to={
-                                                        diagnosesResultsRoutePath
-                                                    }
-                                                >
+                                                <Link to={resultsRoutePath}>
                                                     <MenuItem>
                                                         {t(
                                                             'Navigation.Results'

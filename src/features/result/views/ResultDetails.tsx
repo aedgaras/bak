@@ -19,10 +19,11 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { DataDisplay, FormWrapper } from '../../../components/wrappers';
 import { useUserContext } from '../../../providers/UserProvider';
-import { RecipeService } from '../../../services';
-import { MedicineRecipeDto } from '../../../utils/dto';
+import { ResultsService } from '../../../services';
+import { ResultDto } from '../../../utils/dto';
+import { formatedDate } from '../../../utils/utils';
 
-export const RecipesDetailsPage = () => {
+export const ResultDetails = () => {
     const toast = useToast();
     const { t } = useTranslation();
 
@@ -32,7 +33,7 @@ export const RecipesDetailsPage = () => {
             element={
                 <FormWrapper>
                     <Heading size={'lg'} sx={{ p: 2 }}>
-                        {t('Form.RecipeDetails')}
+                        {t('Form.DiagnosesResultsDetails')}
                     </Heading>
                     <AnimalUpdateForm />
                 </FormWrapper>
@@ -47,9 +48,9 @@ const AnimalUpdateForm = () => {
     const params = useParams<{ id: string }>();
 
     const recipe = useQuery({
-        queryKey: ['recipes' + params.id!],
+        queryKey: ['result' + params.id!],
         queryFn: async () => {
-            const service = new RecipeService();
+            const service = new ResultsService();
             return await service.get(params.id!);
         },
     });
@@ -70,7 +71,7 @@ const AnimalUpdateForm = () => {
 
     return (
         <Formik
-            initialValues={recipe.data as MedicineRecipeDto}
+            initialValues={recipe.data as ResultDto}
             onSubmit={async (values, actions) => {
                 actions.setSubmitting(true);
                 // const dto: UpdateAnimalDto = {
@@ -86,7 +87,7 @@ const AnimalUpdateForm = () => {
             {({ handleSubmit, errors, touched, isSubmitting }) => (
                 <form onSubmit={handleSubmit}>
                     <FormControl
-                        isInvalid={!!errors.title && touched.title}
+                        isInvalid={!!errors.result && touched.result}
                         p={2}
                         isRequired
                         isDisabled={
@@ -94,17 +95,17 @@ const AnimalUpdateForm = () => {
                             state.role !== 'Admin'
                         }
                     >
-                        <FormLabel>{t('Form.MedicineRecipe.Name')}</FormLabel>
+                        <FormLabel>{t('Form.Diagnosis.Diagnosis')}</FormLabel>
                         <Field
                             as={Input}
                             type="text"
-                            name="title"
-                            placeholder={recipe.data?.title}
+                            name="result"
+                            placeholder={recipe.data?.result}
                         />
 
                         <FormErrorMessage>
                             <FormErrorIcon />
-                            {errors.title}
+                            {errors.result}
                         </FormErrorMessage>
                     </FormControl>
                     <FormControl
@@ -123,12 +124,36 @@ const AnimalUpdateForm = () => {
                             as={Textarea}
                             type="text"
                             name="description"
-                            placeholder={recipe.data?.description}
+                            placeholder={new Date(recipe.data?.description!)}
                         />
 
                         <FormErrorMessage>
                             <FormErrorIcon />
                             {errors.description}
+                        </FormErrorMessage>
+                    </FormControl>
+                    <FormControl
+                        isInvalid={!!errors.entryDate && touched.entryDate}
+                        p={2}
+                        isRequired
+                        isDisabled={
+                            state.classification !== 'Veterinarian' &&
+                            state.role !== 'Admin'
+                        }
+                    >
+                        <FormLabel>{t('Form.Date')}</FormLabel>
+
+                        <Field
+                            as={Input}
+                            type="text"
+                            name="entryDate"
+                            placeholder={formatedDate(recipe.data?.entryDate!)}
+                            value={formatedDate(recipe.data?.entryDate!)}
+                        />
+
+                        <FormErrorMessage>
+                            <FormErrorIcon />
+                            {errors.entryDate}
                         </FormErrorMessage>
                     </FormControl>
 

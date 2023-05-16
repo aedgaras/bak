@@ -1,2 +1,2 @@
-export * from './AdminHomePage';
-export * from './UserHomePage';
+export * from './routes';
+export * from './views';

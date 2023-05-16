@@ -19,28 +19,29 @@ import {
     CaseTypeTag,
     GenericHomePageTable,
     HealthRecordHeartRate,
-} from '../../components';
-import { BoxWithShadowMax } from '../../components/wrappers';
-import { useUserContext } from '../../providers/UserProvider';
+} from '../../../components';
+import { BoxWithShadowMax } from '../../../components/wrappers';
+import { useUserContext } from '../../../providers/UserProvider';
+
 import {
-    diagnosesResultsRoutePath,
     diagnosesRoutePath,
     healthRecordsRoutePath,
     recipesRoutePath,
-} from '../../router/AppRouter';
+    resultsRoutePath,
+} from '../../../router';
 import {
     DiagnosisService,
     HealthRecordService,
     RecipeService,
     ResultsService,
-} from '../../services';
+} from '../../../services';
 import {
     DiagnosisDto,
     HealthRecordDto,
     MedicineRecipeDto,
     ResultDto,
-} from '../../utils/dto';
-import { formatedDate } from '../../utils/utils';
+} from '../../../utils/dto';
+import { formatedDate } from '../../../utils/utils';
 
 export const AdminHomePage = () => {
     const { state } = useUserContext();
@@ -382,7 +383,7 @@ const DiagnosesResultsTable = () => {
                 cell: (info) => (
                     <Link
                         to={
-                            diagnosesResultsRoutePath +
+                            resultsRoutePath +
                             '/createRecipe/' +
                             info.getValue()
                         }
@@ -396,9 +397,7 @@ const DiagnosesResultsTable = () => {
             }),
             columnHelper.accessor('id', {
                 cell: (info) => (
-                    <Link
-                        to={diagnosesResultsRoutePath + '/' + info.getValue()}
-                    >
+                    <Link to={resultsRoutePath + '/' + info.getValue()}>
                         <Button>{t('Table.MedicineRecipes.Details')}</Button>
                     </Link>
                 ),
@@ -420,9 +419,7 @@ const DiagnosesResultsTable = () => {
             }),
             columnHelper.accessor('id', {
                 cell: (info) => (
-                    <Link
-                        to={diagnosesResultsRoutePath + '/' + info.getValue()}
-                    >
+                    <Link to={resultsRoutePath + '/' + info.getValue()}>
                         <Button>{t('Table.MedicineRecipes.Details')}</Button>
                     </Link>
                 ),

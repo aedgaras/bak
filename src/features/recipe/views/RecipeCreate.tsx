@@ -26,7 +26,7 @@ import { useUserContext } from '../../../providers/UserProvider';
 import { RecipeService, ResultsService, UserService } from '../../../services';
 import { CreateRecipeDto } from '../../../utils/dto';
 
-export const RecipeCreatePage = () => {
+export const RecipeCreate = () => {
     const toast = useToast();
     const { t } = useTranslation();
 

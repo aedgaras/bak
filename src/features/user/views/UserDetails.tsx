@@ -19,7 +19,7 @@ import { useUserContext } from '../../../providers/UserProvider';
 import { UserService } from '../../../services';
 import { UserDto } from '../../../utils/dto';
 
-export const UserDetailsPage = () => {
+export const UserDetails = () => {
     const { state } = useUserContext();
     const params = useParams();
     const isNotCreating = !!params.userId;

@@ -33,7 +33,7 @@ import {
 import { CreateResultDto } from '../../../utils/dto';
 import { CaseValues } from '../../../utils/utils';
 
-export const DiagnosisResultsCreatePage = () => {
+export const ResultCreate = () => {
     const toast = useToast();
     const { t } = useTranslation();
     useEffect(() => {

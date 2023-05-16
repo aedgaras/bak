@@ -21,12 +21,12 @@ import { isUser, useUserContext } from '../../providers/UserProvider';
 import {
     animalsRoutePath,
     casesRoutePath,
-    diagnosesResultsRoutePath,
     diagnosesRoutePath,
     healthRecordsRoutePath,
     recipesRoutePath,
+    resultsRoutePath,
     usersRoutePath,
-} from '../../router/AppRouter';
+} from '../../router';
 import { LogoutDialog } from '../dialogs';
 import { LanguageSwitcher, LeftSideMenu, RightSideMenu } from '../navigation';
 import { BoxWithShadow } from './BoxWithShadow';
@@ -269,7 +269,7 @@ export const NavBar = ({ children }: any) => {
                                                                     <Divider />
                                                                     <Link
                                                                         to={
-                                                                            diagnosesResultsRoutePath
+                                                                            resultsRoutePath
                                                                         }
                                                                     >
                                                                         <Button

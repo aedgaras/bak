@@ -33,7 +33,7 @@ import {
 } from '../../../components/wrappers';
 import { queryClient } from '../../../lib/query';
 import { useUserContext } from '../../../providers/UserProvider';
-import { healthRecordsRoutePath } from '../../../router/AppRouter';
+import { healthRecordsRoutePath } from '../../../router';
 import { AnimalService, HealthRecordService } from '../../../services';
 import { HealthRecordDto, UpdateAnimalDto } from '../../../utils/dto';
 import { AnimalValues, formatedDate } from '../../../utils/utils';

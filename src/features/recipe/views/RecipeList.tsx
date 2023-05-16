@@ -10,7 +10,7 @@ import {
 import { RecipeService } from '../../../services';
 import { MedicineRecipeDto } from '../../../utils/dto';
 
-export const RecipesPage = () => {
+export const RecipeList = () => {
     const [recipes, setRecipes] = useState<MedicineRecipeDto[]>([]);
     const [queryFilter, setQueryFilter] = useState<string>('');
     const { t } = useTranslation();

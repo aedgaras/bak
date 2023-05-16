@@ -10,7 +10,7 @@ import {
 import { ResultsService } from '../../../services';
 import { ResultDto } from '../../../utils/dto';
 
-export const DiagnosesResultsPage = () => {
+export const ResultList = () => {
     const [results, setResults] = useState<ResultDto[]>([]);
     const [queryFilter, setQueryFilter] = useState<string>('');
 

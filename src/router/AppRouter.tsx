@@ -1,241 +1,210 @@
 import { Route, Routes } from 'react-router-dom';
-import { PageNotFound, Unauthorized } from '../components';
-import { AppWrapper } from '../components/wrappers';
+import {
+    DisabledAfterLoginRoute,
+    PageNotFound,
+    ProtectedRoute,
+    RoleRoute,
+} from '../components';
+import {
+    AnimalCreatePage,
+    AnimalDetailsPage,
+    AnimalsPage,
+} from '../features/animal';
 import { LoginPage, RegisterPage } from '../features/authentication';
-import { HomePageEntry } from '../features/homepage/HomePageEntry';
+import { CaseCreatePage, CaseDetailsPage, CasePage } from '../features/case';
+import {
+    DiagnosesDetailsPage,
+    DiagnosesPage,
+    DiagnosisCreatePage,
+} from '../features/diagnosis';
+import {
+    CreateHealthRecordPage,
+    HealthRecordDetailsPage,
+    HealthRecordsPage,
+} from '../features/healthRecord';
+import { HomePageEntry } from '../features/homepage';
+import { RecipeCreate, RecipeList } from '../features/recipe';
+import { RecipeDetails } from '../features/recipe/views/RecipeDetails';
+import { ResultCreate, ResultDetails, ResultList } from '../features/result';
+import {
+    UserCreate,
+    UserDetails,
+    UserList,
+    UserProfile,
+} from '../features/user';
 import { useUserContext } from '../providers/UserProvider';
-import { AnimalCreatePage } from '../ui/pages/create/AnimalCreatePage';
-import { CaseCreatePage } from '../ui/pages/create/CaseCreatePage';
-import { CreateHealthRecordPage } from '../ui/pages/create/CreateHealthRecordPage';
-import { DiagnosisCreatePage } from '../ui/pages/create/DiagnosisCreatePage';
-import { DiagnosisResultsCreatePage } from '../ui/pages/create/DiagnosisResultCreatePage';
-import { RecipeCreatePage } from '../ui/pages/create/RecipeCreatePage';
-import { UserCreatePage } from '../ui/pages/create/UserCreatePage';
-import { AnimalDetailsPage } from '../ui/pages/details/AnimalDetailsPage';
-import { CaseDetailsPage } from '../ui/pages/details/CaseDetailsPage';
-import { DiagnosesDetailsPage } from '../ui/pages/details/DiagnosesDetailsPage';
-import { DiagnosesResultsDetailsPage } from '../ui/pages/details/DiagnosesResultsDetailsPage';
-import { HealthRecordDetailsPage } from '../ui/pages/details/HealthRecordDetailsPage';
-import { ProfilePage } from '../ui/pages/details/ProfilePage';
-import { RecipesDetailsPage } from '../ui/pages/details/RecipesDetailsPage';
-import { UserDetailsPage } from '../ui/pages/details/UserDetailsPage';
-import { AnimalsPage } from '../ui/pages/lists/AnimalsPage';
-import { CasePage } from '../ui/pages/lists/CasesPage';
-import { DiagnosesResultsPage } from '../ui/pages/lists/DiagnoseResults';
-import { DiagnosesPage } from '../ui/pages/lists/DiagnosesPage';
-import { HealthRecordsPage } from '../ui/pages/lists/HealthRecordsPage';
-import { RecipesPage } from '../ui/pages/lists/RecipesPage';
-import { UsersPage } from '../ui/pages/lists/UsersPage';
-import { Role } from '../utils/Models';
-
-export const authRoutePath = '/auth';
-export const usersRoutePath = '/users';
-export const healthRecordsRoutePath = '/healthrecords';
-export const casesRoutePath = '/cases';
-export const animalsRoutePath = '/animals';
-export const diagnosesRoutePath = '/diagnoses';
-export const diagnosesResultsRoutePath = '/diagnosesResults';
-export const recipesRoutePath = '/recipes';
-export const historiesRoutePath = '/histories';
+import {
+    animalsRoutePath,
+    authRoutePath,
+    casesRoutePath,
+    diagnosesRoutePath,
+    healthRecordsRoutePath,
+    recipesRoutePath,
+    resultsRoutePath,
+    usersRoutePath,
+} from './paths';
 
 export const AppRouter = () => {
     const { state } = useUserContext();
 
     return (
-        <AppWrapper>
-            <Routes>
+        <Routes>
+            <Route
+                index
+                element={
+                    state.loggedIn === false || state.loggedIn === undefined ? (
+                        <DisabledAfterLoginRoute>
+                            <LoginPage />
+                        </DisabledAfterLoginRoute>
+                    ) : (
+                        <HomePageEntry />
+                    )
+                }
+            />
+            <Route path={authRoutePath}>
                 <Route
-                    index
+                    path={authRoutePath + '/login'}
                     element={
-                        state.loggedIn === false ||
-                        state.loggedIn === undefined ? (
-                            <DisabledAfterLoginRoute>
-                                <LoginPage />
-                            </DisabledAfterLoginRoute>
-                        ) : (
-                            <HomePageEntry />
-                        )
+                        <DisabledAfterLoginRoute>
+                            <LoginPage />
+                        </DisabledAfterLoginRoute>
                     }
                 />
-                <Route path={authRoutePath}>
-                    <Route
-                        path={authRoutePath + '/login'}
-                        element={
-                            <DisabledAfterLoginRoute>
-                                <LoginPage />
-                            </DisabledAfterLoginRoute>
-                        }
-                    />
-                    <Route
-                        path={authRoutePath + '/register'}
-                        element={
-                            <DisabledAfterLoginRoute>
-                                <RegisterPage />
-                            </DisabledAfterLoginRoute>
-                        }
-                    />
-                </Route>
-                <></>
                 <Route
-                    path="profile"
+                    path={authRoutePath + '/register'}
+                    element={
+                        <DisabledAfterLoginRoute>
+                            <RegisterPage />
+                        </DisabledAfterLoginRoute>
+                    }
+                />
+            </Route>
+
+            <Route
+                path="profile"
+                element={
+                    <ProtectedRoute>
+                        <UserProfile />
+                    </ProtectedRoute>
+                }
+            />
+            {/* Users paths */}
+            <Route path={usersRoutePath}>
+                <Route
+                    path={usersRoutePath}
                     element={
                         <ProtectedRoute>
-                            <ProfilePage />
+                            <UserList />
                         </ProtectedRoute>
                     }
                 />
-                {/* Users paths */}
-                <Route path={usersRoutePath}>
-                    <Route
-                        path={usersRoutePath}
-                        element={
-                            <ProtectedRoute>
-                                <UsersPage />
-                            </ProtectedRoute>
-                        }
-                    />
-                    <Route
-                        path={usersRoutePath + '/:userId'}
-                        element={
-                            <ProtectedRoute>
-                                <UserDetailsPage />
-                            </ProtectedRoute>
-                        }
-                    />
-                    <Route
-                        path={usersRoutePath + '/create'}
-                        element={
-                            <ProtectedRoute>
-                                <RoleRoute authorizedRoles={['Admin']}>
-                                    <UserCreatePage />
-                                </RoleRoute>
-                            </ProtectedRoute>
-                        }
-                    />
-                </Route>
-                {/* Health Records */}
-                <Route path={healthRecordsRoutePath}>
-                    <Route
-                        path={healthRecordsRoutePath}
-                        element={<HealthRecordsPage />}
-                    />
-                    <Route
-                        path={healthRecordsRoutePath + '/:id'}
-                        element={<HealthRecordDetailsPage />}
-                    />
-                    <Route
-                        path={healthRecordsRoutePath + '/rate/:healthRecordId'}
-                        element={<CaseCreatePage />}
-                    />
-                </Route>
-                <Route path={casesRoutePath}>
-                    <Route path={casesRoutePath} element={<CasePage />} />
-                    <Route
-                        path={casesRoutePath + '/create'}
-                        element={<CaseCreatePage />}
-                    />
-                    <Route
-                        path={casesRoutePath + '/:id'}
-                        element={<CaseDetailsPage />}
-                    />
-                    <Route
-                        path={casesRoutePath + '/createDiagnosis/:caseId'}
-                        element={<DiagnosisCreatePage />}
-                    />
-                </Route>
-                <Route path={animalsRoutePath}>
-                    <Route path={animalsRoutePath} element={<AnimalsPage />} />
-                    <Route
-                        path={animalsRoutePath + '/:id'}
-                        element={<AnimalDetailsPage />}
-                    />
-                    <Route
-                        path={animalsRoutePath + '/create'}
-                        element={<AnimalCreatePage />}
-                    />
-                    <Route
-                        path={
-                            animalsRoutePath + '/createHealthRecord/:animalId'
-                        }
-                        element={<CreateHealthRecordPage />}
-                    />
-                </Route>
-                <Route path={diagnosesRoutePath}>
-                    <Route
-                        path={diagnosesRoutePath}
-                        element={<DiagnosesPage />}
-                    />
-                    <Route
-                        path={diagnosesRoutePath + '/create'}
-                        element={<DiagnosisCreatePage />}
-                    />
-                    <Route
-                        path={diagnosesRoutePath + '/createResult/:diagnosisId'}
-                        element={<DiagnosisResultsCreatePage />}
-                    />
-                    <Route
-                        path={diagnosesRoutePath + '/:id'}
-                        element={<DiagnosesDetailsPage />}
-                    />
-                </Route>
-                <Route path={diagnosesResultsRoutePath}>
-                    <Route
-                        path={diagnosesResultsRoutePath}
-                        element={<DiagnosesResultsPage />}
-                    />
+                <Route
+                    path={usersRoutePath + '/:userId'}
+                    element={
+                        <ProtectedRoute>
+                            <UserDetails />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path={usersRoutePath + '/create'}
+                    element={
+                        <ProtectedRoute>
+                            <RoleRoute authorizedRoles={['Admin']}>
+                                <UserCreate />
+                            </RoleRoute>
+                        </ProtectedRoute>
+                    }
+                />
+            </Route>
+            {/* Health Records */}
+            <Route path={healthRecordsRoutePath}>
+                <Route
+                    path={healthRecordsRoutePath}
+                    element={<HealthRecordsPage />}
+                />
+                <Route
+                    path={healthRecordsRoutePath + '/:id'}
+                    element={<HealthRecordDetailsPage />}
+                />
+                <Route
+                    path={healthRecordsRoutePath + '/rate/:healthRecordId'}
+                    element={<CaseCreatePage />}
+                />
+            </Route>
+            <Route path={casesRoutePath}>
+                <Route path={casesRoutePath} element={<CasePage />} />
+                <Route
+                    path={casesRoutePath + '/create'}
+                    element={<CaseCreatePage />}
+                />
+                <Route
+                    path={casesRoutePath + '/:id'}
+                    element={<CaseDetailsPage />}
+                />
+                <Route
+                    path={casesRoutePath + '/createDiagnosis/:caseId'}
+                    element={<DiagnosisCreatePage />}
+                />
+            </Route>
+            <Route path={animalsRoutePath}>
+                <Route path={animalsRoutePath} element={<AnimalsPage />} />
+                <Route
+                    path={animalsRoutePath + '/:id'}
+                    element={<AnimalDetailsPage />}
+                />
+                <Route
+                    path={animalsRoutePath + '/create'}
+                    element={<AnimalCreatePage />}
+                />
+                <Route
+                    path={animalsRoutePath + '/createHealthRecord/:animalId'}
+                    element={<CreateHealthRecordPage />}
+                />
+            </Route>
+            <Route path={diagnosesRoutePath}>
+                <Route path={diagnosesRoutePath} element={<DiagnosesPage />} />
+                <Route
+                    path={diagnosesRoutePath + '/create'}
+                    element={<DiagnosisCreatePage />}
+                />
+                <Route
+                    path={diagnosesRoutePath + '/createResult/:diagnosisId'}
+                    element={<ResultCreate />}
+                />
+                <Route
+                    path={diagnosesRoutePath + '/:id'}
+                    element={<DiagnosesDetailsPage />}
+                />
+            </Route>
+            <Route path={resultsRoutePath}>
+                <Route path={resultsRoutePath} element={<ResultList />} />
 
+                <Route
+                    path={resultsRoutePath + '/createRecipe/:resultId'}
+                    element={<RecipeCreate />}
+                />
+                <Route
+                    path={resultsRoutePath + '/:id'}
+                    element={<ResultDetails />}
+                />
+            </Route>
+            <Route path={recipesRoutePath}>
+                <Route path={recipesRoutePath} element={<RecipeList />} />
+                {state.role === 'Admin' ||
+                state.classification === 'Veterinarian' ? (
                     <Route
-                        path={
-                            diagnosesResultsRoutePath +
-                            '/createRecipe/:resultId'
-                        }
-                        element={<RecipeCreatePage />}
+                        path={recipesRoutePath + '/create'}
+                        element={<RecipeCreate />}
                     />
-                    <Route
-                        path={diagnosesResultsRoutePath + '/:id'}
-                        element={<DiagnosesResultsDetailsPage />}
-                    />
-                </Route>
-                <Route path={recipesRoutePath}>
-                    <Route path={recipesRoutePath} element={<RecipesPage />} />
-                    {state.role === 'Admin' ||
-                    state.classification === 'Veterinarian' ? (
-                        <Route
-                            path={recipesRoutePath + '/create'}
-                            element={<RecipeCreatePage />}
-                        />
-                    ) : null}
+                ) : null}
 
-                    <Route
-                        path={recipesRoutePath + '/:id'}
-                        element={<RecipesDetailsPage />}
-                    />
-                </Route>
-                <Route></Route>
-                <Route path="*" element={<PageNotFound />} />
-            </Routes>
-        </AppWrapper>
+                <Route
+                    path={recipesRoutePath + '/:id'}
+                    element={<RecipeDetails />}
+                />
+            </Route>
+            <Route path="*" element={<PageNotFound />} />
+        </Routes>
     );
 };
-
-function ProtectedRoute({ children }: any) {
-    const { state } = useUserContext();
-    return state.loggedIn === true ? children : <Unauthorized />;
-}
-
-function DisabledAfterLoginRoute({ children }: any) {
-    const { state } = useUserContext();
-    return state.loggedIn !== true ? children : <PageNotFound />;
-}
-
-function RoleRoute({
-    children,
-    authorizedRoles,
-}: {
-    children: any;
-    authorizedRoles: Role[];
-}) {
-    const { state } = useUserContext();
-
-    return authorizedRoles.includes(state.role!) ? children : <Unauthorized />;
-}

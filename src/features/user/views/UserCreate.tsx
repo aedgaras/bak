@@ -23,7 +23,7 @@ import { UserService } from '../../../services';
 import { UserCreateDto } from '../../../utils/dto';
 import { ClassificationValues, RoleValues } from '../../../utils/utils';
 
-export const UserCreatePage = () => {
+export const UserCreate = () => {
     const toast = useToast();
     const { t } = useTranslation();
 

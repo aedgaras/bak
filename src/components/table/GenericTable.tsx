@@ -268,11 +268,7 @@ export const AnimalTag = ({ animalType }: { animalType: number }) => {
     const animalBreed = getAnimalType(animalType);
 
     const icon =
-        animalBreed === 'Cat' ? (
-            <Icon size={'lg'} as={FaCat} />
-        ) : (
-            <Icon size={'lg'} as={FaDog} />
-        );
+        animalBreed === 'Cat' ? <Icon as={FaCat} /> : <Icon as={FaDog} />;
 
     return (
         <Box>
