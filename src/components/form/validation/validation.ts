@@ -1,3 +1,5 @@
+import { TFunction } from 'i18next';
+
 export function validateUsername(value: string) {
     let error: string = '';
 
@@ -32,6 +34,16 @@ export function validateEmail(value: string) {
 
     if (!value.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
         error = 'Email must be valid.';
+    }
+
+    return error;
+}
+
+export function validatePhone(value: string, t: TFunction) {
+    let error: string = '';
+
+    if (value.length) {
+        error = t('Validation.PhoneMustBe12');
     }
 
     return error;

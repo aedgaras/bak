@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { UserCreateDto, UserDto } from '../../types';
+import { UpdateUserDto, UserCreateDto, UserDto } from '../../types';
 import { USERS_URL } from '../../utils/constants';
 import { Service } from '../base';
 
@@ -20,19 +20,19 @@ export class UserService extends Service {
         return repsonse;
     };
 
-    getUserByUsername = async (username: string | undefined) => {
+    list = async () => {
         const response = await this.api
-            .getRequest<UserDto>(USERS_URL + `/getByUsername/${username}`)
-            .then((r: AxiosResponse<UserDto>) => {
+            .getRequest<UserDto[]>(USERS_URL)
+            .then((r: AxiosResponse<UserDto[]>) => {
                 return r.data;
             });
         return response;
     };
 
-    list = async () => {
+    update = async (id: string, data: UpdateUserDto) => {
         const response = await this.api
-            .getRequest<UserDto[]>(USERS_URL)
-            .then((r: AxiosResponse<UserDto[]>) => {
+            .postRequest<UserCreateDto>(USERS_URL + '/' + id, data)
+            .then((r: AxiosResponse<UserCreateDto>) => {
                 return r.data;
             });
         return response;

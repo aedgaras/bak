@@ -51,7 +51,7 @@ const ResultUpdateForm = () => {
     const { t } = useTranslation();
 
     const result = useQuery({
-        queryKey: ['result' + params.id!],
+        queryKey: ['resultDetails' + params.id!],
         queryFn: async () => {
             const service = new ResultsService();
             return await service.get(params.id!);

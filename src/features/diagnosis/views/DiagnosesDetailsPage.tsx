@@ -51,7 +51,7 @@ const DiagnosisUpdateForm = () => {
     const { t } = useTranslation();
 
     const diagnosis = useQuery({
-        queryKey: ['detailsdiagnosis' + params.id!],
+        queryKey: ['diagnosisDetails' + params.id!],
         queryFn: async () => {
             const service = new DiagnosisService();
             return await service.get(params.id!);

@@ -1,7 +1,15 @@
-import { Avatar, Button, Text, useDisclosure } from '@chakra-ui/react';
+import {
+    Avatar,
+    Button,
+    Link as ChakraLink,
+    Text,
+    useDisclosure,
+} from '@chakra-ui/react';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link as RouterLink } from 'react-router-dom';
 import { useUserContext } from '../../providers/UserProvider';
+import { profileRoutePath } from '../../router';
 import { MenuDropdown } from './MenuDropdown';
 
 export const RightSideMenu = () => {
@@ -13,8 +21,20 @@ export const RightSideMenu = () => {
         <>
             {state.loggedIn === true ? (
                 <>
-                    <Text>{t('Navigation.Greetings')}</Text>
-                    <Text>{`${state.name}`}</Text>
+                    <ChakraLink
+                        as={RouterLink}
+                        to={profileRoutePath}
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            gap: 2,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <Text>{t('Navigation.Greetings')}</Text>
+                        <Text>{`${state.name}`}</Text>
+                    </ChakraLink>
                     <Avatar name={state?.name} src={''} size={'sm'} />
                 </>
             ) : null}

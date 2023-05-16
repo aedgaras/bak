@@ -47,7 +47,7 @@ export const DiagnosisCreatePage = () => {
     const params = useParams<{ caseId: string }>();
 
     const caseObj = useQuery({
-        queryKey: ['diagnosisCreate1' + params.caseId!],
+        queryKey: ['diagnosisCreationCase' + params.caseId!],
         queryFn: async () => {
             const recipeService = new CasesService();
             return await recipeService.get(params.caseId!);
@@ -55,7 +55,7 @@ export const DiagnosisCreatePage = () => {
     });
 
     const animalByCase = useQuery({
-        queryKey: ['animalByCase' + params.caseId!],
+        queryKey: ['diagnosisCreationAnimal' + params.caseId!],
         queryFn: async () => {
             const recipeService = new CasesService();
             return await recipeService.getAnimalByCase(params.caseId!);

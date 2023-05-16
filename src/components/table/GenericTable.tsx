@@ -222,6 +222,7 @@ const PhoneTooltip = ({ id }: { id: string }) => {
     const healthRecordService = new HealthRecordService();
 
     const { isLoading, isFetching, error, data } = useQuery({
+        queryKey: ['healthRecordListContact'],
         queryFn: async () => {
             return await healthRecordService.getHealthRecordsContactInfo(id);
         },
@@ -378,7 +379,7 @@ export function GenericTable<Data extends object>({
                             })}
                             <Th></Th>
                             <Th></Th>
-                            <Th />
+                            {entity !== 'recipe' ? <Th /> : null}
                             {entity === 'healthrecord' ? <Th /> : null}
                         </Tr>
                     ))}

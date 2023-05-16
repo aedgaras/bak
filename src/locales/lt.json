@@ -112,7 +112,12 @@
     "DiagnosesDetails": "Diagnozės Detalės",
     "DiagnosesResultsDetails": "Diagnozės Rezultato Detalės",
     "Date": "Data",
-    "Role": "Rolė"
+    "Role": "Rolė",
+    "ChangePassword": {
+      "OldPassword": "Senas slaptažodis",
+      "NewPasswordRepeated": "Pakartoti Slaptažodi",
+      "NewPassword": "Naujas Slaptažodis"
+    }
   },
   "Table": {
     "Case": {
@@ -276,7 +281,8 @@
     "HealthRecordCreate": "Sveikatos Įrašo Kurimas",
     "ResultCreate": "Rezultato Kurimas",
     "Register": "Registracija",
-    "RecipeCreate": "Recepto Kurimas"
+    "RecipeCreate": "Recepto Kurimas",
+    "Profile": "Profilio Puslapis"
   },
   "Dialog": {
     "CantUndo": "Ar esate tikri? Pokyčiai nėra pakeičiami."
@@ -286,5 +292,13 @@
     "Button": "Atsijungti",
     "AreYouSure": "Ar tikrai norite atsijungti?",
     "Logout": "Atsijungti"
+  },
+  "Profile": {
+    "Edit": "Redaguoti profili?",
+    "ChangePassword": "Keisti slaptažodį?"
+  },
+  "Validation": {
+    "PhoneMustart": "Telefono numeris turi prasidėti +",
+    "PhoneMustBe12": "Tel. numeris turi būti 12 simoblių"
   }
 }

@@ -60,7 +60,7 @@ const RecipeCreationForm = () => {
     const { t } = useTranslation();
 
     const result = useQuery({
-        queryKey: ['resultRecipe' + params.resultId!],
+        queryKey: ['recipeCreationResult' + params.resultId!],
         queryFn: async () => {
             const service = new ResultsService();
             return await service.get(params.resultId!);
@@ -68,7 +68,7 @@ const RecipeCreationForm = () => {
     });
 
     const animal = useQuery({
-        queryKey: ['animalRecipe' + params.resultId!],
+        queryKey: ['recipeCreationAnimal' + params.resultId!],
         queryFn: async () => {
             const service = new ResultsService();
             return await service.getAnimal(params.resultId!);
@@ -77,7 +77,7 @@ const RecipeCreationForm = () => {
     });
 
     const caseObj = useQuery({
-        queryKey: ['caseRecipe' + params.resultId!],
+        queryKey: ['recipeCreationCase' + params.resultId!],
         queryFn: async () => {
             const service = new ResultsService();
             return await service.getCase(params.resultId!);
@@ -86,7 +86,7 @@ const RecipeCreationForm = () => {
     });
 
     const user = useQuery({
-        queryKey: ['recipeUser' + params.resultId!],
+        queryKey: ['recipeCreationUser' + params.resultId!],
         queryFn: async () => {
             const userService = new UserService();
 

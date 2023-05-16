@@ -17,7 +17,7 @@ export const HealthRecordsPage = () => {
     const { state } = useUserContext();
 
     const adminHr = useQuery({
-        queryKey: ['hr'],
+        queryKey: ['adminHealthRecordList' + state.userId!],
         queryFn: async () => {
             const healthRecordService = new HealthRecordService();
 
@@ -27,7 +27,7 @@ export const HealthRecordsPage = () => {
     });
 
     const userHr = useQuery({
-        queryKey: ['userHr'],
+        queryKey: ['userHealthRecordList' + state.userId!],
         queryFn: async () => {
             const healthRecordService = new HealthRecordService();
 

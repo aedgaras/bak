@@ -26,6 +26,7 @@ type InputType = {
     validation: (value: string) => string;
     placeholder?: string;
     textArea?: boolean;
+    disabled?: boolean;
 };
 
 export const GenericInput = ({
@@ -38,6 +39,7 @@ export const GenericInput = ({
     validation,
     placeholder,
     textArea,
+    disabled,
 }: InputType) => {
     const { t } = useTranslation();
 
@@ -46,6 +48,7 @@ export const GenericInput = ({
             isInvalid={!!errorField && touchedField}
             p={2}
             isRequired={isRequired}
+            isDisabled={disabled ?? false}
         >
             <FormLabel>{t(`${fieldTitle}`)}</FormLabel>
             <Field

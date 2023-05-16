@@ -27,7 +27,7 @@ export const UserDetails = () => {
     const userService = new UserService();
 
     const { isLoading, data, error, isFetching } = useQuery({
-        queryKey: [`user${params.userId}`],
+        queryKey: [`userDetails` + params.userId!],
         queryFn: async () => {
             return await userService.getUserById(params.userId);
         },

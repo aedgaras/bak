@@ -1,5 +1,9 @@
 import axios, { AxiosResponse } from 'axios';
-import { UserRegisterDto } from '../../types';
+import {
+    ChangePasswordDto,
+    UpdateProfileDto,
+    UserRegisterDto,
+} from '../../types';
 import { API_URL, AUTH_URL, REFRESH_TOKEN_NAME } from '../../utils/constants';
 import {
     TokenPayload,
@@ -28,6 +32,40 @@ export class AuthService extends Service {
             payload
         );
         return response;
+    };
+
+    profile = async (id: string, data: UpdateProfileDto) => {
+        await this.api
+            .postRequest<TokenPayload>(AUTH_URL + '/profile/' + id, data)
+            .then(
+                (
+                    r: AxiosResponse<{
+                        accessToken: string;
+                        refreshToken: string;
+                    }>
+                ) => {
+                    localStorage.setItem('accessToken', r.data.accessToken);
+                    localStorage.setItem('refreshToken', r.data.refreshToken);
+                    window.location.reload();
+                }
+            );
+    };
+
+    changePassword = async (id: string, data: ChangePasswordDto) => {
+        await this.api
+            .postRequest<TokenPayload>(AUTH_URL + '/changePassword/' + id, data)
+            .then(
+                (
+                    r: AxiosResponse<{
+                        accessToken: string;
+                        refreshToken: string;
+                    }>
+                ) => {
+                    localStorage.setItem('accessToken', r.data.accessToken);
+                    localStorage.setItem('refreshToken', r.data.refreshToken);
+                    window.location.reload();
+                }
+            );
     };
 
     refreshToken = async () => {

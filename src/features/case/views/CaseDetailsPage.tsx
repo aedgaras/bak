@@ -47,6 +47,7 @@ const CaseUpdateForm = () => {
     const { t } = useTranslation();
 
     const caseObj = useQuery({
+        queryKey: ['caseDetails' + params.id!],
         queryFn: async () => {
             const service = new CasesService();
             return await service.get(params.id!);

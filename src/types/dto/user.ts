@@ -23,3 +23,23 @@ export interface UserDto {
     role: number;
     classification: number;
 }
+
+export interface UpdateUserDto {
+    username: string;
+    phoneNumber: string;
+    email: string;
+    role: number;
+    classification: number;
+}
+
+export interface UpdateProfileDto {
+    username: string;
+    phoneNumber: string;
+    email: string;
+}
+
+export interface ChangePasswordDto {
+    oldPassword: string;
+    newPassword: string;
+    newPasswordRepeated: string;
+}

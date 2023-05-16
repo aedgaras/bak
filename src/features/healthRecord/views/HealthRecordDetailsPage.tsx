@@ -50,7 +50,7 @@ const HealthRecordUpdateForm = () => {
     const { t } = useTranslation();
 
     const health = useQuery({
-        queryKey: ['healthDetails' + params.id!],
+        queryKey: ['healthRecordDetails' + params.id!],
         queryFn: async () => {
             const service = new HealthRecordService();
             return await service.get(params.id!);

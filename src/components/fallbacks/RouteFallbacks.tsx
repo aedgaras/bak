@@ -1,5 +1,5 @@
 import { useUserContext } from '../../providers/UserProvider';
-import { Role } from '../../utils/Models';
+import { Role } from '../../types';
 import { PageNotFound, Unauthorized } from '../errors';
 
 export function ProtectedRoute({ children }: any) {

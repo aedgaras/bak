@@ -6,3 +6,4 @@ export const animalsRoutePath = '/animals';
 export const diagnosesRoutePath = '/diagnoses';
 export const resultsRoutePath = '/diagnosesResults';
 export const recipesRoutePath = '/recipes';
+export const profileRoutePath = '/profile';

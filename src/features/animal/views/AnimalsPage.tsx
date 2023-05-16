@@ -25,7 +25,7 @@ const userAnimalTable = () => {
     const { state } = useUserContext();
 
     const user = useQuery({
-        queryKey: ['useranimalsList'],
+        queryKey: ['animalListUser', state.userId!],
         queryFn: async () => {
             const service = new AnimalService();
 
@@ -69,7 +69,7 @@ const adminAnimalTable = () => {
     const { t } = useTranslation();
 
     const admin = useQuery({
-        queryKey: ['animalsList'],
+        queryKey: ['animalListAdmin', state.userId!],
         queryFn: async () => {
             const service = new AnimalService();
 

@@ -77,7 +77,7 @@ const PhoneTooltip = ({ id }: { id: string }) => {
     const healthRecordService = new HealthRecordService();
 
     const { isLoading, isFetching, error, data } = useQuery({
-        queryKey: ['phone' + id],
+        queryKey: ['adminUserContact' + id],
         queryFn: async () => {
             return await healthRecordService.getHealthRecordsContactInfo(id);
         },
@@ -96,9 +96,10 @@ const PhoneTooltip = ({ id }: { id: string }) => {
 
 const HealthRecordTable = () => {
     const { t } = useTranslation();
+    const { state } = useUserContext();
 
     const adminHr = useQuery({
-        queryKey: ['hr'],
+        queryKey: ['adminHealthRecords' + state.userId!],
         queryFn: async () => {
             const healthRecordService = new HealthRecordService();
 
@@ -186,7 +187,7 @@ const DiagnosesTable = () => {
     const { state } = useUserContext();
 
     const diagnoses = useQuery({
-        queryKey: ['diagnoses'],
+        queryKey: ['adminDiagnoses' + state.userId!],
         queryFn: async () => {
             const service = new DiagnosisService();
             return (await service.list()).reverse();
@@ -289,9 +290,10 @@ const DiagnosesTable = () => {
 
 const MedicineRecipesTable = () => {
     const { t } = useTranslation();
+    const { state } = useUserContext();
 
     const recipes = useQuery({
-        queryKey: ['recipes'],
+        queryKey: ['adminRecipes' + state.userId!],
         queryFn: async () => {
             const service = new RecipeService();
             return (await service.list()).reverse();
@@ -360,7 +362,7 @@ const DiagnosesResultsTable = () => {
     const { state } = useUserContext();
 
     const results = useQuery({
-        queryKey: ['results'],
+        queryKey: ['adminResults' + state.userId!],
         queryFn: async () => {
             const service = new ResultsService();
             return (await service.list()).reverse();

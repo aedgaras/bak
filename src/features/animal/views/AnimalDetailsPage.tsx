@@ -19,6 +19,7 @@ import { Field, Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
+    AnimalTag,
     GenericHomePageTable,
     GenericInput,
     HealthRecordHeartRate,
@@ -137,7 +138,9 @@ const AnimalUpdateForm = () => {
                                     {AnimalValues.map((key) => {
                                         return (
                                             <option value={key.value}>
-                                                {t(`Enums.Animal.${key.key}`)}
+                                                <AnimalTag
+                                                    animalType={key.value}
+                                                />
                                             </option>
                                         );
                                     })}
@@ -167,7 +170,7 @@ const HealthRecordTable = () => {
     const healthRecordService = new HealthRecordService();
 
     const { isLoading, isFetching, error, data } = useQuery({
-        queryKey: ['animalHealthRecords' + params.id!],
+        queryKey: ['animalDetailsRelatedHealthRecords' + params.id!],
         queryFn: async () => {
             const res = await healthRecordService.getAnimalHealthRecords(
                 params.id!

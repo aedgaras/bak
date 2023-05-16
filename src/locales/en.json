@@ -255,7 +255,12 @@
     "DiagnosesResultsDetails": "Diagnoses Results Details",
     "DiagnosesDetails": "Diagnoses Details",
     "Date": "Date",
-    "Role": "Role"
+    "Role": "Role",
+    "ChangePassword": {
+      "OldPassword": "Old Password",
+      "NewPassword": "New Password",
+      "NewPasswordRepeated": "Repeat Password"
+    }
   },
   "MenuDropdown": {
     "Profile": "Profile",
@@ -277,7 +282,8 @@
     "HealthRecordCreate": "Health Record Creation",
     "DiagnosisCreate": "Diagnosis Creation",
     "ResultCreate": "Result Creation",
-    "RecipeCreate": "Recipe Creation"
+    "RecipeCreate": "Recipe Creation",
+    "Profile": "Profile Page"
   },
   "Logout": {
     "AreYouSure": "Are you sure you want to logout?",
@@ -287,5 +293,13 @@
   },
   "Dialog": {
     "CantUndo": "Are you sure? You can't undo this action afterwards."
+  },
+  "Profile": {
+    "Edit": "Edit profile?",
+    "ChangePassword": "Change password?"
+  },
+  "Validation": {
+    "PhoneMustart": "Phone number must start with +",
+    "PhoneMustBe12": "Phone number must consist of 12 characters"
   }
 }

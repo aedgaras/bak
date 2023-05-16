@@ -66,7 +66,7 @@ const DiagnosisResultsCreationForm = () => {
     const { t } = useTranslation();
 
     const diagnosis = useQuery({
-        queryKey: ['diagnosis' + params.diagnosisId!],
+        queryKey: ['resultDetailsDiagnosis' + params.diagnosisId!],
         queryFn: async () => {
             const diagnosisService = new DiagnosisService();
             return await diagnosisService.get(params.diagnosisId!);
@@ -74,7 +74,7 @@ const DiagnosisResultsCreationForm = () => {
     });
 
     const animal = useQuery({
-        queryKey: ['diagnosisAnimal' + params.diagnosisId!],
+        queryKey: ['resultDetailsAnimal' + params.diagnosisId!],
         queryFn: async () => {
             const service = new CasesService();
 
@@ -88,7 +88,7 @@ const DiagnosisResultsCreationForm = () => {
     });
 
     const user = useQuery({
-        queryKey: ['diagnosisUser' + params.diagnosisId!],
+        queryKey: ['resultDetailsUser' + params.diagnosisId!],
         queryFn: async () => {
             const userService = new UserService();
 

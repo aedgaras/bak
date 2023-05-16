@@ -51,7 +51,7 @@ const RecipeUpdateForm = () => {
     const { t } = useTranslation();
 
     const recipe = useQuery({
-        queryKey: ['recipes' + params.id!],
+        queryKey: ['recipeDetails' + params.id!],
         queryFn: async () => {
             const service = new RecipeService();
             return await service.get(params.id!);

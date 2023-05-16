@@ -41,7 +41,7 @@ export const CaseCreatePage = () => {
     }, []);
 
     const healthRecord = useQuery({
-        queryKey: ['healthRecord' + params.healthRecordId],
+        queryKey: ['caseCreationHealthRecord' + params.healthRecordId],
         queryFn: async () => {
             const service = new HealthRecordService();
 
@@ -50,7 +50,7 @@ export const CaseCreatePage = () => {
     });
 
     const user = useQuery({
-        queryKey: ['userHealthRecord' + params.healthRecordId],
+        queryKey: ['caseCreationUser' + params.healthRecordId],
         queryFn: async () => {
             const service = new HealthRecordService();
 
@@ -61,7 +61,7 @@ export const CaseCreatePage = () => {
     });
 
     const animal = useQuery({
-        queryKey: ['userAnimalHealthRecord' + params.healthRecordId],
+        queryKey: ['caseCreationAnimal' + params.healthRecordId],
         queryFn: async () => {
             const service = new HealthRecordService();
 

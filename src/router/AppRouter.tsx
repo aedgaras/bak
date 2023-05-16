@@ -39,6 +39,7 @@ import {
     casesRoutePath,
     diagnosesRoutePath,
     healthRecordsRoutePath,
+    profileRoutePath,
     recipesRoutePath,
     resultsRoutePath,
     usersRoutePath,
@@ -61,6 +62,7 @@ export const AppRouter = () => {
                     )
                 }
             />
+
             <Route path={authRoutePath}>
                 <Route
                     path={authRoutePath + '/login'}
@@ -79,9 +81,8 @@ export const AppRouter = () => {
                     }
                 />
             </Route>
-
             <Route
-                path="profile"
+                path={profileRoutePath}
                 element={
                     <ProtectedRoute>
                         <UserProfile />
