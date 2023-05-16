@@ -16,7 +16,6 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import { createColumnHelper } from '@tanstack/react-table';
 import { Field, Formik } from 'formik';
-import { t } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
@@ -67,6 +66,8 @@ const AnimalUpdateForm = () => {
     const { state } = useUserContext();
     const navigate = useNavigate();
     const params = useParams<{ id: string }>();
+    const toast = useToast();
+    const { t } = useTranslation();
 
     const animal = useQuery({
         queryKey: ['animal' + params.id!],
@@ -105,6 +106,11 @@ const AnimalUpdateForm = () => {
                 service.update(animal.data?.id!, dto).then(() => {
                     queryClient.invalidateQueries();
                     navigate(-1);
+                    toast({
+                        status: 'success',
+                        title: t('Toast.Sucess'),
+                        description: t('Toast.Updated'),
+                    });
                 });
             }}
         >

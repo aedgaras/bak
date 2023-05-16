@@ -9,18 +9,19 @@ import {
     FormLabel,
     Heading,
     Input,
+    Select,
     Textarea,
     useToast,
 } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { Field, Formik } from 'formik';
-import { t } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { DataDisplay, FormWrapper } from '../../../components/wrappers';
+import { queryClient } from '../../../lib/query';
 import { useUserContext } from '../../../providers/UserProvider';
 import { RecipeService } from '../../../services';
-import { MedicineRecipeDto } from '../../../types/dto';
+import { UpdateRecipeDto } from '../../../types/dto';
 
 export const RecipeDetails = () => {
     const toast = useToast();
@@ -34,17 +35,20 @@ export const RecipeDetails = () => {
                     <Heading size={'lg'} sx={{ p: 2 }}>
                         {t('Form.RecipeDetails')}
                     </Heading>
-                    <AnimalUpdateForm />
+                    <RecipeUpdateForm />
                 </FormWrapper>
             }
         />
     );
 };
 
-const AnimalUpdateForm = () => {
+const RecipeUpdateForm = () => {
+    const count = [1, 2, 3, 4];
     const { state } = useUserContext();
     const navigate = useNavigate();
     const params = useParams<{ id: string }>();
+    const toast = useToast();
+    const { t } = useTranslation();
 
     const recipe = useQuery({
         queryKey: ['recipes' + params.id!],
@@ -54,7 +58,7 @@ const AnimalUpdateForm = () => {
         },
     });
 
-    if (recipe.isLoading) {
+    if (recipe.isLoading || !recipe.data) {
         return (
             <Box
                 sx={{
@@ -70,17 +74,27 @@ const AnimalUpdateForm = () => {
 
     return (
         <Formik
-            initialValues={recipe.data as MedicineRecipeDto}
+            initialValues={recipe.data as UpdateRecipeDto}
             onSubmit={async (values, actions) => {
                 actions.setSubmitting(true);
-                // const dto: UpdateAnimalDto = {
-                //     type: parseInt(values.type.toString()),
-                //     name: values.name,
-                // };
+                const dto: UpdateRecipeDto = {
+                    caseId: recipe.data?.caseId!,
+                    userId: recipe.data?.userId!,
+                    title: values.title ?? recipe.data?.title,
+                    count: values.count ?? recipe.data?.count,
+                    description: values.description ?? recipe.data?.description,
+                };
+                const service = new RecipeService();
 
-                // service.update(recipe.data?.id!, dto).then(() => {
-                //     navigate(-1);
-                // });
+                service.update(recipe.data?.id.toString()!, dto).then(() => {
+                    queryClient.invalidateQueries();
+                    navigate(-1);
+                    toast({
+                        status: 'success',
+                        title: t('Toast.Sucess'),
+                        description: t('Toast.Updated'),
+                    });
+                });
             }}
         >
             {({ handleSubmit, errors, touched, isSubmitting }) => (
@@ -89,10 +103,7 @@ const AnimalUpdateForm = () => {
                         isInvalid={!!errors.title && touched.title}
                         p={2}
                         isRequired
-                        isDisabled={
-                            state.classification !== 'Veterinarian' &&
-                            state.role !== 'Admin'
-                        }
+                        isDisabled={state.classification !== 'Veterinarian'}
                     >
                         <FormLabel>{t('Form.MedicineRecipe.Name')}</FormLabel>
                         <Field
@@ -111,10 +122,7 @@ const AnimalUpdateForm = () => {
                         isInvalid={!!errors.description && touched.description}
                         p={2}
                         isRequired
-                        isDisabled={
-                            state.classification !== 'Veterinarian' &&
-                            state.role !== 'Admin'
-                        }
+                        isDisabled={state.classification !== 'Veterinarian'}
                     >
                         <FormLabel>
                             {t('Form.HealthRecord.Description')}
@@ -132,14 +140,24 @@ const AnimalUpdateForm = () => {
                         </FormErrorMessage>
                     </FormControl>
 
+                    <FormControl
+                        p={2}
+                        isRequired
+                        isDisabled={state.classification !== 'Veterinarian'}
+                    >
+                        <FormLabel>{t('Form.MedicineRecipe.Count')}</FormLabel>
+                        <Field as={Select} name="count">
+                            {count.map((key) => {
+                                return <option value={key}>{key}</option>;
+                            })}
+                        </Field>
+                    </FormControl>
+
                     <Center p={2}>
                         <Button
                             type="submit"
                             isLoading={isSubmitting}
-                            isDisabled={
-                                state.classification !== 'Veterinarian' &&
-                                state.role !== 'Admin'
-                            }
+                            isDisabled={state.classification !== 'Veterinarian'}
                             color="teal"
                         >
                             {t('Form.Submit')}

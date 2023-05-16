@@ -12,13 +12,13 @@ import {
 } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { Field, Formik } from 'formik';
-import { t } from 'i18next';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { GenericInput, SubmitButton } from '../../../components';
 import { validateUsername } from '../../../components/form/validation/validation';
 import { BoxWithBorder, DataDisplay } from '../../../components/wrappers';
+import { queryClient } from '../../../lib/query';
 import { useUserContext } from '../../../providers/UserProvider';
 import { AnimalService, UserService } from '../../../services';
 import { CreateAnimalDto } from '../../../types';
@@ -52,6 +52,8 @@ export const AnimalCreatePage = () => {
 const AnimalCreationForm = () => {
     const { state } = useUserContext();
     const navigate = useNavigate();
+    const toast = useToast();
+    const { t } = useTranslation();
 
     const user = useQuery({
         queryKey: ['animalCreation'],
@@ -73,7 +75,13 @@ const AnimalCreationForm = () => {
                 };
 
                 service.add(values).then(() => {
+                    queryClient.invalidateQueries();
                     navigate(-1);
+                    toast({
+                        status: 'success',
+                        title: t('Toast.Sucess'),
+                        description: t('Toast.Created'),
+                    });
                 });
             }}
         >

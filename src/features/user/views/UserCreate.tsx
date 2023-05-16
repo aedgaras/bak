@@ -8,7 +8,6 @@ import {
     VStack,
 } from '@chakra-ui/react';
 import { Formik } from 'formik';
-import { t } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { GenericInput, SubmitButton } from '../../../components';
@@ -47,6 +46,8 @@ export const UserCreate = () => {
 const UserCreationForm = () => {
     const { state } = useUserContext();
     const navigate = useNavigate();
+    const toast = useToast();
+    const { t } = useTranslation();
 
     return (
         <Box px={12}>
@@ -54,13 +55,18 @@ const UserCreationForm = () => {
                 initialValues={{} as UserCreateDto}
                 onSubmit={async (values, actions) => {
                     actions.setSubmitting(true);
-                    console.log(values);
+
                     const service = new UserService();
+
                     service.add(values).then((r) => {
-                        navigate(-1);
                         queryClient.invalidateQueries();
+                        navigate(-1);
+                        toast({
+                            status: 'success',
+                            title: t('Toast.Sucess'),
+                            description: t('Toast.Created'),
+                        });
                     });
-                    actions.setSubmitting(false);
                 }}
             >
                 {({ handleSubmit, errors, touched, isSubmitting }) => (

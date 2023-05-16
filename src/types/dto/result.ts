@@ -19,3 +19,9 @@ export interface CreateResultDto {
     result: string;
     description: string;
 }
+
+export interface UpdateResultDto {
+    caseType: number;
+    result: string;
+    description: string;
+}

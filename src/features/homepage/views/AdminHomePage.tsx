@@ -38,7 +38,7 @@ import {
 import {
     DiagnosisDto,
     HealthRecordDto,
-    MedicineRecipeDto,
+    RecipeDto,
     ResultDto,
 } from '../../../types';
 import { formatedDate } from '../../../utils/utils';
@@ -298,7 +298,7 @@ const MedicineRecipesTable = () => {
         },
     });
 
-    const columnHelper = createColumnHelper<MedicineRecipeDto>();
+    const columnHelper = createColumnHelper<RecipeDto>();
     const columns = () => {
         return [
             columnHelper.accessor('title', {

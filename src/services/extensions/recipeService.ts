@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { CreateRecipeDto, MedicineRecipeDto } from '../../types';
+import { CreateRecipeDto, RecipeDto, UpdateRecipeDto } from '../../types';
 import { RECIPES_URL } from '../../utils/constants';
 import { Service } from '../base';
 
@@ -9,49 +9,49 @@ export class RecipeService extends Service {
     }
 
     list = async () => {
-        const response = await this.api
-            .getRequest<MedicineRecipeDto[]>(RECIPES_URL)
-            .then((r: AxiosResponse<MedicineRecipeDto[]>) => {
+        return await this.api
+            .getRequest<RecipeDto[]>(RECIPES_URL)
+            .then((r: AxiosResponse<RecipeDto[]>) => {
                 return r.data;
             });
-
-        return response;
     };
 
     get = async (id: string) => {
-        const response = await this.api
-            .getRequest<MedicineRecipeDto>(RECIPES_URL + '/' + id)
-            .then((r: AxiosResponse<MedicineRecipeDto>) => {
+        return await this.api
+            .getRequest<RecipeDto>(RECIPES_URL + '/' + id)
+            .then((r: AxiosResponse<RecipeDto>) => {
                 return r.data;
             });
-
-        return response;
     };
     getUserRecipes = async (id: string) => {
-        const response = await this.api
-            .getRequest<MedicineRecipeDto[]>(RECIPES_URL + '/user/' + id)
-            .then((r: AxiosResponse<MedicineRecipeDto[]>) => {
+        return await this.api
+            .getRequest<RecipeDto[]>(RECIPES_URL + '/user/' + id)
+            .then((r: AxiosResponse<RecipeDto[]>) => {
                 return r.data;
             });
+    };
 
-        return response;
+    update = async (id: string, data: UpdateRecipeDto) => {
+        return await this.api
+            .postRequest(RECIPES_URL + '/' + id, data)
+            .then((r: AxiosResponse) => {
+                return r.data;
+            });
     };
 
     add = async (data: CreateRecipeDto) => {
-        const response = await this.api
+        return await this.api
             .postRequest(RECIPES_URL, data)
             .then((r: AxiosResponse) => {
                 return r.data;
             });
-        return response;
     };
 
     delete = async (id: number) => {
-        const response = await this.api
+        return await this.api
             .deleteRequest(RECIPES_URL + '/' + id)
             .then((r: AxiosResponse) => {
                 return r.data;
             });
-        return response;
     };
 }

@@ -9,18 +9,20 @@ import {
     FormLabel,
     Heading,
     Input,
+    Select,
     Textarea,
     useToast,
 } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { Field, Formik } from 'formik';
-import { t } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { DataDisplay, FormWrapper } from '../../../components/wrappers';
+import { queryClient } from '../../../lib/query';
 import { useUserContext } from '../../../providers/UserProvider';
 import { DiagnosisService } from '../../../services';
-import { DiagnosisDto } from '../../../types';
+import { UpdateDiagnosisDto } from '../../../types';
+import { CaseValues } from '../../../utils';
 
 export const DiagnosesDetailsPage = () => {
     const toast = useToast();
@@ -34,19 +36,21 @@ export const DiagnosesDetailsPage = () => {
                     <Heading size={'lg'} sx={{ p: 2 }}>
                         {t('Form.DiagnosesDetails')}
                     </Heading>
-                    <AnimalUpdateForm />
+                    <DiagnosisUpdateForm />
                 </FormWrapper>
             }
         />
     );
 };
 
-const AnimalUpdateForm = () => {
+const DiagnosisUpdateForm = () => {
     const { state } = useUserContext();
     const navigate = useNavigate();
     const params = useParams<{ id: string }>();
+    const toast = useToast();
+    const { t } = useTranslation();
 
-    const recipe = useQuery({
+    const diagnosis = useQuery({
         queryKey: ['detailsdiagnosis' + params.id!],
         queryFn: async () => {
             const service = new DiagnosisService();
@@ -54,7 +58,7 @@ const AnimalUpdateForm = () => {
         },
     });
 
-    if (recipe.isLoading) {
+    if (diagnosis.isLoading) {
         return (
             <Box
                 sx={{
@@ -70,17 +74,26 @@ const AnimalUpdateForm = () => {
 
     return (
         <Formik
-            initialValues={recipe.data as DiagnosisDto}
+            initialValues={diagnosis.data as UpdateDiagnosisDto}
             onSubmit={async (values, actions) => {
                 actions.setSubmitting(true);
-                // const dto: UpdateAnimalDto = {
-                //     type: parseInt(values.type.toString()),
-                //     name: values.name,
-                // };
+                const service = new DiagnosisService();
 
-                // service.update(recipe.data?.id!, dto).then(() => {
-                //     navigate(-1);
-                // });
+                const dto: UpdateDiagnosisDto = {
+                    caseType: parseInt(values.caseType.toString()),
+                    diagnosis: values.diagnosis,
+                    description: values.description,
+                };
+
+                service.update(diagnosis.data?.id.toString()!, dto).then(() => {
+                    queryClient.invalidateQueries();
+                    navigate(-1);
+                    toast({
+                        status: 'success',
+                        title: t('Toast.Sucess'),
+                        description: t('Toast.Updated'),
+                    });
+                });
             }}
         >
             {({ handleSubmit, errors, touched, isSubmitting }) => (
@@ -89,17 +102,14 @@ const AnimalUpdateForm = () => {
                         isInvalid={!!errors.diagnosis && touched.diagnosis}
                         p={2}
                         isRequired
-                        isDisabled={
-                            state.classification !== 'Veterinarian' &&
-                            state.role !== 'Admin'
-                        }
+                        isDisabled={state.classification !== 'Veterinarian'}
                     >
                         <FormLabel>{t('Form.Diagnosis.Diagnosis')}</FormLabel>
                         <Field
                             as={Input}
                             type="text"
                             name="diagnosis"
-                            placeholder={recipe.data?.diagnosis}
+                            placeholder={diagnosis.data?.diagnosis}
                         />
 
                         <FormErrorMessage>
@@ -111,10 +121,7 @@ const AnimalUpdateForm = () => {
                         isInvalid={!!errors.description && touched.description}
                         p={2}
                         isRequired
-                        isDisabled={
-                            state.classification !== 'Veterinarian' &&
-                            state.role !== 'Admin'
-                        }
+                        isDisabled={state.classification !== 'Veterinarian'}
                     >
                         <FormLabel>
                             {t('Form.HealthRecord.Description')}
@@ -123,7 +130,7 @@ const AnimalUpdateForm = () => {
                             as={Textarea}
                             type="text"
                             name="description"
-                            placeholder={recipe.data?.description}
+                            placeholder={diagnosis.data?.description}
                         />
 
                         <FormErrorMessage>
@@ -131,7 +138,25 @@ const AnimalUpdateForm = () => {
                             {errors.description}
                         </FormErrorMessage>
                     </FormControl>
-
+                    <FormControl
+                        p={2}
+                        isInvalid={!!errors.caseType && touched.caseType}
+                        isRequired
+                        isDisabled={state.classification !== 'Veterinarian'}
+                    >
+                        <FormLabel>{t('Form.Diagnosis.Type')}</FormLabel>
+                        <Field as={Select} name="caseType" required>
+                            {CaseValues.map((key) => {
+                                return (
+                                    <option value={key.value}>
+                                        {t(
+                                            `Enums.Case.Type.${key.key}`
+                                        ).toString()}
+                                    </option>
+                                );
+                            })}
+                        </Field>
+                    </FormControl>
                     <Center p={2}>
                         <Button
                             type="submit"

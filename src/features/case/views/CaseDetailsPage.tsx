@@ -9,7 +9,6 @@ import {
 } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { Field, Formik } from 'formik';
-import { t } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { SubmitButton } from '../../../components';
@@ -17,6 +16,7 @@ import { DataDisplay, FormWrapper } from '../../../components/wrappers';
 import { useUserContext } from '../../../providers/UserProvider';
 import { CasesService } from '../../../services';
 
+import { queryClient } from '../../../lib/query';
 import { UpdateCaseDto } from '../../../types';
 import { CaseValues, UrgencyValues } from '../../../utils/utils';
 
@@ -43,6 +43,8 @@ const CaseUpdateForm = () => {
     const { state } = useUserContext();
     const navigate = useNavigate();
     const params = useParams<{ id: string }>();
+    const toast = useToast();
+    const { t } = useTranslation();
 
     const caseObj = useQuery({
         queryFn: async () => {
@@ -78,7 +80,14 @@ const CaseUpdateForm = () => {
                 };
 
                 service.update(caseObj.data?.id!, dto).then(() => {
+                    queryClient.invalidateQueries();
+
                     navigate(-1);
+                    toast({
+                        status: 'success',
+                        title: t('Toast.Sucess'),
+                        description: t('Toast.Updated'),
+                    });
                 });
             }}
         >

@@ -8,10 +8,10 @@ import {
     recipeTableColumns,
 } from '../../../components';
 import { RecipeService } from '../../../services';
-import { MedicineRecipeDto } from '../../../types/dto';
+import { RecipeDto } from '../../../types/dto';
 
 export const RecipeList = () => {
-    const [recipes, setRecipes] = useState<MedicineRecipeDto[]>([]);
+    const [recipes, setRecipes] = useState<RecipeDto[]>([]);
     const [queryFilter, setQueryFilter] = useState<string>('');
     const { t } = useTranslation();
 

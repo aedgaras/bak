@@ -20,6 +20,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { SubmitButton } from '../../../components';
 import { BoxWithShadow, DataDisplay } from '../../../components/wrappers';
+import { queryClient } from '../../../lib/query';
 import { useUserContext } from '../../../providers/UserProvider';
 import { CasesService, HealthRecordService } from '../../../services';
 import { CreateCaseDto } from '../../../types';
@@ -195,6 +196,7 @@ const CaseCreationForm = ({ isLoading }: { isLoading: boolean }) => {
     const { t } = useTranslation();
     const params = useParams<{ healthRecordId: string }>();
     const navigate = useNavigate();
+    const toast = useToast();
 
     return (
         <Formik
@@ -209,7 +211,13 @@ const CaseCreationForm = ({ isLoading }: { isLoading: boolean }) => {
                 };
 
                 service.add(values).then(() => {
+                    queryClient.invalidateQueries();
                     navigate(-1);
+                    toast({
+                        status: 'success',
+                        title: t('Toast.Sucess'),
+                        description: t('Toast.Created'),
+                    });
                 });
             }}
         >

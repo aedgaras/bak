@@ -7,7 +7,7 @@ import {
     CaseDto,
     DiagnosisDto,
     HealthRecordDto,
-    MedicineRecipeDto,
+    RecipeDto,
     ResultDto,
     UserDto,
 } from '../../types';
@@ -203,11 +203,11 @@ export function filterResultsTable(
 }
 
 export function filterRecipessTable(
-    data: MedicineRecipeDto[],
+    data: RecipeDto[],
     query: string,
-    setDataToDisplay: Dispatch<SetStateAction<MedicineRecipeDto[]>>
+    setDataToDisplay: Dispatch<SetStateAction<RecipeDto[]>>
 ): void {
-    const filteredEntries: MedicineRecipeDto[] = [];
+    const filteredEntries: RecipeDto[] = [];
     if (query.trim().length > 0) {
         data.forEach((dataEntry) => {
             if (
@@ -375,7 +375,7 @@ export const resultTableColumns = () => {
     ];
 };
 
-const recipeColumnHelper = createColumnHelper<MedicineRecipeDto>();
+const recipeColumnHelper = createColumnHelper<RecipeDto>();
 export const recipeTableColumns = () => {
     const { t } = useTranslation();
 

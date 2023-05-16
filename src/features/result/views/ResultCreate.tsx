@@ -13,7 +13,6 @@ import {
 } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { Field, Formik } from 'formik';
-import { t } from 'i18next';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -24,6 +23,7 @@ import {
     validateUsername,
 } from '../../../components';
 import { BoxWithShadow, DataDisplay } from '../../../components/wrappers';
+import { queryClient } from '../../../lib/query';
 import { useUserContext } from '../../../providers/UserProvider';
 import {
     CasesService,
@@ -62,6 +62,8 @@ const DiagnosisResultsCreationForm = () => {
     const { state } = useUserContext();
     const params = useParams<{ diagnosisId: string }>();
     const navigate = useNavigate();
+    const toast = useToast();
+    const { t } = useTranslation();
 
     const diagnosis = useQuery({
         queryKey: ['diagnosis' + params.diagnosisId!],
@@ -120,8 +122,13 @@ const DiagnosisResultsCreationForm = () => {
                 };
 
                 service.add(values).then(() => {
-                    actions.setSubmitting(false);
+                    queryClient.invalidateQueries();
                     navigate(-1);
+                    toast({
+                        status: 'success',
+                        title: t('Toast.Sucess'),
+                        description: t('Toast.Created'),
+                    });
                 });
             }}
         >

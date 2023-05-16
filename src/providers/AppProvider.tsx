@@ -1,6 +1,6 @@
 import { Box, ChakraProvider, theme } from '@chakra-ui/react';
 import { QueryClientProvider } from '@tanstack/react-query';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { queryClient } from '../lib/query';
@@ -13,29 +13,20 @@ export const AppProvider: React.FC<AppProviderProps> = (props) => {
         <ChakraProvider theme={theme}>
             <AnimatePresence exitBeforeEnter>
                 <QueryClientProvider client={queryClient}>
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 2 }}
-                    >
-                        <UserContextProvider>
-                            <Box
-                                sx={{
-                                    backgroundImage:
-                                        'linear-gradient(45deg, #93a5cf 0%, #e4efe9 100%)',
-                                    filter: 'alpha(opacity=50)',
-                                }}
-                                height={'100vh'}
-                            >
-                                <Box>
-                                    <BrowserRouter>
-                                        {props.children}
-                                    </BrowserRouter>
-                                </Box>
+                    <UserContextProvider>
+                        <Box
+                            sx={{
+                                backgroundImage:
+                                    'linear-gradient(45deg, #93a5cf 0%, #e4efe9 100%)',
+                                filter: 'alpha(opacity=50)',
+                            }}
+                            height={'100vh'}
+                        >
+                            <Box>
+                                <BrowserRouter>{props.children}</BrowserRouter>
                             </Box>
-                        </UserContextProvider>
-                    </motion.div>
+                        </Box>
+                    </UserContextProvider>
                 </QueryClientProvider>
             </AnimatePresence>
         </ChakraProvider>

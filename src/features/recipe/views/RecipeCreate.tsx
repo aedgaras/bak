@@ -12,7 +12,6 @@ import {
 } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { Field, Formik } from 'formik';
-import { t } from 'i18next';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -22,6 +21,7 @@ import {
     validateRecipeDescriptiom,
 } from '../../../components/form/validation/validation';
 import { BoxWithShadow, DataDisplay } from '../../../components/wrappers';
+import { queryClient } from '../../../lib/query';
 import { useUserContext } from '../../../providers/UserProvider';
 import { RecipeService, ResultsService, UserService } from '../../../services';
 import { CreateRecipeDto } from '../../../types/dto';
@@ -56,6 +56,8 @@ const RecipeCreationForm = () => {
     const count = [1, 2, 3, 4];
     const params = useParams<{ resultId: string }>();
     const navigate = useNavigate();
+    const toast = useToast();
+    const { t } = useTranslation();
 
     const result = useQuery({
         queryKey: ['resultRecipe' + params.resultId!],
@@ -114,7 +116,13 @@ const RecipeCreationForm = () => {
                 };
 
                 await service.add(values).then(() => {
+                    queryClient.invalidateQueries();
                     navigate(-1);
+                    toast({
+                        status: 'success',
+                        title: t('Toast.Sucess'),
+                        description: t('Toast.Created'),
+                    });
                 });
             }}
         >

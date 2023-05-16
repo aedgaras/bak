@@ -26,6 +26,7 @@ import { BoxWithShadow, DataDisplay } from '../../../components/wrappers';
 import { useUserContext } from '../../../providers/UserProvider';
 import { CasesService, DiagnosisService } from '../../../services';
 
+import { queryClient } from '../../../lib/query';
 import { CaseDto, CreateDiagnosisDto } from '../../../types';
 import {
     CaseValues,
@@ -192,6 +193,7 @@ const DiangosisCreationForm = ({
     const { state } = useUserContext();
     const { t } = useTranslation();
     const navigate = useNavigate();
+    const toast = useToast();
 
     return (
         <Formik
@@ -207,7 +209,13 @@ const DiangosisCreationForm = ({
                 };
 
                 service.add(values).then(() => {
+                    queryClient.invalidateQueries();
                     navigate(-1);
+                    toast({
+                        status: 'success',
+                        title: t('Toast.Sucess'),
+                        description: t('Toast.Created'),
+                    });
                 });
             }}
         >

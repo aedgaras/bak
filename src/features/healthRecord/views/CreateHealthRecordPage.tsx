@@ -8,12 +8,12 @@ import {
     useToast,
 } from '@chakra-ui/react';
 import { Field, Formik } from 'formik';
-import { t } from 'i18next';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { GenericInput, SubmitButton } from '../../../components';
 import { DataDisplay, FormWrapper } from '../../../components/wrappers';
+import { queryClient } from '../../../lib/query';
 import { useUserContext } from '../../../providers/UserProvider';
 import { HealthRecordService } from '../../../services';
 import { CreateHealthRecordDto } from '../../../types';
@@ -45,6 +45,8 @@ const HealthRecordCreationForm = () => {
     const { state } = useUserContext();
     const params = useParams<{ animalId: string }>();
     const navigate = useNavigate();
+    const toast = useToast();
+    const { t } = useTranslation();
 
     return (
         <Formik
@@ -55,7 +57,13 @@ const HealthRecordCreationForm = () => {
                 const service = new HealthRecordService();
 
                 service.add(values).then(() => {
+                    queryClient.invalidateQueries();
                     navigate(-1);
+                    toast({
+                        status: 'success',
+                        title: t('Toast.Sucess'),
+                        description: t('Toast.Created'),
+                    });
                 });
             }}
         >

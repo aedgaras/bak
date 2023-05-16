@@ -17,3 +17,9 @@ export interface DiagnosisDto {
     diagnosis: string;
     description: string;
 }
+
+export interface UpdateDiagnosisDto {
+    caseType: number;
+    diagnosis: string;
+    description: string;
+}

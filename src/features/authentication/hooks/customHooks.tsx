@@ -23,14 +23,12 @@ export const authenticateUserHook = async (
         })
         .then((r: AxiosResponse<TokenPayload>) => {
             toast({
-                title: 'Toast.Sucess',
+                title: t('Toast.Sucess'),
                 description:
                     action === 'register'
                         ? t('Toast.RegisterSucess').toString()
                         : t('Toast.LoginSucess').toString(),
                 status: 'success',
-                duration: 9000,
-                isClosable: true,
             });
 
             localStorage.setItem(ACCESS_TOKEN_NAME, r.data.accessToken);
@@ -39,11 +37,9 @@ export const authenticateUserHook = async (
         })
         .catch((e: AxiosError) => {
             toast({
-                title: e.code,
+                title: t('Toast.Error'),
                 description: (e.response?.data as string) ?? e.message,
                 status: 'error',
-                duration: 9000,
-                isClosable: true,
             });
         });
 };

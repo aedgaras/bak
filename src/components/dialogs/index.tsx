@@ -7,6 +7,7 @@ import {
     AlertDialogOverlay,
     Button,
     Text,
+    useToast,
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { queryClient } from '../../lib/query';
@@ -104,6 +105,7 @@ export const DeleteDialog = ({
     id,
 }: DeleteDialogProps) => {
     const { t } = useTranslation();
+    const toast = useToast();
 
     return BaseDialog({
         isOpen: isOpen,
@@ -143,6 +145,10 @@ export const DeleteDialog = ({
                         }
 
                         await queryClient.invalidateQueries();
+                        toast({
+                            status: 'info',
+                            description: t('Toast.Deleted'),
+                        });
 
                         onClose();
                     }}

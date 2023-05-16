@@ -1,4 +1,4 @@
-export interface MedicineRecipeDto {
+export interface RecipeDto {
     id: number;
     userId: number;
     caseId: number;
@@ -17,4 +17,14 @@ export interface CreateRecipeDto {
     description: string;
     expiryTime: string;
     entryDate: string;
+}
+
+export interface UpdateRecipeDto {
+    userId: number;
+    caseId: number;
+    title: string;
+    count: number;
+    description: string;
+    expiryTime?: string;
+    entryDate?: string;
 }

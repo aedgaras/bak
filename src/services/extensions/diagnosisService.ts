@@ -1,5 +1,9 @@
 import { AxiosResponse } from 'axios';
-import { CreateDiagnosisDto, DiagnosisDto } from '../../types';
+import {
+    CreateDiagnosisDto,
+    DiagnosisDto,
+    UpdateDiagnosisDto,
+} from '../../types';
 import { DIAGNOSIS_URL } from '../../utils';
 import { Service } from '../base';
 
@@ -35,6 +39,14 @@ export class DiagnosisService extends Service {
     add = async (data: CreateDiagnosisDto) => {
         return await this.api
             .postRequest(DIAGNOSIS_URL, data)
+            .then((r: AxiosResponse) => {
+                return r.data;
+            });
+    };
+
+    update = async (id: string, data: UpdateDiagnosisDto) => {
+        return await this.api
+            .postRequest(DIAGNOSIS_URL + '/' + id, data)
             .then((r: AxiosResponse) => {
                 return r.data;
             });

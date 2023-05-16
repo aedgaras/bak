@@ -16,7 +16,6 @@ import { useTranslation } from 'react-i18next';
 
 import { useQuery } from '@tanstack/react-query';
 import { Field, Formik } from 'formik';
-import { t } from 'i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { DataDisplay, FormWrapper } from '../../../components/wrappers';
 import { queryClient } from '../../../lib/query';
@@ -47,6 +46,8 @@ const HealthRecordUpdateForm = () => {
     const { state } = useUserContext();
     const params = useParams<{ id: string }>();
     const navigate = useNavigate();
+    const toast = useToast();
+    const { t } = useTranslation();
 
     const health = useQuery({
         queryKey: ['healthDetails' + params.id!],
@@ -87,6 +88,11 @@ const HealthRecordUpdateForm = () => {
                     .then(() => {
                         queryClient.invalidateQueries();
                         navigate(-1);
+                        toast({
+                            status: 'success',
+                            title: t('Toast.Sucess'),
+                            description: t('Toast.Updated'),
+                        });
                     });
             }}
         >
