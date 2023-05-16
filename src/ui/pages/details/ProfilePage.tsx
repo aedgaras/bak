@@ -10,12 +10,12 @@ import { useQuery } from '@tanstack/react-query';
 import { Formik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useUserContext } from '../../../context/UserContext';
+import { GenericInput, SubmitButton } from '../../../components';
+import { validateUsername } from '../../../components/form/validation/validation';
+import { BoxWithShadowMax } from '../../../components/wrappers';
+import { useUserContext } from '../../../providers/UserProvider';
 import { UserService } from '../../../services';
 import { UserDto } from '../../../utils/dto';
-import { GenericInput, SubmitButton } from '../../components/form';
-import { validateUsername } from '../../components/form/validation/validation';
-import { BoxWithShadowMax } from '../../components/wrappers/BoxWithShadow';
 
 export const ProfilePage = () => {
     const { state } = useUserContext();

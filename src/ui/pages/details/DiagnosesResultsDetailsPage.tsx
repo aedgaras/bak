@@ -17,12 +17,11 @@ import { Field, Formik } from 'formik';
 import { t } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useUserContext } from '../../../context/UserContext';
+import { DataDisplay, FormWrapper } from '../../../components/wrappers';
+import { useUserContext } from '../../../providers/UserProvider';
 import { ResultsService } from '../../../services';
 import { ResultDto } from '../../../utils/dto';
 import { formatedDate } from '../../../utils/utils';
-import { FormWrapper } from '../../components/wrappers/BoxWithShadow';
-import { DataDisplay } from '../../components/wrappers/DataDisplay';
 
 export const DiagnosesResultsDetailsPage = () => {
     const toast = useToast();

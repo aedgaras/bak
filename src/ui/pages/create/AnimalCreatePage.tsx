@@ -16,14 +16,13 @@ import { t } from 'i18next';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useUserContext } from '../../../context/UserContext';
+import { GenericInput, SubmitButton } from '../../../components';
+import { validateUsername } from '../../../components/form/validation/validation';
+import { BoxWithBorder, DataDisplay } from '../../../components/wrappers';
+import { useUserContext } from '../../../providers/UserProvider';
 import { AnimalService, UserService } from '../../../services';
 import { CreateAnimalDto } from '../../../utils/dto';
 import { AnimalValues } from '../../../utils/utils';
-import { GenericInput, SubmitButton } from '../../components/form';
-import { validateUsername } from '../../components/form/validation/validation';
-import { BoxWithBorder } from '../../components/wrappers/BoxWithShadow';
-import { DataDisplay } from '../../components/wrappers/DataDisplay';
 
 export const AnimalCreatePage = () => {
     const toast = useToast();

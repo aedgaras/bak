@@ -12,17 +12,17 @@ import {
     Textarea,
     useToast,
 } from '@chakra-ui/react';
+import { useTranslation } from 'react-i18next';
+
 import { useQuery } from '@tanstack/react-query';
 import { Field, Formik } from 'formik';
 import { t } from 'i18next';
-import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
-import { queryClient } from '../../..';
-import { isUser, useUserContext } from '../../../context/UserContext';
+import { DataDisplay, FormWrapper } from '../../../components/wrappers';
+import { queryClient } from '../../../lib/query';
+import { isUser, useUserContext } from '../../../providers/UserProvider';
 import { HealthRecordService } from '../../../services';
 import { HealthRecordDto, UpdateHealthRecordDto } from '../../../utils/dto';
-import { FormWrapper } from '../../components/wrappers/BoxWithShadow';
-import { DataDisplay } from '../../components/wrappers/DataDisplay';
 
 export const HealthRecordDetailsPage = () => {
     const toast = useToast();

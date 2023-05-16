@@ -2,13 +2,13 @@ import { Skeleton } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { CasesService } from '../../../services';
-import { CaseDto } from '../../../utils/dto';
-import { GenericTableWithSearchAndCreate } from '../../components/table/GenericTable';
 import {
+    GenericTableWithSearchAndCreate,
     caseTableColumns,
     filterCasesTable,
-} from '../../components/table/Helpers';
+} from '../../../components';
+import { CasesService } from '../../../services';
+import { CaseDto } from '../../../utils/dto';
 
 export const CasePage = () => {
     const [cases, setCases] = useState<CaseDto[]>([]);

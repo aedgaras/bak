@@ -2,13 +2,13 @@ import { Skeleton } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DiagnosisService } from '../../../services';
-import { DiagnosisDto } from '../../../utils/dto';
-import { GenericTableWithSearchAndCreate } from '../../components/table/GenericTable';
 import {
+    GenericTableWithSearchAndCreate,
     diagnosisTableColumns,
     filterDiagnosisTable,
-} from '../../components/table/Helpers';
+} from '../../../components';
+import { DiagnosisService } from '../../../services';
+import { DiagnosisDto } from '../../../utils/dto';
 
 export const DiagnosesPage = () => {
     const [diagnoses, setDiagnoses] = useState<DiagnosisDto[]>([]);

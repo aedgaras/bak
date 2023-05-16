@@ -3,13 +3,13 @@ import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { UserService } from '../../../services';
-import { UserDto } from '../../../utils/dto';
-import { GenericTableWithSearchAndCreate } from '../../components/table/GenericTable';
 import {
+    GenericTableWithSearchAndCreate,
     filterUserTable,
     userTableColumns,
-} from '../../components/table/Helpers';
+} from '../../../components';
+import { UserService } from '../../../services';
+import { UserDto } from '../../../utils/dto';
 
 export const UsersPage = () => {
     const [usersToDisplay, setUsersToDisplay] = useState<UserDto[]>([]);

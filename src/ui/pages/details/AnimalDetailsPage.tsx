@@ -19,23 +19,24 @@ import { Field, Formik } from 'formik';
 import { t } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { queryClient } from '../../..';
-import { useUserContext } from '../../../context/UserContext';
+import {
+    GenericHomePageTable,
+    GenericInput,
+    HealthRecordHeartRate,
+    SubmitButton,
+} from '../../../components';
+import { validateUsername } from '../../../components/form/validation/validation';
+import {
+    BoxWithShadowMax,
+    DataDisplay,
+    FormWrapper,
+} from '../../../components/wrappers';
+import { queryClient } from '../../../lib/query';
+import { useUserContext } from '../../../providers/UserProvider';
 import { healthRecordsRoutePath } from '../../../router/AppRouter';
 import { AnimalService, HealthRecordService } from '../../../services';
 import { HealthRecordDto, UpdateAnimalDto } from '../../../utils/dto';
 import { AnimalValues, formatedDate } from '../../../utils/utils';
-import { GenericInput, SubmitButton } from '../../components/form';
-import { validateUsername } from '../../components/form/validation/validation';
-import {
-    GenericHomePageTable,
-    HealthRecordHeartRate,
-} from '../../components/table';
-import {
-    BoxWithShadowMax,
-    FormWrapper,
-} from '../../components/wrappers/BoxWithShadow';
-import { DataDisplay } from '../../components/wrappers/DataDisplay';
 
 export const AnimalDetailsPage = () => {
     const toast = useToast();

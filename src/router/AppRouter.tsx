@@ -1,12 +1,9 @@
-import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { useUserContext } from '../context/UserContext';
-import { AuthService } from '../services';
-import { PageNotFound, Unauthorized } from '../ui/components/errors';
-import { AppWrapper } from '../ui/components/wrappers/AppWrapper';
-import { HomePage } from '../ui/pages/HomePage';
-import { LoginPage } from '../ui/pages/authentication/LoginPage';
-import { RegisterPage } from '../ui/pages/authentication/RegisterPage';
+import { PageNotFound, Unauthorized } from '../components';
+import { AppWrapper } from '../components/wrappers';
+import { LoginPage, RegisterPage } from '../features/authentication';
+import { HomePageEntry } from '../features/homepage/HomePageEntry';
+import { useUserContext } from '../providers/UserProvider';
 import { AnimalCreatePage } from '../ui/pages/create/AnimalCreatePage';
 import { CaseCreatePage } from '../ui/pages/create/CaseCreatePage';
 import { CreateHealthRecordPage } from '../ui/pages/create/CreateHealthRecordPage';
@@ -30,7 +27,6 @@ import { HealthRecordsPage } from '../ui/pages/lists/HealthRecordsPage';
 import { RecipesPage } from '../ui/pages/lists/RecipesPage';
 import { UsersPage } from '../ui/pages/lists/UsersPage';
 import { Role } from '../utils/Models';
-import { isJwtExpired } from '../utils/utils';
 
 export const authRoutePath = '/auth';
 export const usersRoutePath = '/users';
@@ -57,7 +53,7 @@ export const AppRouter = () => {
                                 <LoginPage />
                             </DisabledAfterLoginRoute>
                         ) : (
-                            <HomePage />
+                            <HomePageEntry />
                         )
                     }
                 />

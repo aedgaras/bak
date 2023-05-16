@@ -9,15 +9,14 @@ import {
 } from '@chakra-ui/react';
 import { Field, Formik } from 'formik';
 import { t } from 'i18next';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useUserContext } from '../../../context/UserContext';
+import { GenericInput, SubmitButton } from '../../../components';
+import { DataDisplay, FormWrapper } from '../../../components/wrappers';
+import { useUserContext } from '../../../providers/UserProvider';
 import { HealthRecordService } from '../../../services';
 import { CreateHealthRecordDto } from '../../../utils/dto';
-import { GenericInput, SubmitButton } from '../../components/form';
-import { FormWrapper } from '../../components/wrappers/BoxWithShadow';
-import { DataDisplay } from '../../components/wrappers/DataDisplay';
-import { useEffect } from 'react';
 
 export const CreateHealthRecordPage = () => {
     const toast = useToast();

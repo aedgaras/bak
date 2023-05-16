@@ -1,13 +1,3 @@
-export interface OrganizationDto {
-    id: string;
-    name: string;
-}
-
-export type UserLoginDto = {
-    username: string;
-    password: string;
-};
-
 export type UserRegisterDto = {
     username: string;
     password: string;
@@ -155,11 +145,4 @@ export interface UpdateHealthRecordDto {
 export interface UpdateCaseDto {
     status: number;
     urgency: number;
-}
-
-export interface ViewHistoryDto {
-    id: number;
-    userId: number;
-    actions: string[];
-    entryDate: string;
 }

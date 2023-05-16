@@ -17,7 +17,13 @@ import { t } from 'i18next';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useUserContext } from '../../../context/UserContext';
+import { GenericInput, SubmitButton } from '../../../components';
+import {
+    validatePassword,
+    validateUsername,
+} from '../../../components/form/validation/validation';
+import { BoxWithShadow, DataDisplay } from '../../../components/wrappers';
+import { useUserContext } from '../../../providers/UserProvider';
 import {
     CasesService,
     DiagnosisService,
@@ -26,13 +32,6 @@ import {
 } from '../../../services';
 import { CreateResultDto } from '../../../utils/dto';
 import { CaseValues } from '../../../utils/utils';
-import { GenericInput, SubmitButton } from '../../components/form';
-import {
-    validatePassword,
-    validateUsername,
-} from '../../components/form/validation/validation';
-import { BoxWithShadow } from '../../components/wrappers/BoxWithShadow';
-import { DataDisplay } from '../../components/wrappers/DataDisplay';
 
 export const DiagnosisResultsCreatePage = () => {
     const toast = useToast();

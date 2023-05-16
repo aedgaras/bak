@@ -11,13 +11,19 @@ import {
     useToast,
     VStack,
 } from '@chakra-ui/react';
-import { Formik } from 'formik';
-
 import { useQuery } from '@tanstack/react-query';
+import { Formik } from 'formik';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useUserContext } from '../../../context/UserContext';
+import {
+    GenericInput,
+    StatusTag,
+    SubmitButton,
+    UrgencyTag,
+} from '../../../components';
+import { BoxWithShadow, DataDisplay } from '../../../components/wrappers';
+import { useUserContext } from '../../../providers/UserProvider';
 import { CasesService, DiagnosisService } from '../../../services';
 import { CaseDto, CreateDiagnosisDto } from '../../../utils/dto';
 import {
@@ -27,10 +33,6 @@ import {
     getStatusType,
     getUrgencyType,
 } from '../../../utils/utils';
-import { GenericInput, SubmitButton } from '../../components/form';
-import { StatusTag, UrgencyTag } from '../../components/table';
-import { BoxWithShadow } from '../../components/wrappers/BoxWithShadow';
-import { DataDisplay } from '../../components/wrappers/DataDisplay';
 
 export const DiagnosisCreatePage = () => {
     const toast = useToast();

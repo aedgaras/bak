@@ -1,14 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { isUser, useUserContext } from '../../../context/UserContext';
-import { HealthRecordService } from '../../../services';
-import { HealthRecordDto } from '../../../utils/dto';
-import { GenericTableWithSearchAndCreate } from '../../components/table/GenericTable';
 import {
+    GenericTableWithSearchAndCreate,
     filterHeartRatesTable,
     healthRecordTableColumns,
-} from '../../components/table/Helpers';
+} from '../../../components';
+import { isUser, useUserContext } from '../../../providers/UserProvider';
+import { HealthRecordService } from '../../../services';
+import { HealthRecordDto } from '../../../utils/dto';
 
 export const HealthRecordsPage = () => {
     const [healthRecords, setHealthRecords] = useState<HealthRecordDto[]>([]);

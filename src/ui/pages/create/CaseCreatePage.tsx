@@ -13,13 +13,14 @@ import {
     useToast,
     VStack,
 } from '@chakra-ui/react';
-import { Formik } from 'formik';
-
 import { useQuery } from '@tanstack/react-query';
+import { Formik } from 'formik';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useUserContext } from '../../../context/UserContext';
+import { SubmitButton } from '../../../components';
+import { BoxWithShadow, DataDisplay } from '../../../components/wrappers';
+import { useUserContext } from '../../../providers/UserProvider';
 import { CasesService, HealthRecordService } from '../../../services';
 import { CreateCaseDto } from '../../../utils/dto';
 import {
@@ -28,9 +29,6 @@ import {
     StatusValues,
     UrgencyValues,
 } from '../../../utils/utils';
-import { SubmitButton } from '../../components/form';
-import { BoxWithShadow } from '../../components/wrappers/BoxWithShadow';
-import { DataDisplay } from '../../components/wrappers/DataDisplay';
 
 export const CaseCreatePage = () => {
     const toast = useToast();

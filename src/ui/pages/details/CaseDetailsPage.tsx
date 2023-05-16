@@ -12,13 +12,12 @@ import { Field, Formik } from 'formik';
 import { t } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useUserContext } from '../../../context/UserContext';
+import { SubmitButton } from '../../../components';
+import { DataDisplay, FormWrapper } from '../../../components/wrappers';
+import { useUserContext } from '../../../providers/UserProvider';
 import { CasesService } from '../../../services';
 import { UpdateCaseDto } from '../../../utils/dto';
 import { CaseValues, UrgencyValues } from '../../../utils/utils';
-import { SubmitButton } from '../../components/form';
-import { FormWrapper } from '../../components/wrappers/BoxWithShadow';
-import { DataDisplay } from '../../components/wrappers/DataDisplay';
 
 export const CaseDetailsPage = () => {
     const toast = useToast();

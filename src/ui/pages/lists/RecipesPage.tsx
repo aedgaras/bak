@@ -2,13 +2,13 @@ import { Skeleton } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { RecipeService } from '../../../services';
-import { MedicineRecipeDto } from '../../../utils/dto';
-import { GenericTableWithSearchAndCreate } from '../../components/table/GenericTable';
 import {
+    GenericTableWithSearchAndCreate,
     filterRecipessTable,
     recipeTableColumns,
-} from '../../components/table/Helpers';
+} from '../../../components';
+import { RecipeService } from '../../../services';
+import { MedicineRecipeDto } from '../../../utils/dto';
 
 export const RecipesPage = () => {
     const [recipes, setRecipes] = useState<MedicineRecipeDto[]>([]);

@@ -16,16 +16,15 @@ import { t } from 'i18next';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useUserContext } from '../../../context/UserContext';
-import { RecipeService, ResultsService, UserService } from '../../../services';
-import { CreateRecipeDto } from '../../../utils/dto';
-import { GenericInput, SubmitButton } from '../../components/form';
+import { GenericInput, SubmitButton } from '../../../components';
 import {
     validateRecipe,
     validateRecipeDescriptiom,
-} from '../../components/form/validation/validation';
-import { BoxWithShadow } from '../../components/wrappers/BoxWithShadow';
-import { DataDisplay } from '../../components/wrappers/DataDisplay';
+} from '../../../components/form/validation/validation';
+import { BoxWithShadow, DataDisplay } from '../../../components/wrappers';
+import { useUserContext } from '../../../providers/UserProvider';
+import { RecipeService, ResultsService, UserService } from '../../../services';
+import { CreateRecipeDto } from '../../../utils/dto';
 
 export const RecipeCreatePage = () => {
     const toast = useToast();

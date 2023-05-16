@@ -3,14 +3,14 @@ import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { isUser, useUserContext } from '../../../context/UserContext';
-import { AnimalService } from '../../../services';
-import { AnimalDto } from '../../../utils/dto';
-import { GenericTableWithSearchAndCreate } from '../../components/table/GenericTable';
 import {
+    GenericTableWithSearchAndCreate,
     animalTableColumns,
     filterAnimalsTable,
-} from '../../components/table/Helpers';
+} from '../../../components';
+import { isUser, useUserContext } from '../../../providers/UserProvider';
+import { AnimalService } from '../../../services';
+import { AnimalDto } from '../../../utils/dto';
 
 export const AnimalsPage = () => {
     const { state } = useUserContext();

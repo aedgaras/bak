@@ -11,13 +11,13 @@ import { useQuery } from '@tanstack/react-query';
 import { Formik } from 'formik';
 import { useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { queryClient } from '../../..';
-import { useUserContext } from '../../../context/UserContext';
+import { GenericInput, SubmitButton } from '../../../components';
+import { validateUsername } from '../../../components/form/validation/validation';
+import { DataDisplay } from '../../../components/wrappers';
+import { queryClient } from '../../../lib/query';
+import { useUserContext } from '../../../providers/UserProvider';
 import { UserService } from '../../../services';
 import { UserDto } from '../../../utils/dto';
-import { GenericInput, SubmitButton } from '../../components/form';
-import { validateUsername } from '../../components/form/validation/validation';
-import { DataDisplay } from '../../components/wrappers/DataDisplay';
 
 export const UserDetailsPage = () => {
     const { state } = useUserContext();

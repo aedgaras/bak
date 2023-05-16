@@ -11,18 +11,17 @@ import { Formik } from 'formik';
 import { t } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { queryClient } from '../../..';
-import { useUserContext } from '../../../context/UserContext';
-import { UserService } from '../../../services';
-import { UserCreateDto } from '../../../utils/dto';
-import { ClassificationValues, RoleValues } from '../../../utils/utils';
-import { GenericInput, SubmitButton } from '../../components/form';
+import { GenericInput, SubmitButton } from '../../../components';
 import {
     validatePassword,
     validateUsername,
-} from '../../components/form/validation/validation';
-import { BoxWithShadow } from '../../components/wrappers/BoxWithShadow';
-import { DataDisplay } from '../../components/wrappers/DataDisplay';
+} from '../../../components/form/validation/validation';
+import { BoxWithShadow, DataDisplay } from '../../../components/wrappers';
+import { queryClient } from '../../../lib/query';
+import { useUserContext } from '../../../providers/UserProvider';
+import { UserService } from '../../../services';
+import { UserCreateDto } from '../../../utils/dto';
+import { ClassificationValues, RoleValues } from '../../../utils/utils';
 
 export const UserCreatePage = () => {
     const toast = useToast();
