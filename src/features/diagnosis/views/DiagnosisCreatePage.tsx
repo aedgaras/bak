@@ -25,7 +25,8 @@ import {
 import { BoxWithShadow, DataDisplay } from '../../../components/wrappers';
 import { useUserContext } from '../../../providers/UserProvider';
 import { CasesService, DiagnosisService } from '../../../services';
-import { CaseDto, CreateDiagnosisDto } from '../../../utils/dto';
+
+import { CaseDto, CreateDiagnosisDto } from '../../../types';
 import {
     CaseValues,
     formatedDate,

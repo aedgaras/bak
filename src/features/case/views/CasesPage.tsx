@@ -8,7 +8,7 @@ import {
     filterCasesTable,
 } from '../../../components';
 import { CasesService } from '../../../services';
-import { CaseDto } from '../../../utils/dto';
+import { CaseDto } from '../../../types';
 
 export const CasePage = () => {
     const [cases, setCases] = useState<CaseDto[]>([]);

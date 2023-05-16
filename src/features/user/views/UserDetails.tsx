@@ -17,7 +17,7 @@ import { DataDisplay } from '../../../components/wrappers';
 import { queryClient } from '../../../lib/query';
 import { useUserContext } from '../../../providers/UserProvider';
 import { UserService } from '../../../services';
-import { UserDto } from '../../../utils/dto';
+import { UserDto } from '../../../types/dto';
 
 export const UserDetails = () => {
     const { state } = useUserContext();

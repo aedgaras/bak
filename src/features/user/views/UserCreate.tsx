@@ -20,7 +20,7 @@ import { BoxWithShadow, DataDisplay } from '../../../components/wrappers';
 import { queryClient } from '../../../lib/query';
 import { useUserContext } from '../../../providers/UserProvider';
 import { UserService } from '../../../services';
-import { UserCreateDto } from '../../../utils/dto';
+import { UserCreateDto } from '../../../types/dto';
 import { ClassificationValues, RoleValues } from '../../../utils/utils';
 
 export const UserCreate = () => {

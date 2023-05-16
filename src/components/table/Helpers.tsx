@@ -10,7 +10,7 @@ import {
     MedicineRecipeDto,
     ResultDto,
     UserDto,
-} from '../../utils/dto';
+} from '../../types';
 import {
     formatedDate,
     getClassificationType,

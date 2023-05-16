@@ -16,7 +16,8 @@ import { SubmitButton } from '../../../components';
 import { DataDisplay, FormWrapper } from '../../../components/wrappers';
 import { useUserContext } from '../../../providers/UserProvider';
 import { CasesService } from '../../../services';
-import { UpdateCaseDto } from '../../../utils/dto';
+
+import { UpdateCaseDto } from '../../../types';
 import { CaseValues, UrgencyValues } from '../../../utils/utils';
 
 export const CaseDetailsPage = () => {

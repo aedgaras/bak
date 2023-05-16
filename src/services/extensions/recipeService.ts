@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
+import { CreateRecipeDto, MedicineRecipeDto } from '../../types';
 import { RECIPES_URL } from '../../utils/constants';
-import { CreateRecipeDto, MedicineRecipeDto } from '../../utils/dto';
 import { Service } from '../base';
 
 export class RecipeService extends Service {

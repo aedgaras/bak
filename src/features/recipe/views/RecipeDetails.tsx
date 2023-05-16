@@ -20,7 +20,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { DataDisplay, FormWrapper } from '../../../components/wrappers';
 import { useUserContext } from '../../../providers/UserProvider';
 import { RecipeService } from '../../../services';
-import { MedicineRecipeDto } from '../../../utils/dto';
+import { MedicineRecipeDto } from '../../../types/dto';
 
 export const RecipeDetails = () => {
     const toast = useToast();

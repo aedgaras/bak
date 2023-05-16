@@ -38,7 +38,7 @@ import {
     HealthRecordDto,
     MedicineRecipeDto,
     ResultDto,
-} from '../../../utils/dto';
+} from '../../../types/dto';
 import { formatedDate } from '../../../utils/utils';
 
 export const UserHomePage = () => {

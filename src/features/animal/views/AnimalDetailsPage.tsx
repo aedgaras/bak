@@ -35,7 +35,8 @@ import { queryClient } from '../../../lib/query';
 import { useUserContext } from '../../../providers/UserProvider';
 import { healthRecordsRoutePath } from '../../../router';
 import { AnimalService, HealthRecordService } from '../../../services';
-import { HealthRecordDto, UpdateAnimalDto } from '../../../utils/dto';
+
+import { HealthRecordDto, UpdateAnimalDto } from '../../../types';
 import { AnimalValues, formatedDate } from '../../../utils/utils';
 
 export const AnimalDetailsPage = () => {

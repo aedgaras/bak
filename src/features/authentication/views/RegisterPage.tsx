@@ -10,11 +10,11 @@ import {
 } from '../../../components/form/validation/validation';
 import { FormWrapper } from '../../../components/wrappers';
 import { AuthService } from '../../../services';
+import { UserRegisterDto } from '../../../types';
 import {
     ACCESS_TOKEN_NAME,
     REFRESH_TOKEN_NAME,
 } from '../../../utils/constants';
-import { UserRegisterDto } from '../../../utils/dto';
 
 export const RegisterPage = () => {
     const toast = useToast();

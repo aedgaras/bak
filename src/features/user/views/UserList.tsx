@@ -9,7 +9,7 @@ import {
     userTableColumns,
 } from '../../../components';
 import { UserService } from '../../../services';
-import { UserDto } from '../../../utils/dto';
+import { UserDto } from '../../../types/dto';
 
 export const UserList = () => {
     const [usersToDisplay, setUsersToDisplay] = useState<UserDto[]>([]);

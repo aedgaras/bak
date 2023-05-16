@@ -40,7 +40,7 @@ import {
     HealthRecordDto,
     MedicineRecipeDto,
     ResultDto,
-} from '../../../utils/dto';
+} from '../../../types';
 import { formatedDate } from '../../../utils/utils';
 
 export const AdminHomePage = () => {

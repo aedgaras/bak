@@ -8,7 +8,7 @@ import {
     resultTableColumns,
 } from '../../../components';
 import { ResultsService } from '../../../services';
-import { ResultDto } from '../../../utils/dto';
+import { ResultDto } from '../../../types/dto';
 
 export const ResultList = () => {
     const [results, setResults] = useState<ResultDto[]>([]);

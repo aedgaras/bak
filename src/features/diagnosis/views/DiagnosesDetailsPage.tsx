@@ -20,7 +20,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { DataDisplay, FormWrapper } from '../../../components/wrappers';
 import { useUserContext } from '../../../providers/UserProvider';
 import { DiagnosisService } from '../../../services';
-import { DiagnosisDto } from '../../../utils/dto';
+import { DiagnosisDto } from '../../../types';
 
 export const DiagnosesDetailsPage = () => {
     const toast = useToast();

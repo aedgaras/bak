@@ -15,7 +15,7 @@ import { validateUsername } from '../../../components/form/validation/validation
 import { BoxWithShadowMax } from '../../../components/wrappers';
 import { useUserContext } from '../../../providers/UserProvider';
 import { UserService } from '../../../services';
-import { UserDto } from '../../../utils/dto';
+import { UserDto } from '../../../types/dto';
 
 export const UserProfile = () => {
     const { state } = useUserContext();

@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
+import { AnimalDto, CreateAnimalDto, UpdateAnimalDto } from '../../types';
 import { ANIMALS_URL } from '../../utils/constants';
-import { AnimalDto, CreateAnimalDto, UpdateAnimalDto } from '../../utils/dto';
 import { Service } from '../base';
 
 export class AnimalService extends Service {

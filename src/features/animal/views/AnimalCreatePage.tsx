@@ -21,7 +21,7 @@ import { validateUsername } from '../../../components/form/validation/validation
 import { BoxWithBorder, DataDisplay } from '../../../components/wrappers';
 import { useUserContext } from '../../../providers/UserProvider';
 import { AnimalService, UserService } from '../../../services';
-import { CreateAnimalDto } from '../../../utils/dto';
+import { CreateAnimalDto } from '../../../types';
 import { AnimalValues } from '../../../utils/utils';
 
 export const AnimalCreatePage = () => {

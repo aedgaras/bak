@@ -1,5 +1,5 @@
 import jwtDecode from 'jwt-decode';
-import { Classification, Role } from './Models';
+import { Classification, Role } from '../types/strings';
 
 export const sleep = async (milliseconds: number) => {
     await new Promise((resolve) => {

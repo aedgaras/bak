@@ -1,6 +1,15 @@
-import axios, { AxiosResponse } from 'axios';
-import { API_URL, axiosAuthHeaders } from '../../utils/constants';
+import axios, { AxiosRequestHeaders, AxiosResponse } from 'axios';
+import { API_URL } from '../../utils/constants';
+import { getJwtFromStorage } from '../../utils/utils';
 
+const axiosAuthHeaders: { headers: AxiosRequestHeaders } = {
+    headers: {
+        Authorization: 'Bearer ' + getJwtFromStorage ?? '',
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+    },
+};
 class API {
     getRequest = async <T>(url: string): Promise<AxiosResponse<T, any>> => {
         return await axios.get<T>(API_URL + url, axiosAuthHeaders);

@@ -22,7 +22,7 @@ import { SubmitButton } from '../../../components';
 import { BoxWithShadow, DataDisplay } from '../../../components/wrappers';
 import { useUserContext } from '../../../providers/UserProvider';
 import { CasesService, HealthRecordService } from '../../../services';
-import { CreateCaseDto } from '../../../utils/dto';
+import { CreateCaseDto } from '../../../types';
 import {
     formatedDate,
     getAnimalType,

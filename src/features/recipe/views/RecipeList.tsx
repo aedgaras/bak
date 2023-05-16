@@ -8,7 +8,7 @@ import {
     recipeTableColumns,
 } from '../../../components';
 import { RecipeService } from '../../../services';
-import { MedicineRecipeDto } from '../../../utils/dto';
+import { MedicineRecipeDto } from '../../../types/dto';
 
 export const RecipeList = () => {
     const [recipes, setRecipes] = useState<MedicineRecipeDto[]>([]);

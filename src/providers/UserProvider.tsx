@@ -1,7 +1,7 @@
 import jwtDecode from 'jwt-decode';
 import React, { useEffect } from 'react';
 import { AuthService } from '../services';
-import { Classification, Role } from '../utils/Models';
+import { Classification, Role } from '../types';
 import { ACCESS_TOKEN_NAME } from '../utils/constants';
 import { isJwtExpired } from '../utils/utils';
 

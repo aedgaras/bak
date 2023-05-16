@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
+import { UserCreateDto, UserDto } from '../../types';
 import { USERS_URL } from '../../utils/constants';
-import { UserCreateDto, UserDto } from '../../utils/dto';
 import { Service } from '../base';
 
 export class UserService extends Service {

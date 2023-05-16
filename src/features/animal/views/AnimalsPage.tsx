@@ -10,7 +10,7 @@ import {
 } from '../../../components';
 import { isUser, useUserContext } from '../../../providers/UserProvider';
 import { AnimalService } from '../../../services';
-import { AnimalDto } from '../../../utils/dto';
+import { AnimalDto } from '../../../types';
 
 export const AnimalsPage = () => {
     const { state } = useUserContext();

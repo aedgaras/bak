@@ -1,11 +1,6 @@
 import { AxiosResponse } from 'axios';
+import { AnimalDto, CaseDto, CreateCaseDto, UpdateCaseDto } from '../../types';
 import { CASES_URL } from '../../utils/constants';
-import {
-    AnimalDto,
-    CaseDto,
-    CreateCaseDto,
-    UpdateCaseDto,
-} from '../../utils/dto';
 import { Service } from '../base';
 
 export class CasesService extends Service {

@@ -16,7 +16,7 @@ import { GenericInput, SubmitButton } from '../../../components';
 import { DataDisplay, FormWrapper } from '../../../components/wrappers';
 import { useUserContext } from '../../../providers/UserProvider';
 import { HealthRecordService } from '../../../services';
-import { CreateHealthRecordDto } from '../../../utils/dto';
+import { CreateHealthRecordDto } from '../../../types';
 
 export const CreateHealthRecordPage = () => {
     const toast = useToast();

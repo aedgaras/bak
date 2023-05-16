@@ -24,7 +24,7 @@ import {
 import { BoxWithShadow, DataDisplay } from '../../../components/wrappers';
 import { useUserContext } from '../../../providers/UserProvider';
 import { RecipeService, ResultsService, UserService } from '../../../services';
-import { CreateRecipeDto } from '../../../utils/dto';
+import { CreateRecipeDto } from '../../../types/dto';
 
 export const RecipeCreate = () => {
     const toast = useToast();
@@ -71,7 +71,7 @@ const RecipeCreationForm = () => {
             const service = new ResultsService();
             return await service.getAnimal(params.resultId!);
         },
-        enabled: !!result.data,
+        enabled: !result.isLoading,
     });
 
     const caseObj = useQuery({
@@ -80,7 +80,7 @@ const RecipeCreationForm = () => {
             const service = new ResultsService();
             return await service.getCase(params.resultId!);
         },
-        enabled: !!animal.data,
+        enabled: !animal.isLoading,
     });
 
     const user = useQuery({

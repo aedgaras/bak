@@ -8,7 +8,7 @@ import {
     filterDiagnosisTable,
 } from '../../../components';
 import { DiagnosisService } from '../../../services';
-import { DiagnosisDto } from '../../../utils/dto';
+import { DiagnosisDto } from '../../../types';
 
 export const DiagnosesPage = () => {
     const [diagnoses, setDiagnoses] = useState<DiagnosisDto[]>([]);

@@ -1,12 +1,12 @@
 import { AxiosResponse } from 'axios';
-import { HEALTH_RECORDS_URL } from '../../utils/constants';
 import {
     AnimalDto,
     CreateHealthRecordDto,
     HealthRecordDto,
     UpdateHealthRecordDto,
     UserDto,
-} from '../../utils/dto';
+} from '../../types';
+import { HEALTH_RECORDS_URL } from '../../utils/constants';
 import { Service } from '../base';
 
 export class HealthRecordService extends Service {

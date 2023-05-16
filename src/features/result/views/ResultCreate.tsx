@@ -17,11 +17,12 @@ import { t } from 'i18next';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
-import { GenericInput, SubmitButton } from '../../../components';
 import {
+    GenericInput,
+    SubmitButton,
     validatePassword,
     validateUsername,
-} from '../../../components/form/validation/validation';
+} from '../../../components';
 import { BoxWithShadow, DataDisplay } from '../../../components/wrappers';
 import { useUserContext } from '../../../providers/UserProvider';
 import {
@@ -30,8 +31,8 @@ import {
     ResultsService,
     UserService,
 } from '../../../services';
-import { CreateResultDto } from '../../../utils/dto';
-import { CaseValues } from '../../../utils/utils';
+import { CreateResultDto } from '../../../types';
+import { CaseValues } from '../../../utils';
 
 export const ResultCreate = () => {
     const toast = useToast();
@@ -81,7 +82,7 @@ const DiagnosisResultsCreationForm = () => {
                 );
             }
         },
-        enabled: !!diagnosis,
+        enabled: !diagnosis.isLoading,
     });
 
     const user = useQuery({
@@ -95,7 +96,7 @@ const DiagnosisResultsCreationForm = () => {
                 );
             }
         },
-        enabled: !!animal,
+        enabled: !animal.isLoading,
     });
 
     return (
@@ -134,7 +135,7 @@ const DiagnosisResultsCreationForm = () => {
                         user.data &&
                         diagnosis.data ? (
                             <Box>
-                                <FormControl p={2} isRequired isDisabled>
+                                <FormControl p={2}>
                                     <FormLabel>
                                         {t('Form.Diagnosis.Result.User')}
                                     </FormLabel>

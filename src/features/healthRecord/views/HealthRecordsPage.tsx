@@ -8,7 +8,7 @@ import {
 } from '../../../components';
 import { isUser, useUserContext } from '../../../providers/UserProvider';
 import { HealthRecordService } from '../../../services';
-import { HealthRecordDto } from '../../../utils/dto';
+import { HealthRecordDto } from '../../../types';
 
 export const HealthRecordsPage = () => {
     const [healthRecords, setHealthRecords] = useState<HealthRecordDto[]>([]);

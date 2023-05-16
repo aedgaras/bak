@@ -20,7 +20,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { DataDisplay, FormWrapper } from '../../../components/wrappers';
 import { useUserContext } from '../../../providers/UserProvider';
 import { ResultsService } from '../../../services';
-import { ResultDto } from '../../../utils/dto';
+import { ResultDto } from '../../../types/dto';
 import { formatedDate } from '../../../utils/utils';
 
 export const ResultDetails = () => {

@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
+import { UserRegisterDto } from '../../types';
 import { API_URL, AUTH_URL, REFRESH_TOKEN_NAME } from '../../utils/constants';
-import { UserRegisterDto } from '../../utils/dto';
 import {
     TokenPayload,
     getJwtFromStorage,

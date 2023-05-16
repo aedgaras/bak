@@ -22,7 +22,7 @@ import { DataDisplay, FormWrapper } from '../../../components/wrappers';
 import { queryClient } from '../../../lib/query';
 import { isUser, useUserContext } from '../../../providers/UserProvider';
 import { HealthRecordService } from '../../../services';
-import { HealthRecordDto, UpdateHealthRecordDto } from '../../../utils/dto';
+import { HealthRecordDto, UpdateHealthRecordDto } from '../../../types';
 
 export const HealthRecordDetailsPage = () => {
     const toast = useToast();
@@ -54,7 +54,6 @@ const HealthRecordUpdateForm = () => {
             const service = new HealthRecordService();
             return await service.get(params.id!);
         },
-        cacheTime: 0,
     });
 
     if (health.isLoading) {
