@@ -4,9 +4,6 @@ import { ANIMALS_URL } from '../../utils/constants';
 import { Service } from '../base';
 
 export class AnimalService extends Service {
-    /**
-     *
-     */
     constructor() {
         super();
     }

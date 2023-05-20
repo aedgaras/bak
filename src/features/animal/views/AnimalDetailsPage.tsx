@@ -7,14 +7,20 @@ import {
     FormErrorIcon,
     FormErrorMessage,
     FormLabel,
+    HStack,
     Heading,
     Select,
     Skeleton,
+    Tab,
+    TabList,
+    TabPanel,
+    TabPanels,
+    Tabs,
+    Tag,
     Text,
+    Tooltip,
     useToast,
 } from '@chakra-ui/react';
-import { useQuery } from '@tanstack/react-query';
-import { createColumnHelper } from '@tanstack/react-table';
 import { Field, Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate, useParams } from 'react-router-dom';
@@ -32,33 +38,89 @@ import {
     FormWrapper,
 } from '../../../components/wrappers';
 import { queryClient } from '../../../lib/query';
-import { useUserContext } from '../../../providers/UserProvider';
 import { healthRecordsRoutePath } from '../../../router';
 import { AnimalService, HealthRecordService } from '../../../services';
 
+import { useQuery } from '@tanstack/react-query';
+import { createColumnHelper } from '@tanstack/react-table';
+import { useUserContext } from '../../../providers/UserProvider';
 import { HealthRecordDto, UpdateAnimalDto } from '../../../types';
 import { AnimalValues, formatedDate } from '../../../utils/utils';
 
 export const AnimalDetailsPage = () => {
     const toast = useToast();
     const { t } = useTranslation();
+    const params = useParams<{ id: string }>();
+
+    const latestHr = useQuery({
+        queryKey: ['animalDetailsLatestHealthRecord' + params.id!],
+        queryFn: async () => {
+            const service = new HealthRecordService();
+
+            return await service.getLatestAnimalHealthRecord(params.id!);
+        },
+    });
+
+    const HealthRecordHeartRate = ({ bpm }: { bpm: string }) => {
+        const num = parseInt(bpm);
+
+        let color = 'teal';
+        let label = t('Table.HeartRate.Bpm.Normal');
+
+        if (num <= 40) {
+            label = t('Table.HeartRate.Bpm.Abnormal');
+            color = 'red';
+        } else if (num >= 100) {
+            label = t('Table.HeartRate.Bpm.Abnormal');
+            color = 'red';
+        } else {
+            label = t('Table.HeartRate.Bpm.Normal');
+            color = 'teal';
+        }
+
+        return (
+            <Tooltip label={label} hasArrow>
+                <Tag size={'lg'} colorScheme={color}>
+                    {bpm}
+                </Tag>
+            </Tooltip>
+        );
+    };
 
     return (
         <Box>
             <DataDisplay
-                isLoaded={true}
+                isLoaded={!latestHr.isLoading}
                 element={
-                    <FormWrapper>
-                        <Heading size={'lg'} sx={{ p: 2 }}>
-                            {t('Form.AnimalDetails')}
-                        </Heading>
-                        <AnimalUpdateForm />
-                    </FormWrapper>
+                    <Tabs isFitted variant="enclosed">
+                        <TabList mb="1em">
+                            <Tab> {t('Form.AnimalDetails')}</Tab>
+                            <Tab>{t('Table.Headers.HealthRecors.Header')}</Tab>
+                        </TabList>
+                        <TabPanels>
+                            <TabPanel>
+                                <FormWrapper>
+                                    <HStack>
+                                        <Heading size={'lg'} sx={{ p: 2 }}>
+                                            {t('Form.AnimalDetails')}
+                                        </Heading>
+                                        {latestHr.data &&
+                                            HealthRecordHeartRate({
+                                                bpm: latestHr.data.heartRate,
+                                            })}
+                                    </HStack>
+                                    <AnimalUpdateForm />
+                                </FormWrapper>
+                            </TabPanel>
+                            <TabPanel>
+                                <Box pt={2}>
+                                    <HealthRecordTable />
+                                </Box>
+                            </TabPanel>
+                        </TabPanels>
+                    </Tabs>
                 }
             />
-            <Box pt={2}>
-                <HealthRecordTable />
-            </Box>
         </Box>
     );
 };
@@ -175,8 +237,6 @@ const HealthRecordTable = () => {
             const res = await healthRecordService.getAnimalHealthRecords(
                 params.id!
             );
-
-            console.log(res);
 
             return res;
         },

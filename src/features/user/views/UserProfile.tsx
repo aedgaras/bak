@@ -197,9 +197,6 @@ const ChangePasswordSection = ({
                             onChange={() => setEdit(!edit)}
                         />
                     </HStack>
-                    <Center>
-                        <Avatar name={state.name} src={''} size={'2xl'} />
-                    </Center>
                     <Formik
                         initialValues={{} as ChangePasswordDto}
                         onSubmit={async (values, actions) => {

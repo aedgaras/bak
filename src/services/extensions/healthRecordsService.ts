@@ -31,6 +31,17 @@ export class HealthRecordService extends Service {
             });
         return response;
     };
+
+    getLatestAnimalHealthRecord = async (id: string) => {
+        return await this.api
+            .getRequest<HealthRecordDto>(
+                HEALTH_RECORDS_URL + '/latestAnimalRecord/' + id
+            )
+            .then((r: AxiosResponse<HealthRecordDto>) => {
+                return r.data;
+            });
+    };
+
     getUserHealthRecords = async (id: string) => {
         const response = await this.api
             .getRequest<HealthRecordDto[]>(HEALTH_RECORDS_URL + '/user/' + id)
