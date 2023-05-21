@@ -63,121 +63,118 @@ export const DiagnosisCreatePage = () => {
     });
 
     return (
-        <DataDisplay
-            isLoaded={true}
-            element={
-                <SimpleGrid columns={[1, 2, 2, 2]} gap={4}>
-                    {!caseObj.isLoading && !animalByCase.isLoading ? (
-                        <BoxWithShadow>
-                            <VStack px={12}>
-                                <Heading size={'lg'} sx={{ p: 2 }}>
-                                    {t('Form.Diagnosis.Case')}
-                                </Heading>
-                                <Box p={2}>
-                                    <FormControl py={2}>
-                                        <FormLabel>
-                                            {t('Form.Diangosis.Pulse')}
-                                        </FormLabel>
-                                        <Input
-                                            type="text"
-                                            disabled
-                                            value={
-                                                caseObj.data?.healthRecord
-                                                    ?.heartRate
-                                            }
-                                        ></Input>
-                                    </FormControl>
-                                    <FormControl pb={2}>
-                                        <FormLabel>
-                                            {t('Form.Diangosis.Description')}
-                                        </FormLabel>
-                                        <Textarea
-                                            resize={'none'}
-                                            disabled
-                                            value={
-                                                caseObj.data?.healthRecord
-                                                    ?.description
-                                            }
-                                        ></Textarea>
-                                    </FormControl>
-                                    <FormControl pb={2}>
-                                        <FormLabel>
-                                            {t('Form.Diangosis.AnimalType')}
-                                        </FormLabel>
-                                        <Input
-                                            type="text"
-                                            disabled
-                                            value={t(
-                                                `Enum.Animal.${getAnimalType(
-                                                    animalByCase.data?.type!
-                                                )}`
-                                            ).toString()}
-                                        ></Input>
-                                    </FormControl>
-                                    <FormControl pb={2}>
-                                        <FormLabel>
-                                            {t('Form.Diangosis.CaseDate')}
-                                        </FormLabel>
-                                        <Input
-                                            type="text"
-                                            disabled
-                                            value={formatedDate(
-                                                caseObj.data?.healthRecord
-                                                    ?.entryDate!
-                                            )}
-                                        ></Input>
-                                    </FormControl>
-                                    <FormControl pb={2}>
-                                        <FormLabel>
-                                            {t('Form.Diangosis.Status')}
-                                        </FormLabel>
-                                        <StatusTag
-                                            status={getStatusType(
-                                                caseObj.data?.status!
-                                            )}
-                                        />
-                                    </FormControl>
-                                    <FormControl pb={2}>
-                                        <FormLabel>
-                                            {t('Form.Diangosis.Priority')}
-                                        </FormLabel>
-                                        <UrgencyTag
-                                            urgency={getUrgencyType(
-                                                caseObj.data?.urgency!
-                                            )}
-                                        />
-                                    </FormControl>
-                                </Box>
-                            </VStack>
-                        </BoxWithShadow>
-                    ) : (
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                            }}
-                        >
-                            <CircularProgress isIndeterminate />
-                        </Box>
-                    )}
+        <DataDisplay>
+            <SimpleGrid columns={[1, 2, 2, 2]} gap={4}>
+                {!caseObj.isLoading && !animalByCase.isLoading ? (
                     <BoxWithShadow>
                         <VStack px={12}>
                             <Heading size={'lg'} sx={{ p: 2 }}>
-                                {t('Form.Diagnosis.Diangosis')}
+                                {t('Form.Diagnosis.Case')}
                             </Heading>
-                            <DiangosisCreationForm
-                                id={params.caseId!}
-                                data={caseObj.data!}
-                                isLoading={
-                                    caseObj.isLoading && animalByCase.isLoading
-                                }
-                            />
+                            <Box p={2}>
+                                <FormControl py={2}>
+                                    <FormLabel>
+                                        {t('Form.Diangosis.Pulse')}
+                                    </FormLabel>
+                                    <Input
+                                        type="text"
+                                        disabled
+                                        value={
+                                            caseObj.data?.healthRecord
+                                                ?.heartRate
+                                        }
+                                    ></Input>
+                                </FormControl>
+                                <FormControl pb={2}>
+                                    <FormLabel>
+                                        {t('Form.Diangosis.Description')}
+                                    </FormLabel>
+                                    <Textarea
+                                        resize={'none'}
+                                        disabled
+                                        value={
+                                            caseObj.data?.healthRecord
+                                                ?.description
+                                        }
+                                    ></Textarea>
+                                </FormControl>
+                                <FormControl pb={2}>
+                                    <FormLabel>
+                                        {t('Form.Diangosis.AnimalType')}
+                                    </FormLabel>
+                                    <Input
+                                        type="text"
+                                        disabled
+                                        value={t(
+                                            `Enum.Animal.${getAnimalType(
+                                                animalByCase.data?.type!
+                                            )}`
+                                        ).toString()}
+                                    ></Input>
+                                </FormControl>
+                                <FormControl pb={2}>
+                                    <FormLabel>
+                                        {t('Form.Diangosis.CaseDate')}
+                                    </FormLabel>
+                                    <Input
+                                        type="text"
+                                        disabled
+                                        value={formatedDate(
+                                            caseObj.data?.healthRecord
+                                                ?.entryDate!
+                                        )}
+                                    ></Input>
+                                </FormControl>
+                                <FormControl pb={2}>
+                                    <FormLabel>
+                                        {t('Form.Diangosis.Status')}
+                                    </FormLabel>
+                                    <StatusTag
+                                        status={getStatusType(
+                                            caseObj.data?.status!
+                                        )}
+                                    />
+                                </FormControl>
+                                <FormControl pb={2}>
+                                    <FormLabel>
+                                        {t('Form.Diangosis.Priority')}
+                                    </FormLabel>
+                                    <UrgencyTag
+                                        urgency={getUrgencyType(
+                                            caseObj.data?.urgency!
+                                        )}
+                                    />
+                                </FormControl>
+                            </Box>
                         </VStack>
                     </BoxWithShadow>
-                </SimpleGrid>
-            }
-        />
+                ) : (
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <CircularProgress isIndeterminate />
+                    </Box>
+                )}
+                <BoxWithShadow>
+                    <VStack px={12}>
+                        <Heading size={'lg'} sx={{ p: 2 }}>
+                            {t('Form.Diagnosis.Diangosis')}
+                        </Heading>
+                        <DiangosisCreationForm
+                            id={params.caseId!}
+                            data={caseObj.data!}
+                            isLoading={
+                                caseObj.isLoading && animalByCase.isLoading
+                            }
+                        />
+                    </VStack>
+                </BoxWithShadow>
+            </SimpleGrid>
+        </DataDisplay>
     );
 };
 

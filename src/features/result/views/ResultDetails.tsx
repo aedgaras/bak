@@ -29,17 +29,14 @@ export const ResultDetails = () => {
     const { t } = useTranslation();
 
     return (
-        <DataDisplay
-            isLoaded={true}
-            element={
-                <FormWrapper>
-                    <Heading size={'lg'} sx={{ p: 2 }}>
-                        {t('Form.DiagnosesResultsDetails')}
-                    </Heading>
-                    <ResultUpdateForm />
-                </FormWrapper>
-            }
-        />
+        <DataDisplay>
+            <FormWrapper>
+                <Heading size={'lg'} sx={{ p: 2 }}>
+                    {t('Form.DiagnosesResultsDetails')}
+                </Heading>
+                <ResultUpdateForm />
+            </FormWrapper>
+        </DataDisplay>
     );
 };
 

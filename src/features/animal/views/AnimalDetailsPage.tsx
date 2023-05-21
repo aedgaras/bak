@@ -88,40 +88,35 @@ export const AnimalDetailsPage = () => {
     };
 
     return (
-        <Box>
-            <DataDisplay
-                isLoaded={!latestHr.isLoading}
-                element={
-                    <Tabs isFitted variant="enclosed">
-                        <TabList mb="1em">
-                            <Tab> {t('Form.AnimalDetails')}</Tab>
-                            <Tab>{t('Table.Headers.HealthRecors.Header')}</Tab>
-                        </TabList>
-                        <TabPanels>
-                            <TabPanel>
-                                <FormWrapper>
-                                    <HStack>
-                                        <Heading size={'lg'} sx={{ p: 2 }}>
-                                            {t('Form.AnimalDetails')}
-                                        </Heading>
-                                        {latestHr.data &&
-                                            HealthRecordHeartRate({
-                                                bpm: latestHr.data.heartRate,
-                                            })}
-                                    </HStack>
-                                    <AnimalUpdateForm />
-                                </FormWrapper>
-                            </TabPanel>
-                            <TabPanel>
-                                <Box pt={2}>
-                                    <HealthRecordTable />
-                                </Box>
-                            </TabPanel>
-                        </TabPanels>
-                    </Tabs>
-                }
-            />
-        </Box>
+        <DataDisplay>
+            <Tabs isFitted variant="enclosed">
+                <TabList mb="1em">
+                    <Tab> {t('Form.AnimalDetails')}</Tab>
+                    <Tab>{t('Table.Headers.HealthRecors.Header')}</Tab>
+                </TabList>
+                <TabPanels>
+                    <TabPanel>
+                        <FormWrapper>
+                            <HStack>
+                                <Heading size={'lg'} sx={{ p: 2 }}>
+                                    {t('Form.AnimalDetails')}
+                                </Heading>
+                                {latestHr.data &&
+                                    HealthRecordHeartRate({
+                                        bpm: latestHr.data.heartRate,
+                                    })}
+                            </HStack>
+                            <AnimalUpdateForm />
+                        </FormWrapper>
+                    </TabPanel>
+                    <TabPanel>
+                        <Box pt={2}>
+                            <HealthRecordTable />
+                        </Box>
+                    </TabPanel>
+                </TabPanels>
+            </Tabs>
+        </DataDisplay>
     );
 };
 

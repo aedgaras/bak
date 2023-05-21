@@ -28,17 +28,14 @@ export const HealthRecordDetailsPage = () => {
     const { t } = useTranslation();
 
     return (
-        <DataDisplay
-            isLoaded={true}
-            element={
-                <FormWrapper>
-                    <Heading size={'lg'} sx={{ p: 2 }}>
-                        {t('Form.HealthRecordUpdate')}
-                    </Heading>
-                    <HealthRecordUpdateForm />
-                </FormWrapper>
-            }
-        />
+        <DataDisplay>
+            <FormWrapper>
+                <Heading size={'lg'} sx={{ p: 2 }}>
+                    {t('Form.HealthRecordUpdate')}
+                </Heading>
+                <HealthRecordUpdateForm />
+            </FormWrapper>
+        </DataDisplay>
     );
 };
 

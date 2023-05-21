@@ -27,17 +27,14 @@ export const CreateHealthRecordPage = () => {
     }, []);
 
     return (
-        <DataDisplay
-            isLoaded={true}
-            element={
-                <FormWrapper>
-                    <Heading size={'lg'} sx={{ p: 2 }}>
-                        {t('Form.HealthRecordCreate')}
-                    </Heading>
-                    <HealthRecordCreationForm />
-                </FormWrapper>
-            }
-        />
+        <DataDisplay>
+            <FormWrapper>
+                <Heading size={'lg'} sx={{ p: 2 }}>
+                    {t('Form.HealthRecordCreate')}
+                </Heading>
+                <HealthRecordCreationForm />
+            </FormWrapper>
+        </DataDisplay>
     );
 };
 

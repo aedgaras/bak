@@ -70,124 +70,116 @@ export const CaseCreatePage = () => {
     });
 
     return (
-        <DataDisplay
-            isLoaded={true}
-            element={
-                <SimpleGrid columns={[1, 2, 2, 2]} gap={4}>
-                    <BoxWithShadow>
+        <DataDisplay>
+            <SimpleGrid columns={[1, 2, 2, 2]} gap={4}>
+                <BoxWithShadow>
+                    <VStack px={12}>
+                        <Heading size={'lg'} sx={{ p: 2 }}>
+                            {t('Form.Case.HealthRecord')}
+                        </Heading>
+                        {healthRecord.isLoading ||
+                        user.isLoading ||
+                        animal.isLoading ? (
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}
+                            >
+                                <CircularProgress isIndeterminate />
+                            </Box>
+                        ) : (
+                            <Box p={2}>
+                                <FormControl py={2}>
+                                    <FormLabel>
+                                        {t('Form.Case.Pulse')}
+                                    </FormLabel>
+                                    <Input
+                                        type="text"
+                                        disabled
+                                        value={healthRecord.data?.heartRate}
+                                    ></Input>
+                                </FormControl>
+                                <FormControl pb={2}>
+                                    <FormLabel>
+                                        {t('Form.Diangosis.Description')}
+                                    </FormLabel>
+                                    <Textarea
+                                        resize={'none'}
+                                        disabled
+                                        value={healthRecord.data?.description}
+                                    ></Textarea>
+                                </FormControl>
+                                <FormControl pb={2}>
+                                    <FormLabel>
+                                        {t('Form.Case.AnimalType')}
+                                    </FormLabel>
+                                    <Input
+                                        type="text"
+                                        disabled
+                                        value={getAnimalType(
+                                            animal.data?.type!
+                                        )}
+                                    ></Input>
+                                </FormControl>
+                                <FormControl pb={2}>
+                                    <FormLabel>
+                                        {t('Form.Case.HealthRecordDate')}
+                                    </FormLabel>
+                                    <Input
+                                        type="text"
+                                        disabled
+                                        value={formatedDate(
+                                            healthRecord.data?.entryDate!
+                                        )}
+                                    ></Input>
+                                </FormControl>
+                                <FormControl pb={2}>
+                                    <FormLabel>
+                                        {t('Form.Diangosis.Phonenumber')}
+                                    </FormLabel>
+                                    <Input
+                                        type="text"
+                                        disabled
+                                        value={user.data?.phoneNumber}
+                                    ></Input>
+                                </FormControl>
+                                <FormControl pb={2}>
+                                    <FormLabel>
+                                        {t('Form.Case.Email')}
+                                    </FormLabel>
+                                    <Tooltip hasArrow label={user.data?.email}>
+                                        <Input
+                                            type="text"
+                                            disabled
+                                            value={user.data?.email}
+                                        ></Input>
+                                    </Tooltip>
+                                </FormControl>
+                            </Box>
+                        )}
+                    </VStack>
+                </BoxWithShadow>
+
+                <BoxWithShadow>
+                    <Center>
                         <VStack px={12}>
                             <Heading size={'lg'} sx={{ p: 2 }}>
-                                {t('Form.Case.HealthRecord')}
+                                {t('Form.Case.Case')}
                             </Heading>
-                            {healthRecord.isLoading ||
-                            user.isLoading ||
-                            animal.isLoading ? (
-                                <Box
-                                    sx={{
-                                        display: 'flex',
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
-                                    }}
-                                >
-                                    <CircularProgress isIndeterminate />
-                                </Box>
-                            ) : (
-                                <Box p={2}>
-                                    <FormControl py={2}>
-                                        <FormLabel>
-                                            {t('Form.Case.Pulse')}
-                                        </FormLabel>
-                                        <Input
-                                            type="text"
-                                            disabled
-                                            value={healthRecord.data?.heartRate}
-                                        ></Input>
-                                    </FormControl>
-                                    <FormControl pb={2}>
-                                        <FormLabel>
-                                            {t('Form.Diangosis.Description')}
-                                        </FormLabel>
-                                        <Textarea
-                                            resize={'none'}
-                                            disabled
-                                            value={
-                                                healthRecord.data?.description
-                                            }
-                                        ></Textarea>
-                                    </FormControl>
-                                    <FormControl pb={2}>
-                                        <FormLabel>
-                                            {t('Form.Case.AnimalType')}
-                                        </FormLabel>
-                                        <Input
-                                            type="text"
-                                            disabled
-                                            value={getAnimalType(
-                                                animal.data?.type!
-                                            )}
-                                        ></Input>
-                                    </FormControl>
-                                    <FormControl pb={2}>
-                                        <FormLabel>
-                                            {t('Form.Case.HealthRecordDate')}
-                                        </FormLabel>
-                                        <Input
-                                            type="text"
-                                            disabled
-                                            value={formatedDate(
-                                                healthRecord.data?.entryDate!
-                                            )}
-                                        ></Input>
-                                    </FormControl>
-                                    <FormControl pb={2}>
-                                        <FormLabel>
-                                            {t('Form.Diangosis.Phonenumber')}
-                                        </FormLabel>
-                                        <Input
-                                            type="text"
-                                            disabled
-                                            value={user.data?.phoneNumber}
-                                        ></Input>
-                                    </FormControl>
-                                    <FormControl pb={2}>
-                                        <FormLabel>
-                                            {t('Form.Case.Email')}
-                                        </FormLabel>
-                                        <Tooltip
-                                            hasArrow
-                                            label={user.data?.email}
-                                        >
-                                            <Input
-                                                type="text"
-                                                disabled
-                                                value={user.data?.email}
-                                            ></Input>
-                                        </Tooltip>
-                                    </FormControl>
-                                </Box>
-                            )}
+                            <CaseCreationForm
+                                isLoading={
+                                    healthRecord.isLoading &&
+                                    user.isLoading &&
+                                    animal.isLoading
+                                }
+                            />
                         </VStack>
-                    </BoxWithShadow>
-
-                    <BoxWithShadow>
-                        <Center>
-                            <VStack px={12}>
-                                <Heading size={'lg'} sx={{ p: 2 }}>
-                                    {t('Form.Case.Case')}
-                                </Heading>
-                                <CaseCreationForm
-                                    isLoading={
-                                        healthRecord.isLoading &&
-                                        user.isLoading &&
-                                        animal.isLoading
-                                    }
-                                />
-                            </VStack>
-                        </Center>
-                    </BoxWithShadow>
-                </SimpleGrid>
-            }
-        />
+                    </Center>
+                </BoxWithShadow>
+            </SimpleGrid>
+        </DataDisplay>
     );
 };
 

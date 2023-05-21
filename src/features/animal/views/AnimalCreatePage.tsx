@@ -33,19 +33,16 @@ export const AnimalCreatePage = () => {
     }, []);
 
     return (
-        <DataDisplay
-            isLoaded={true}
-            element={
-                <BoxWithBorder>
-                    <VStack>
-                        <Heading size={'lg'} sx={{ p: 2 }}>
-                            {t('Form.AnimalCreate')}
-                        </Heading>
-                        <AnimalCreationForm />
-                    </VStack>
-                </BoxWithBorder>
-            }
-        />
+        <DataDisplay>
+            <BoxWithBorder>
+                <VStack>
+                    <Heading size={'lg'} sx={{ p: 2 }}>
+                        {t('Form.AnimalCreate')}
+                    </Heading>
+                    <AnimalCreationForm />
+                </VStack>
+            </BoxWithBorder>
+        </DataDisplay>
     );
 };
 

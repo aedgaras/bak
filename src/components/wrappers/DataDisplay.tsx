@@ -1,26 +1,17 @@
-import { CircularProgress, Divider, HStack, VStack } from '@chakra-ui/react';
+import { Divider, HStack, VStack } from '@chakra-ui/react';
+import React, { PropsWithChildren } from 'react';
 import { BackButton } from '../navigation/BackButton';
 import { BoxWithShadow } from './BoxWithShadow';
 
-export const DataDisplay = ({
-    isLoaded,
-    element,
-    backButton,
-}: {
-    isLoaded: boolean;
-    element: JSX.Element;
-    backButton?: boolean;
-}) => {
+export const DataDisplay: React.FC<PropsWithChildren> = (props) => {
     return (
         <BoxWithShadow>
             <VStack p={1} divider={<Divider />}>
-                {!backButton ? (
-                    <HStack w={'100%'}>
-                        <BackButton />
-                    </HStack>
-                ) : null}
+                <HStack w={'100%'}>
+                    <BackButton />
+                </HStack>
 
-                {isLoaded ? element : <CircularProgress isIndeterminate />}
+                {props.children}
             </VStack>
         </BoxWithShadow>
     );

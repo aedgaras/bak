@@ -25,17 +25,14 @@ export const CaseDetailsPage = () => {
     const { t } = useTranslation();
 
     return (
-        <DataDisplay
-            isLoaded={true}
-            element={
-                <FormWrapper>
-                    <Heading size={'lg'} sx={{ p: 2 }}>
-                        {t('Form.CaseDetails')}
-                    </Heading>
-                    <CaseUpdateForm />
-                </FormWrapper>
-            }
-        />
+        <DataDisplay>
+            <FormWrapper>
+                <Heading size={'lg'} sx={{ p: 2 }}>
+                    {t('Form.CaseDetails')}
+                </Heading>
+                <CaseUpdateForm />
+            </FormWrapper>
+        </DataDisplay>
     );
 };
 

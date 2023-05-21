@@ -27,19 +27,16 @@ export const UserCreate = () => {
     const { t } = useTranslation();
 
     return (
-        <DataDisplay
-            isLoaded={true}
-            element={
-                <BoxWithShadow>
-                    <VStack>
-                        <Heading size={'lg'} sx={{ p: 2 }}>
-                            {t('Form.UserCreate')}
-                        </Heading>
-                        <UserCreationForm />
-                    </VStack>
-                </BoxWithShadow>
-            }
-        />
+        <DataDisplay>
+            <BoxWithShadow>
+                <VStack>
+                    <Heading size={'lg'} sx={{ p: 2 }}>
+                        {t('Form.UserCreate')}
+                    </Heading>
+                    <UserCreationForm />
+                </VStack>
+            </BoxWithShadow>
+        </DataDisplay>
     );
 };
 
