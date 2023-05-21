@@ -41,8 +41,8 @@ export const UserContextProvider = ({ children }: any): JSX.Element => {
         if (isJwtExpired()) {
             const api = new AuthService();
             api.refreshToken();
+            update(userContextValues());
         }
-        update(userContextValues());
     }, []);
 
     return <Provider>{children}</Provider>;
