@@ -14,7 +14,7 @@ import {
     VStack,
 } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
-import { Formik } from 'formik';
+import { Field, Formik } from 'formik';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -217,7 +217,7 @@ const CaseCreationForm = ({ isLoading }: { isLoading: boolean }) => {
                 <form onSubmit={handleSubmit}>
                     <FormControl p={2}>
                         <FormLabel>{t('Form.Case.Status')}</FormLabel>
-                        <Select>
+                        <Field as={Select} name="status">
                             {StatusValues.map((x) => {
                                 return (
                                     <option value={x.value}>
@@ -225,11 +225,11 @@ const CaseCreationForm = ({ isLoading }: { isLoading: boolean }) => {
                                     </option>
                                 );
                             })}
-                        </Select>
+                        </Field>
                     </FormControl>
                     <FormControl p={2}>
                         <FormLabel>{t('Form.Case.Priority')}</FormLabel>
-                        <Select>
+                        <Field as={Select} name="urgency">
                             {UrgencyValues.map((x) => {
                                 return (
                                     <option value={x.value}>
@@ -237,7 +237,7 @@ const CaseCreationForm = ({ isLoading }: { isLoading: boolean }) => {
                                     </option>
                                 );
                             })}
-                        </Select>
+                        </Field>
                     </FormControl>
                     <SubmitButton isSubmitting={isSubmitting || isLoading} />
                 </form>

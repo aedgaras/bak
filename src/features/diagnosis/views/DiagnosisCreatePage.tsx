@@ -106,7 +106,7 @@ export const DiagnosisCreatePage = () => {
                                         type="text"
                                         disabled
                                         value={t(
-                                            `Enum.Animal.${getAnimalType(
+                                            `Enums.Animal.${getAnimalType(
                                                 animalByCase.data?.type!
                                             )}`
                                         ).toString()}

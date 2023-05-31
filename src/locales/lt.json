@@ -6,7 +6,7 @@
     "Home": "Namai",
     "Users": "Naudotojai",
     "Organizations": "Organizacijos",
-    "SwitchLanguage": "Pakeisti kalba i anglu k.",
+    "SwitchLanguage": "Pakeisti kalbą į anglų",
     "Animals": "Gyvūnai",
     "HealthRecords": "Sveikatos įrašai",
     "Diagnoses": "Diagnozės",
@@ -21,7 +21,7 @@
     "Password": "Slaptažodis",
     "Login": "Prisijungti",
     "Name": "Vardas",
-    "DontHaveAccount": "Neturite paskyros? Registruokites"
+    "DontHaveAccount": "Neturite paskyros? Registruokitės"
   },
   "Form": {
     "Name": "Vardas",
@@ -97,7 +97,7 @@
       "Create": "Kurti Diagnozės Rezultatą"
     },
     "PhoneNumber": "Tel. Numeris",
-    "Email": "E-Paštas",
+    "Email": "El. Paštas",
     "HealthRecordCreate": "Kurti sveikatos įrašą",
     "HealthRecord": {
       "HeartRate": "Širdies ritmas",
@@ -105,7 +105,7 @@
       "Rate": "Įvertinimas",
       "Contact": "Kontaktai"
     },
-    "CaseDetails": "Padietės Detalės",
+    "CaseDetails": "Padėties Detalės",
     "HealthRecordUpdate": "Sveikatos Įrašo Detalės",
     "AnimalDetails": "Gyvūno Detalės",
     "RecipeDetails": "Vaistų Recepto Detalės",
@@ -115,7 +115,7 @@
     "Role": "Rolė",
     "ChangePassword": {
       "OldPassword": "Senas slaptažodis",
-      "NewPasswordRepeated": "Pakartoti Slaptažodi",
+      "NewPasswordRepeated": "Pakartotas Slaptažodis",
       "NewPassword": "Naujas Slaptažodis"
     }
   },
@@ -123,7 +123,7 @@
     "Case": {
       "Temporary": "Laikinas",
       "Preliminary": "Preliminarus",
-      "Final": "Galūtinis"
+      "Final": "Galutinis"
     },
     "User": "Paskyra",
     "Show": "Rodyti",
@@ -131,7 +131,7 @@
     "Create": "Sukurti",
     "Headers": {
       "User": {
-        "Classification": "Clasifikacija",
+        "Classification": "Klasifikacija",
         "Role": "Rolė",
         "Username": "Slapyvardis"
       },
@@ -192,7 +192,7 @@
       "Details": "Detalės",
       "Rate": "Įvertinti",
       "CreateHealthRecord": "Sveikatos įrašas",
-      "CreateDiagnosis": "Pateikti Diagnozė",
+      "CreateDiagnosis": "Pateikti Diagnozę",
       "Delete": "Ištrinti",
       "CreateResult": "Kurti Rezultatą",
       "Cancel": "Atšaukti",
@@ -240,7 +240,7 @@
       "Type": {
         "Temporary": "Laikinas",
         "Preliminary": "Preliminarus",
-        "Final": "Galūtinis"
+        "Final": "Galutinis"
       },
       "Status": {
         "Closed": "Uždarytas",
@@ -256,7 +256,7 @@
       },
       "Classification": {
         "Customer": "Vartotojas",
-        "On-Duty Veterinarian": "Budintis Specialistas",
+        "On-Duty Veterinarian": "Budintis Veterinaras",
         "Veterinarian": "Veterinaras"
       }
     },
@@ -266,26 +266,26 @@
     }
   },
   "Pages": {
-    "HomePage": "Pagrindinis Puslapis",
-    "UsersPage": "Naudotojų Puslapis",
-    "RecipesPage": "Vaistų Receptų Puslapis",
-    "HealthRecordsPage": "Sveikatos Įrašų Puslapis",
-    "AnimalsPage": "Gyvūnų Puslapis",
-    "CasesPage": "Padietės Puslapis",
-    "DiagnosesPage": "Diagnozės Puslapis",
-    "ResultsPage": "Diagnozės Rezultatų Puslapis",
-    "AnimalCreate": "Gyvūno Kūrimas",
-    "CaseCreate": "Padeties Kurimas",
-    "DiagnosisCreate": "Diangozės Kurimas",
+    "HomePage": "Pagrindinis puslapis",
+    "UsersPage": "Naudotojų puslapis",
+    "RecipesPage": "Vaistų receptų puslapis",
+    "HealthRecordsPage": "Sveikatos įrašų puslapis",
+    "AnimalsPage": "Gyvūnų puslapis",
+    "CasesPage": "Padėčių puslapis",
+    "DiagnosesPage": "Diagnozių puslapis",
+    "ResultsPage": "Diagnozės rezultatų puslapis",
+    "AnimalCreate": "Gyvūno kūrimas",
+    "CaseCreate": "Padėties kūrimas",
+    "DiagnosisCreate": "Diagnozės kūrimas",
     "Login": "Prisijungimas",
-    "HealthRecordCreate": "Sveikatos Įrašo Kurimas",
-    "ResultCreate": "Rezultato Kurimas",
+    "HealthRecordCreate": "Sveikatos įrašo kūrimas",
+    "ResultCreate": "Rezultato kūrimas",
     "Register": "Registracija",
-    "RecipeCreate": "Recepto Kurimas",
-    "Profile": "Profilio Puslapis"
+    "RecipeCreate": "Recepto kūrimas",
+    "Profile": "Profilio puslapis"
   },
   "Dialog": {
-    "CantUndo": "Ar esate tikri? Pokyčiai nėra pakeičiami."
+    "CantUndo": "Ar esate tikri? Pokyčiai negali būti atšaukti."
   },
   "Logout": {
     "Cancel": "Atšaukti",
@@ -294,11 +294,11 @@
     "Logout": "Atsijungti"
   },
   "Profile": {
-    "Edit": "Redaguoti profili?",
+    "Edit": "Redaguoti profilį?",
     "ChangePassword": "Keisti slaptažodį?"
   },
   "Validation": {
-    "PhoneMustart": "Telefono numeris turi prasidėti +",
-    "PhoneMustBe12": "Tel. numeris turi būti 12 simoblių"
+    "PhoneMuststart": "Telefono numeris turi prasidėti +",
+    "PhoneMustBe12": "Tel. numeris turi būti 12 simbolių"
   }
 }

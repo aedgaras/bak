@@ -18,7 +18,7 @@ import { CasesService } from '../../../services';
 
 import { queryClient } from '../../../lib/query';
 import { UpdateCaseDto } from '../../../types';
-import { CaseValues, UrgencyValues } from '../../../utils/utils';
+import { StatusValues, UrgencyValues } from '../../../utils/utils';
 
 export const CaseDetailsPage = () => {
     const toast = useToast();
@@ -94,10 +94,10 @@ const CaseUpdateForm = () => {
                     <FormControl p={2}>
                         <FormLabel>{t('Form.Case.Status')}</FormLabel>
                         <Field as={Select} name="status">
-                            {CaseValues.map((x) => {
+                            {StatusValues.map((x) => {
                                 return (
                                     <option value={x.value}>
-                                        {t(`Enums.Case.Type.${x.key}`)}
+                                        {t(`Enums.Case.Status.${x.key}`)}
                                     </option>
                                 );
                             })}

@@ -7,7 +7,7 @@ import {
     useToast,
     VStack,
 } from '@chakra-ui/react';
-import { Formik } from 'formik';
+import { Field, Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { GenericInput, SubmitButton } from '../../../components';
@@ -106,7 +106,7 @@ const UserCreationForm = () => {
                         />
                         <FormControl p={2}>
                             <FormLabel>{t(`Form.Specification`)}</FormLabel>
-                            <Select name="classification">
+                            <Field as={Select} name="classification">
                                 {ClassificationValues.map((x) => {
                                     return (
                                         <option value={x.value}>
@@ -116,11 +116,11 @@ const UserCreationForm = () => {
                                         </option>
                                     );
                                 })}
-                            </Select>
+                            </Field>
                         </FormControl>
                         <FormControl p={2}>
                             <FormLabel>{t(`Form.Role`)}</FormLabel>
-                            <Select name="role">
+                            <Field as={Select} name="role">
                                 {RoleValues.map((x) => {
                                     return (
                                         <option value={x.value}>
@@ -128,7 +128,7 @@ const UserCreationForm = () => {
                                         </option>
                                     );
                                 })}
-                            </Select>
+                            </Field>
                         </FormControl>
                         <SubmitButton isSubmitting={isSubmitting} />
                     </form>

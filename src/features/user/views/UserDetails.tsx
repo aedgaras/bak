@@ -8,7 +8,7 @@ import {
     Select,
 } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
-import { Formik } from 'formik';
+import { Field, Formik } from 'formik';
 import { useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { GenericInput, SubmitButton } from '../../../components';
@@ -109,14 +109,15 @@ export const UserDetails = () => {
                         />
                         <FormControl p={2}>
                             <FormLabel>Role</FormLabel>
-                            <Select
+                            <Field
+                                as={Select}
                                 placeholder={
                                     data?.role === 1 ? 'Admin' : 'User'
                                 }
                             >
                                 <option value={'Admin'}>Admin</option>
                                 <option value={'User'}>User</option>
-                            </Select>
+                            </Field>
                         </FormControl>
                         <HStack w={'100%'}>
                             <SubmitButton isSubmitting={isSubmitting} />
