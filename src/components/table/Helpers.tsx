@@ -296,6 +296,10 @@ export const healthRecordTableColumns = () => {
             cell: (info) => info.getValue(),
             header: 'Id',
         }),
+        healthRecordColumnHelper.accessor('animal', {
+            cell: (info) => info.getValue()?.name,
+            header: t('Table.Headers.Animal.Name').toString(),
+        }),
         healthRecordColumnHelper.accessor('heartRate', {
             cell: (info) => <HealthRecordHeartRate bpm={info.getValue()} />,
             header: t('Table.Headers.HeartRate.HeartRate').toString(),

@@ -110,6 +110,10 @@ const HealthRecordTable = () => {
     const healthRecordColumnHelper = createColumnHelper<HealthRecordDto>();
     const healthRecordTableColumns = () => {
         return [
+            healthRecordColumnHelper.accessor('animal.name', {
+                cell: (info) => info.getValue(),
+                header: t('Form.Animal.Name').toString(),
+            }),
             healthRecordColumnHelper.accessor('heartRate', {
                 cell: (info) => <HealthRecordHeartRate bpm={info.getValue()} />,
                 header: t('Table.Headers.HeartRate.HeartRate').toString(),

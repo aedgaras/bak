@@ -1,11 +1,11 @@
 import {
-    Box,
-    Button,
-    Container,
-    Heading,
-    SimpleGrid,
-    Skeleton,
-    Text,
+Box,
+Button,
+Container,
+Heading,
+SimpleGrid,
+Skeleton,
+Text,
 } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { createColumnHelper } from '@tanstack/react-table';
@@ -13,31 +13,31 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import {
-    AnimalTag,
-    CaseTypeTag,
-    GenericHomePageTable,
-    HealthRecordHeartRate,
+AnimalTag,
+CaseTypeTag,
+GenericHomePageTable,
+HealthRecordHeartRate,
 } from '../../../components';
 import { BoxWithShadowMax } from '../../../components/wrappers';
 import { useUserContext } from '../../../providers/UserProvider';
 
 import {
-    diagnosesRoutePath,
-    healthRecordsRoutePath,
-    recipesRoutePath,
-    resultsRoutePath,
+diagnosesRoutePath,
+healthRecordsRoutePath,
+recipesRoutePath,
+resultsRoutePath,
 } from '../../../router';
 import {
-    DiagnosisService,
-    HealthRecordService,
-    RecipeService,
-    ResultsService,
+DiagnosisService,
+HealthRecordService,
+RecipeService,
+ResultsService,
 } from '../../../services';
 import {
-    DiagnosisDto,
-    HealthRecordDto,
-    RecipeDto,
-    ResultDto,
+DiagnosisDto,
+HealthRecordDto,
+RecipeDto,
+ResultDto,
 } from '../../../types/dto';
 import { formatedDate } from '../../../utils/utils';
 
@@ -89,6 +89,10 @@ const HealthRecordTable = () => {
     const healthRecordColumnHelper = createColumnHelper<HealthRecordDto>();
     const healthRecordTableColumns = () => {
         return [
+            healthRecordColumnHelper.accessor('animal.name', {
+                cell: (info) => info.getValue(),
+                header: t('Form.Animal.Name').toString(),
+            }),
             healthRecordColumnHelper.accessor('heartRate', {
                 cell: (info) => <HealthRecordHeartRate bpm={info.getValue()} />,
                 header: t('Table.Headers.HeartRate.HeartRate').toString(),
